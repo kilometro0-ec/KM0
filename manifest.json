@@ -1,0 +1,15 @@
+{
+  "short_name": "Ops360",
+  "name": "Km 0 Operaciones 360",
+  "icons": [
+    {
+      "src": "https://ui-avatars.com/api/?name=Ops&background=ec1313&color=fff&size=192",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ],
+  "start_url": "./index.html",
+  "background_color": "#120505",
+  "display": "standalone",
+  "theme_color": "#ec1313"
+}
