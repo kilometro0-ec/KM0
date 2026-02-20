@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Kilómetro 0 - Gestión de Usuarios</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "brand-fuchsia": "#ff00ff",
+                        "brand-red": "#e63946",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#0a0c10",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .tab-tiendas:has(:checked) {
+            background-color: theme('colors.brand-fuchsia') !important;
+            color: white !important;
+        }
+        .tab-motorizados:has(:checked) {
+            background-color: theme('colors.brand-red') !important;
+            color: white !important;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-dark text-white min-h-screen">
+<div class="relative flex h-auto min-h-screen w-full flex-col bg-background-dark group/design-root overflow-x-hidden">
+<div class="flex items-center bg-background-dark p-4 pb-2 justify-between sticky top-0 z-50">
+<div class="text-white/70 flex size-12 shrink-0 items-center cursor-pointer" data-icon="ArrowLeft">
+<span class="material-symbols-outlined text-[28px]">arrow_back_ios_new</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="text-[10px] uppercase tracking-widest text-brand-fuchsia font-bold">Kilómetro 0</span>
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Gestión de Usuarios</h2>
+</div>
+<div class="flex w-12 items-center justify-end">
+<button class="flex cursor-pointer items-center justify-center rounded-full h-10 w-10 bg-white/10 text-white">
+<span class="material-symbols-outlined text-[24px]">add</span>
+</button>
+</div>
+</div>
+<div class="flex px-4 py-3">
+<div class="flex h-12 flex-1 items-center justify-center rounded-full bg-[#1a202c] p-1 shadow-inner">
+<label class="tab-tiendas flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-full px-2 text-[#9da6b9] text-sm font-semibold leading-normal transition-all duration-200">
+<span class="truncate">Tiendas</span>
+<input checked="" class="invisible w-0" name="user-type" type="radio" value="Tiendas"/>
+</label>
+<label class="tab-motorizados flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-full px-2 text-[#9da6b9] text-sm font-semibold leading-normal transition-all duration-200">
+<span class="truncate">Motorizados</span>
+<input class="invisible w-0" name="user-type" type="radio" value="Motorizados"/>
+</label>
+</div>
+</div>
+<div class="px-4 py-3">
+<label class="flex flex-col min-w-40 h-12 w-full">
+<div class="flex w-full flex-1 items-stretch rounded-full h-full">
+<div class="text-[#9da6b9] flex bg-[#1a202c] items-center justify-center pl-5 rounded-l-full" data-icon="Search">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-full text-white focus:outline-0 focus:ring-0 border-none bg-[#1a202c] h-full placeholder:text-[#9da6b9] px-4 pl-2 text-base font-normal leading-normal" placeholder="Buscar por nombre, ID o email"/>
+</div>
+</label>
+</div>
+<div class="flex flex-col gap-1 px-4 pb-24">
+<h3 class="text-white text-sm font-bold uppercase tracking-wider opacity-40 px-1 pb-2 pt-4">Usuarios Registrados</h3>
+<div class="flex flex-col gap-3 bg-[#131924] p-4 rounded-xl shadow-sm border border-brand-fuchsia/20 mb-3">
+<div class="flex items-start gap-4 justify-between">
+<div class="flex items-center gap-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-14 ring-2 ring-brand-fuchsia/40" data-alt="Local organic bakery storefront with bread" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD5QoG_xps1W7W3w8HIViRYKtLJY1klqrEYeuL_CU8VFjiqV1kuaXMYrmyHbWncWCjRXB66KUeBUNyWZFctjHJ4-ebT8x8GV-h3bhSQsB2DirXRL17WhiJ5DKqqlNcKO4NVKZ3hS15P-NCcjORTLTLb1BJTfaArXEGXy9n42FOPw6w6UQ6VQA0EZl9GYzxCtGGwrLqPMCqZZyjimQ_A6uxzBl6iIfLaecJDtejHQk2wNTToYDNb0KbW8g89Tbn9sXrl119fsyGkvC99");'></div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<p class="text-white text-base font-bold">Panadería Central</p>
+<span class="bg-brand-fuchsia/20 text-brand-fuchsia text-[10px] font-bold px-2 py-0.5 rounded-full uppercase border border-brand-fuchsia/30">Activo</span>
+</div>
+<p class="text-[#9da6b9] text-xs font-medium">ID: #STO-001 • Tienda Gourmet</p>
+</div>
+</div>
+<div class="shrink-0 pt-1">
+<label class="relative flex h-[28px] w-[48px] cursor-pointer items-center rounded-full border-none bg-[#282e39] p-1 has-[:checked]:justify-end has-[:checked]:bg-brand-fuchsia transition-all duration-300">
+<div class="h-full w-[20px] rounded-full bg-white shadow-md"></div>
+<input checked="" class="invisible absolute" type="checkbox"/>
+</label>
+</div>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-white/5">
+<div class="flex gap-4 text-[#9da6b9]">
+<div class="flex items-center gap-1.5 cursor-pointer hover:text-brand-fuchsia transition-colors">
+<span class="material-symbols-outlined text-lg">call</span>
+<span class="text-xs">+34 600 000 001</span>
+</div>
+</div>
+<button class="flex items-center gap-1 text-brand-fuchsia text-xs font-bold bg-brand-fuchsia/10 px-3 py-1.5 rounded-full hover:bg-brand-fuchsia/20">
+<span class="material-symbols-outlined text-sm">lock_reset</span>
+                        Reiniciar Pass
+                    </button>
+</div>
+</div>
+<div class="flex flex-col gap-3 bg-[#131924] p-4 rounded-xl shadow-sm border border-brand-red/10 mb-3 opacity-80">
+<div class="flex items-start gap-4 justify-between">
+<div class="flex items-center gap-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-14 ring-2 ring-brand-red/30" data-alt="Professional courier delivery driver portrait" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAxPrYShnq5PmF1gBNFsW54dix4_UZCMO8b1yus006gojGTRiumQgQkN4TIg9AEkKw_jNuujKAljm2MxQrnmwLW-vm1ZHH2GTn24bIxav0kqgak-TBmqm9Wx3nmBnXuaslrziesVYLdE93dW0ynow_6eazSv0wSzAYDzQDVjqqDURqwz5RyNPNR0oTPp2G1gouDxXtQQvXOg3dizMWmMFZuqm1g5yV_souDJi_-frDX83GVjr6y1-P41iS_0KCtYu5LMa2vvmN0C0Hp");'></div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<p class="text-white text-base font-bold">Carlos Rodríguez</p>
+<span class="bg-white/5 text-white/40 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase border border-white/10">Inactivo</span>
+</div>
+<p class="text-[#9da6b9] text-xs font-medium">ID: #RID-204 • Motorizado</p>
+</div>
+</div>
+<div class="shrink-0 pt-1">
+<label class="relative flex h-[28px] w-[48px] cursor-pointer items-center rounded-full border-none bg-[#282e39] p-1 has-[:checked]:justify-end has-[:checked]:bg-brand-red transition-all duration-300">
+<div class="h-full w-[20px] rounded-full bg-white shadow-md"></div>
+<input class="invisible absolute" type="checkbox"/>
+</label>
+</div>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-white/5">
+<div class="flex gap-4 text-[#9da6b9]">
+<div class="flex items-center gap-1.5 cursor-pointer hover:text-brand-red transition-colors">
+<span class="material-symbols-outlined text-lg">mail</span>
+<span class="text-xs">carlos.r@k0.app</span>
+</div>
+</div>
+<button class="flex items-center gap-1 text-brand-red text-xs font-bold bg-brand-red/10 px-3 py-1.5 rounded-full hover:bg-brand-red/20">
+<span class="material-symbols-outlined text-sm">lock_reset</span>
+                        Reiniciar Pass
+                    </button>
+</div>
+</div>
+<div class="flex flex-col gap-3 bg-[#131924] p-4 rounded-xl shadow-sm border border-brand-red/20 mb-3">
+<div class="flex items-start gap-4 justify-between">
+<div class="flex items-center gap-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-14 ring-2 ring-brand-red/40" data-alt="Courier woman smiling with helmet" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD7SVU5Xoez4MXtewl208tokhs9i95mtlhs3CuOxuR3fspOJ0XOH9igNeozNb4Gx84knQW35nfYCxe5iwKgOOeJ85WjC9GUwynuWDhniW3fRS8eZjxc5ARCl0Rw2AlAdYXAfL8HLRGLYukFKFS6sDAHjzQCEDhQSKNsaVWYEcf2EonBxd2wUwwyA0vc6jXAqI37V2dcTxtbzh6DZllXBcavdGJ5Z_WJSmcvsaZqpxd1ltCRIAoP8txASMWcHnthBAH_56rp_ZOezuga");'></div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<p class="text-white text-base font-bold">Lucía Mendez</p>
+<span class="bg-brand-red/20 text-brand-red text-[10px] font-bold px-2 py-0.5 rounded-full uppercase border border-brand-red/30">Activo</span>
+</div>
+<p class="text-[#9da6b9] text-xs font-medium">ID: #RID-109 • Motorizado</p>
+</div>
+</div>
+<div class="shrink-0 pt-1">
+<label class="relative flex h-[28px] w-[48px] cursor-pointer items-center rounded-full border-none bg-[#282e39] p-1 has-[:checked]:justify-end has-[:checked]:bg-brand-red transition-all duration-300">
+<div class="h-full w-[20px] rounded-full bg-white shadow-md"></div>
+<input checked="" class="invisible absolute" type="checkbox"/>
+</label>
+</div>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-white/5">
+<div class="flex gap-4 text-[#9da6b9]">
+<div class="flex items-center gap-1.5 cursor-pointer hover:text-brand-red transition-colors">
+<span class="material-symbols-outlined text-lg">call</span>
+<span class="text-xs">+34 650 112 334</span>
+</div>
+</div>
+<button class="flex items-center gap-1 text-brand-red text-xs font-bold bg-brand-red/10 px-3 py-1.5 rounded-full hover:bg-brand-red/20">
+<span class="material-symbols-outlined text-sm">lock_reset</span>
+                        Reiniciar Pass
+                    </button>
+</div>
+</div>
+<div class="flex flex-col gap-3 bg-[#131924] p-4 rounded-xl shadow-sm border border-brand-fuchsia/20 mb-3">
+<div class="flex items-start gap-4 justify-between">
+<div class="flex items-center gap-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-14 ring-2 ring-brand-fuchsia/40" data-alt="Eco-friendly market stall with fruits" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDF2ll5ujoIUFOiXgFfMEOcwDAI6_tcqLyJHb29K-Hzx6B8IKT_D2_jvxm-6INOuaBR3rEXu11HTQTqrJAoAVbdqXzGbZiQcrZUNI5N1LcEyMWO3z98qIXEPa44c3RFgwMBPoRHxeGybSuxCgy9NB48e9aVZ-lKO8oqVAsJTyc03Zamo4vZKB_tNKw79nGHQCC_D5JShzcpTtJflEEAMzF7wvHJjKsAvBB50vCQLS4PEVreOfPBKFRub70f5MGrdFMzzvPxHkXtxMng");'></div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<p class="text-white text-base font-bold">Mercado Km0</p>
+<span class="bg-brand-fuchsia/20 text-brand-fuchsia text-[10px] font-bold px-2 py-0.5 rounded-full uppercase border border-brand-fuchsia/30">Activo</span>
+</div>
+<p class="text-[#9da6b9] text-xs font-medium">ID: #STO-022 • Tienda Local</p>
+</div>
+</div>
+<div class="shrink-0 pt-1">
+<label class="relative flex h-[28px] w-[48px] cursor-pointer items-center rounded-full border-none bg-[#282e39] p-1 has-[:checked]:justify-end has-[:checked]:bg-brand-fuchsia transition-all duration-300">
+<div class="h-full w-[20px] rounded-full bg-white shadow-md"></div>
+<input checked="" class="invisible absolute" type="checkbox"/>
+</label>
+</div>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-white/5">
+<div class="flex gap-4 text-[#9da6b9]">
+<div class="flex items-center gap-1.5 cursor-pointer hover:text-brand-fuchsia transition-colors">
+<span class="material-symbols-outlined text-lg">mail</span>
+<span class="text-xs">info@mercadokm0.com</span>
+</div>
+</div>
+<button class="flex items-center gap-1 text-brand-fuchsia text-xs font-bold bg-brand-fuchsia/10 px-3 py-1.5 rounded-full hover:bg-brand-fuchsia/20">
+<span class="material-symbols-outlined text-sm">lock_reset</span>
+                        Reiniciar Pass
+                    </button>
+</div>
+</div>
+</div>
+<div class="fixed bottom-24 right-6 z-40">
+<button class="bg-brand-fuchsia text-white size-16 rounded-full shadow-[0_0_20px_rgba(255,0,255,0.4)] flex items-center justify-center hover:scale-105 active:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined text-3xl">person_add</span>
+</button>
+</div>
+<div class="fixed bottom-0 w-full h-[84px] bg-background-dark/80 backdrop-blur-xl border-t border-white/10 flex items-center justify-around px-4 pb-4 z-50">
+<div class="flex flex-col items-center gap-1 text-[#4a5568]">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px] font-medium">Panel</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-brand-fuchsia">
+<span class="material-symbols-outlined !fill-1">group</span>
+<span class="text-[10px] font-bold">Usuarios</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-[#4a5568]">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="text-[10px] font-medium">Pedidos</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-[#4a5568]">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[10px] font-medium">Ajustes</span>
+</div>
+</div>
+</div>
+
+</body></html>
