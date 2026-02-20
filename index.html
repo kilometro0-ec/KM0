@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html class="dark" lang="es">
+<html class="dark" lang="es" translate="no">
 <head>
     <meta charset="utf-8"/>
+    <meta name="google" content="notranslate" />
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
-    <title>Admin: Dashboard de Operaciones 360</title>
+    <title>Km 0 Ops 360</title>
+    
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet" />
     
     <script id="tailwind-config">
         tailwind.config = {
@@ -16,235 +18,146 @@
                     colors: {
                         "primary": "#ec1313",
                         "store": "#ff00ff",
-                        "background-light": "#f8f6f6",
-                        "background-dark": "#1a0a0a",
-                        "fleet-active": "#10b981",
-                        "fleet-rest": "#f59e0b",
-                        "fleet-offline": "#64748b",
-                    },
-                    fontFamily: { "display": ["Inter"] },
-                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
-                },
-            },
+                        "background-dark": "#120505",
+                    }
+                }
+            }
         }
     </script>
 
     <style type="text/tailwindcss">
         @layer base {
             body {
-                @apply font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-white;
+                @apply bg-[#120505] text-white font-['Inter'] overflow-x-hidden;
                 -webkit-tap-highlight-color: transparent;
-                user-select: none;
-                overscroll-behavior-y: none;
             }
         }
+        /* Corregir que los iconos se vean como texto */
         .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
         }
-        .status-feed-mask {
-            mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
-        }
-        .fuchsia-glow {
-            text-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
-        }
-        /* Feedback visual para Android */
-        .btn-active:active {
-            transform: scale(0.95);
-            transition: transform 0.1s;
-        }
+        /* Evitar que el traductor mueva los textos */
+        .notranslate { translate: no; }
     </style>
 </head>
 
-<body class="min-h-screen">
-    <div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden pb-32">
-        
-        <div class="flex items-center bg-background-light/90 dark:bg-background-dark/90 p-4 pb-2 justify-between sticky top-0 z-50 border-b border-primary/10 backdrop-blur-md">
-            <div class="flex size-10 shrink-0 items-center">
-                <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-primary" style='background-image: url("https://ui-avatars.com/api/?name=Admin&background=ec1313&color=fff");'></div>
-            </div>
-            <div class="flex-1 px-3">
-                <h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-tight">Km 0 Ops 360</h2>
-                <p class="text-[10px] text-slate-500 dark:text-slate-400 font-medium flex items-center gap-1">
-                    <span class="size-2 bg-green-500 rounded-full animate-pulse"></span> SISTEMAS ONLINE
-                </p>
-            </div>
-            <div class="flex items-center gap-2">
-                <button id="btn-notif" class="btn-active flex size-10 items-center justify-center rounded-full bg-store/10 text-store relative border border-store/20">
-                    <span class="material-symbols-outlined">notifications</span>
-                    <span class="absolute top-2 right-2 size-2 bg-store rounded-full border-2 border-background-dark shadow-[0_0_8px_#ff00ff]"></span>
-                </button>
-            </div>
-        </div>
-
-        <div class="px-4 pt-4">
-            <div class="bg-white dark:bg-[#2a1212] rounded-xl p-4 border border-slate-200 dark:border-primary/10 shadow-sm">
-                <div class="flex justify-between items-center mb-3">
-                    <h3 class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Total Fleet Availability</h3>
-                    <span class="text-primary font-bold text-[10px] animate-pulse">LIVE VIEW</span>
-                </div>
-                <div class="grid grid-cols-3 gap-3">
-                    <div class="bg-slate-50 dark:bg-background-dark p-3 rounded-lg border border-slate-100 dark:border-white/5">
-                        <div class="flex items-center gap-2 mb-1">
-                            <span class="size-2 bg-fleet-active rounded-full"></span>
-                            <span class="text-[9px] font-bold text-slate-500 uppercase">Active</span>
-                        </div>
-                        <p class="text-xl font-black text-slate-900 dark:text-white">124</p>
-                    </div>
-                    <div class="bg-slate-50 dark:bg-background-dark p-3 rounded-lg border border-slate-100 dark:border-white/5 text-center">
-                        <div class="flex items-center gap-2 mb-1">
-                            <span class="size-2 bg-fleet-rest rounded-full"></span>
-                            <span class="text-[9px] font-bold text-slate-500 uppercase">Rest</span>
-                        </div>
-                        <p class="text-xl font-black text-slate-900 dark:text-white">18</p>
-                    </div>
-                    <div class="bg-slate-50 dark:bg-background-dark p-3 rounded-lg border border-slate-100 dark:border-white/5 text-right">
-                        <div class="flex items-center gap-2 mb-1 justify-end">
-                            <span class="size-2 bg-fleet-offline rounded-full"></span>
-                            <span class="text-[9px] font-bold text-slate-500 uppercase">Off</span>
-                        </div>
-                        <p class="text-xl font-black text-slate-900 dark:text-white">42</p>
-                    </div>
+<body class="min-h-screen pb-24">
+    <header class="sticky top-0 z-50 flex items-center justify-between p-4 bg-[#120505]/80 backdrop-blur-lg border-b border-white/5">
+        <div class="flex items-center gap-3">
+            <div class="size-10 rounded-full border-2 border-primary bg-primary/20 flex items-center justify-center font-bold text-xs">AD</div>
+            <div>
+                <h1 class="text-sm font-bold leading-none">Km 0 Operaciones 360</h1>
+                <div class="flex items-center gap-1 mt-1">
+                    <span class="size-1.5 bg-green-500 rounded-full animate-pulse"></span>
+                    <span class="text-[10px] text-gray-400 uppercase font-bold tracking-tighter">Sistemas en línea</span>
                 </div>
             </div>
         </div>
+        <button class="size-10 rounded-full bg-white/5 flex items-center justify-center relative border border-white/10">
+            <span class="material-symbols-outlined text-store">notifications</span>
+            <span class="absolute top-2 right-2 size-2 bg-store rounded-full shadow-[0_0_8px_#ff00ff]"></span>
+        </button>
+    </header>
 
-        <div class="px-4 pt-6">
-            <div class="flex items-center justify-between mb-3">
-                <h2 class="text-slate-900 dark:text-white text-lg font-bold tracking-tight">Priority Feed</h2>
-                <span class="text-[10px] px-2 py-0.5 rounded-full bg-store/20 text-store font-bold border border-store/30">STORE LIVE</span>
+    <main class="p-4 space-y-6">
+        <section class="bg-white/5 border border-white/10 rounded-2xl p-4">
+            <div class="flex justify-between items-center mb-4">
+                <span class="text-[10px] font-black text-gray-500 uppercase tracking-widest">Disponibilidad de Flota</span>
+                <span class="text-[10px] text-primary font-bold">VISTA EN VIVO</span>
             </div>
-            <div id="feed-container" class="status-feed-mask flex flex-col gap-3 max-h-[300px] overflow-y-auto pr-1">
-                <div class="btn-active flex items-start gap-3 p-3 rounded-xl bg-white dark:bg-[#3d1a3d] border border-store/20">
-                    <div class="flex size-10 shrink-0 items-center justify-center rounded-full bg-store/10 text-store border border-store/20">
-                        <span class="material-symbols-outlined text-lg">storefront</span>
+            <div class="grid grid-cols-3 gap-2">
+                <div class="bg-black/40 p-3 rounded-xl border border-white/5 text-center">
+                    <span class="text-[9px] text-green-400 font-bold block mb-1">ACTIVO</span>
+                    <span class="text-xl font-black">124</span>
+                </div>
+                <div class="bg-black/40 p-3 rounded-xl border border-white/5 text-center">
+                    <span class="text-[9px] text-orange-400 font-bold block mb-1">DESCANSO</span>
+                    <span class="text-xl font-black">18</span>
+                </div>
+                <div class="bg-black/40 p-3 rounded-xl border border-white/5 text-center">
+                    <span class="text-[9px] text-gray-400 font-bold block mb-1">OFF</span>
+                    <span class="text-xl font-black">42</span>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="flex justify-between items-center mb-3">
+                <h2 class="font-bold text-lg">Feed Prioritario</h2>
+                <span class="px-2 py-0.5 bg-store/20 text-store text-[9px] font-bold rounded-full border border-store/30">LIVE</span>
+            </div>
+            <div class="space-y-3">
+                <div class="flex items-center gap-3 p-3 bg-store/10 border border-store/20 rounded-xl">
+                    <div class="size-10 bg-store/20 rounded-full flex items-center justify-center text-store">
+                        <span class="material-symbols-outlined">storefront</span>
                     </div>
                     <div class="flex-1">
-                        <p class="text-sm font-bold text-slate-900 dark:text-store leading-snug fuchsia-glow">Nueva Solicitud de Tienda</p>
-                        <div class="flex items-center justify-between mt-1">
-                            <span class="text-[10px] text-slate-500 dark:text-store/70 font-bold uppercase">Aprobación Pendiente</span>
-                            <span class="text-[10px] text-slate-400">Ahora</span>
-                        </div>
+                        <p class="text-sm font-bold text-store">Nueva Solicitud de Tienda</p>
+                        <p class="text-[10px] text-store/60 uppercase font-bold mt-0.5">Pendiente</p>
                     </div>
-                </div>
-                <div class="btn-active flex items-start gap-3 p-3 rounded-xl bg-white dark:bg-[#321818] border border-slate-200 dark:border-primary/10">
-                    <div class="flex size-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
-                        <span class="material-symbols-outlined text-lg">local_shipping</span>
-                    </div>
-                    <div class="flex-1">
-                        <p class="text-sm font-semibold text-slate-900 dark:text-white leading-snug">Courier Y llegó al Sector Z</p>
-                        <div class="flex items-center justify-between mt-1">
-                            <span class="text-[10px] text-slate-500 dark:text-slate-400">Ruta de Entrega</span>
-                            <span class="text-[10px] text-slate-400">5 min</span>
-                        </div>
-                    </div>
+                    <span class="text-[9px] text-gray-500">Ahora</span>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div class="flex gap-3 px-4 pt-6">
-            <div id="stat-revenue" class="btn-active flex-1 rounded-xl p-4 bg-primary text-white shadow-lg shadow-primary/20 border border-white/10">
-                <div class="flex justify-between items-center mb-1">
-                    <span class="text-[10px] font-bold uppercase opacity-80">Revenue</span>
-                    <span class="material-symbols-outlined text-base">payments</span>
+        <div class="grid grid-cols-2 gap-4">
+            <div class="bg-primary p-4 rounded-2xl shadow-lg shadow-primary/20">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-[10px] font-bold text-white/80 uppercase">Ganancia</span>
+                    <span class="material-symbols-outlined text-white/60">payments</span>
                 </div>
                 <p class="text-2xl font-black">$4.8k</p>
             </div>
-            <div id="stat-orders" class="btn-active flex-1 rounded-xl p-4 bg-white dark:bg-[#321818] border border-slate-200 dark:border-primary/10">
-                <div class="flex justify-between items-center mb-1">
-                    <span class="text-[10px] font-bold uppercase text-slate-400">Store Orders</span>
-                    <span class="material-symbols-outlined text-base text-store">shopping_cart</span>
+            <div class="bg-white/5 border border-white/10 p-4 rounded-2xl">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-[10px] font-bold text-gray-400 uppercase">Pedidos</span>
+                    <span class="material-symbols-outlined text-store">shopping_cart</span>
                 </div>
-                <p class="text-2xl font-black text-slate-900 dark:text-white">1,248</p>
+                <p class="text-2xl font-black">1.248</p>
             </div>
         </div>
+    </main>
 
-        <div class="px-4 pt-6">
-            <h3 class="text-slate-900 dark:text-white text-base font-bold mb-3">Management Hub</h3>
-            <div class="grid grid-cols-2 gap-3">
-                <button class="nav-item btn-active flex items-center gap-3 p-3 rounded-xl bg-white dark:bg-[#3d1a3d] border border-store/20 text-left">
-                    <div class="size-8 bg-store/10 rounded-lg flex items-center justify-center text-store">
-                        <span class="material-symbols-outlined text-xl">store</span>
-                    </div>
-                    <span class="text-[10px] font-bold text-slate-700 dark:text-store uppercase">Tiendas</span>
-                </button>
-                <button class="nav-item btn-active flex items-center gap-3 p-3 rounded-xl bg-white dark:bg-[#321818] border border-slate-200 text-left">
-                    <div class="size-8 bg-primary/10 rounded-lg flex items-center justify-center text-primary">
-                        <span class="material-symbols-outlined text-xl">person_search</span>
-                    </div>
-                    <span class="text-[10px] font-bold text-slate-700 dark:text-slate-300 uppercase">Riders</span>
-                </button>
-            </div>
+    <nav class="fixed bottom-0 inset-x-0 bg-[#120505]/95 backdrop-blur-xl border-t border-white/5 px-6 pb-8 pt-3 flex justify-between items-center z-[100]">
+        <div class="flex flex-col items-center gap-1 text-primary">
+            <span class="material-symbols-outlined">dashboard</span>
+            <span class="text-[9px] font-bold uppercase">Ops 360</span>
+        </div>
+        <div class="flex flex-col items-center gap-1 text-gray-500">
+            <span class="material-symbols-outlined">local_shipping</span>
+            <span class="text-[9px] font-bold uppercase">Flota</span>
+        </div>
+        
+        <div class="relative -top-6">
+            <button id="main-btn" class="size-14 rounded-full bg-store flex items-center justify-center text-white shadow-lg shadow-store/40 border-4 border-[#120505] active:scale-90 transition-transform">
+                <span class="material-symbols-outlined text-3xl">add</span>
+            </button>
         </div>
 
-        <div class="fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-[#1a0a0a]/95 backdrop-blur-lg border-t border-slate-200 dark:border-primary/20 pb-8 pt-2 px-6 flex justify-between items-end z-50">
-            <button class="nav-btn flex flex-col items-center gap-1 text-primary" data-page="dashboard">
-                <span class="material-symbols-outlined font-bold">dashboard</span>
-                <span class="text-[9px] font-bold uppercase">Ops 360</span>
-            </button>
-            <button class="nav-btn flex flex-col items-center gap-1 text-slate-400" data-page="fleet">
-                <span class="material-symbols-outlined">local_shipping</span>
-                <span class="text-[9px] font-medium uppercase">Fleet</span>
-            </button>
-            
-            <div class="flex flex-col items-center mb-1">
-                <button id="main-dispatch" class="size-14 rounded-full bg-store flex items-center justify-center shadow-lg shadow-store/40 border-4 border-white dark:border-background-dark text-white active:scale-90 transition-transform">
-                    <span class="material-symbols-outlined text-3xl">add</span>
-                </button>
-                <span class="text-[9px] font-bold text-store mt-1 uppercase">Dispatch</span>
-            </div>
-
-            <button class="nav-btn flex flex-col items-center gap-1 text-slate-400" data-page="map">
-                <span class="material-symbols-outlined">map</span>
-                <span class="text-[9px] font-medium uppercase">Map</span>
-            </button>
-            <button class="nav-btn flex flex-col items-center gap-1 text-slate-400" data-page="settings">
-                <span class="material-symbols-outlined">settings</span>
-                <span class="text-[9px] font-medium uppercase">Config</span>
-            </button>
+        <div class="flex flex-col items-center gap-1 text-gray-500">
+            <span class="material-symbols-outlined">map</span>
+            <span class="text-[9px] font-bold uppercase">Mapa</span>
         </div>
-    </div>
+        <div class="flex flex-col items-center gap-1 text-gray-500">
+            <span class="material-symbols-outlined">settings</span>
+            <span class="text-[9px] font-bold uppercase">Config</span>
+        </div>
+    </nav>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            
-            // 1. Manejo del Botón Principal (Dispatch)
-            const dispatchBtn = document.getElementById('main-dispatch');
-            dispatchBtn.onclick = () => {
-                window.alert("Iniciando nuevo proceso de despacho...");
-                // Aquí podrías integrar: AndroidInterface.openCamera();
-            };
+        // Prevenir el menú contextual para que parezca app nativa
+        document.addEventListener('contextmenu', e => e.preventDefault());
 
-            // 2. Navegación inferior (Bottom Nav)
-            const navButtons = document.querySelectorAll('.nav-btn');
-            navButtons.forEach(btn => {
-                btn.onclick = function() {
-                    // Remover color activo de otros
-                    navButtons.forEach(b => {
-                        b.classList.replace('text-primary', 'text-slate-400');
-                        b.querySelector('span:first-child').style.fontWeight = 'normal';
-                    });
-                    // Activar el actual
-                    this.classList.replace('text-slate-400', 'text-primary');
-                    this.querySelector('span:first-child').style.fontWeight = 'bold';
-                    console.log("Cambiando a: " + this.dataset.page);
-                };
-            });
-
-            // 3. Notificaciones
-            document.getElementById('btn-notif').onclick = () => {
-                window.alert("No tienes alertas nuevas pendientes.");
-            };
-
-            // 4. Feed Items (Ejemplo de clic en lista)
-            const feedItems = document.querySelectorAll('#feed-container > div');
-            feedItems.forEach((item, index) => {
-                item.onclick = () => {
-                    window.alert("Abriendo detalle del evento " + (index + 1));
-                };
-            });
-
-            // 5. Prevención de comportamiento extraño en Android WebView
-            document.addEventListener('contextmenu', event => event.preventDefault()); // Desactivar clic derecho
+        // Lógica del botón central
+        document.getElementById('main-btn').addEventListener('click', function() {
+            this.style.transform = 'scale(0.9)';
+            setTimeout(() => this.style.transform = 'scale(1)', 100);
+            alert("Nueva Operación Iniciada");
         });
     </script>
 </body>
