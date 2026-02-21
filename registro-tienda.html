@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KM0 - Registro de Comercio</title>
+    <title>KM0 - Registro Motorizados</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
@@ -14,35 +14,42 @@
         .bg-magenta { background-color: #FF00FF; }
         .hidden { display: none; }
         
-        /* Estilo para mensajes de error */
+        /* Estilo consistente con el de Tiendas */
         .error-input { border-color: #ef4444 !important; }
-        .error-text { color: #ef4444; font-size: 10px; margin-top: 4px; font-weight: bold; text-transform: uppercase; }
     </style>
 </head>
 <body class="p-6">
 
     <div id="contenedorForm" class="w-full max-w-[400px]">
         <header class="mb-10 text-center">
-            <h1 class="text-3xl font-black italic text-magenta uppercase tracking-tighter">Registro Tienda</h1>
-            <p class="text-zinc-500 text-[10px] uppercase tracking-[0.3em] mt-2">Seguridad y Validación Estricta</p>
+            <h1 class="text-3xl font-black italic text-magenta uppercase tracking-tighter">Registro Motorizado</h1>
+            <p class="text-zinc-500 text-[10px] uppercase tracking-[0.3em] mt-2">Flota de Entrega KM0</p>
         </header>
 
-        <form id="formTienda" class="space-y-5">
+        <form id="formMotorizado" class="space-y-5">
             <div>
-                <label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1 ml-1">Nombre Comercial</label>
-                <input type="text" id="nombreTienda" required class="w-full p-4 rounded-2xl text-sm" placeholder="Ej: Pizzería KM0">
+                <label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1 ml-1">Nombre Completo</label>
+                <input type="text" id="nombre" required class="w-full p-4 rounded-2xl text-sm" placeholder="Ej: Juan Pérez">
             </div>
 
             <div>
-                <label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1 ml-1">Representante Legal</label>
-                <input type="text" id="representante" required class="w-full p-4 rounded-2xl text-sm" placeholder="Nombres y Apellidos">
+                <label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1 ml-1">Cédula de Identidad (10 dígitos)</label>
+                <input type="text" id="cedula" minlength="10" maxlength="10" pattern="[0-9]{10}" 
+                       title="Ingrese los 10 dígitos de su cédula" required 
+                       class="w-full p-4 rounded-2xl text-sm" placeholder="17XXXXXXXX">
             </div>
 
-            <div>
-                <label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1 ml-1">CI o RUC (Único)</label>
-                <input type="text" id="identificacion" minlength="10" maxlength="13" pattern="[0-9]{10,13}" 
-                       title="Debe ingresar de 10 a 13 dígitos numéricos" required 
-                       class="w-full p-4 rounded-2xl text-sm" placeholder="17XXXXXXXX001">
+            <div class="space-y-5">
+                <div>
+                    <label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1 ml-1">WhatsApp (+593 + 9 dígitos)</label>
+                    <input type="tel" id="telefono" pattern="^\+593[0-9]{9}$" 
+                           title="Formato: +593999888777" required 
+                           class="w-full p-4 rounded-2xl text-sm" placeholder="+593XXXXXXXXX">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1 ml-1">Correo Electrónico</label>
+                    <input type="email" id="correo" required class="w-full p-4 rounded-2xl text-sm" placeholder="nombre@correo.com">
+                </div>
             </div>
 
             <div class="grid grid-cols-2 gap-4">
@@ -70,20 +77,23 @@
                 </div>
             </div>
 
-            <div>
-                <label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1 ml-1">WhatsApp (+593 + 9 dígitos)</label>
-                <input type="tel" id="telefono" pattern="^\+593[0-9]{9}$" 
-                       title="Formato requerido: +593999888777 (Símbolo + y 12 dígitos en total)" 
-                       required class="w-full p-4 rounded-2xl text-sm" placeholder="+593XXXXXXXXX">
-            </div>
-
-            <div>
-                <label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1 ml-1">Correo Electrónico (Único)</label>
-                <input type="email" id="correo" required class="w-full p-4 rounded-2xl text-sm" placeholder="comercio@ejemplo.com">
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1 ml-1">Vehículo</label>
+                    <select id="vehiculo" required class="w-full p-4 rounded-2xl text-sm appearance-none">
+                        <option value="Moto">Moto</option>
+                        <option value="Auto">Auto</option>
+                        <option value="Bicicleta">Bicicleta</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1 ml-1">Placa (Ej: ABC-1234)</label>
+                    <input type="text" id="placa" required pattern="[A-Z0-9-]{6,8}" class="w-full p-4 rounded-2xl text-sm uppercase" placeholder="PXW-0000">
+                </div>
             </div>
 
             <button type="submit" id="btnEnviar" class="w-full bg-magenta text-black font-black py-5 rounded-2xl uppercase text-xs tracking-widest active:scale-95 transition-all shadow-lg shadow-magenta/30">
-                Registrar Comercio
+                Enviar Solicitud
             </button>
         </form>
     </div>
@@ -96,10 +106,9 @@
                 </svg>
             </div>
         </div>
-        <h2 class="text-3xl font-black uppercase text-white mb-4 italic">¡Registro Exitoso!</h2>
+        <h2 class="text-3xl font-black uppercase text-white mb-4 italic">¡Registro Recibido!</h2>
         <p class="text-zinc-400 text-sm leading-relaxed mb-8 px-4">
-            La información fue enviada a <span class="text-magenta font-bold underline">Kilometro 0</span>.<br>
-            Nuestro equipo revisará los datos y pronto nos comunicaremos con usted.
+            Tu solicitud para unirte a <span class="text-magenta font-bold underline">Kilometro 0</span> ha sido enviada. Pronto validaremos tu información.
         </p>
         <button onclick="window.location.href='index.html'" class="w-full border border-zinc-800 text-zinc-500 font-bold text-[10px] tracking-[0.3em] py-4 rounded-2xl uppercase hover:text-white hover:border-white transition-all">
             Volver al Inicio
@@ -107,45 +116,43 @@
     </div>
 
     <script>
+        // USA LA MISMA URL QUE TIENES EN EL DE TIENDAS
         const URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec';
 
-        const form = document.getElementById('formTienda');
+        const form = document.getElementById('formMotorizado');
         const btn = document.getElementById('btnEnviar');
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
-            // Bloquear botón para evitar doble envío
             btn.disabled = true;
-            btn.innerText = 'VERIFICANDO DATOS...';
+            btn.innerText = 'ENVIANDO...';
 
             const datos = {
-                nombreTienda:   document.getElementById('nombreTienda').value.trim(),
-                representante:  document.getElementById('representante').value.trim(),
-                identificacion: document.getElementById('identificacion').value.trim(),
+                tipoRegistro: "motorizado", // Indica al script que use la pestaña de Motorizados
+                nombre:         document.getElementById('nombre').value.trim(),
+                cedula:         document.getElementById('cedula').value.trim(),
+                telefono:       "'" + document.getElementById('telefono').value.trim(), 
+                correo:         document.getElementById('correo').value.trim().toLowerCase(),
                 provincia:      document.getElementById('provincia').value,
                 ciudad:         document.getElementById('ciudad').value.trim(),
-                telefono:       "'" + document.getElementById('telefono').value.trim(), 
-                correo:         document.getElementById('correo').value.trim().toLowerCase()
+                vehiculo:       document.getElementById('vehiculo').value,
+                placa:          document.getElementById('placa').value.toUpperCase().trim()
             };
 
             try {
-                // Enviamos los datos a Google Sheets
                 await fetch(URL_SCRIPT, {
                     method: 'POST',
                     mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(datos)
                 });
 
-                // Mostramos pantalla de éxito
                 document.getElementById('contenedorForm').classList.add('hidden');
                 document.getElementById('pantallaExito').classList.remove('hidden');
 
             } catch (error) {
-                alert('Error al conectar con la base de datos. Verifique su internet.');
+                alert('Error al conectar. Intente de nuevo.');
                 btn.disabled = false;
-                btn.innerText = 'REGISTRAR COMERCIO';
+                btn.innerText = 'ENVIAR SOLICITUD';
             }
         });
     </script>
