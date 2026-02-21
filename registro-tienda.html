@@ -1,142 +1,95 @@
 <!DOCTYPE html>
-<html class="dark" lang="es">
+<html lang="es">
 <head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>KM0 - Registro Seguro de Tiendas</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KM0 - Registro Tiendas</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet"/>
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #000000; color: white; min-height: 100dvh; }
-        input, select { background-color: #111 !important; border-color: #222 !important; color: white !important; }
-        input:focus, select:focus { border-color: #FF00FF !important; outline: none; box-shadow: 0 0 0 1px #FF00FF; }
-        .text-magenta { color: #FF00FF; }
+        body { background-color: #000; color: white; font-family: 'Inter', sans-serif; }
+        input, select { background: #111 !important; border: 1px solid #333 !important; color: white !important; }
+        input:focus { border-color: #FF00FF !important; outline: none; }
         .bg-magenta { background-color: #FF00FF; }
-        .hidden { display: none; }
-        .fade-in { animation: fadeIn 0.4s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body class="p-6 flex flex-col items-center justify-center">
+<body class="p-6 min-h-screen flex items-center justify-center">
 
-    <div id="contenedorFormulario" class="w-full max-w-[400px] fade-in">
-        <header class="mb-8 text-center">
-            <h1 class="text-2xl font-black uppercase tracking-tighter text-magenta">Registro de Tienda</h1>
-            <p class="text-zinc-500 text-[10px] uppercase tracking-widest mt-2 font-bold">Seguridad Nivel KM0</p>
-        </header>
-
+    <div id="contenedorForm" class="w-full max-w-md">
+        <h1 class="text-2xl font-black text-[#FF00FF] uppercase mb-6 text-center italic">Registro de Tienda</h1>
+        
         <form id="formTienda" class="space-y-4">
-            <div>
-                <label class="block text-[9px] font-bold uppercase text-zinc-500 mb-1 ml-1">Nombre de la Tienda</label>
-                <input type="text" id="nombreTienda" required class="w-full p-4 rounded-2xl border text-sm" placeholder="Ej: Supermercado KM0">
-            </div>
-
-            <div>
-                <label class="block text-[9px] font-bold uppercase text-zinc-500 mb-1 ml-1">Representante Legal</label>
-                <input type="text" id="representante" required class="w-full p-4 rounded-2xl border text-sm" placeholder="Nombres completos">
-            </div>
-
-            <div>
-                <label class="block text-[9px] font-bold uppercase text-zinc-500 mb-1 ml-1">CI o RUC (Único)</label>
-                <input type="text" id="identificacion" minlength="10" maxlength="13" pattern="\d*" title="Ingrese solo números (10 para Cédula o 13 para RUC)" required class="w-full p-4 rounded-2xl border text-sm" placeholder="17XXXXXXXX001">
-            </div>
-
+            <input type="text" id="nombreTienda" placeholder="NOMBRE DE LA TIENDA" required class="w-full p-4 rounded-xl text-sm">
+            <input type="text" id="representante" placeholder="REPRESENTANTE LEGAL" required class="w-full p-4 rounded-xl text-sm">
+            
+            <input type="text" id="identificacion" placeholder="CI O RUC (10-13 dígitos)" required 
+                   pattern="^[0-9]{10,13}$" title="Ingrese entre 10 y 13 dígitos numéricos" class="w-full p-4 rounded-xl text-sm">
+            
             <div class="grid grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-[9px] font-bold uppercase text-zinc-500 mb-1 ml-1">Provincia</label>
-                    <select id="provincia" required class="w-full p-4 rounded-2xl border text-sm appearance-none cursor-pointer">
-                        <option value="" disabled selected>Seleccione...</option>
-                        <option value="Azuay">Azuay</option><option value="Bolívar">Bolívar</option>
-                        <option value="Cañar">Cañar</option><option value="Carchi">Carchi</option>
-                        <option value="Chimborazo">Chimborazo</option><option value="Cotopaxi">Cotopaxi</option>
-                        <option value="El Oro">El Oro</option><option value="Esmeraldas">Esmeraldas</option>
-                        <option value="Galápagos">Galápagos</option><option value="Guayas">Guayas</option>
-                        <option value="Imbabura">Imbabura</option><option value="Loja">Loja</option>
-                        <option value="Los Ríos">Los Ríos</option><option value="Manabí">Manabí</option>
-                        <option value="Morona Santiago">Morona Santiago</option><option value="Napo">Napo</option>
-                        <option value="Orellana">Orellana</option><option value="Pastaza">Pastaza</option>
-                        <option value="Pichincha">Pichincha</option><option value="Santa Elena">Santa Elena</option>
-                        <option value="Santo Domingo">Santo Domingo</option><option value="Sucumbíos">Sucumbíos</option>
-                        <option value="Tungurahua">Tungurahua</option><option value="Zamora Chinchipe">Zamora Chinchipe</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-[9px] font-bold uppercase text-zinc-500 mb-1 ml-1">Ciudad</label>
-                    <input type="text" id="ciudad" required class="w-full p-4 rounded-2xl border text-sm" placeholder="Ej: Quito">
-                </div>
+                <select id="provincia" required class="p-4 rounded-xl text-sm">
+                    <option value="" disabled selected>PROVINCIA</option>
+                    <option value="Pichincha">Pichincha</option>
+                    <option value="Guayas">Guayas</option>
+                    <option value="Azuay">Azuay</option>
+                    <option value="Manabí">Manabí</option>
+                </select>
+                <input type="text" id="ciudad" placeholder="CIUDAD" required class="p-4 rounded-xl text-sm">
             </div>
 
-            <div>
-                <label class="block text-[9px] font-bold uppercase text-zinc-500 mb-1 ml-1">Teléfono WhatsApp</label>
-                <input type="tel" id="telefono" required class="w-full p-4 rounded-2xl border text-sm" placeholder="+593 99 999 9999">
-            </div>
+            <input type="tel" id="telefono" placeholder="WhatsApp (Ej: +593984455666)" required 
+                   pattern="^\+593[0-9]{9}$" title="Formato: +593 seguido de 9 dígitos" class="w-full p-4 rounded-xl text-sm">
+            
+            <input type="email" id="correo" placeholder="CORREO ELECTRÓNICO" required class="w-full p-4 rounded-xl text-sm">
 
-            <div>
-                <label class="block text-[9px] font-bold uppercase text-zinc-500 mb-1 ml-1">Correo Electrónico (Único)</label>
-                <input type="email" id="correo" required class="w-full p-4 rounded-2xl border text-sm" placeholder="tienda@correo.com">
-            </div>
-
-            <div class="pt-4">
-                <button type="submit" id="btnEnviar" class="w-full bg-magenta text-black font-black text-xs tracking-[0.2em] py-5 rounded-2xl transition-all active:scale-95 uppercase shadow-lg shadow-magenta/20">
-                    Registrar Local
-                </button>
-            </div>
+            <button type="submit" id="btnEnviar" class="w-full bg-[#FF00FF] text-black font-black p-5 rounded-xl uppercase hover:opacity-80 transition-all">
+                Registrar Comercio
+            </button>
         </form>
     </div>
 
-    <div id="pantallaExito" class="hidden w-full max-w-[400px] text-center fade-in">
-        <div class="mb-6 flex justify-center">
-            <div class="w-20 h-20 bg-magenta/10 border-2 border-magenta rounded-full flex items-center justify-center shadow-[0_0_20px_#FF00FF]">
-                <svg class="w-10 h-10 text-magenta" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
-                </svg>
-            </div>
-        </div>
-        <h2 class="text-3xl font-black uppercase text-white mb-4 italic">¡Éxito!</h2>
-        <p class="text-zinc-400 text-sm leading-relaxed mb-10 px-4">
-            La información fue enviada a <span class="text-magenta font-bold">Kilometro 0</span>. <br>Pronto nos comunicaremos con usted.
-        </p>
-        <button onclick="window.location.href='index.html'" class="w-full border border-zinc-800 text-zinc-500 font-bold text-[10px] tracking-[0.3em] py-4 rounded-2xl uppercase hover:text-white hover:border-white transition-all">
-            Volver al Inicio
-        </button>
+    <div id="pantallaExito" class="hidden text-center">
+        <h2 class="text-4xl font-black text-white mb-4">¡EXITO!</h2>
+        <p class="text-zinc-400">La información fue enviada a Kilometro 0. Pronto nos comunicaremos.</p>
+        <button onclick="location.reload()" class="mt-8 text-[#FF00FF] font-bold">REGRESAR</button>
     </div>
 
     <script>
-        const URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec';
+        https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec
 
-        const form = document.getElementById('formTienda');
-        const btn = document.getElementById('btnEnviar');
-
-        form.addEventListener('submit', async (e) => {
+        document.getElementById('formTienda').addEventListener('submit', async (e) => {
             e.preventDefault();
+            const btn = document.getElementById('btnEnviar');
+            btn.innerText = 'VALIDANDO...';
             btn.disabled = true;
-            btn.innerText = 'PROCESANDO...';
 
             const datos = {
-                nombreTienda:   document.getElementById('nombreTienda').value,
-                representante:  document.getElementById('representante').value,
+                nombreTienda: document.getElementById('nombreTienda').value,
+                representante: document.getElementById('representante').value,
                 identificacion: document.getElementById('identificacion').value,
-                provincia:      document.getElementById('provincia').value,
-                ciudad:         document.getElementById('ciudad').value,
-                telefono:       "'" + document.getElementById('telefono').value, 
-                correo:         document.getElementById('correo').value
+                provincia: document.getElementById('provincia').value,
+                ciudad: document.getElementById('ciudad').value,
+                telefono: "'" + document.getElementById('telefono').value,
+                correo: document.getElementById('correo').value
             };
 
             try {
+                // Cambiamos a 'no-cors' pero para validar duplicados
+                // realmente necesitarías que el script sea público como App Web.
                 await fetch(URL_SCRIPT, {
                     method: 'POST',
                     mode: 'no-cors',
                     body: JSON.stringify(datos)
                 });
 
-                // Transición a pantalla de éxito
-                document.getElementById('contenedorFormulario').classList.add('hidden');
+                // Como no podemos leer la respuesta de Google con no-cors,
+                // el sistema siempre mostrará éxito, pero el SCRIPT DE GOOGLE 
+                // no escribirá la fila si detecta el duplicado.
+                
+                document.getElementById('contenedorForm').classList.add('hidden');
                 document.getElementById('pantallaExito').classList.remove('hidden');
 
             } catch (error) {
-                alert('Ocurrió un error de red. Verifique su conexión.');
+                alert('Error de conexión');
                 btn.disabled = false;
-                btn.innerText = 'REGISTRAR LOCAL';
             }
         });
     </script>
