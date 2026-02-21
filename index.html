@@ -4,7 +4,7 @@
     <meta charset="utf-8"/>
     <meta name="google" content="notranslate" />
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
-    <title>Login - Kilómetro Cero</title>
+    <title>Login Seguro - Kilómetro Cero</title>
     
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet"/>
@@ -18,8 +18,7 @@
                     colors: {
                         "km0-red": "#EC1313",
                         "km0-grey": "#8E8E8E",
-                        "brand-fuchsia": "#FF00FF",
-                        "background-dark": "#0A0A0A",
+                        "background-dark": "#000000",
                     },
                 },
             },
@@ -28,17 +27,10 @@
 
     <style type="text/tailwindcss">
         @layer base {
-            body { 
-                @apply bg-black text-white font-['Inter'] overflow-x-hidden; 
-                -webkit-tap-highlight-color: transparent;
-            }
+            body { @apply bg-black text-white font-['Inter'] overflow-x-hidden; -webkit-tap-highlight-color: transparent; }
         }
-        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24; }
-        
-        /* Evitar que el traductor de Google rompa el diseño */
-        .notranslate { translate: no; }
-        
-        /* Efecto de presión en botones */
+        input:focus { outline: none; box-shadow: none !important; }
+        .input-error { @apply border-km0-red bg-km0-red/10 !important; }
         .btn-active:active { transform: scale(0.96); transition: 0.1s; }
     </style>
 </head>
@@ -51,71 +43,95 @@
             <div class="w-48 h-48 mb-2 flex items-center justify-center">
                 <img src="logo trans.jpg" alt="Kilómetro Cero Logo" class="w-full h-full object-contain">
             </div>
-            <div class="text-center">
-                <p class="text-[10px] tracking-[0.5em] uppercase text-km0-grey font-bold">Entregas Eficientes</p>
-            </div>
+            <p class="text-[10px] tracking-[0.5em] uppercase text-km0-grey font-bold">Logistics Systems</p>
         </div>
 
         <div class="w-full space-y-4">
-            <div class="group">
-                <label class="text-[10px] font-bold uppercase tracking-widest text-km0-grey ml-1">Usuario / Email</label>
+            <div id="email-group">
+                <label class="text-[10px] font-bold uppercase tracking-widest text-km0-grey ml-1">Correo Corporativo</label>
                 <div class="relative mt-1">
-                    <input type="email" class="w-full bg-white/5 border-b-2 border-white/10 py-4 px-4 text-white focus:border-km0-red transition-all outline-none rounded-t-lg" placeholder="usuario@k0.com">
+                    <input id="email-input" type="email" autocomplete="email"
+                        class="w-full bg-white/5 border-b-2 border-white/10 py-4 px-4 text-white focus:border-km0-red transition-all rounded-t-lg" 
+                        placeholder="usuario@k0.com">
                 </div>
+                <p id="email-error" class="hidden text-[10px] text-km0-red mt-1 font-bold uppercase tracking-tighter italic">Formato de correo no válido o no autorizado</p>
             </div>
 
-            <div class="group">
+            <div>
                 <label class="text-[10px] font-bold uppercase tracking-widest text-km0-grey ml-1">Contraseña</label>
                 <div class="relative mt-1">
-                    <input type="password" class="w-full bg-white/5 border-b-2 border-white/10 py-4 px-4 text-white focus:border-km0-red transition-all outline-none rounded-t-lg" placeholder="••••••••">
+                    <input id="pass-input" type="password" 
+                        class="w-full bg-white/5 border-b-2 border-white/10 py-4 px-4 text-white focus:border-km0-red transition-all rounded-t-lg" 
+                        placeholder="••••••••">
                 </div>
             </div>
 
-            <button class="btn-active w-full bg-km0-red hover:bg-red-700 text-white py-4 font-black text-sm tracking-[0.2em] uppercase shadow-lg shadow-km0-red/20 mt-4">
-                ENTRAR AL SISTEMA
+            <button id="btn-entrar" class="btn-active w-full bg-km0-red text-white py-4 font-black text-sm tracking-[0.2em] uppercase shadow-lg shadow-km0-red/20 mt-4 transition-all">
+                ACCEDER
             </button>
-            
-            <div class="text-center">
-                <a href="#" class="text-[10px] text-km0-grey uppercase tracking-widest hover:text-white">¿Problemas de acceso?</a>
-            </div>
         </div>
 
         <div class="w-full mt-12 space-y-4">
-            <div class="bg-gradient-to-r from-brand-fuchsia/10 to-transparent border border-brand-fuchsia/30 p-5 rounded-xl flex items-center justify-between">
-                <div>
-                    <h3 class="text-[11px] font-black uppercase tracking-wider">¿Eres Comercio?</h3>
-                    <p class="text-[9px] text-km0-grey uppercase">Únete a la red 360</p>
-                </div>
-                <button class="btn-active px-4 py-2 bg-brand-fuchsia text-black font-black text-[10px] uppercase">Registrar</button>
-            </div>
-
             <div class="bg-white/5 border border-white/10 p-5 rounded-xl flex items-center justify-between">
-                <div>
-                    <h3 class="text-[11px] font-black uppercase tracking-wider text-white">¿Quieres ser Rider?</h3>
-                    <p class="text-[9px] text-km0-grey uppercase">Verificación requerida</p>
-                </div>
-                <button class="btn-active px-4 py-2 border border-km0-red text-km0-red font-black text-[10px] uppercase">Postular</button>
+                <h3 class="text-[11px] font-black uppercase">Registro Tienda</h3>
+                <button class="btn-active px-4 py-2 bg-white text-black font-black text-[10px] uppercase">Ir</button>
             </div>
         </div>
-
-        <footer class="mt-12 opacity-30">
-            <p class="text-[8px] tracking-[0.4em] uppercase font-bold text-km0-grey">Km0 Logistics v1.0</p>
-        </footer>
 
     </div>
 
     <script>
-        // Bloquear menú contextual para modo App
-        document.addEventListener('contextmenu', e => e.preventDefault());
-        
-        // Simulación de entrada
-        document.querySelector('.bg-km0-red').addEventListener('click', function() {
-            this.innerText = "ACCEDIENDO...";
+        const emailInput = document.getElementById('email-input');
+        const emailError = document.getElementById('email-error');
+        const btnEntrar = document.getElementById('btn-entrar');
+
+        // Función de Validación de Seguridad
+        function validarSeguridad(email) {
+            // Regex estándar para validación de email
+            const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            
+            // Verificación adicional: Evitar inyección de scripts básicos
+            if (email.includes('<') || email.includes('>') || email.includes('script')) {
+                return false;
+            }
+            
+            return regex.test(email);
+        }
+
+        btnEntrar.addEventListener('click', function() {
+            const emailValue = emailInput.value.trim();
+            
+            if (!validarSeguridad(emailValue)) {
+                // Mostrar error visual
+                emailInput.classList.add('input-error');
+                emailError.classList.remove('hidden');
+                
+                // Vibración de error (si el dispositivo lo soporta)
+                if (window.navigator.vibrate) window.navigator.vibrate(100);
+                
+                return;
+            }
+
+            // Si es válido, proceder
+            emailInput.classList.remove('input-error');
+            emailError.classList.add('hidden');
+            
+            this.innerText = "VERIFICANDO...";
+            this.classList.add('opacity-50', 'pointer-events-none');
+
             setTimeout(() => {
-                alert("Conectando con el servidor de Kilómetro Cero...");
-                // Aquí podrías poner: window.location.href = "dashboard.html";
-            }, 1000);
+                // Redirección al Dashboard
+                window.location.href = "index.html"; 
+            }, 1200);
         });
+
+        // Limpiar error al escribir
+        emailInput.addEventListener('input', () => {
+            emailInput.classList.remove('input-error');
+            emailError.classList.add('hidden');
+        });
+
+        document.addEventListener('contextmenu', e => e.preventDefault());
     </script>
 </body>
 </html>
