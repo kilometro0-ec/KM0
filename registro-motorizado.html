@@ -1,218 +1,166 @@
 <!DOCTYPE html>
-<html class="dark" lang="es">
+<html lang="es">
 <head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Kilómetro Cero - Registro Seguro</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700&display=swap" rel="stylesheet"/>
-    <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: { "primary": "#ec1313", "background-dark": "#121212" },
-                },
-            },
-        }
-    </script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KM0 - Registro Motorizados</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
-        .step-content { display: none; }
-        .step-content.active { display: block; animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        body { font-family: 'Inter', sans-serif; background-color: #000; color: white; min-height: 100dvh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        input, select { background: #111 !important; border: 1px solid #333 !important; color: white !important; transition: all 0.3s ease; }
+        input:focus, select:focus { border-color: #FF00FF !important; outline: none; box-shadow: 0 0 15px rgba(255, 0, 255, 0.2); }
+        .text-magenta { color: #FF00FF; }
+        .bg-magenta { background-color: #FF00FF; }
+        .hidden { display: none; }
+        
+        /* Estilo para los inputs de archivos */
+        input[type="file"]::file-selector-button {
+            background-color: #FF00FF;
+            color: black;
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 10px;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
     </style>
 </head>
-<body class="bg-slate-50 dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
+<body class="p-6">
 
-<header id="header-nav" class="sticky top-0 z-50 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md px-4 py-3 flex items-center justify-between border-b border-slate-200 dark:border-slate-800">
-    <button type="button" onclick="handleBack()" class="flex items-center text-primary">
-        <span class="material-symbols-outlined">chevron_left</span>
-        <span class="text-sm font-medium">Volver</span>
-    </button>
-    <h1 class="text-sm font-bold uppercase italic tracking-tighter">Registro Motorizado</h1>
-    <div class="w-10"></div>
-</header>
+    <div id="contenedorForm" class="w-full max-w-[420px]">
+        <header class="mb-8 text-center">
+            <h1 class="text-3xl font-black italic text-magenta uppercase tracking-tighter">Registro Motorizado</h1>
+            <p class="text-zinc-500 text-[10px] uppercase tracking-[0.3em] mt-2">Flota de Entrega KM0</p>
+        </header>
 
-<main class="max-w-md mx-auto px-6 py-8">
-    <form id="main-form">
-        <div id="step-1" class="step-content active space-y-6">
-            <div class="flex flex-col items-center mb-8">
-                <div class="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mb-4 border border-primary/20 shadow-xl">
-                    <span class="material-symbols-outlined text-primary text-5xl">shield_person</span>
-                </div>
-                <h2 class="text-2xl font-black italic uppercase tracking-tighter">Kilómetro Cero</h2>
-                <p class="text-primary text-[10px] font-black uppercase tracking-[0.3em]">Corporación 360</p>
-            </div>
-
+        <form id="formMotorizado" class="space-y-4">
             <div class="space-y-4">
-                <input id="nombre" required type="text" class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-xl py-4 px-4 text-sm font-medium" placeholder="Nombres Completos *">
-                <input id="email" required type="email" class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-xl py-4 px-4 text-sm font-medium" placeholder="Correo Electrónico *">
+                <input type="text" id="nombre" placeholder="NOMBRE COMPLETO" required class="w-full p-4 rounded-2xl text-sm">
                 
-                <div class="grid grid-cols-2 gap-3">
-                    <input id="cedula" required maxlength="10" type="tel" class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-xl py-4 px-4 text-sm font-medium" placeholder="Cédula (10 dígt) *">
-                    <div class="relative flex items-center">
-                        <span class="absolute left-3 text-sm font-bold text-slate-500">+593</span>
-                        <input id="tel" required maxlength="9" type="tel" class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-xl py-4 pl-14 pr-4 text-sm font-bold" placeholder="987654321">
-                    </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <input type="text" id="cedula" placeholder="CÉDULA" required pattern="[0-9]{10}" maxlength="10" class="w-full p-4 rounded-2xl text-sm">
+                    <input type="tel" id="telefono" placeholder="WHATSAPP (+593...)" required pattern="^\+593[0-9]{9}$" class="w-full p-4 rounded-2xl text-sm">
+                </div>
+                
+                <input type="email" id="correo" placeholder="CORREO ELECTRÓNICO" required class="w-full p-4 rounded-2xl text-sm">
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <select id="provincia" required class="p-4 rounded-2xl text-sm appearance-none">
+                    <option value="" disabled selected>PROVINCIA</option>
+                    <option value="Pichincha">Pichincha</option>
+                    <option value="Guayas">Guayas</option>
+                    <option value="Azuay">Azuay</option>
+                    <option value="Manabí">Manabí</option>
+                </select>
+                <input type="text" id="ciudad" placeholder="CIUDAD" required class="w-full p-4 rounded-2xl text-sm">
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <select id="vehiculo" required class="p-4 rounded-2xl text-sm appearance-none">
+                    <option value="Moto">MOTO</option>
+                    <option value="Auto">AUTO</option>
+                    <option value="Bicicleta">BICI</option>
+                </select>
+                <input type="text" id="placa" placeholder="PLACA (ABC-1234)" required class="w-full p-4 rounded-2xl text-sm uppercase">
+            </div>
+
+            <div class="space-y-4 border-t border-zinc-800 pt-4 mt-4">
+                <div>
+                    <label class="block text-[10px] font-bold text-magenta uppercase mb-2 ml-1">Foto de Perfil / Documento (JPG/PNG)</label>
+                    <input type="file" id="foto" accept="image/*" required class="w-full p-2 rounded-xl text-xs text-zinc-500">
                 </div>
 
-                <div class="grid grid-cols-2 gap-3">
-                    <input id="placa" required type="text" class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-xl py-4 px-4 text-sm font-bold uppercase" placeholder="Placa (IU-595T) *">
-                    <input id="marca" required type="text" class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-xl py-4 px-4 text-sm font-medium" placeholder="Marca Moto *">
+                <div>
+                    <label class="block text-[10px] font-bold text-magenta uppercase mb-2 ml-1">Video de Seguridad (Max 10MB)</label>
+                    <input type="file" id="video" accept="video/*" required class="w-full p-2 rounded-xl text-xs text-zinc-500">
                 </div>
             </div>
 
-            <button type="button" onclick="goToStep2()" class="w-full bg-primary text-white font-black py-5 rounded-2xl shadow-lg mt-6 flex items-center justify-center gap-2 uppercase italic transition-all active:scale-95">
-                SIGUIENTE PASO <span class="material-symbols-outlined">arrow_forward</span>
+            <button type="submit" id="btnEnviar" class="w-full bg-magenta text-black font-black py-5 rounded-2xl uppercase text-xs tracking-widest active:scale-95 transition-all shadow-lg shadow-magenta/30">
+                Registrar Motorizado
             </button>
-        </div>
+        </form>
+    </div>
 
-        <div id="step-2" class="step-content space-y-5">
-            <h3 class="text-xl font-black italic uppercase tracking-tighter text-primary">Verificación Biométrica</h3>
+    <div id="pantallaExito" class="hidden text-center max-w-[400px]">
+        <div class="w-20 h-20 bg-magenta/10 border-2 border-magenta rounded-full flex items-center justify-center shadow-[0_0_30px_#FF00FF] mx-auto mb-6">
+            <svg class="w-10 h-10 text-magenta" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+        </div>
+        <h2 class="text-3xl font-black uppercase text-white mb-4 italic">¡Subida Exitosa!</h2>
+        <p class="text-zinc-400 text-sm mb-8">Tus documentos y video están en revisión. Nos vemos pronto en la ruta.</p>
+        <button onclick="location.reload()" class="w-full border border-zinc-800 text-zinc-500 font-bold text-[10px] py-4 rounded-2xl uppercase tracking-[0.3em]">Nuevo Registro</button>
+    </div>
+
+    <script>
+        const URL_SCRIPT = 'AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2';
+
+        // Helper para convertir archivos a Base64
+        const toBase64 = file => new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+        });
+
+        document.getElementById('formMotorizado').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('btnEnviar');
             
-            <div class="p-6 bg-slate-100 dark:bg-white/5 rounded-3xl border border-slate-200 dark:border-white/10 flex flex-col items-center">
-                <div id="v-box" class="w-24 h-24 rounded-full border-4 border-primary flex items-center justify-center bg-white dark:bg-slate-900 mb-3 transition-colors">
-                    <span id="v-icon" class="material-symbols-outlined text-primary text-4xl">videocam</span>
-                </div>
-                <label class="w-full text-center">
-                    <span id="v-label" class="inline-block bg-primary text-white text-[11px] font-black px-8 py-2.5 rounded-full uppercase italic cursor-pointer">Grabar Video Selfie</span>
-                    <input type="file" accept="video/*" capture="user" class="hidden" required onchange="validateFile(this, 'v-label', 'v-box', 'v-icon')">
-                </label>
-            </div>
+            btn.disabled = true;
+            btn.innerText = 'PROCESANDO ARCHIVOS...';
 
-            <div class="space-y-3">
-                <p class="text-[10px] font-black uppercase text-slate-500 ml-1 tracking-widest">Fotos de Documentos (Ambos Lados)</p>
-                
-                <div class="grid grid-cols-2 gap-3">
-                    <label class="bg-white dark:bg-white/5 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 text-center cursor-pointer active:bg-green-50 transition-all">
-                        <span class="material-symbols-outlined text-primary mb-1">badge</span>
-                        <p id="st-ced-f" class="text-[9px] font-black uppercase">Cédula Frontal</p>
-                        <input type="file" accept="image/*" capture="environment" class="hidden" required onchange="validateFile(this, 'st-ced-f')">
-                    </label>
-                    <label class="bg-white dark:bg-white/5 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 text-center cursor-pointer active:bg-green-50 transition-all">
-                        <span class="material-symbols-outlined text-primary mb-1">badge</span>
-                        <p id="st-ced-p" class="text-[9px] font-black uppercase">Cédula Posterior</p>
-                        <input type="file" accept="image/*" capture="environment" class="hidden" required onchange="validateFile(this, 'st-ced-p')">
-                    </label>
-                </div>
+            try {
+                const fotoFile = document.getElementById('foto').files[0];
+                const videoFile = document.getElementById('video').files[0];
 
-                <div class="grid grid-cols-2 gap-3">
-                    <label class="bg-white dark:bg-white/5 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 text-center cursor-pointer active:bg-green-50 transition-all">
-                        <span class="material-symbols-outlined text-primary mb-1">license</span>
-                        <p id="st-lic-f" class="text-[9px] font-black uppercase">Licencia Frontal</p>
-                        <input type="file" accept="image/*" capture="environment" class="hidden" required onchange="validateFile(this, 'st-lic-f')">
-                    </label>
-                    <label class="bg-white dark:bg-white/5 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 text-center cursor-pointer active:bg-green-50 transition-all">
-                        <span class="material-symbols-outlined text-primary mb-1">license</span>
-                        <p id="st-lic-p" class="text-[9px] font-black uppercase">Licencia Posterior</p>
-                        <input type="file" accept="image/*" capture="environment" class="hidden" required onchange="validateFile(this, 'st-lic-p')">
-                    </label>
-                </div>
+                // Validación de tamaño básica (10MB aprox)
+                if (videoFile.size > 10 * 1024 * 1024) {
+                    alert("El video es muy pesado. Máximo 10MB.");
+                    btn.disabled = false;
+                    btn.innerText = 'REGISTRAR MOTORIZADO';
+                    return;
+                }
 
-                <div class="space-y-2 pt-2">
-                    <label class="flex items-center p-4 bg-white dark:bg-white/5 rounded-2xl border border-slate-200 dark:border-slate-800 cursor-pointer">
-                        <span class="material-symbols-outlined text-primary">lightbulb</span>
-                        <span class="ml-3 text-[10px] font-black uppercase flex-1">Planilla de Luz</span>
-                        <input type="file" accept=".pdf,image/*" class="hidden" required onchange="validateFile(this, 'st-luz')">
-                        <span id="st-luz" class="text-[9px] font-black text-slate-400">SUBIR</span>
-                    </label>
-                    <label class="flex items-center p-4 bg-white dark:bg-white/5 rounded-2xl border border-slate-200 dark:border-slate-800 cursor-pointer">
-                        <span class="material-symbols-outlined text-primary">gavel</span>
-                        <span class="ml-3 text-[10px] font-black uppercase flex-1">Antecedentes Penales</span>
-                        <input type="file" accept=".pdf,image/*" class="hidden" required onchange="validateFile(this, 'st-ant')">
-                        <span id="st-ant" class="text-[9px] font-black text-slate-400">SUBIR</span>
-                    </label>
-                    <label class="flex items-center p-4 bg-white dark:bg-white/5 rounded-2xl border border-slate-200 dark:border-slate-800 cursor-pointer">
-                        <span class="material-symbols-outlined text-primary">account_balance</span>
-                        <span class="ml-3 text-[10px] font-black uppercase flex-1">Certificado Bancario</span>
-                        <input type="file" accept=".pdf,image/*" class="hidden" required onchange="validateFile(this, 'st-bank')">
-                        <span id="st-bank" class="text-[9px] font-black text-slate-400">SUBIR</span>
-                    </label>
-                </div>
-            </div>
+                const fotoBase64 = await toBase64(fotoFile);
+                const videoBase64 = await toBase64(videoFile);
 
-            <button type="submit" class="w-full bg-primary text-white font-black py-5 rounded-2xl shadow-xl mt-4 uppercase italic transition-all active:scale-95">
-                FINALIZAR REGISTRO
-            </button>
-        </div>
+                const datos = {
+                    tipoRegistro: "motorizado",
+                    nombre: document.getElementById('nombre').value,
+                    cedula: document.getElementById('cedula').value,
+                    telefono: "'" + document.getElementById('telefono').value,
+                    correo: document.getElementById('correo').value,
+                    provincia: document.getElementById('provincia').value,
+                    ciudad: document.getElementById('ciudad').value,
+                    vehiculo: document.getElementById('vehiculo').value,
+                    placa: document.getElementById('placa').value.toUpperCase(),
+                    imagenBase64: fotoBase64,
+                    videoBase64: videoBase64
+                };
 
-        <div id="step-success" class="step-content text-center space-y-8 py-16">
-            <div class="w-28 h-28 bg-green-500/20 rounded-full flex items-center justify-center border-4 border-green-500 mx-auto animate-bounce">
-                <span class="material-symbols-outlined text-green-500 text-7xl">check</span>
-            </div>
-            <div class="space-y-2">
-                <h2 class="text-3xl font-black uppercase italic tracking-tighter">Registro con Éxito</h2>
-                <p class="text-slate-500 font-bold px-4 leading-tight uppercase text-[10px] tracking-widest">Corporación 360 / Kilómetro Cero</p>
-                <p class="text-sm font-medium pt-4 px-6 text-slate-600 dark:text-slate-400">Su documentación está en proceso de validación. Pronto nos comunicaremos con usted.</p>
-                <p class="text-[9px] text-slate-400 uppercase font-bold pt-4 italic">Cerrando aplicación en 8 segundos...</p>
-            </div>
-        </div>
-    </form>
-</main>
+                btn.innerText = 'ENVIANDO A KM0...';
 
-<script>
-    function validateFile(input, textId, boxId = null, iconId = null) {
-        if(input.files && input.files[0]) {
-            const label = document.getElementById(textId);
-            label.innerText = "LISTO ✅";
-            label.classList.add('text-green-500');
-            label.classList.remove('text-slate-400');
+                await fetch(URL_SCRIPT, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: JSON.stringify(datos)
+                });
 
-            if(boxId) {
-                const box = document.getElementById(boxId);
-                box.classList.add('bg-green-500/20', 'border-green-500');
+                document.getElementById('contenedorForm').classList.add('hidden');
+                document.getElementById('pantallaExito').classList.remove('hidden');
+
+            } catch (err) {
+                console.error(err);
+                alert("Error al subir los datos. Intente con un video más corto.");
+                btn.disabled = false;
+                btn.innerText = 'REGISTRAR MOTORIZADO';
             }
-            if(iconId) {
-                const icon = document.getElementById(iconId);
-                icon.innerText = "check_circle";
-                icon.classList.replace('text-primary', 'text-green-500');
-            }
-            input.closest('label').classList.add('border-green-500', 'bg-green-500/5');
-        }
-    }
-
-    function goToStep2() {
-        const cedula = document.getElementById('cedula').value;
-        const tel = document.getElementById('tel').value;
-        const placa = document.getElementById('placa').value;
-
-        if (cedula.length !== 10) { alert("La cédula debe tener 10 dígitos."); return; }
-        if (tel.length !== 9) { alert("Ingrese los 9 dígitos del celular después del +593."); return; }
-        if (!placa.includes('-')) { alert("Formato de placa inválido (Ej: IU-595T)."); return; }
-
-        document.getElementById('step-1').classList.remove('active');
-        document.getElementById('step-2').classList.add('active');
-        window.scrollTo(0,0);
-    }
-
-    document.getElementById('placa').addEventListener('input', (e) => {
-        let val = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
-        if (val.length > 2 && val.indexOf('-') === -1) val = val.slice(0, 2) + '-' + val.slice(2);
-        e.target.value = val;
-    });
-
-    document.getElementById('main-form').onsubmit = (e) => {
-        e.preventDefault();
-        document.getElementById('step-2').classList.remove('active');
-        document.getElementById('header-nav').classList.add('hidden');
-        document.getElementById('step-success').classList.add('active');
-        
-        // CIERRE AUTOMÁTICO EN 8 SEGUNDOS
-        setTimeout(() => {
-            window.location.href = "about:blank";
-            if(window.close) window.close();
-        }, 8000);
-    };
-
-    function handleBack() {
-        if(document.getElementById('step-2').classList.contains('active')) {
-            document.getElementById('step-2').classList.remove('active');
-            document.getElementById('step-1').classList.add('active');
-        } else { window.history.back(); }
-    }
-</script>
-
+        });
+    </script>
 </body>
 </html>
