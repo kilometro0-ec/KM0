@@ -1,1 +1,22 @@
+<script>
+    function manejarLogin() {
+        const u = document.getElementById('user').value;
+        const p = document.getElementById('pass').value;
 
+        // 1. SI ES EL ADMINISTRADOR
+        if (u === "1716001431" && p === "1716001431") {
+            window.location.href = "admin.html";
+        } 
+        // 2. SI ES UN MOTORIZADO (Ejemplo: moto123)
+        else if (u === "moto123" && p === "moto123") {
+            window.location.href = "panel_motorizado.html";
+        }
+        // 3. SI ES UNA TIENDA (Ejemplo: tienda123)
+        else if (u === "tienda123" && p === "tienda123") {
+            window.location.href = "panel_tienda.html";
+        }
+        else {
+            alert("Credenciales incorrectas");
+        }
+    }
+</script>
