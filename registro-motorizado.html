@@ -22,6 +22,7 @@
         .step-content { display: none; }
         .step-content.active { display: block; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        input:focus { ring: 2px solid #ec1313 !important; }
     </style>
 </head>
 <body class="bg-slate-50 dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
@@ -78,7 +79,7 @@
                 </div>
                 <label class="w-full text-center">
                     <span id="v-label" class="inline-block bg-primary text-white text-[11px] font-black px-8 py-2.5 rounded-full uppercase italic cursor-pointer">Grabar Video Selfie</span>
-                    <input type="file" accept="video/*" capture="user" class="hidden" required onchange="validateFile(this, 'v-label', 'v-box', 'v-icon')">
+                    <input type="file" id="video_file" accept="video/*" capture="user" class="hidden" required onchange="validateFile(this, 'v-label', 'v-box', 'v-icon')">
                 </label>
             </div>
 
@@ -133,7 +134,7 @@
                 </div>
             </div>
 
-            <button type="submit" class="w-full bg-primary text-white font-black py-5 rounded-2xl shadow-xl mt-4 uppercase italic transition-all active:scale-95">
+            <button type="submit" id="btn-finalizar" class="w-full bg-primary text-white font-black py-5 rounded-2xl shadow-xl mt-4 uppercase italic transition-all active:scale-95">
                 FINALIZAR REGISTRO
             </button>
         </div>
@@ -153,6 +154,18 @@
 </main>
 
 <script>
+    // URL DE TU SCRIPT DE GOOGLE
+    const URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec';
+
+    // Helper Base64
+    const toBase64 = file => new Promise((resolve, reject) => {
+        if (!file) resolve(null);
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+
     function validateFile(input, textId, boxId = null, iconId = null) {
         if(input.files && input.files[0]) {
             const label = document.getElementById(textId);
@@ -174,17 +187,33 @@
     }
 
     function goToStep2() {
-        const cedula = document.getElementById('cedula').value;
-        const tel = document.getElementById('tel').value;
-        const placa = document.getElementById('placa').value;
+        const campos = [
+            { id: 'nombre', msj: "Nombre incompleto" },
+            { id: 'email', msj: "Email requerido" },
+            { id: 'cedula', len: 10 },
+            { id: 'tel', len: 9 },
+            { id: 'placa', msj: "Placa requerida" },
+            { id: 'marca', msj: "Marca requerida" }
+        ];
 
-        if (cedula.length !== 10) { alert("La cédula debe tener 10 dígitos."); return; }
-        if (tel.length !== 9) { alert("Ingrese los 9 dígitos del celular después del +593."); return; }
-        if (!placa.includes('-')) { alert("Formato de placa inválido (Ej: IU-595T)."); return; }
+        let valido = true;
+        campos.forEach(c => {
+            const el = document.getElementById(c.id);
+            if (!el.value || (c.len && el.value.length !== c.len)) {
+                el.classList.add('ring-2', 'ring-primary', 'bg-red-50');
+                valido = false;
+            } else {
+                el.classList.remove('ring-2', 'ring-primary', 'bg-red-50');
+            }
+        });
 
-        document.getElementById('step-1').classList.remove('active');
-        document.getElementById('step-2').classList.add('active');
-        window.scrollTo(0,0);
+        if (valido) {
+            document.getElementById('step-1').classList.remove('active');
+            document.getElementById('step-2').classList.add('active');
+            window.scrollTo(0,0);
+        } else {
+            alert("Revise los campos marcados en rojo.");
+        }
     }
 
     document.getElementById('placa').addEventListener('input', (e) => {
@@ -193,17 +222,54 @@
         e.target.value = val;
     });
 
-    document.getElementById('main-form').onsubmit = (e) => {
+    document.getElementById('main-form').onsubmit = async (e) => {
         e.preventDefault();
-        document.getElementById('step-2').classList.remove('active');
-        document.getElementById('header-nav').classList.add('hidden');
-        document.getElementById('step-success').classList.add('active');
-        
-        // CIERRE AUTOMÁTICO EN 8 SEGUNDOS
-        setTimeout(() => {
-            window.location.href = "about:blank";
-            if(window.close) window.close();
-        }, 8000);
+        const btn = document.getElementById('btn-finalizar');
+        btn.disabled = true;
+        btn.innerText = "ENVIANDO EXPEDIENTE...";
+
+        try {
+            const f = document.querySelectorAll('input[type="file"]');
+            
+            const payload = {
+                tipoRegistro: "motorizado",
+                nombre: document.getElementById('nombre').value,
+                email: document.getElementById('email').value,
+                cedula: "'" + document.getElementById('cedula').value,
+                telefono: "'+593" + document.getElementById('tel').value,
+                placa: document.getElementById('placa').value,
+                marca: document.getElementById('marca').value,
+                
+                // Mapeo de archivos
+                videoBase64:       await toBase64(f[0].files[0]),
+                fotoCedulaFront:   await toBase64(f[1].files[0]),
+                fotoCedulaPost:    await toBase64(f[2].files[0]),
+                fotoLicenciaFront: await toBase64(f[3].files[0]),
+                fotoLicenciaPost:  await toBase64(f[4].files[0]),
+                fotoPlanilla:      await toBase64(f[5].files[0]),
+                fotoAntecedentes:  await toBase64(f[6].files[0]),
+                fotoBanco:         await toBase64(f[7].files[0])
+            };
+
+            await fetch(URL_SCRIPT, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: JSON.stringify(payload)
+            });
+
+            document.getElementById('step-2').classList.remove('active');
+            document.getElementById('header-nav').classList.add('hidden');
+            document.getElementById('step-success').classList.add('active');
+            
+            setTimeout(() => {
+                window.location.href = "about:blank";
+            }, 8000);
+
+        } catch (err) {
+            alert("Error de conexión. Intente nuevamente.");
+            btn.disabled = false;
+            btn.innerText = "FINALIZAR REGISTRO";
+        }
     };
 
     function handleBack() {
@@ -213,6 +279,5 @@
         } else { window.history.back(); }
     }
 </script>
-
 </body>
 </html>
