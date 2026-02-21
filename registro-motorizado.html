@@ -42,7 +42,7 @@
                 <div class="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mb-4 border border-primary/20 shadow-xl">
                     <span class="material-symbols-outlined text-primary text-5xl">shield_person</span>
                 </div>
-                <h2 class="text-2xl font-black italic uppercase italic tracking-tighter">Kilómetro Cero</h2>
+                <h2 class="text-2xl font-black italic uppercase tracking-tighter">Kilómetro Cero</h2>
                 <p class="text-primary text-[10px] font-black uppercase tracking-[0.3em]">Corporación 360</p>
             </div>
 
@@ -107,7 +107,7 @@
                     <label class="bg-white dark:bg-white/5 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 text-center cursor-pointer active:bg-green-50 transition-all">
                         <span class="material-symbols-outlined text-primary mb-1">license</span>
                         <p id="st-lic-p" class="text-[9px] font-black uppercase">Licencia Posterior</p>
-                        <input type="file" accept="image/*" capture="environment" class="hidden" required onchange="markList(this)">
+                        <input type="file" accept="image/*" capture="environment" class="hidden" required onchange="validateFile(this, 'st-lic-p')">
                     </label>
                 </div>
 
@@ -146,13 +146,13 @@
                 <h2 class="text-3xl font-black uppercase italic tracking-tighter">Registro con Éxito</h2>
                 <p class="text-slate-500 font-bold px-4 leading-tight uppercase text-[10px] tracking-widest">Corporación 360 / Kilómetro Cero</p>
                 <p class="text-sm font-medium pt-4 px-6 text-slate-600 dark:text-slate-400">Su documentación está en proceso de validación. Pronto nos comunicaremos con usted.</p>
+                <p class="text-[9px] text-slate-400 uppercase font-bold pt-4 italic">Cerrando aplicación en 8 segundos...</p>
             </div>
         </div>
     </form>
 </main>
 
 <script>
-    // Unificación de la lógica de marcado visual (VISTO VERDE)
     function validateFile(input, textId, boxId = null, iconId = null) {
         if(input.files && input.files[0]) {
             const label = document.getElementById(textId);
@@ -169,48 +169,41 @@
                 icon.innerText = "check_circle";
                 icon.classList.replace('text-primary', 'text-green-500');
             }
-            // Efecto visual en la tarjeta
             input.closest('label').classList.add('border-green-500', 'bg-green-500/5');
         }
     }
 
-    // Validación Paso 1
     function goToStep2() {
         const cedula = document.getElementById('cedula').value;
         const tel = document.getElementById('tel').value;
         const placa = document.getElementById('placa').value;
-        const nombre = document.getElementById('nombre').value;
-        const email = document.getElementById('email').value;
 
-        if (!nombre || !email) { alert("Complete sus datos personales."); return; }
         if (cedula.length !== 10) { alert("La cédula debe tener 10 dígitos."); return; }
         if (tel.length !== 9) { alert("Ingrese los 9 dígitos del celular después del +593."); return; }
-        if (!placa.includes('-') || placa.length < 6) { alert("Formato de placa inválido (Ej: IU-595T)."); return; }
+        if (!placa.includes('-')) { alert("Formato de placa inválido (Ej: IU-595T)."); return; }
 
         document.getElementById('step-1').classList.remove('active');
         document.getElementById('step-2').classList.add('active');
         window.scrollTo(0,0);
     }
 
-    // Formato Placa
     document.getElementById('placa').addEventListener('input', (e) => {
         let val = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
         if (val.length > 2 && val.indexOf('-') === -1) val = val.slice(0, 2) + '-' + val.slice(2);
         e.target.value = val;
     });
 
-    // Finalizar
     document.getElementById('main-form').onsubmit = (e) => {
         e.preventDefault();
         document.getElementById('step-2').classList.remove('active');
         document.getElementById('header-nav').classList.add('hidden');
         document.getElementById('step-success').classList.add('active');
         
-        // Simular cierre de app tras 5 segundos
+        // CIERRE AUTOMÁTICO EN 8 SEGUNDOS
         setTimeout(() => {
             window.location.href = "about:blank";
             if(window.close) window.close();
-        }, 5000);
+        }, 8000);
     };
 
     function handleBack() {
