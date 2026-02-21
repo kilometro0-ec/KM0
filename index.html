@@ -4,7 +4,7 @@
     <meta charset="utf-8"/>
     <meta name="google" content="notranslate" />
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
-    <title>Login Seguro - Kilómetro Cero</title>
+    <title>Login - Kilómetro Cero</title>
     
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet"/>
@@ -18,6 +18,7 @@
                     colors: {
                         "km0-red": "#EC1313",
                         "km0-grey": "#8E8E8E",
+                        "brand-fuchsia": "#FF00FF",
                         "background-dark": "#000000",
                     },
                 },
@@ -27,7 +28,10 @@
 
     <style type="text/tailwindcss">
         @layer base {
-            body { @apply bg-black text-white font-['Inter'] overflow-x-hidden; -webkit-tap-highlight-color: transparent; }
+            body { 
+                @apply bg-black text-white font-['Inter'] overflow-x-hidden; 
+                -webkit-tap-highlight-color: transparent;
+            }
         }
         input:focus { outline: none; box-shadow: none !important; }
         .input-error { @apply border-km0-red bg-km0-red/10 !important; }
@@ -41,78 +45,97 @@
         
         <div class="mb-8 flex flex-col items-center">
             <div class="w-48 h-48 mb-2 flex items-center justify-center">
-                <img src="logo trans.jpg" alt="Kilómetro Cero Logo" class="w-full h-full object-contain">
+                <img src="logo-trans.png" alt="Kilómetro Cero Logo" class="w-full h-full object-contain">
             </div>
-            <p class="text-[10px] tracking-[0.5em] uppercase text-km0-grey font-bold">Logistics Systems</p>
+            <div class="text-center">
+                <p class="text-[10px] tracking-[0.5em] uppercase text-km0-grey font-bold">Logistics Systems</p>
+            </div>
         </div>
 
         <div class="w-full space-y-4">
             <div id="email-group">
-                <label class="text-[10px] font-bold uppercase tracking-widest text-km0-grey ml-1">Correo Corporativo</label>
+                <label class="text-[10px] font-bold uppercase tracking-widest text-km0-grey ml-1">Correo Electrónico</label>
                 <div class="relative mt-1">
-                    <input id="email-input" type="email" autocomplete="email"
-                        class="w-full bg-white/5 border-b-2 border-white/10 py-4 px-4 text-white focus:border-km0-red transition-all rounded-t-lg" 
+                    <input id="email-input" type="email" 
+                        class="w-full bg-white/5 border-b-2 border-white/10 py-4 px-4 text-white focus:border-km0-red transition-all outline-none rounded-t-lg" 
                         placeholder="usuario@k0.com">
                 </div>
-                <p id="email-error" class="hidden text-[10px] text-km0-red mt-1 font-bold uppercase tracking-tighter italic">Formato de correo no válido o no autorizado</p>
+                <p id="email-error" class="hidden text-[10px] text-km0-red mt-1 font-bold uppercase tracking-tighter italic">Correo no válido o sospechoso</p>
             </div>
 
-            <div>
+            <div class="group">
                 <label class="text-[10px] font-bold uppercase tracking-widest text-km0-grey ml-1">Contraseña</label>
                 <div class="relative mt-1">
                     <input id="pass-input" type="password" 
-                        class="w-full bg-white/5 border-b-2 border-white/10 py-4 px-4 text-white focus:border-km0-red transition-all rounded-t-lg" 
+                        class="w-full bg-white/5 border-b-2 border-white/10 py-4 px-4 text-white focus:border-km0-red transition-all outline-none rounded-t-lg" 
                         placeholder="••••••••">
                 </div>
             </div>
 
-            <button id="btn-entrar" class="btn-active w-full bg-km0-red text-white py-4 font-black text-sm tracking-[0.2em] uppercase shadow-lg shadow-km0-red/20 mt-4 transition-all">
-                ACCEDER
+            <button id="btn-login" class="btn-active w-full bg-km0-red text-white py-4 font-black text-sm tracking-[0.2em] uppercase shadow-lg shadow-km0-red/20 mt-4">
+                INICIAR SESIÓN
             </button>
-        </div>
-
-        <div class="w-full mt-12 space-y-4">
-            <div class="bg-white/5 border border-white/10 p-5 rounded-xl flex items-center justify-between">
-                <h3 class="text-[11px] font-black uppercase">Registro Tienda</h3>
-                <button class="btn-active px-4 py-2 bg-white text-black font-black text-[10px] uppercase">Ir</button>
+            
+            <div class="flex flex-col gap-2 items-center">
+                <a href="#" class="text-[10px] text-km0-grey uppercase tracking-widest hover:text-white transition-colors">¿Olvidaste tu contraseña?</a>
+                <a href="#" class="text-[10px] text-km0-grey uppercase tracking-widest hover:text-white transition-colors">Recuperar Usuario</a>
             </div>
         </div>
 
+        <div class="w-full mt-10 space-y-4">
+            <div class="relative group">
+                <div class="absolute -inset-0.5 bg-brand-fuchsia opacity-20 blur rounded transition duration-500"></div>
+                <div class="relative bg-black border border-brand-fuchsia/40 p-5 flex flex-col items-center text-center space-y-3">
+                    <div class="flex items-center space-x-2">
+                        <span class="material-symbols-outlined text-brand-fuchsia text-xl">storefront</span>
+                        <h3 class="text-xs font-black uppercase tracking-[0.2em] text-white">¿Eres un comercio?</h3>
+                    </div>
+                    <button class="btn-active w-full py-3.5 bg-brand-fuchsia text-black font-black text-xs tracking-[0.15em] uppercase shadow-[0_0_20px_rgba(255,0,255,0.3)]">
+                        Registra tu Tienda aquí
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-zinc-900/40 border border-zinc-800 p-5 flex flex-col items-center text-center space-y-3">
+                <div class="flex flex-col items-center">
+                    <h3 class="text-[11px] font-bold uppercase tracking-widest text-zinc-300 mb-1">¿Quieres ser parte del equipo?</h3>
+                    <p class="text-[9px] text-zinc-600 leading-tight uppercase tracking-normal">
+                        Verificación por video y antecedentes requerida
+                    </p>
+                </div>
+                <button class="btn-active w-full py-3 bg-transparent border border-km0-red/60 text-km0-red font-bold text-[11px] tracking-[0.15em] uppercase hover:bg-km0-red/10 transition-all text-center">
+                    Regístrate como Motorizado
+                </button>
+            </div>
+        </div>
+
+        <footer class="mt-10 pb-6 opacity-30">
+            <p class="text-[9px] text-zinc-800 uppercase tracking-[0.3em] font-medium">Logistics & Identity</p>
+        </footer>
     </div>
 
     <script>
         const emailInput = document.getElementById('email-input');
         const emailError = document.getElementById('email-error');
-        const btnEntrar = document.getElementById('btn-entrar');
+        const btnLogin = document.getElementById('btn-login');
 
-        // Función de Validación de Seguridad
-        function validarSeguridad(email) {
-            // Regex estándar para validación de email
+        // Validación de Seguridad
+        function esEmailValido(email) {
             const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-            
-            // Verificación adicional: Evitar inyección de scripts básicos
-            if (email.includes('<') || email.includes('>') || email.includes('script')) {
-                return false;
-            }
-            
-            return regex.test(email);
+            const contieneScripts = email.includes('<') || email.includes('>') || email.includes('script');
+            return regex.test(email) && !contieneScripts;
         }
 
-        btnEntrar.addEventListener('click', function() {
-            const emailValue = emailInput.value.trim();
+        btnLogin.addEventListener('click', function() {
+            const email = emailInput.value.trim();
             
-            if (!validarSeguridad(emailValue)) {
-                // Mostrar error visual
+            if (!esEmailValido(email)) {
                 emailInput.classList.add('input-error');
                 emailError.classList.remove('hidden');
-                
-                // Vibración de error (si el dispositivo lo soporta)
                 if (window.navigator.vibrate) window.navigator.vibrate(100);
-                
                 return;
             }
 
-            // Si es válido, proceder
             emailInput.classList.remove('input-error');
             emailError.classList.add('hidden');
             
@@ -120,7 +143,7 @@
             this.classList.add('opacity-50', 'pointer-events-none');
 
             setTimeout(() => {
-                // Redirección al Dashboard
+                // Aquí rediriges a tu index.html principal
                 window.location.href = "index.html"; 
             }, 1200);
         });
