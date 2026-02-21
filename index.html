@@ -8,51 +8,65 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700&display=swap" rel="stylesheet"/>
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #000000; color: white; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #000000; 
+            color: white; 
+        }
+        /* Ajuste fino para bordes muy redondeados como en apps modernas */
+        .rounded-panel { border-radius: 1.5rem; }
     </style>
 </head>
 <body class="flex flex-col items-center justify-center p-6 min-h-screen">
     <div class="w-full max-w-[360px] flex flex-col items-center">
         
-        <div class="mb-12 text-center">
-            <div class="w-24 h-24 bg-[#EC1313] rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-[0_0_20px_rgba(236,19,19,0.3)]">
-                <span class="material-symbols-outlined text-white text-6xl">motorcycle</span>
+        <div class="mb-10 flex flex-col items-center text-center">
+            <div class="w-24 h-24 mb-4 flex items-center justify-center">
+                <svg class="w-full h-full" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M50 85C50 85 25 70 20 45C15 20 30 15 40 25C40 25 45 10 50 10C55 10 60 25 60 25C70 15 85 20 80 45C75 70 50 85 50 85Z" fill="#EC1313"></path>
+                    <path d="M50 85C50 85 65 76 72 60C76 50 78 40 76 30C75 25 72 22 70 23C65 25 60 30 60 35L50 40L40 35C40 30 35 25 30 23C28 22 25 25 24 30C22 40 24 50 28 60C35 76 50 85 50 85Z" fill="#8E8E8E" opacity="0.4"></path>
+                </svg>
             </div>
-            <h1 class="text-3xl font-black uppercase italic tracking-tighter">Kilómetro</h1>
-            <h2 class="text-lg font-black uppercase tracking-[0.4em] text-[#EC1313]">Cero</h2>
+            <h1 class="text-[32px] font-[900] tracking-[-0.05em] uppercase leading-none">Kilómetro</h1>
+            <h2 class="text-[20px] font-[800] tracking-[0.4em] uppercase text-[#EC1313] mt-1 pl-[0.4em]">Cero</h2>
         </div>
 
-        <div class="w-full space-y-3 mb-10 text-center">
-            <button onclick="window.location.href='login.html'" class="w-full bg-[#EC1313] hover:bg-red-700 text-white py-5 px-6 font-black text-sm tracking-[0.2em] transition-all active:scale-95 uppercase">
+        <div class="w-full mb-12 text-center">
+            <button onclick="window.location.href='login.html'" class="w-full bg-[#EC1313] hover:bg-red-700 text-white py-5 rounded-xl font-black text-sm tracking-[0.2em] transition-all active:scale-95 uppercase shadow-lg shadow-red-900/20">
                 Iniciar Sesión
             </button>
-            <a href="#" class="text-[10px] text-zinc-500 uppercase tracking-widest hover:text-white">¿Olvidaste tu contraseña?</a>
+            <p class="mt-4">
+                <a href="#" class="text-[10px] text-zinc-500 uppercase tracking-widest hover:text-white">¿Olvidaste tu contraseña?</a>
+            </p>
         </div>
 
         <div class="w-full mb-6">
-            <div class="relative bg-black border border-[#FF00FF]/40 p-6 flex flex-col items-center text-center space-y-4">
+            <div class="bg-black border border-[#FF00FF]/40 p-6 rounded-3xl flex flex-col items-center text-center space-y-4 shadow-[0_0_15px_rgba(255,0,255,0.1)]">
                 <div class="flex items-center space-x-2">
                     <span class="material-symbols-outlined text-[#FF00FF]">storefront</span>
                     <h3 class="text-xs font-black uppercase tracking-[0.2em]">¿Eres un comercio?</h3>
                 </div>
-                <a href="registro_tienda.html" class="w-full py-4 bg-[#FF00FF] text-black font-black text-xs tracking-[0.15em] uppercase text-center shadow-[0_0_15px_rgba(255,0,255,0.4)] active:scale-95 transition-transform">
+                <button onclick="window.location.href='registro_tienda.html'" class="w-full py-4 bg-[#FF00FF] text-black font-black text-xs tracking-[0.15em] uppercase rounded-xl shadow-[0_4px_15px_rgba(255,0,255,0.3)] active:scale-95 transition-all">
                     Registra tu Tienda aquí
-                </a>
+                </button>
             </div>
         </div>
 
         <div class="w-full">
-            <div class="bg-zinc-900/40 border border-zinc-800 p-6 flex flex-col items-center text-center space-y-4">
+            <div class="bg-zinc-900/20 border border-zinc-800 p-6 rounded-3xl flex flex-col items-center text-center space-y-4">
                 <div class="flex flex-col items-center">
                     <h3 class="text-[11px] font-bold uppercase tracking-widest text-zinc-300 mb-1">¿Quieres ser parte del equipo?</h3>
-                    <p class="text-[9px] text-zinc-600 uppercase tracking-widest italic">Verificación por video y antecedentes requerida</p>
+                    <p class="text-[9px] text-zinc-600 uppercase tracking-widest">Verificación por video y antecedentes requerida</p>
                 </div>
-                <a href="registro_motorizado.html" class="w-full py-4 border border-[#EC1313] text-[#EC1313] font-bold text-[11px] tracking-[0.2em] uppercase text-center hover:bg-[#EC1313]/10 active:scale-95 transition-all">
+                <button onclick="window.location.href='registro_motorizado.html'" class="w-full py-4 border border-[#EC1313]/60 text-[#EC1313] font-bold text-[11px] tracking-[0.2em] uppercase rounded-xl hover:bg-[#EC1313]/10 active:scale-95 transition-all">
                     Regístrate como Motorizado
-                </a>
+                </button>
             </div>
         </div>
 
+        <div class="mt-12 opacity-30">
+            <p class="text-[9px] uppercase tracking-[0.5em]">Logistics & Identity</p>
+        </div>
     </div>
 </body>
 </html>
