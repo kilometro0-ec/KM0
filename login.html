@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Kilómetro Cero - Login</title>
+    <title>KM0 - Iniciar Sesión</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
@@ -36,19 +36,19 @@
             box-shadow: 0 0 0 2px #EC1313 !important;
             background-color: #000000 !important;
         }
+        /* Asegura centrado absoluto del logo si hay espacios extra */
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     </style>
 </head>
 <body class="bg-black text-white flex flex-col min-h-screen items-center justify-center p-8">
     
     <div class="w-full max-w-[340px] flex flex-col items-center">
-        <div class="mb-10 flex flex-col items-center">
-            <div class="w-32 h-32 mb-4 flex items-center justify-center">
-                <img src="logo-trans.png" alt="Logo KM0" class="w-full h-full object-contain">
-            </div>
-            <div class="text-center">
-                <h1 class="text-[32px] font-[900] tracking-[-0.05em] uppercase leading-none italic text-white">Kilómetro</h1>
-                <h2 class="text-[20px] font-[800] tracking-[0.4em] uppercase text-primary mt-1 pl-[0.4em]">Cero</h2>
-            </div>
+        <div class="mb-12 logo-container w-full">
+            <img src="logo-trans.png" alt="Logo KM0" class="w-48 h-48 object-contain">
         </div>
 
         <div class="w-full space-y-5">
@@ -97,10 +97,8 @@
             const ADMIN_KEY = "1716001431";
 
             if (u === ADMIN_KEY && p === ADMIN_KEY) {
-                // ACCESO ADMIN
                 window.location.href = "admin.html";
             } else if (u !== "" && p !== "") {
-                // ACCESO USUARIO COMÚN (Aquí conectarás tu base de datos después)
                 alert("Validando credenciales de usuario...");
             } else {
                 alert("Por favor ingrese sus datos.");
