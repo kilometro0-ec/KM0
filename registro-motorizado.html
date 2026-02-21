@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
-    <title>Registro Motorizado - Kilómetro Cero</title>
+    <title>Kilómetro Cero - Registro Motorizado</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700&display=swap" rel="stylesheet"/>
@@ -27,185 +27,239 @@
         .step-content { display: none; }
         .step-content.active { display: block; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen font-display pb-10">
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col font-display">
 
-<div class="sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md px-4 py-3 flex items-center justify-between border-b border-slate-200 dark:border-slate-800">
-    <button onclick="window.history.back()" class="flex items-center text-primary">
-        <span class="material-symbols-outlined">chevron_left</span>
-        <span class="text-sm font-medium">Volver</span>
+<header class="sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-slate-200 dark:border-white/10 px-4 py-3 flex items-center justify-between">
+    <button onclick="handleBack()" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-200 dark:hover:bg-white/10 transition-colors">
+        <span class="material-symbols-outlined">arrow_back_ios_new</span>
     </button>
-    <h1 class="text-sm font-semibold tracking-tight uppercase">Registro Motorizado</h1>
-    <div class="w-10"></div>
-</div>
-
-<main class="max-w-md mx-auto px-6 py-8">
-    
-    <div class="flex flex-col items-center mb-8">
-        <div class="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mb-4 border border-primary/20">
-            <span class="material-symbols-outlined text-primary text-5xl" style="font-variation-settings: 'FILL' 1">shield_person</span>
-        </div>
-        <h2 class="text-2xl font-bold text-center">Kilómetro Cero</h2>
-        <p class="text-slate-500 dark:text-slate-400 text-sm text-center mt-2 font-medium italic">"Entregas eficientes para un mundo conectado"</p>
-        <p class="text-primary text-[10px] font-black uppercase tracking-[0.3em] mt-1">Mensajería y Envíos de Alta Seguridad</p>
+    <div class="text-center">
+        <h1 class="text-sm font-bold uppercase tracking-widest text-primary">Kilómetro Cero</h1>
+        <p id="header-subtitle" class="text-xs text-slate-500 dark:text-slate-400 font-medium">Registro de Mensajero</p>
     </div>
+    <button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-200 dark:hover:bg-white/10 transition-colors">
+        <span class="material-symbols-outlined">help_outline</span>
+    </button>
+</header>
 
+<main class="flex-1 px-4 py-6 max-w-md mx-auto w-full">
     <div class="mb-8">
         <div class="flex justify-between items-end mb-2">
-            <span id="step-title" class="text-primary text-xs font-bold uppercase tracking-wider">Paso 1: Datos y Vehículo</span>
-            <span id="step-number" class="text-slate-400 text-xs font-medium">1 de 2</span>
+            <div>
+                <h2 id="step-title-text" class="text-2xl font-bold">Paso 1 de 2</h2>
+                <p id="step-desc-text" class="text-slate-500 dark:text-slate-400 text-sm">Datos Personales y Vehículo</p>
+            </div>
+            <span id="progress-percent" class="text-primary font-bold text-sm">35%</span>
         </div>
-        <div class="h-1.5 w-full bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
-            <div id="step-bar" class="h-full bg-primary w-1/2 transition-all duration-500 rounded-full"></div>
+        <div class="h-2 w-full bg-slate-200 dark:bg-white/10 rounded-full overflow-hidden">
+            <div id="progress-bar" class="h-full bg-primary rounded-full transition-all duration-500" style="width: 35%;"></div>
         </div>
     </div>
 
-    <form id="reg-motorizado">
-        <div id="content-step-1" class="step-content active space-y-6">
-            <div class="border-l-4 border-primary pl-3 py-1">
-                <h3 class="text-lg font-bold italic uppercase tracking-tighter">Información Personal</h3>
-            </div>
-            
+    <form id="main-form" class="pb-24">
+        <div id="step-1" class="step-content active space-y-6">
+            <section class="flex flex-col items-center mb-8">
+                <div class="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mb-4 border border-primary/20">
+                    <span class="material-symbols-outlined text-primary text-5xl" style="font-variation-settings: 'FILL' 1">shield_person</span>
+                </div>
+                <h3 class="text-xl font-bold italic">Mensajería de Alta Seguridad</h3>
+            </section>
+
             <div class="space-y-4">
                 <div>
-                    <label class="block text-[10px] font-bold uppercase text-slate-500 mb-1 ml-1">Nombres Completos</label>
-                    <input id="moto-nombre" required type="text" class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm" placeholder="Ej: Juan Pérez">
+                    <label class="block text-[10px] font-bold uppercase text-slate-500 mb-1 ml-1">Nombre Completo *</label>
+                    <input id="nombre" required type="text" class="w-full bg-slate-100 dark:bg-white/5 border-none rounded-xl py-4 px-4 focus:ring-2 focus:ring-primary text-sm" placeholder="Ej: Juan Pérez">
                 </div>
-
+                <div>
+                    <label class="block text-[10px] font-bold uppercase text-slate-500 mb-1 ml-1">Correo Electrónico *</label>
+                    <input id="email" required type="email" class="w-full bg-slate-100 dark:bg-white/5 border-none rounded-xl py-4 px-4 focus:ring-2 focus:ring-primary text-sm" placeholder="correo@ejemplo.com">
+                </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-[10px] font-bold uppercase text-slate-500 mb-1 ml-1">Cédula (10 dígitos)</label>
-                        <input id="moto-cedula" required maxlength="10" type="text" class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm" placeholder="0000000000">
+                        <label class="block text-[10px] font-bold uppercase text-slate-500 mb-1 ml-1">Cédula *</label>
+                        <input id="cedula" required maxlength="10" type="text" class="w-full bg-slate-100 dark:bg-white/5 border-none rounded-xl py-4 px-4 focus:ring-2 focus:ring-primary text-sm" placeholder="10 dígitos">
                     </div>
                     <div>
-                        <label class="block text-[10px] font-bold uppercase text-slate-500 mb-1 ml-1">Teléfono Móvil</label>
+                        <label class="block text-[10px] font-bold uppercase text-slate-500 mb-1 ml-1">Teléfono *</label>
                         <div class="relative">
                             <span class="absolute left-3 top-1/2 -translate-y-1/2 text-primary font-bold text-xs">+593</span>
-                            <input id="moto-tel" required maxlength="9" type="tel" class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-lg py-3 pl-12 pr-2 focus:ring-2 focus:ring-primary text-sm" placeholder="987654321">
+                            <input id="tel" required maxlength="9" type="tel" class="w-full bg-slate-100 dark:bg-white/5 border-none rounded-xl py-4 pl-12 pr-2 focus:ring-2 focus:ring-primary text-sm" placeholder="987654321">
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="border-l-4 border-slate-600 pl-3 py-1 mt-8">
-                <h3 class="text-lg font-bold italic uppercase tracking-tighter text-slate-400">Detalles del Vehículo</h3>
-            </div>
-            
-            <div class="space-y-4">
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-[10px] font-bold uppercase text-slate-500 mb-1 ml-1">Placa (Ej: IU-595T)</label>
-                        <input id="moto-placa" required type="text" maxlength="8" class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm uppercase" placeholder="XX-000X">
+                        <label class="block text-[10px] font-bold uppercase text-slate-500 mb-1 ml-1">Placa Moto *</label>
+                        <input id="placa" required type="text" class="w-full bg-slate-100 dark:bg-white/5 border-none rounded-xl py-4 px-4 focus:ring-2 focus:ring-primary text-sm uppercase" placeholder="IU-595T">
                     </div>
                     <div>
-                        <label class="block text-[10px] font-bold uppercase text-slate-500 mb-1 ml-1">Marca</label>
-                        <input id="moto-marca" required type="text" class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm" placeholder="Ej: Yamaha">
+                        <label class="block text-[10px] font-bold uppercase text-slate-500 mb-1 ml-1">Marca *</label>
+                        <input id="marca" required type="text" class="w-full bg-slate-100 dark:bg-white/5 border-none rounded-xl py-4 px-4 focus:ring-2 focus:ring-primary text-sm" placeholder="Ej: Yamaha">
                     </div>
-                </div>
-                <div>
-                    <label class="block text-[10px] font-bold uppercase text-slate-500 mb-1 ml-1">Modelo / Año</label>
-                    <input required type="text" class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm" placeholder="Ej: FZ-25 2024">
                 </div>
             </div>
 
-            <button type="button" onclick="goToStep(2)" class="w-full bg-primary text-white font-black py-4 rounded-xl shadow-lg mt-6 flex items-center justify-center gap-2 uppercase tracking-widest text-sm active:scale-95 transition-all">
-                Continuar al Paso 2
+            <button type="button" onclick="goToStep2()" class="w-full bg-primary text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/20 flex items-center justify-center gap-2 mt-8 active:scale-95 transition-all">
+                CONTINUAR AL PASO 2
                 <span class="material-symbols-outlined">arrow_forward</span>
             </button>
         </div>
 
-        <div id="content-step-2" class="step-content space-y-6">
-            <div class="border-l-4 border-primary pl-3 py-1">
-                <h3 class="text-lg font-bold italic uppercase tracking-tighter">Documentos Digitales</h3>
-                <p class="text-[10px] text-slate-500 font-bold uppercase">Carga de archivos requerida para activación</p>
-            </div>
+        <div id="step-2" class="step-content space-y-6">
+            <section class="p-6 rounded-xl bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 flex flex-col items-center">
+                <div class="mb-4 text-center">
+                    <h3 class="font-bold text-lg">Validación Biométrica</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Siga las instrucciones para el video selfie</p>
+                </div>
+                <div class="relative w-40 h-40 rounded-full border-4 border-primary p-1 mb-4 overflow-hidden shadow-lg shadow-primary/20">
+                    <div class="w-full h-full rounded-full bg-slate-800 flex items-center justify-center overflow-hidden">
+                        <img class="w-full h-full object-cover opacity-60 grayscale" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="Biometric"/>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="w-24 h-32 border-2 border-white/50 rounded-[50%] animate-pulse"></div>
+                        </div>
+                    </div>
+                    <div class="absolute bottom-2 right-2 bg-primary text-white text-[10px] px-2 py-0.5 rounded-full font-bold animate-pulse">REC</div>
+                </div>
+                <button type="button" class="w-full bg-primary text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined">videocam</span> Grabar Video Selfie
+                </button>
+                <p class="text-[10px] text-slate-400 mt-3 text-center uppercase">🔒 Encriptación activa</p>
+            </section>
 
             <div class="space-y-4">
-                <div class="bg-slate-100 dark:bg-slate-800 p-6 rounded-2xl border-2 border-dashed border-slate-700 text-center">
-                    <label class="cursor-pointer block">
-                        <span class="material-symbols-outlined text-primary text-4xl mb-2">add_a_photo</span>
-                        <p class="text-xs font-bold uppercase">Foto de Cédula Frontal</p>
-                        <input type="file" accept="image/*" class="hidden" required>
-                    </label>
+                <h3 class="font-bold text-lg px-1 text-primary italic uppercase tracking-tighter">Carga de Documentos Obligatorios</h3>
+                
+                <div class="document-item flex items-center p-4 bg-white dark:bg-white/5 rounded-xl border border-slate-200 dark:border-white/10">
+                    <span class="material-symbols-outlined text-primary text-3xl">badge</span>
+                    <div class="ml-4 flex-1">
+                        <h4 class="font-bold text-sm">Cédula de Identidad</h4>
+                        <p class="text-[10px] text-slate-500 uppercase">Ambos lados legibles</p>
+                    </div>
+                    <input type="file" id="file-cedula" class="hidden" required>
+                    <button type="button" onclick="document.getElementById('file-cedula').click()" class="px-4 py-2 bg-slate-100 dark:bg-white/10 rounded-lg text-xs font-bold hover:bg-primary hover:text-white transition-all">SUBIR</button>
                 </div>
 
-                <div class="bg-slate-100 dark:bg-slate-800 p-6 rounded-2xl border-2 border-dashed border-slate-700 text-center">
-                    <label class="cursor-pointer block">
-                        <span class="material-symbols-outlined text-primary text-4xl mb-2">license</span>
-                        <p class="text-xs font-bold uppercase">Foto de Licencia</p>
-                        <input type="file" accept="image/*" class="hidden" required>
-                    </label>
+                <div class="document-item flex items-center p-4 bg-white dark:bg-white/5 rounded-xl border border-slate-200 dark:border-white/10">
+                    <span class="material-symbols-outlined text-primary text-3xl">license</span>
+                    <div class="ml-4 flex-1">
+                        <h4 class="font-bold text-sm">Licencia de Conducir</h4>
+                        <p class="text-[10px] text-slate-500 uppercase">Tipo A o B vigente</p>
+                    </div>
+                    <input type="file" id="file-licencia" class="hidden" required>
+                    <button type="button" onclick="document.getElementById('file-licencia').click()" class="px-4 py-2 bg-slate-100 dark:bg-white/10 rounded-lg text-xs font-bold hover:bg-primary hover:text-white transition-all">SUBIR</button>
                 </div>
 
-                <div>
-                    <label class="block text-[10px] font-bold uppercase text-slate-500 mb-1 ml-1">Correo Electrónico (Para usuario)</label>
-                    <input required type="email" class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary text-sm" placeholder="moto@k0.com">
+                <div class="document-item flex items-center p-4 bg-white dark:bg-white/5 rounded-xl border border-slate-200 dark:border-white/10">
+                    <span class="material-symbols-outlined text-primary text-3xl">two_wheeler</span>
+                    <div class="ml-4 flex-1">
+                        <h4 class="font-bold text-sm">Matrícula Vehicular</h4>
+                        <p class="text-[10px] text-slate-500 uppercase">Año en curso</p>
+                    </div>
+                    <input type="file" id="file-matricula" class="hidden" required>
+                    <button type="button" onclick="document.getElementById('file-matricula').click()" class="px-4 py-2 bg-slate-100 dark:bg-white/10 rounded-lg text-xs font-bold hover:bg-primary hover:text-white transition-all">SUBIR</button>
+                </div>
+
+                <div class="document-item flex items-center p-4 bg-white dark:bg-white/5 rounded-xl border border-slate-200 dark:border-white/10">
+                    <span class="material-symbols-outlined text-primary text-3xl">gavel</span>
+                    <div class="ml-4 flex-1">
+                        <h4 class="font-bold text-sm">Antecedentes Penales</h4>
+                        <p class="text-[10px] text-slate-500 uppercase">Certificado Oficial</p>
+                    </div>
+                    <input type="file" id="file-antecedentes" class="hidden" required>
+                    <button type="button" onclick="document.getElementById('file-antecedentes').click()" class="px-4 py-2 bg-slate-100 dark:bg-white/10 rounded-lg text-xs font-bold hover:bg-primary hover:text-white transition-all">SUBIR</button>
                 </div>
             </div>
 
-            <div class="flex gap-3 mt-8">
-                <button type="button" onclick="goToStep(1)" class="flex-1 bg-slate-200 dark:bg-slate-700 text-slate-500 font-black py-4 rounded-xl text-xs uppercase italic transition-all active:scale-95">Atrás</button>
-                <button type="submit" class="flex-[2] bg-primary text-white font-black py-4 rounded-xl shadow-lg text-xs uppercase tracking-widest italic transition-all active:scale-95">Finalizar Registro</button>
-            </div>
+            <p class="text-[9px] text-slate-500 text-center mt-6 uppercase font-bold tracking-tighter">
+                Al finalizar, autoriza la validación de antecedentes con bases de datos gubernamentales.
+            </p>
         </div>
     </form>
-
-    <footer class="mt-12 text-center space-y-4">
-        <p class="text-[10px] text-slate-500 uppercase font-bold tracking-widest leading-none">2025 - version 1.0.0 KM0 by CORPORACIÓN 360</p>
-        <p class="text-[8px] text-primary font-medium uppercase leading-tight px-10">
-            Aviso de seguridad: Su información será verificada con la ANT y el Registro Civil. Cualquier falsificación será reportada a las autoridades competentes.
-        </p>
-    </footer>
 </main>
 
-<script>
-    const motoNombre = document.getElementById('moto-nombre');
-    const motoCedula = document.getElementById('moto-cedula');
-    const motoTel = document.getElementById('moto-tel');
-    const motoPlaca = document.getElementById('moto-placa');
+<footer class="sticky bottom-0 bg-background-light dark:bg-background-dark p-4 border-t border-slate-200 dark:border-white/10">
+    <button id="final-btn" form="main-form" class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 group hidden">
+        FINALIZAR REGISTRO
+        <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+    </button>
+    
+    <p class="text-center text-[10px] text-slate-400 mt-2 font-bold uppercase tracking-widest">
+        KM0 by CORPORACIÓN 360
+    </p>
+</footer>
 
-    // Formato de placa (IU-595T)
-    motoPlaca.addEventListener('input', (e) => {
+<script>
+    const placaInput = document.getElementById('placa');
+    const cedulaInput = document.getElementById('cedula');
+    const telInput = document.getElementById('tel');
+    const nombreInput = document.getElementById('nombre');
+
+    // Formato de placa IU-595T
+    placaInput.addEventListener('input', (e) => {
         let val = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
-        if (val.length > 2) {
-            val = val.slice(0, 2) + '-' + val.slice(2);
-        }
+        if (val.length > 2) val = val.slice(0, 2) + '-' + val.slice(2);
         e.target.value = val;
     });
 
-    // Validaciones de entrada
-    motoNombre.addEventListener('input', (e) => e.target.value = e.target.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, ''));
-    [motoCedula, motoTel].forEach(el => el.addEventListener('input', (e) => e.target.value = e.target.value.replace(/\D/g, '')));
+    // Validaciones básicas
+    cedulaInput.addEventListener('input', (e) => e.target.value = e.target.value.replace(/\D/g, ''));
+    telInput.addEventListener('input', (e) => e.target.value = e.target.value.replace(/\D/g, ''));
+    nombreInput.addEventListener('input', (e) => e.target.value = e.target.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, ''));
 
-    function goToStep(step) {
-        if (step === 2) {
-            // Validaciones Paso 1
-            if (motoNombre.value.length < 5) { alert("Nombre incompleto."); return; }
-            if (motoCedula.value.length !== 10) { alert("Cédula inválida (10 dígitos)."); return; }
-            if (motoTel.value.length !== 9) { alert("Teléfono debe tener 9 dígitos (Total 12)."); return; }
-            if (motoPlaca.value.length < 5) { alert("Formato de placa inválido."); return; }
+    function goToStep2() {
+        const email = document.getElementById('email').value;
+        const nombre = nombreInput.value;
+        const cedula = cedulaInput.value;
+        const tel = telInput.value;
+        const placa = placaInput.value;
+        const marca = document.getElementById('marca').value;
 
-            document.getElementById('content-step-1').classList.remove('active');
-            document.getElementById('content-step-2').classList.add('active');
-            document.getElementById('step-bar').style.width = '100%';
-            document.getElementById('step-title').innerText = "Paso 2: Documentación";
-            document.getElementById('step-number').innerText = "2 de 2";
-        } else {
-            document.getElementById('content-step-2').classList.remove('active');
-            document.getElementById('content-step-1').classList.add('active');
-            document.getElementById('step-bar').style.width = '50%';
-            document.getElementById('step-title').innerText = "Paso 1: Datos y Vehículo";
-            document.getElementById('step-number').innerText = "1 de 2";
+        // Validar que todos los campos del paso 1 estén llenos
+        if (!nombre || !email || !cedula || !tel || !placa || !marca) {
+            alert("Por favor, complete todos los campos obligatorios.");
+            return;
         }
+
+        if (cedula.length !== 10) { alert("Cédula inválida."); return; }
+        if (tel.length !== 9) { alert("Teléfono incompleto."); return; }
+
+        // Cambio visual de paso
+        document.getElementById('step-1').classList.remove('active');
+        document.getElementById('step-2').classList.add('active');
+        document.getElementById('final-btn').classList.remove('hidden');
+        
+        // Actualizar progreso
+        document.getElementById('progress-bar').style.width = '75%';
+        document.getElementById('progress-percent').innerText = '75%';
+        document.getElementById('step-title-text').innerText = 'Paso 2 de 2';
+        document.getElementById('step-desc-text').innerText = 'Documentación y Verificación';
+        
         window.scrollTo(0,0);
     }
 
-    document.getElementById('reg-motorizado').onsubmit = (e) => {
+    function handleBack() {
+        if (document.getElementById('step-2').classList.contains('active')) {
+            document.getElementById('step-2').classList.remove('active');
+            document.getElementById('step-1').classList.add('active');
+            document.getElementById('final-btn').classList.add('hidden');
+            document.getElementById('progress-bar').style.width = '35%';
+            document.getElementById('progress-percent').innerText = '35%';
+            document.getElementById('step-title-text').innerText = 'Paso 1 de 2';
+            document.getElementById('step-desc-text').innerText = 'Datos Personales y Vehículo';
+        } else {
+            window.history.back();
+        }
+    }
+
+    document.getElementById('main-form').onsubmit = (e) => {
         e.preventDefault();
-        alert("Solicitud recibida. Iniciando proceso de verificación de identidad con Corporación 360.");
-        window.location.href = "login.html";
+        alert("¡Registro Finalizado! Tu información está siendo procesada por Corporación 360.");
     };
 </script>
+
 </body>
 </html>
