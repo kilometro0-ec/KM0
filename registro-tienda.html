@@ -5,7 +5,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>Registro de Tienda - Kilómetro Cero</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700&display=swap" rel="stylesheet"/>
     <script id="tailwind-config">
         tailwind.config = {
@@ -37,9 +37,12 @@
     <button onclick="window.history.back()" class="flex items-center justify-center size-10 rounded-full hover:bg-slate-200 dark:hover:bg-white/10 transition-colors">
         <span class="material-symbols-outlined text-2xl">arrow_back_ios_new</span>
     </button>
-    <div class="flex flex-col items-center">
-        <span class="text-[10px] uppercase tracking-widest font-bold text-fuchsia-neon fuchsia-glow">Kilómetro 0</span>
-        <h1 class="text-sm font-bold">Registro de Tienda</h1>
+    <div class="flex items-center gap-2">
+        <img src="logo-trans.png" alt="KM0" class="h-8 w-auto">
+        <div class="flex flex-col">
+            <span class="text-[9px] uppercase tracking-widest font-black text-fuchsia-neon fuchsia-glow leading-none">Kilómetro 0</span>
+            <h1 class="text-[11px] font-bold leading-none">REGISTRO TIENDA</h1>
+        </div>
     </div>
     <div class="size-10 flex items-center justify-center">
         <span class="material-symbols-outlined text-fuchsia-neon text-xl">storefront</span>
@@ -48,17 +51,25 @@
 
 <main class="flex-1 overflow-y-auto px-5 py-8 max-w-[480px] mx-auto w-full">
     <div class="mb-10 text-center sm:text-left">
-        <h2 class="text-3xl font-extrabold tracking-tight mb-3 text-slate-900 dark:text-white uppercase italic">Nueva Tienda</h2>
-        <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">Configura el perfil comercial de tu establecimiento para unirte a nuestra red de entregas.</p>
+        <h2 class="text-3xl font-black tracking-tight mb-3 text-slate-900 dark:text-white uppercase italic">Nueva Tienda</h2>
+        <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">Completa los datos de tu establecimiento para unirte a la red logística de Corporación 360.</p>
     </div>
 
-    <form id="form-tienda" class="space-y-8 pb-32">
+    <form id="form-tienda" class="space-y-8 pb-48">
         <section class="space-y-4">
-            <h3 class="text-[11px] font-bold uppercase tracking-[0.1em] text-fuchsia-neon/90 px-1">Identidad y Documentación</h3>
+            <h3 class="text-[11px] font-bold uppercase tracking-[0.1em] text-fuchsia-neon/90 px-1">Información del Establecimiento</h3>
+            <label class="block">
+                <span class="text-xs font-semibold mb-1.5 block px-1 text-slate-600 dark:text-slate-300">Nombre Comercial de la Tienda</span>
+                <input id="nombre-tienda" class="w-full h-14 bg-white dark:bg-[#1A1A1A] border border-slate-200 dark:border-white/10 rounded-2xl px-4 text-base focus:border-fuchsia-neon focus:ring-0 input-focus-ring transition-all outline-none" placeholder="Ej. Supermercado El Ahorro" required type="text"/>
+            </label>
+        </section>
+
+        <section class="space-y-4">
+            <h3 class="text-[11px] font-bold uppercase tracking-[0.1em] text-fuchsia-neon/90 px-1">Identidad Legal (Propietario)</h3>
             <div class="space-y-4">
                 <label class="block">
-                    <span class="text-xs font-semibold mb-1.5 block px-1 text-slate-600 dark:text-slate-300">Nombres Completos (Solo letras)</span>
-                    <input id="nombre-input" class="w-full h-14 bg-white dark:bg-[#1A1A1A] border border-slate-200 dark:border-white/10 rounded-2xl px-4 text-base focus:border-fuchsia-neon focus:ring-0 input-focus-ring transition-all outline-none" placeholder="Ej. Juan Pérez" required type="text"/>
+                    <span class="text-xs font-semibold mb-1.5 block px-1 text-slate-600 dark:text-slate-300">Nombres y Apellidos Completos</span>
+                    <input id="nombre-input" class="w-full h-14 bg-white dark:bg-[#1A1A1A] border border-slate-200 dark:border-white/10 rounded-2xl px-4 text-base focus:border-fuchsia-neon focus:ring-0 input-focus-ring transition-all outline-none" placeholder="Solo letras" required type="text"/>
                 </label>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <label class="block">
@@ -94,16 +105,15 @@
                     </label>
                     <label class="block">
                         <span class="text-xs font-semibold mb-1.5 block px-1 text-slate-600 dark:text-slate-300">Ciudad</span>
-                        <input class="w-full h-14 bg-white dark:bg-[#1A1A1A] border border-slate-200 dark:border-white/10 rounded-2xl px-4 text-base focus:border-fuchsia-neon focus:ring-0 input-focus-ring transition-all outline-none" placeholder="Ej. Quito" required type="text"/>
+                        <input class="w-full h-14 bg-white dark:bg-[#1A1A1A] border border-slate-200 dark:border-white/10 rounded-2xl px-4 text-base focus:border-fuchsia-neon focus:ring-0 input-focus-ring transition-all outline-none" placeholder="Ej. Guayaquil" required type="text"/>
                     </label>
                 </div>
                 <label class="block">
-                    <span class="text-xs font-semibold mb-1.5 block px-1 text-slate-600 dark:text-slate-300">Teléfono (Móvil Ecuador)</span>
+                    <span class="text-xs font-semibold mb-1.5 block px-1 text-slate-600 dark:text-slate-300">Teléfono Móvil (+593)</span>
                     <div class="relative">
                         <span class="absolute left-4 top-1/2 -translate-y-1/2 text-fuchsia-neon font-bold">+593</span>
                         <input id="tel-input" class="w-full h-14 bg-white dark:bg-[#1A1A1A] border border-slate-200 dark:border-white/10 rounded-2xl pl-16 pr-4 text-base focus:border-fuchsia-neon focus:ring-0 input-focus-ring transition-all outline-none" placeholder="987654321" required type="tel"/>
                     </div>
-                    <span class="text-[9px] text-slate-400 mt-1 block px-1">Debe completar 12 dígitos en total incluyendo el 593.</span>
                 </label>
                 <label class="block">
                     <span class="text-xs font-semibold mb-1.5 block px-1 text-slate-600 dark:text-slate-300">Correo Electrónico Seguridad</span>
@@ -119,11 +129,17 @@
 
 <div class="fixed bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-background-light dark:from-background-dark via-background-light/95 dark:via-background-dark/95 to-transparent">
     <div class="max-w-[480px] mx-auto">
+        <div class="mb-4 bg-fuchsia-neon/10 border border-fuchsia-neon/20 p-3 rounded-xl">
+            <p class="text-[9px] text-fuchsia-neon font-bold text-center uppercase tracking-wider leading-tight">
+                Advertencia: Todos los datos proporcionados serán validados por nuestro equipo legal. Cualquier inconsistencia resultará en el rechazo de la solicitud.
+            </p>
+        </div>
+        
         <button id="btn-registrar" form="form-tienda" class="w-full h-16 bg-fuchsia-neon text-white font-black text-lg rounded-2xl shadow-2xl shadow-fuchsia-neon/30 active:scale-[0.98] transition-all flex items-center justify-center gap-3 uppercase tracking-wide" type="submit">
-            Registrar Tienda
+            Guardar y Registrar
             <span class="material-symbols-outlined font-bold">arrow_forward</span>
         </button>
-        <p class="text-[10px] text-center text-slate-500 dark:text-slate-400 mt-4 px-4 leading-normal uppercase">
+        <p class="text-[10px] text-center text-slate-500 dark:text-slate-400 mt-4 px-4 leading-normal uppercase font-bold">
             2025 - version 1.0.0 KM0 by CORPORACIÓN 360
         </p>
     </div>
@@ -134,9 +150,8 @@
     const docInput = document.getElementById('doc-input');
     const tipoDoc = document.getElementById('tipo-doc');
     const nombreInput = document.getElementById('nombre-input');
-    const emailInput = document.getElementById('email-input');
 
-    // Validación: Solo letras en el nombre
+    // Validación: Solo letras en el nombre del propietario
     nombreInput.addEventListener('input', (e) => {
         e.target.value = e.target.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
     });
@@ -151,30 +166,23 @@
     document.getElementById('form-tienda').addEventListener('submit', (e) => {
         e.preventDefault();
         
-        // Validación Teléfono: 593 (3) + 9 dígitos = 12
+        // Validación Teléfono: 593 (3) + 9 dígitos = 12 dígitos numéricos totales
         if (telInput.value.length !== 9) {
-            alert("El teléfono debe tener 9 dígitos después del +593 (Total 12 dígitos)");
+            alert("Error: El teléfono debe tener 9 dígitos después del +593 para completar los 12 dígitos requeridos.");
             return;
         }
 
-        // Validación Documento
+        // Validación Documento según tipo
         if (tipoDoc.value === "CI" && docInput.value.length !== 10) {
-            alert("La Cédula debe tener exactamente 10 dígitos.");
+            alert("Error: La Cédula debe tener exactamente 10 dígitos.");
             return;
         }
         if (tipoDoc.value === "RUC" && docInput.value.length !== 13) {
-            alert("El RUC debe tener exactamente 13 dígitos.");
+            alert("Error: El RUC debe tener exactamente 13 dígitos.");
             return;
         }
 
-        // Validación Email básica
-        const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        if (!regexEmail.test(emailInput.value)) {
-            alert("Por favor ingrese un correo válido.");
-            return;
-        }
-
-        alert("Registro de Tienda enviado con éxito.");
+        alert("Datos enviados correctamente. Procediendo a validación legal.");
         window.location.href = "login.html";
     });
 </script>
