@@ -36,6 +36,7 @@
         input:focus { outline: none; box-shadow: none !important; }
         .input-error { @apply border-km0-red bg-km0-red/10 !important; }
         .btn-active:active { transform: scale(0.96); transition: 0.1s; }
+        .fuchsia-glow { text-shadow: 0 0 10px rgba(255, 0, 255, 0.4); }
     </style>
 </head>
 
@@ -45,11 +46,7 @@
         
         <div class="mb-8 flex flex-col items-center w-full">
             <div class="w-full max-w-[220px] aspect-square flex items-center justify-center">
-                <img 
-                    src="logo-trans.png" 
-                    alt="Kilómetro Cero" 
-                    class="w-full h-auto object-contain"
-                >
+                <img src="logo-trans.png" alt="Kilómetro Cero" class="w-full h-auto object-contain">
             </div>
             <div class="text-center mt-2">
                 <p class="text-[10px] tracking-[0.5em] uppercase text-km0-grey font-bold">Logistics Systems</p>
@@ -64,7 +61,7 @@
                         class="w-full bg-white/5 border-b-2 border-white/10 py-4 px-4 text-white focus:border-km0-red transition-all outline-none rounded-t-lg" 
                         placeholder="usuario@k0.com">
                 </div>
-                <p id="email-error" class="hidden text-[10px] text-km0-red mt-1 font-bold uppercase tracking-tighter italic">Seguridad: Formato no válido</p>
+                <p id="email-error" class="hidden text-[10px] text-km0-red mt-1 font-bold uppercase tracking-tighter italic">Error de seguridad: Formato no válido</p>
             </div>
 
             <div class="group">
@@ -81,20 +78,20 @@
             </button>
             
             <div class="flex flex-col gap-2 items-center">
-                <a href="#" class="text-[10px] text-km0-grey uppercase tracking-widest hover:text-white transition-colors">¿Olvidaste tu contraseña?</a>
-                <a href="#" class="text-[10px] text-km0-grey uppercase tracking-widest hover:text-white transition-colors">Recuperar Usuario</a>
+                <button class="text-[10px] text-km0-grey uppercase tracking-widest hover:text-white transition-colors">¿Olvidaste tu contraseña?</button>
             </div>
         </div>
 
         <div class="w-full mt-10 space-y-4">
+            
             <div class="relative group">
-                <div class="absolute -inset-0.5 bg-brand-fuchsia opacity-20 blur rounded"></div>
+                <div class="absolute -inset-0.5 bg-brand-fuchsia opacity-20 blur rounded transition duration-500"></div>
                 <div class="relative bg-black border border-brand-fuchsia/40 p-5 flex flex-col items-center text-center space-y-3">
                     <div class="flex items-center space-x-2">
-                        <span class="material-symbols-outlined text-brand-fuchsia text-xl">storefront</span>
+                        <span class="material-symbols-outlined text-brand-fuchsia text-xl fuchsia-glow">storefront</span>
                         <h3 class="text-xs font-black uppercase tracking-[0.2em] text-white">¿Eres un comercio?</h3>
                     </div>
-                    <button class="btn-active w-full py-3.5 bg-brand-fuchsia text-black font-black text-xs tracking-[0.15em] uppercase shadow-[0_0_20px_rgba(255,0,255,0.3)]">
+                    <button onclick="window.location.href='registro-tienda.html'" class="btn-active w-full py-3.5 bg-brand-fuchsia text-black font-black text-xs tracking-[0.15em] uppercase shadow-[0_0_20px_rgba(255,0,255,0.3)]">
                         Registra tu Tienda aquí
                     </button>
                 </div>
@@ -105,15 +102,15 @@
                     <h3 class="text-[11px] font-bold uppercase tracking-widest text-zinc-300 mb-1">¿Quieres ser parte del equipo?</h3>
                     <p class="text-[9px] text-zinc-600 leading-tight uppercase tracking-normal">Verificación de identidad requerida</p>
                 </div>
-                <button class="btn-active w-full py-3 bg-transparent border border-km0-red/60 text-km0-red font-bold text-[11px] tracking-[0.15em] uppercase hover:bg-km0-red/10 transition-all text-center">
+                <button onclick="window.location.href='registro-motorizado.html'" class="btn-active w-full py-3 bg-transparent border border-km0-red/60 text-km0-red font-bold text-[11px] tracking-[0.15em] uppercase hover:bg-km0-red/10 transition-all text-center">
                     Regístrate como Motorizado
                 </button>
             </div>
         </div>
 
         <footer class="mt-12 pb-6 text-center">
-            <p class="text-[9px] text-zinc-600 uppercase tracking-[0.15em] font-medium">
-                2025 - version 1.0.0    KM0 by CORPORACIÓN 360
+            <p class="text-[9px] text-zinc-700 uppercase tracking-[0.15em] font-medium leading-relaxed">
+                2025 - version 1.0.0 KM0 by CORPORACIÓN 360
             </p>
         </footer>
     </div>
