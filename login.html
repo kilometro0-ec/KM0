@@ -3,67 +3,107 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Kilómetro Cero - Iniciar Sesión</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700&display=swap" rel="stylesheet"/>
-    <style>
-        body { font-family: 'Inter', sans-serif; background-color: #000000; color: white; min-height: 100dvh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        input:focus { outline: none; border-color: #EC1313 !important; }
+    <title>Kilómetro Cero - Login</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#EC1313",
+                        "background-dark": "#000000",
+                        "input-bg": "#111111",
+                        "input-border": "#222222",
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"],
+                    },
+                },
+            },
+        }
+    </script>
+    <style type="text/tailwindcss">
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000000;
+            -webkit-font-smoothing: antialiased;
+        }
+        input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px #EC1313 !important;
+            background-color: #000000 !important;
+        }
     </style>
 </head>
-<body class="p-6">
-    <div class="w-full max-w-[360px] flex flex-col items-center">
-        
-        <div class="mb-8 text-center">
-            <img src="logo-trans.png" alt="Logo" class="w-24 h-24 mx-auto mb-4 object-contain">
-            <h1 class="text-xl font-black uppercase italic tracking-tighter">Iniciar Sesión</h1>
+<body class="bg-black text-white flex flex-col min-h-screen items-center justify-center p-8">
+    
+    <div class="w-full max-w-[340px] flex flex-col items-center">
+        <div class="mb-10 flex flex-col items-center">
+            <div class="w-32 h-32 mb-4 flex items-center justify-center">
+                <img src="logo-trans.png" alt="Logo KM0" class="w-full h-full object-contain">
+            </div>
+            <div class="text-center">
+                <h1 class="text-[32px] font-[900] tracking-[-0.05em] uppercase leading-none italic text-white">Kilómetro</h1>
+                <h2 class="text-[20px] font-[800] tracking-[0.4em] uppercase text-primary mt-1 pl-[0.4em]">Cero</h2>
+            </div>
         </div>
 
-        <div class="w-full bg-zinc-900/30 border border-zinc-800 p-8 rounded-[2rem] space-y-6">
-            <div class="space-y-1.5">
-                <label class="text-[10px] font-bold uppercase tracking-widest text-zinc-500 px-1">Usuario / Cédula</label>
-                <input id="user" type="text" class="w-full bg-black border-b-2 border-zinc-800 py-3 px-2 text-white transition-colors" placeholder="Ingrese su usuario">
+        <div class="w-full space-y-5">
+            <div class="space-y-2">
+                <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 ml-1">Usuario</label>
+                <div class="relative">
+                    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-zinc-600">person</span>
+                    <input id="userField" class="w-full bg-input-bg border border-input-border rounded-2xl py-4 pl-12 pr-4 text-white placeholder:text-zinc-800 focus:border-primary transition-all duration-200 text-base" placeholder="Email o Cédula" type="text"/>
+                </div>
             </div>
 
-            <div class="space-y-1.5">
-                <label class="text-[10px] font-bold uppercase tracking-widest text-zinc-500 px-1">Contraseña</label>
-                <input id="pass" type="password" class="w-full bg-black border-b-2 border-zinc-800 py-3 px-2 text-white transition-colors" placeholder="••••••••">
+            <div class="space-y-2">
+                <div class="flex justify-between items-center ml-1">
+                    <label class="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500">Clave</label>
+                    <a class="text-[10px] font-bold text-zinc-600 uppercase tracking-widest hover:text-primary transition-colors" href="#">¿Olvido?</a>
+                </div>
+                <div class="relative">
+                    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-zinc-600">lock</span>
+                    <input id="passField" class="w-full bg-input-bg border border-input-border rounded-2xl py-4 pl-12 pr-4 text-white placeholder:text-zinc-800 focus:border-primary transition-all duration-200 text-base" placeholder="••••••••" type="password"/>
+                </div>
             </div>
 
-            <button onclick="validarIngreso()" class="w-full bg-[#EC1313] hover:bg-red-700 text-white py-4 rounded-xl font-black text-sm tracking-[0.2em] transition-all active:scale-95 uppercase shadow-lg shadow-red-900/20">
-                Entrar
+            <div class="pt-6">
+                <button onclick="intentarLogin()" class="w-full bg-primary hover:bg-red-700 text-white py-5 rounded-2xl font-black text-sm tracking-[0.3em] transition-all active:scale-[0.98] uppercase shadow-[0_8px_25px_rgba(236,19,19,0.35)]">
+                    ENTRAR
+                </button>
+            </div>
+        </div>
+
+        <div class="mt-12 flex flex-col items-center space-y-8">
+            <button onclick="window.location.href='index.html'" class="text-[11px] font-black text-zinc-500 hover:text-white uppercase tracking-[0.25em] transition-colors py-2">
+                VOLVER AL INICIO
             </button>
-        </div>
-
-        <button onclick="window.location.href='index.html'" class="mt-8 text-zinc-600 text-[10px] font-bold uppercase tracking-widest hover:text-white transition-colors">
-            ← Volver al inicio
-        </button>
-
-        <div class="mt-12 text-center opacity-30">
-            <p class="text-[9px] font-bold uppercase tracking-[0.1em]">2025 KM0 by CORPORACIÓN 360</p>
+            <div class="text-center opacity-30">
+                <p class="text-[9px] text-zinc-500 uppercase tracking-[0.2em] font-black">
+                    2025 KM0 by CORPORACIÓN 360 V.1.0.0
+                </p>
+            </div>
         </div>
     </div>
 
     <script>
-        function validarIngreso() {
-            const u = document.getElementById('user').value;
-            const p = document.getElementById('pass').value;
+        function intentarLogin() {
+            const u = document.getElementById('userField').value;
+            const p = document.getElementById('passField').value;
             const ADMIN_KEY = "1716001431";
 
-            // Lógica de redirección
             if (u === ADMIN_KEY && p === ADMIN_KEY) {
-                // Si es el administrador
+                // ACCESO ADMIN
                 window.location.href = "admin.html";
-            } 
-            else if (u !== "" && p !== "") {
-                // Aquí iría la lógica para usuarios normales registrados
-                // Por ahora, lo mandamos a un panel general o mensaje de éxito
-                alert("Ingresando como usuario registrado...");
-                // window.location.href = "panel-usuario.html"; 
-            } 
-            else {
-                alert("Por favor, complete todos los campos.");
+            } else if (u !== "" && p !== "") {
+                // ACCESO USUARIO COMÚN (Aquí conectarás tu base de datos después)
+                alert("Validando credenciales de usuario...");
+            } else {
+                alert("Por favor ingrese sus datos.");
             }
         }
     </script>
