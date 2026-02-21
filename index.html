@@ -44,16 +44,14 @@
     <div class="w-full max-w-[360px] flex flex-col items-center">
         
         <div class="mb-8 flex flex-col items-center w-full">
-            <div class="w-full max-w-[200px] aspect-square flex items-center justify-center overflow-hidden">
+            <div class="w-full max-w-[220px] aspect-square flex items-center justify-center">
                 <img 
-                    id="logo-main"
-                    src="./logo-trans.png" 
-                    alt="Kilómetro Cero Logo" 
+                    src="logo-trans.png" 
+                    alt="Kilómetro Cero" 
                     class="w-full h-auto object-contain"
-                    onerror="console.error('Error: No se encontró logo-trans.png en la raíz'); this.src='https://ui-avatars.com/api/?name=K0&background=EC1313&color=fff&size=200'"
                 >
             </div>
-            <div class="text-center mt-4">
+            <div class="text-center mt-2">
                 <p class="text-[10px] tracking-[0.5em] uppercase text-km0-grey font-bold">Logistics Systems</p>
             </div>
         </div>
@@ -66,7 +64,7 @@
                         class="w-full bg-white/5 border-b-2 border-white/10 py-4 px-4 text-white focus:border-km0-red transition-all outline-none rounded-t-lg" 
                         placeholder="usuario@k0.com">
                 </div>
-                <p id="email-error" class="hidden text-[10px] text-km0-red mt-1 font-bold uppercase tracking-tighter italic">Correo no válido o sospechoso</p>
+                <p id="email-error" class="hidden text-[10px] text-km0-red mt-1 font-bold uppercase tracking-tighter italic">Correo no válido (Parámetros de seguridad)</p>
             </div>
 
             <div class="group">
@@ -105,9 +103,7 @@
             <div class="bg-zinc-900/40 border border-zinc-800 p-5 flex flex-col items-center text-center space-y-3">
                 <div class="flex flex-col items-center">
                     <h3 class="text-[11px] font-bold uppercase tracking-widest text-zinc-300 mb-1">¿Quieres ser parte del equipo?</h3>
-                    <p class="text-[9px] text-zinc-600 leading-tight uppercase tracking-normal">
-                        Verificación por video y antecedentes requerida
-                    </p>
+                    <p class="text-[9px] text-zinc-600 leading-tight uppercase tracking-normal">Verificación de identidad requerida</p>
                 </div>
                 <button class="btn-active w-full py-3 bg-transparent border border-km0-red/60 text-km0-red font-bold text-[11px] tracking-[0.15em] uppercase hover:bg-km0-red/10 transition-all text-center">
                     Regístrate como Motorizado
