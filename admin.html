@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin: Revisión de Documentación Completa</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ec1313",
+                        "background-light": "#f8f6f6",
+                        "background-dark": "#0f0909",
+                        "card-dark": "#1a1111",
+                        "border-dark": "#2d1b1b",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .ios-blur {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-gray-900 dark:text-gray-100 font-display">
+<header class="sticky top-0 z-50 bg-white/80 dark:bg-background-dark/80 ios-blur border-b border-gray-200 dark:border-border-dark px-4 py-3 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<button class="flex items-center justify-center p-2 rounded-full hover:bg-gray-100 dark:hover:bg-card-dark">
+<span class="material-symbols-outlined text-gray-700 dark:text-white">arrow_back_ios_new</span>
+</button>
+<div>
+<h1 class="text-sm font-bold tracking-tight uppercase text-primary">Admin</h1>
+<p class="text-xs text-gray-500 dark:text-gray-400">Revisión de Documentación</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-gray-700 dark:text-white">history</span>
+<div class="relative">
+<span class="material-symbols-outlined text-gray-700 dark:text-white">notifications</span>
+<span class="absolute top-0 right-0 block h-2 w-2 rounded-full bg-primary ring-2 ring-white dark:ring-background-dark"></span>
+</div>
+</div>
+</header>
+<main class="pb-40">
+<section class="p-6 bg-white dark:bg-card-dark shadow-sm">
+<div class="flex items-center gap-4">
+<div class="relative">
+<div class="h-20 w-20 rounded-2xl bg-cover bg-center border-2 border-primary" data-alt="Applicant portrait" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA_PmBkFylKdxpUV9DKc_VUZakzK9ZLnX87b18NAcaFIeCCXEe-JWjDBgIb6e5cSBcEapAlhGl6mn27FSiwvZieKP12CNW9zYMlACY_VJ8-r5rJPQFuIEawgRjdGYarYnQjSUMWxZXIwXRPBCQPruoEGS1pCb3SDyhK234B5UywoDCYr4nqLsazcg-zA_BzrRJxQV-gkbg47ch2g_lOud8EAA3kxH_3V-l6Oz0czeaahpYNC0_TrYiGrziUMT1SxVh1wQ_m_OqyGTtR");'>
+</div>
+<div class="absolute -bottom-2 -right-2 bg-primary p-1 rounded-full border-2 border-white dark:border-card-dark">
+<span class="material-symbols-outlined text-white text-[16px] block">pending_actions</span>
+</div>
+</div>
+<div class="flex-1">
+<h2 class="text-xl font-bold dark:text-white">Carlos Eduardo Ruiz</h2>
+<div class="flex flex-wrap gap-2 mt-1">
+<span class="px-2 py-0.5 bg-gray-100 dark:bg-border-dark text-[10px] font-bold rounded uppercase tracking-wider">ID: 172234556</span>
+<span class="px-2 py-0.5 bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 text-[10px] font-bold rounded uppercase tracking-wider">Pendiente</span>
+</div>
+<p class="text-sm font-semibold text-primary mt-2">Moto Honda CB125 • ABC-123</p>
+</div>
+</div>
+</section>
+<section class="px-4 py-4">
+<div class="bg-gray-100 dark:bg-card-dark/50 rounded-xl p-4 flex justify-between items-center border border-gray-200 dark:border-border-dark">
+<div class="space-y-1">
+<p class="text-[10px] font-bold uppercase text-gray-500 dark:text-gray-400 tracking-widest">Progreso de Revisión</p>
+<div class="flex gap-1">
+<div class="h-1.5 w-6 rounded-full bg-green-500"></div>
+<div class="h-1.5 w-6 rounded-full bg-green-500"></div>
+<div class="h-1.5 w-6 rounded-full bg-gray-300 dark:bg-border-dark"></div>
+<div class="h-1.5 w-6 rounded-full bg-gray-300 dark:bg-border-dark"></div>
+<div class="h-1.5 w-6 rounded-full bg-gray-300 dark:bg-border-dark"></div>
+</div>
+</div>
+<p class="text-lg font-bold text-primary">2/5</p>
+</div>
+</section>
+<section class="p-4 space-y-6">
+<h3 class="text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400 px-1">Documentos Requeridos</h3>
+<div class="bg-white dark:bg-card-dark rounded-2xl overflow-hidden border border-gray-200 dark:border-border-dark">
+<div class="p-4 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="p-2 bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined text-primary">badge</span>
+</div>
+<div>
+<p class="font-bold text-sm">Cédula de Identidad</p>
+<p class="text-[10px] text-gray-500 dark:text-gray-400">Ambas caras legibles</p>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="w-8 h-8 rounded-full border border-gray-200 dark:border-border-dark flex items-center justify-center text-green-500 hover:bg-green-500/10">
+<span class="material-symbols-outlined text-sm font-bold">check</span>
+</button>
+<button class="w-8 h-8 rounded-full border border-gray-200 dark:border-border-dark flex items-center justify-center text-primary hover:bg-primary/10">
+<span class="material-symbols-outlined text-sm font-bold">close</span>
+</button>
+</div>
+</div>
+<div class="relative h-48 bg-gray-200 dark:bg-black">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="Identification document" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCAGsgth6y41gEjq1qlHMgq7GAPyIGUb94gooKc3_uGFnSDaE9urqVJNkRqe8BS_5bZHqgX5ilx9iEdeEpcnyNSxj2w9lXCwOlY3F0onhWdudYAFWWaWy8r_YDjDtxwEg7YSIyx0guBcBwcpKIi7xPlT7nBMIOEENyFEYNzPQ1FWczHgefiLGpP-m4dMAv8W40EAC5m77T3LgKilB4GR8GIRlhUaMMTigkKJ4CHtnC-mCvHPLX3YeO3Jcg8s0Z3xz7EJd47hIhutRYN");'></div>
+<button class="absolute bottom-3 right-3 h-10 w-10 bg-black/50 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/20">
+<span class="material-symbols-outlined">zoom_in</span>
+</button>
+</div>
+</div>
+<div class="bg-white dark:bg-card-dark rounded-2xl overflow-hidden border border-gray-200 dark:border-border-dark">
+<div class="p-4 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="p-2 bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined text-primary">license</span>
+</div>
+<div>
+<p class="font-bold text-sm">Licencia de Conducir</p>
+<p class="text-[10px] text-gray-500 dark:text-gray-400">Vence: 12/2028</p>
+</div>
+</div>
+<div class="flex gap-2">
+<div class="h-8 px-3 rounded-full bg-green-500/10 text-green-500 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm font-bold">check_circle</span>
+<span class="text-[10px] font-bold uppercase">Validado</span>
+</div>
+</div>
+</div>
+<div class="relative h-48 bg-gray-200 dark:bg-black">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="Driver license document" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAf3N1eonklfdevQGkjCqAVZAYKQdIaoNHD1VdG02v94-fAXJU6JOUmewlAVRORL9xW_HaLJCZ1F9ubrrivBIyOUki9sStkaLPAVNbTxVaiIAkWwHPgaDPrnOR3XNWf9MOB8Fj3pbrdRceFnShXXlEH_EytDk-8tOPAQmZqxiOV3bqafq5FwSFlqzOY9YJcl-Er-BIUO6cHXKn1xK91AFkRCgf0QWTpWvN7CNqEKKy-9SHDeIZfpNcGUwmQwFVVJsORK2IfE74WHNU2");'></div>
+<button class="absolute bottom-3 right-3 h-10 w-10 bg-black/50 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/20">
+<span class="material-symbols-outlined">zoom_in</span>
+</button>
+</div>
+</div>
+<div class="bg-white dark:bg-card-dark rounded-2xl overflow-hidden border border-gray-200 dark:border-border-dark">
+<div class="p-4 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="p-2 bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined text-primary">directions_car</span>
+</div>
+<div>
+<p class="font-bold text-sm">Matrícula (Vehículo)</p>
+<p class="text-[10px] text-gray-500 dark:text-gray-400">Año: 2023</p>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="w-8 h-8 rounded-full border border-gray-200 dark:border-border-dark flex items-center justify-center text-green-500">
+<span class="material-symbols-outlined text-sm font-bold">check</span>
+</button>
+<button class="w-8 h-8 rounded-full border border-gray-200 dark:border-border-dark flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-sm font-bold">close</span>
+</button>
+</div>
+</div>
+<div class="relative h-48 bg-gray-200 dark:bg-black">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="Vehicle registration" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBYJZjW1HMfT6sHsp8D_FYlVDy69XJ15MFgf7M1yfMU3Lf5jPgFquRbnJ1guSYtFSBUM-9vSxHLkEvWoVbP8AzsqIVx7S3aSC6-lIWtwM0-I4Ob0Ue2NngqTip9RM2nT3dcnSTd1ckWJjw5lV9oBEyjurNtAaRzPnU-JuiApYh7VhBdm0VC3Xw-HiGxXERrF5yO71FyCUAIWIE81s1gkwS_qSNQOFYT7KR9CHxUmxDkEfTDYADlO-xFL7FVk8wQKOhpnsH7SW4HkJx9");'></div>
+<button class="absolute bottom-3 right-3 h-10 w-10 bg-black/50 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/20">
+<span class="material-symbols-outlined">zoom_in</span>
+</button>
+</div>
+</div>
+<div class="bg-white dark:bg-card-dark rounded-2xl overflow-hidden border border-gray-200 dark:border-border-dark">
+<div class="p-4 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="p-2 bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined text-primary">water_drop</span>
+</div>
+<div>
+<p class="font-bold text-sm">Planilla de Agua</p>
+<p class="text-[10px] text-gray-500 dark:text-gray-400">Comprobante de domicilio</p>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="w-8 h-8 rounded-full border border-gray-200 dark:border-border-dark flex items-center justify-center text-green-500">
+<span class="material-symbols-outlined text-sm font-bold">check</span>
+</button>
+<button class="w-8 h-8 rounded-full border border-gray-200 dark:border-border-dark flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-sm font-bold">close</span>
+</button>
+</div>
+</div>
+<div class="relative h-48 bg-gray-200 dark:bg-black/40 flex items-center justify-center">
+<span class="material-symbols-outlined text-4xl text-gray-400">description</span>
+<p class="absolute bottom-3 left-3 text-[10px] text-gray-500 italic">Previsualización no disponible - Toca para abrir PDF</p>
+</div>
+</div>
+<div class="bg-white dark:bg-card-dark rounded-2xl overflow-hidden border border-gray-200 dark:border-border-dark">
+<div class="p-4 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="p-2 bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined text-primary">account_balance</span>
+</div>
+<div>
+<p class="font-bold text-sm">Certificado Bancario</p>
+<p class="text-[10px] text-gray-500 dark:text-gray-400">Para pagos y transferencias</p>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="w-8 h-8 rounded-full border border-gray-200 dark:border-border-dark flex items-center justify-center text-green-500">
+<span class="material-symbols-outlined text-sm font-bold">check</span>
+</button>
+<button class="w-8 h-8 rounded-full border border-gray-200 dark:border-border-dark flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-sm font-bold">close</span>
+</button>
+</div>
+</div>
+<div class="p-4 border-t border-gray-100 dark:border-border-dark bg-gray-50 dark:bg-black/20 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-gray-400">picture_as_pdf</span>
+<span class="text-xs font-medium">CERT_BANC_CARLOS_R.pdf</span>
+</div>
+<button class="text-xs font-bold text-primary">VER DOCUMENTO</button>
+</div>
+</div>
+<div class="mt-8">
+<label class="block text-[10px] font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2 px-1">Notas de la Revisión</label>
+<textarea class="w-full bg-white dark:bg-card-dark border border-gray-200 dark:border-border-dark rounded-2xl p-4 text-sm focus:ring-primary focus:border-primary placeholder:text-gray-400 dark:placeholder:text-gray-600" placeholder="Escribe observaciones o motivos de rechazo..." rows="3"></textarea>
+</div>
+</section>
+</main>
+<footer class="fixed bottom-0 left-0 right-0 p-6 bg-white/90 dark:bg-background-dark/90 ios-blur border-t border-gray-200 dark:border-border-dark z-50">
+<div class="max-w-md mx-auto flex gap-4">
+<button class="flex-1 h-14 rounded-2xl border-2 border-primary text-primary font-bold flex items-center justify-center gap-2 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-lg">cancel</span>
+            Rechazar
+        </button>
+<button class="flex-[2] h-14 rounded-2xl bg-primary text-white font-bold flex items-center justify-center gap-2 shadow-xl shadow-primary/30 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-lg">verified</span>
+            Aprobar Todo
+        </button>
+</div>
+<div class="h-6 w-32 bg-gray-200 dark:bg-border-dark rounded-full mx-auto mt-6 opacity-30"></div> 
+</footer>
+
+</body></html>
