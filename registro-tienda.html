@@ -3,96 +3,74 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>KM0 - Registro de Comercio</title>
+    <title>KM0 - Registro Tienda</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet"/>
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #000000; color: white; min-height: 100dvh; }
-        input, select { background-color: #111 !important; border-color: #222 !important; color: white !important; }
-        input:focus { border-color: #FF00FF !important; outline: none; box-shadow: 0 0 0 1px #FF00FF; }
+        body { font-family: 'Inter', sans-serif; background-color: #000000; color: white; min-height: 100dvh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        input:focus { outline: none; border-color: #FF00FF !important; }
     </style>
 </head>
-<body class="p-6 flex flex-col items-center">
-    <div class="w-full max-w-[400px]">
-        <header class="mb-8 text-center">
+<body class="p-6">
+    <div class="w-full max-w-[340px] flex flex-col items-center">
+        <header class="mb-10 text-center">
             <h1 class="text-2xl font-black uppercase tracking-tighter text-[#FF00FF]">Registra tu Tienda</h1>
-            <p class="text-zinc-500 text-xs uppercase tracking-widest mt-2">Expande tus ventas con KM0</p>
+            <p class="text-[10px] text-zinc-500 uppercase tracking-[0.3em] mt-2">Vende más con KM0</p>
         </header>
 
-        <form id="formTienda" class="space-y-4">
-            <div>
-                <label class="block text-[10px] font-bold uppercase text-zinc-400 mb-1 ml-1">Nombre del Local / Comercial</label>
-                <input type="text" id="nombreLocal" name="nombre" required class="w-full p-4 rounded-2xl border text-sm" placeholder="Ej: Pizzería El Gran Sabor">
+        <form id="formTienda" class="w-full space-y-4">
+            <div class="space-y-1">
+                <label class="text-[9px] font-bold uppercase text-zinc-500 ml-1">Nombre del Local</label>
+                <input type="text" id="t_nombre" required class="w-full bg-[#111] border border-zinc-800 rounded-2xl py-4 px-5 text-sm" placeholder="Ej: Pizzería Roma">
+            </div>
+            <div class="space-y-1">
+                <label class="text-[9px] font-bold uppercase text-zinc-500 ml-1">RUC / Cédula Propietario</label>
+                <input type="text" id="t_ruc" required class="w-full bg-[#111] border border-zinc-800 rounded-2xl py-4 px-5 text-sm" placeholder="1700000000001">
+            </div>
+            <div class="space-y-1">
+                <label class="text-[9px] font-bold uppercase text-zinc-500 ml-1">Teléfono Local</label>
+                <input type="tel" id="t_telf" required class="w-full bg-[#111] border border-zinc-800 rounded-2xl py-4 px-5 text-sm" placeholder="022000000">
+            </div>
+            <div class="space-y-1">
+                <label class="text-[9px] font-bold uppercase text-zinc-500 ml-1">Dirección Exacta</label>
+                <input type="text" id="t_dir" required class="w-full bg-[#111] border border-zinc-800 rounded-2xl py-4 px-5 text-sm" placeholder="Av. Principal y Calle B">
             </div>
 
-            <div>
-                <label class="block text-[10px] font-bold uppercase text-zinc-400 mb-1 ml-1">RUC o Cédula del Propietario</label>
-                <input type="text" id="ruc" name="identificacion" required class="w-full p-4 rounded-2xl border text-sm" placeholder="17XXXXXXXX001">
-            </div>
-
-            <div>
-                <label class="block text-[10px] font-bold uppercase text-zinc-400 mb-1 ml-1">Teléfono de Contacto</label>
-                <input type="tel" id="telefono" name="telefono" required class="w-full p-4 rounded-2xl border text-sm" placeholder="0987654321">
-            </div>
-
-            <div>
-                <label class="block text-[10px] font-bold uppercase text-zinc-400 mb-1 ml-1">Dirección del Establecimiento</label>
-                <input type="text" id="direccion" name="detalles" required class="w-full p-4 rounded-2xl border text-sm" placeholder="Ej: Av. Amazonas y Gaspar de Villarroel">
-            </div>
-
-            <div class="pt-4">
-                <button type="submit" id="btnEnviar" class="w-full bg-[#FF00FF] hover:bg-magenta-700 text-black font-black text-sm tracking-[0.2em] py-5 rounded-2xl transition-all active:scale-95 uppercase shadow-lg shadow-magenta-900/20">
-                    Registrar Comercio
+            <div class="pt-6">
+                <button type="submit" id="btnT" class="w-full bg-[#FF00FF] text-black font-black text-xs tracking-[0.2em] py-5 rounded-2xl uppercase shadow-lg shadow-magenta-900/20 active:scale-95 transition-all">
+                    Registrar Local
                 </button>
             </div>
         </form>
 
-        <button onclick="window.location.href='index.html'" class="w-full mt-6 text-[10px] font-bold text-zinc-600 uppercase tracking-widest hover:text-white transition-colors">
-            Volver al inicio
-        </button>
+        <button onclick="window.location.href='index.html'" class="mt-8 text-[10px] font-bold text-zinc-600 uppercase tracking-widest hover:text-white">Volver al inicio</button>
     </div>
 
     <script>
-        // URL DE TU SCRIPT YA CONFIGURADA
-        const URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbzkw3kthx0SHPp0KsmoNK8AmPd6x_Y6MrfdzNXa00C6y-eddWk7BgApe91Z2NSk6v-8/exec';
+        const URL_SHEETS = 'https://script.google.com/macros/s/AKfycbzkw3kthx0SHPp0KsmoNK8AmPd6x_Y6MrfdzNXa00C6y-eddWk7BgApe91Z2NSk6v-8/exec';
 
-        const form = document.getElementById('formTienda');
-        const btn = document.getElementById('btnEnviar');
-
-        form.addEventListener('submit', async (e) => {
+        document.getElementById('formTienda').addEventListener('submit', async (e) => {
             e.preventDefault();
-
+            const btn = document.getElementById('btnT');
+            btn.innerText = 'ENVIANDO...';
             btn.disabled = true;
-            btn.innerText = 'ENVIANDO REGISTRO...';
-            btn.style.opacity = '0.5';
 
             const datos = {
                 tipo: 'Tienda',
-                nombre: document.getElementById('nombreLocal').value,
-                identificacion: document.getElementById('ruc').value,
-                telefono: document.getElementById('telefono').value,
-                detalles: document.getElementById('direccion').value
+                nombre: document.getElementById('t_nombre').value,
+                identificacion: document.getElementById('t_ruc').value,
+                telefono: document.getElementById('t_telf').value,
+                detalles: document.getElementById('t_dir').value
             };
 
             try {
-                await fetch(URL_SCRIPT, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(datos)
-                });
-
-                alert('¡Registro exitoso! El Ing. Darwin Muñoz se pondrá en contacto con su comercio pronto.');
-                form.reset();
+                await fetch(URL_SHEETS, { method: 'POST', mode: 'no-cors', body: JSON.stringify(datos) });
+                alert('Comercio registrado. El Ing. Darwin Muñoz lo contactará pronto.');
                 window.location.href = 'index.html';
-
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Ocurrió un error. Por favor verifique su conexión e intente de nuevo.');
-            } finally {
+            } catch (err) {
+                alert('Error en el registro.');
+                btn.innerText = 'REGISTRAR LOCAL';
                 btn.disabled = false;
-                btn.innerText = 'REGISTRAR COMERCIO';
-                btn.style.opacity = '1';
             }
         });
     </script>
