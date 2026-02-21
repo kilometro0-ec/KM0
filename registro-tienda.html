@@ -3,44 +3,62 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>KM0 - Registro de Comercio</title>
+    <title>KM0 - Registro Seguro de Tiendas</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet"/>
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #000000; color: white; min-height: 100dvh; }
-        input { background-color: #111 !important; border-color: #222 !important; color: white !important; }
-        input:focus { border-color: #FF00FF !important; outline: none; box-shadow: 0 0 0 1px #FF00FF; }
+        input, select { background-color: #111 !important; border-color: #222 !important; color: white !important; }
+        input:focus, select:focus { border-color: #FF00FF !important; outline: none; box-shadow: 0 0 0 1px #FF00FF; }
         .text-magenta { color: #FF00FF; }
         .bg-magenta { background-color: #FF00FF; }
+        .hidden { display: none; }
+        .fade-in { animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body class="p-6 pb-20 flex flex-col items-center">
-    <div class="w-full max-w-[400px]">
+<body class="p-6 flex flex-col items-center justify-center">
+
+    <div id="contenedorFormulario" class="w-full max-w-[400px] fade-in">
         <header class="mb-8 text-center">
             <h1 class="text-2xl font-black uppercase tracking-tighter text-magenta">Registro de Tienda</h1>
-            <p class="text-zinc-500 text-[10px] uppercase tracking-widest mt-2">Expande tu negocio con KM0</p>
+            <p class="text-zinc-500 text-[10px] uppercase tracking-widest mt-2 font-bold">Seguridad Nivel KM0</p>
         </header>
 
         <form id="formTienda" class="space-y-4">
             <div>
                 <label class="block text-[9px] font-bold uppercase text-zinc-500 mb-1 ml-1">Nombre de la Tienda</label>
-                <input type="text" id="nombreTienda" required class="w-full p-4 rounded-2xl border text-sm" placeholder="Nombre comercial">
+                <input type="text" id="nombreTienda" required class="w-full p-4 rounded-2xl border text-sm" placeholder="Ej: Supermercado KM0">
             </div>
 
             <div>
-                <label class="block text-[9px] font-bold uppercase text-zinc-500 mb-1 ml-1">Nombres del Representante Legal</label>
-                <input type="text" id="representante" required class="w-full p-4 rounded-2xl border text-sm" placeholder="Nombre completo">
+                <label class="block text-[9px] font-bold uppercase text-zinc-500 mb-1 ml-1">Representante Legal</label>
+                <input type="text" id="representante" required class="w-full p-4 rounded-2xl border text-sm" placeholder="Nombres completos">
             </div>
 
             <div>
-                <label class="block text-[9px] font-bold uppercase text-zinc-500 mb-1 ml-1">CI o RUC</label>
-                <input type="text" id="identificacion" required class="w-full p-4 rounded-2xl border text-sm" placeholder="Identificación">
+                <label class="block text-[9px] font-bold uppercase text-zinc-500 mb-1 ml-1">CI o RUC (Único)</label>
+                <input type="text" id="identificacion" minlength="10" maxlength="13" pattern="\d*" title="Ingrese solo números (10 para Cédula o 13 para RUC)" required class="w-full p-4 rounded-2xl border text-sm" placeholder="17XXXXXXXX001">
             </div>
 
             <div class="grid grid-cols-2 gap-4">
                 <div>
                     <label class="block text-[9px] font-bold uppercase text-zinc-500 mb-1 ml-1">Provincia</label>
-                    <input type="text" id="provincia" required class="w-full p-4 rounded-2xl border text-sm" placeholder="Ej: Pichincha">
+                    <select id="provincia" required class="w-full p-4 rounded-2xl border text-sm appearance-none cursor-pointer">
+                        <option value="" disabled selected>Seleccione...</option>
+                        <option value="Azuay">Azuay</option><option value="Bolívar">Bolívar</option>
+                        <option value="Cañar">Cañar</option><option value="Carchi">Carchi</option>
+                        <option value="Chimborazo">Chimborazo</option><option value="Cotopaxi">Cotopaxi</option>
+                        <option value="El Oro">El Oro</option><option value="Esmeraldas">Esmeraldas</option>
+                        <option value="Galápagos">Galápagos</option><option value="Guayas">Guayas</option>
+                        <option value="Imbabura">Imbabura</option><option value="Loja">Loja</option>
+                        <option value="Los Ríos">Los Ríos</option><option value="Manabí">Manabí</option>
+                        <option value="Morona Santiago">Morona Santiago</option><option value="Napo">Napo</option>
+                        <option value="Orellana">Orellana</option><option value="Pastaza">Pastaza</option>
+                        <option value="Pichincha">Pichincha</option><option value="Santa Elena">Santa Elena</option>
+                        <option value="Santo Domingo">Santo Domingo</option><option value="Sucumbíos">Sucumbíos</option>
+                        <option value="Tungurahua">Tungurahua</option><option value="Zamora Chinchipe">Zamora Chinchipe</option>
+                    </select>
                 </div>
                 <div>
                     <label class="block text-[9px] font-bold uppercase text-zinc-500 mb-1 ml-1">Ciudad</label>
@@ -49,13 +67,13 @@
             </div>
 
             <div>
-                <label class="block text-[9px] font-bold uppercase text-zinc-500 mb-1 ml-1">Teléfono (con +593)</label>
-                <input type="tel" id="telefono" required class="w-full p-4 rounded-2xl border text-sm" placeholder="+593987654321">
+                <label class="block text-[9px] font-bold uppercase text-zinc-500 mb-1 ml-1">Teléfono WhatsApp</label>
+                <input type="tel" id="telefono" required class="w-full p-4 rounded-2xl border text-sm" placeholder="+593 99 999 9999">
             </div>
 
             <div>
-                <label class="block text-[9px] font-bold uppercase text-zinc-500 mb-1 ml-1">Correo Electrónico</label>
-                <input type="email" id="correo" required class="w-full p-4 rounded-2xl border text-sm" placeholder="ejemplo@correo.com">
+                <label class="block text-[9px] font-bold uppercase text-zinc-500 mb-1 ml-1">Correo Electrónico (Único)</label>
+                <input type="email" id="correo" required class="w-full p-4 rounded-2xl border text-sm" placeholder="tienda@correo.com">
             </div>
 
             <div class="pt-4">
@@ -64,9 +82,22 @@
                 </button>
             </div>
         </form>
+    </div>
 
-        <button onclick="window.location.href='index.html'" class="w-full mt-8 text-[10px] font-bold text-zinc-600 uppercase tracking-widest hover:text-white transition-colors">
-            Volver al inicio
+    <div id="pantallaExito" class="hidden w-full max-w-[400px] text-center fade-in">
+        <div class="mb-6 flex justify-center">
+            <div class="w-20 h-20 bg-magenta/10 border-2 border-magenta rounded-full flex items-center justify-center shadow-[0_0_20px_#FF00FF]">
+                <svg class="w-10 h-10 text-magenta" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                </svg>
+            </div>
+        </div>
+        <h2 class="text-3xl font-black uppercase text-white mb-4 italic">¡Éxito!</h2>
+        <p class="text-zinc-400 text-sm leading-relaxed mb-10 px-4">
+            La información fue enviada a <span class="text-magenta font-bold">Kilometro 0</span>. <br>Pronto nos comunicaremos con usted.
+        </p>
+        <button onclick="window.location.href='index.html'" class="w-full border border-zinc-800 text-zinc-500 font-bold text-[10px] tracking-[0.3em] py-4 rounded-2xl uppercase hover:text-white hover:border-white transition-all">
+            Volver al Inicio
         </button>
     </div>
 
@@ -78,18 +109,15 @@
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-
             btn.disabled = true;
-            btn.innerText = 'ENVIANDO...';
+            btn.innerText = 'PROCESANDO...';
 
-            // Capturamos los datos y forzamos el formato de texto para el teléfono
             const datos = {
                 nombreTienda:   document.getElementById('nombreTienda').value,
                 representante:  document.getElementById('representante').value,
                 identificacion: document.getElementById('identificacion').value,
                 provincia:      document.getElementById('provincia').value,
                 ciudad:         document.getElementById('ciudad').value,
-                // Agregamos la comilla simple ' para que Excel no borre el +593
                 telefono:       "'" + document.getElementById('telefono').value, 
                 correo:         document.getElementById('correo').value
             };
@@ -98,18 +126,15 @@
                 await fetch(URL_SCRIPT, {
                     method: 'POST',
                     mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(datos)
                 });
 
-                alert('¡Registro Exitoso! Los datos han sido enviados al Ing. Darwin Muñoz.');
-                form.reset();
-                window.location.href = 'index.html';
+                // Transición a pantalla de éxito
+                document.getElementById('contenedorFormulario').classList.add('hidden');
+                document.getElementById('pantallaExito').classList.remove('hidden');
 
             } catch (error) {
-                alert('Error al enviar los datos. Intente de nuevo.');
-                console.error(error);
-            } finally {
+                alert('Ocurrió un error de red. Verifique su conexión.');
                 btn.disabled = false;
                 btn.innerText = 'REGISTRAR LOCAL';
             }
