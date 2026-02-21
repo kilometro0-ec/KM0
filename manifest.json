@@ -1,15 +1,23 @@
 {
-  "short_name": "Ops360",
-  "name": "Km 0 Operaciones 360",
+  "short_name": "KM0",
+  "name": "KM0 Operaciones 360",
   "icons": [
     {
-      "src": "https://ui-avatars.com/api/?name=Ops&background=ec1313&color=fff&size=192",
+      "src": "https://ui-avatars.com/api/?name=KM0&background=ec1313&color=fff&size=192&font-size=0.5&bold=true",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://ui-avatars.com/api/?name=KM0&background=ec1313&color=fff&size=512&font-size=0.5&bold=true",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
     }
   ],
   "start_url": "./index.html",
-  "background_color": "#120505",
+  "background_color": "#000000",
   "display": "standalone",
-  "theme_color": "#ec1313"
+  "theme_color": "#ec1313",
+  "orientation": "portrait"
 }
