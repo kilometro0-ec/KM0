@@ -4,12 +4,11 @@
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>Admin: Ing. Darwin Muñoz - KM0</title>
-    <link rel="manifest" href="manifest.json">
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     
-    <script id="tailwind-config">
+    <script>
         tailwind.config = {
             darkMode: "class",
             theme: {
@@ -26,7 +25,8 @@
         }
     </script>
 
-    <style type="text/tailwindcss">
+    <style>
+        /* CSS Estándar para evitar bugs de compilación en el navegador */
         body {
             font-family: 'Inter', sans-serif;
             background-color: #000000;
@@ -37,10 +37,12 @@
             -webkit-backdrop-filter: blur(20px);
         }
         textarea:focus {
-            outline: none;
+            outline: none !important;
             border-color: #ec1313 !important;
             box-shadow: 0 0 0 1px #ec1313 !important;
         }
+        /* Corregir posible parpadeo al cargar */
+        [v-cloak] { display: none; }
     </style>
 </head>
 
@@ -89,11 +91,11 @@
                 <div class="space-y-1">
                     <p class="text-[9px] font-black uppercase text-gray-500 tracking-[0.2em]">Estado de la revisión</p>
                     <div id="progressBars" class="flex gap-1.5">
-                        <div class="h-1.5 w-7 rounded-full bg-zinc-800 transition-colors duration-500"></div>
-                        <div class="h-1.5 w-7 rounded-full bg-zinc-800 transition-colors duration-500"></div>
-                        <div class="h-1.5 w-7 rounded-full bg-zinc-800 transition-colors duration-500"></div>
-                        <div class="h-1.5 w-7 rounded-full bg-zinc-800 transition-colors duration-500"></div>
-                        <div class="h-1.5 w-7 rounded-full bg-zinc-800 transition-colors duration-500"></div>
+                        <div class="h-1.5 w-7 rounded-full bg-zinc-800 transition-all duration-500"></div>
+                        <div class="h-1.5 w-7 rounded-full bg-zinc-800 transition-all duration-500"></div>
+                        <div class="h-1.5 w-7 rounded-full bg-zinc-800 transition-all duration-500"></div>
+                        <div class="h-1.5 w-7 rounded-full bg-zinc-800 transition-all duration-500"></div>
+                        <div class="h-1.5 w-7 rounded-full bg-zinc-800 transition-all duration-500"></div>
                     </div>
                 </div>
                 <p id="progressText" class="text-2xl font-black text-primary italic">0/5</p>
@@ -124,43 +126,9 @@
                     <button onclick="validarDoc(this, false)" class="w-10 h-10 rounded-full border border-border-dark flex items-center justify-center text-primary transition-all"><span class="material-symbols-outlined">close</span></button>
                 </div>
             </div>
-
-            <div class="doc-card bg-card-dark rounded-[1.5rem] border border-border-dark p-4 flex items-center justify-between" data-id="matricula">
-                <div class="flex items-center gap-3">
-                    <span class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-xl">directions_car</span>
-                    <div><p class="font-bold text-sm">Matrícula</p><p class="text-[9px] text-zinc-500 uppercase tracking-tighter">Vehículo Registrado</p></div>
-                </div>
-                <div class="action-buttons flex gap-2">
-                    <button onclick="validarDoc(this, true)" class="w-10 h-10 rounded-full border border-border-dark flex items-center justify-center text-green-500 transition-all"><span class="material-symbols-outlined">check</span></button>
-                    <button onclick="validarDoc(this, false)" class="w-10 h-10 rounded-full border border-border-dark flex items-center justify-center text-primary transition-all"><span class="material-symbols-outlined">close</span></button>
-                </div>
-            </div>
-
-            <div class="doc-card bg-card-dark rounded-[1.5rem] border border-border-dark p-4 flex items-center justify-between" data-id="planilla">
-                <div class="flex items-center gap-3">
-                    <span class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-xl">water_drop</span>
-                    <div><p class="font-bold text-sm">Planilla Básica</p><p class="text-[9px] text-zinc-500 uppercase tracking-tighter">Servicios (Agua/Luz)</p></div>
-                </div>
-                <div class="action-buttons flex gap-2">
-                    <button onclick="validarDoc(this, true)" class="w-10 h-10 rounded-full border border-border-dark flex items-center justify-center text-green-500 transition-all"><span class="material-symbols-outlined">check</span></button>
-                    <button onclick="validarDoc(this, false)" class="w-10 h-10 rounded-full border border-border-dark flex items-center justify-center text-primary transition-all"><span class="material-symbols-outlined">close</span></button>
-                </div>
-            </div>
-
-            <div class="doc-card bg-card-dark rounded-[1.5rem] border border-border-dark p-4 flex items-center justify-between" data-id="banco">
-                <div class="flex items-center gap-3">
-                    <span class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-xl">account_balance</span>
-                    <div><p class="font-bold text-sm">Certificado Bancario</p><p class="text-[9px] text-zinc-500 uppercase tracking-tighter">Acreditación Pagos</p></div>
-                </div>
-                <div class="action-buttons flex gap-2">
-                    <button onclick="validarDoc(this, true)" class="w-10 h-10 rounded-full border border-border-dark flex items-center justify-center text-green-500 transition-all"><span class="material-symbols-outlined">check</span></button>
-                    <button onclick="validarDoc(this, false)" class="w-10 h-10 rounded-full border border-border-dark flex items-center justify-center text-primary transition-all"><span class="material-symbols-outlined">close</span></button>
-                </div>
-            </div>
-
             <div class="mt-8">
                 <label class="block text-[10px] font-black uppercase tracking-[0.3em] text-zinc-600 mb-2 px-1">Observaciones Finales</label>
-                <textarea id="notasAdmin" class="w-full bg-card-dark border border-border-dark rounded-2xl p-4 text-sm text-white placeholder:text-zinc-800" placeholder="Escriba aquí los detalles de la revisión..." rows="3"></textarea>
+                <textarea id="notasAdmin" class="w-full bg-card-dark border border-border-dark rounded-2xl p-4 text-sm text-white placeholder:text-zinc-800" placeholder="Motivo de rechazo o notas de activación..." rows="3"></textarea>
             </div>
         </section>
     </main>
@@ -174,39 +142,42 @@
                 APROBAR CUENTA
             </button>
         </div>
-        <p class="text-center mt-6 text-[8px] font-black uppercase tracking-[0.5em] text-zinc-700">KM0 Logistics Systems 2025</p>
     </footer>
 
     <script>
-        // SEGURIDAD
-        if (localStorage.getItem("sesion_km0") !== "admin") {
-            window.location.href = "login.html";
-        }
+        // SEGURIDAD MEJORADA (Evita bucle infinito)
+        document.addEventListener('DOMContentLoaded', () => {
+            const sesion = localStorage.getItem("sesion_km0");
+            if (sesion !== "admin") {
+                console.warn("Acceso denegado. Redirigiendo...");
+                window.location.replace("login.html"); 
+            }
+        });
 
         function cerrarSesion() {
             localStorage.removeItem("sesion_km0");
-            window.location.href = "index.html";
+            window.location.replace("index.html");
         }
 
-        // LÓGICA DE VERIFICACIÓN
         const totalDocumentos = 5;
         const statusMap = {}; 
 
         function validarDoc(button, esAprobado) {
             const card = button.closest('.doc-card');
+            if (!card) return;
             const docId = card.dataset.id;
             const container = card.querySelector('.action-buttons');
 
+            statusMap[docId] = esAprobado;
+
             if (esAprobado) {
-                statusMap[docId] = true;
                 container.innerHTML = `
-                    <div class="h-10 px-4 rounded-full bg-green-500/10 text-green-500 flex items-center gap-2 border border-green-500/20 animate-pulse">
+                    <div class="h-10 px-4 rounded-full bg-green-500/10 text-green-500 flex items-center gap-2 border border-green-500/20">
                         <span class="material-symbols-outlined text-sm font-black">check_circle</span>
                         <span class="text-[9px] font-black uppercase">VALIDADO</span>
                     </div>
                 `;
             } else {
-                statusMap[docId] = false;
                 container.innerHTML = `
                     <div class="h-10 px-4 rounded-full bg-primary/10 text-primary flex items-center gap-2 border border-primary/20">
                         <span class="material-symbols-outlined text-sm font-black">block</span>
@@ -243,36 +214,19 @@
 
             if (aprobarTodo) {
                 if (aprobadosCount < totalDocumentos) {
-                    alert("⚠️ El Ing. Darwin Muñoz no puede aprobar sin validar todos los documentos.");
+                    alert("⚠️ Debe validar los 5 documentos antes de aprobar.");
                     return;
                 }
-                alert("✅ ACTIVACIÓN EXITOSA: Usuario autorizado para operar en KM0.");
+                alert("✅ ACTIVACIÓN EXITOSA");
             } else {
-                if (!notas) {
-                    alert("❌ ERROR: Escriba el motivo del rechazo para informar al solicitante.");
-                    document.getElementById('notasAdmin').focus();
+                if (!notas.trim()) {
+                    alert("❌ Debe escribir una observación para el rechazo.");
                     return;
                 }
-                alert("📩 SOLICITUD RECHAZADA: Notificación enviada al motorizado.");
+                alert("📩 NOTIFICACIÓN DE RECHAZO ENVIADA");
             }
-            window.location.reload();
+            // Aquí iría tu fetch al Google Script
         }
-
-        // INSTALACIÓN PWA
-        let deferredPrompt;
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            document.getElementById('btnInstalar').classList.remove('hidden');
-        });
-
-        document.getElementById('btnInstalar').addEventListener('click', async () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                deferredPrompt = null;
-                document.getElementById('btnInstalar').classList.add('hidden');
-            }
-        });
     </script>
 </body>
 </html>
