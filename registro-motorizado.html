@@ -10,139 +10,91 @@
     <script>
         tailwind.config = {
             darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: { primary: '#ec1313', darkBg: '#000000', cardBg: '#0a0a0a' }
-                }
-            }
+            theme: { extend: { colors: { primary: '#ec1313' } } }
         }
     </script>
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #000; color: white; -webkit-tap-highlight-color: transparent; }
-        .input-km0 { background: #111; border: 1px solid #222; padding: 18px; border-radius: 16px; width: 100%; outline: none; transition: 0.3s; font-size: 14px; }
-        .input-km0:focus { border-color: #ec1313; background: #151515; }
-        .btn-primary { background: #ec1313; color: white; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; border-radius: 20px; transition: 0.3s; }
-        .btn-primary:disabled { background: #222; color: #555; cursor: not-allowed; }
-        .file-card { background: #0a0a0a; border: 1px dashed #333; padding: 15px; border-radius: 16px; display: flex; flex-direction: column; gap: 8px; }
-        .step-indicator { height: 4px; border-radius: 2px; flex: 1; background: #222; transition: 0.5s; }
-        .step-active { background: #ec1313; }
+        body { font-family: 'Inter', sans-serif; background-color: #000; color: white; }
+        .input-km0 { background: #111; border: 1px solid #222; padding: 16px; border-radius: 14px; width: 100%; outline: none; }
+        .input-km0:focus { border-color: #ec1313; }
+        .file-card { background: #0a0a0a; border: 1px solid #222; padding: 12px; border-radius: 14px; }
     </style>
 </head>
 <body class="p-6">
 
-    <header class="flex flex-col items-center mb-8 pt-4">
-        <div class="h-12 w-12 bg-primary rounded-full flex items-center justify-center font-black italic text-xl mb-2">KM0</div>
-        <h1 class="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Plataforma de Registro</h1>
-        <div class="flex w-full gap-2 mt-6 max-w-xs">
-            <div id="stepLine1" class="step-indicator step-active"></div>
-            <div id="stepLine2" class="step-indicator"></div>
-        </div>
-    </header>
-
     <main class="max-w-md mx-auto">
-
         <section id="paso1" class="space-y-4">
-            <div class="mb-6">
-                <h2 class="text-2xl font-black italic uppercase">Datos Básicos</h2>
-                <p class="text-zinc-500 text-xs uppercase tracking-widest font-bold">Información de contacto y vehículo</p>
-            </div>
-
+            <h2 class="text-2xl font-black italic uppercase text-primary">Paso 1: Datos</h2>
             <input type="text" id="nombre" placeholder="Nombre Completo" class="input-km0" oninput="validarPaso1()">
-            <input type="number" id="cedula" placeholder="Cédula o RUC" class="input-km0" oninput="validarPaso1()">
-            <input type="tel" id="telefono" placeholder="WhatsApp (Ej: 0987654321)" class="input-km0" oninput="validarPaso1()">
-            <input type="email" id="email" placeholder="Correo Electrónico" class="input-km0" oninput="validarPaso1()">
+            <input type="number" id="cedula" placeholder="Cédula" class="input-km0" oninput="validarPaso1()">
+            <input type="tel" id="telefono" placeholder="WhatsApp" class="input-km0" oninput="validarPaso1()">
+            <input type="email" id="email" placeholder="Correo" class="input-km0" oninput="validarPaso1()">
+            <input type="text" id="marca" placeholder="Marca de Moto" class="input-km0" oninput="validarPaso1()">
+            <input type="text" id="placa" placeholder="Placa" class="input-km0" oninput="validarPaso1()">
             
-            <div class="grid grid-cols-2 gap-3">
-                <input type="text" id="marca" placeholder="Marca de Moto" class="input-km0" oninput="validarPaso1()">
-                <input type="text" id="placa" placeholder="Placa" class="input-km0" oninput="validarPaso1()">
-            </div>
-
-            <button id="btnSiguiente" disabled onclick="irAPaso2()" class="btn-primary w-full h-16 mt-4 active:scale-95">
+            <button id="btnSiguiente" disabled onclick="irAPaso2()" class="w-full h-16 bg-zinc-800 text-zinc-500 font-black rounded-2xl uppercase tracking-widest transition-all">
                 Siguiente Paso
             </button>
         </section>
 
-        <section id="paso2" class="hidden space-y-5">
-            <div class="mb-6">
-                <h2 class="text-2xl font-black italic uppercase">Expediente Digital</h2>
-                <p class="text-zinc-500 text-xs uppercase tracking-widest font-bold">Suba fotos legibles de sus documentos</p>
-            </div>
-
-            <div class="space-y-4">
-                <div class="file-card">
-                    <label class="text-[10px] font-black uppercase text-zinc-400">Video Biométrico (Mirar a cámara)</label>
-                    <input type="file" id="video" accept="video/*" class="text-xs text-zinc-500 file:bg-primary file:text-white file:border-0 file:px-3 file:py-1 file:rounded-full file:mr-3">
-                </div>
-
-                <div class="file-card">
-                    <label class="text-[10px] font-black uppercase text-zinc-400">Cédula de Identidad (Frontal)</label>
-                    <input type="file" id="cedFront" accept="image/*" class="text-xs text-zinc-500 file:bg-zinc-800 file:text-white file:border-0 file:px-3 file:py-1 file:rounded-full file:mr-3">
-                </div>
-
-                <div class="file-card">
-                    <label class="text-[10px] font-black uppercase text-zinc-400">Cédula de Identidad (Posterior)</label>
-                    <input type="file" id="cedPost" accept="image/*" class="text-xs text-zinc-500 file:bg-zinc-800 file:text-white file:border-0 file:px-3 file:py-1 file:rounded-full file:mr-3">
-                </div>
-
-                <div class="file-card">
-                    <label class="text-[10px] font-black uppercase text-zinc-400">Licencia de Conducir</label>
-                    <input type="file" id="licFront" accept="image/*" class="text-xs text-zinc-500 file:bg-zinc-800 file:text-white file:border-0 file:px-3 file:py-1 file:rounded-full file:mr-3">
-                </div>
-
-                <p class="text-[9px] text-center text-zinc-600 uppercase font-bold px-4 italic">Al finalizar, su registro será enviado para revisión del Ing. Darwin Muñoz.</p>
-            </div>
-
-            <div class="flex gap-3">
-                <button onclick="irAPaso1()" class="w-1/3 h-16 bg-zinc-900 border border-zinc-800 font-bold rounded-2xl uppercase text-[10px]">Atrás</button>
-                <button id="btnFinalizar" onclick="enviarRegistro()" class="btn-primary flex-1 h-16 active:scale-95">Finalizar Registro</button>
-            </div>
-        </section>
-
-        <section id="pantallaExito" class="hidden py-16 text-center space-y-6 animate-in fade-in duration-700">
-            <div class="flex justify-center">
-                <div class="h-24 w-24 bg-green-500/10 rounded-full flex items-center justify-center">
-                    <span class="material-symbols-outlined text-6xl text-green-500">verified</span>
-                </div>
-            </div>
-            <h2 class="text-3xl font-black italic uppercase leading-none">¡Registro Enviado!</h2>
-            <p class="text-zinc-500 text-sm px-8">Tu documentación ha sido recibida con éxito. El **Ing. Darwin Muñoz** revisará tu perfil y recibirás una notificación por WhatsApp.</p>
+        <section id="paso2" class="hidden space-y-4">
+            <h2 class="text-2xl font-black italic uppercase text-primary">Paso 2: Documentos</h2>
             
-            <div class="pt-8">
-                <button onclick="window.location.href='index.html'" class="w-full max-w-xs h-16 border-2 border-zinc-800 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-zinc-900 transition-all">Regresar al Inicio</button>
+            <div class="grid grid-cols-1 gap-3">
+                <div class="file-card"><label class="text-[10px] uppercase font-bold text-zinc-500">Video Biométrico</label><input type="file" id="video" accept="video/*"></div>
+                <div class="file-card"><label class="text-[10px] uppercase font-bold text-zinc-500">Cédula Frontal</label><input type="file" id="cedFront" accept="image/*"></div>
+                <div class="file-card"><label class="text-[10px] uppercase font-bold text-zinc-500">Cédula Posterior</label><input type="file" id="cedPost" accept="image/*"></div>
+                <div class="file-card"><label class="text-[10px] uppercase font-bold text-zinc-500">Licencia Frontal</label><input type="file" id="licFront" accept="image/*"></div>
+                <div class="file-card"><label class="text-[10px] uppercase font-bold text-zinc-500">Licencia Posterior</label><input type="file" id="licPost" accept="image/*"></div>
+                <div class="file-card"><label class="text-[10px] uppercase font-bold text-zinc-500">Planilla de Luz</label><input type="file" id="planilla" accept="image/*"></div>
+                <div class="file-card"><label class="text-[10px] uppercase font-bold text-zinc-500">Antecedentes</label><input type="file" id="antecedentes" accept="image/*"></div>
+                <div class="file-card"><label class="text-[10px] uppercase font-bold text-zinc-500">Certificado Bancario</label><input type="file" id="banco" accept="image/*"></div>
+            </div>
+
+            <div class="flex gap-2">
+                <button onclick="irAPaso1()" class="w-1/3 h-16 bg-zinc-900 rounded-2xl font-bold uppercase text-xs">Atrás</button>
+                <button id="btnFinalizar" onclick="enviarRegistro()" class="flex-1 h-16 bg-primary text-white font-black rounded-2xl uppercase tracking-widest shadow-lg shadow-primary/20">Finalizar</button>
             </div>
         </section>
 
+        <section id="pantallaExito" class="hidden py-20 text-center space-y-6">
+            <span class="material-symbols-outlined text-7xl text-green-500">check_circle</span>
+            <h2 class="text-3xl font-black uppercase italic">¡Registro con éxito!</h2>
+            <button onclick="window.location.href='index.html'" class="w-full h-14 border-2 border-zinc-800 rounded-2xl font-bold">REGRESAR AL INICIO</button>
+        </section>
     </main>
 
     <script>
-        // URL DE TU ÚLTIMA IMPLEMENTACIÓN
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec'; // REEMPLAZAR AQUÍ
 
         function validarPaso1() {
             const campos = ['nombre', 'cedula', 'telefono', 'email', 'marca', 'placa'];
             const todoLleno = campos.every(id => document.getElementById(id).value.trim() !== "");
             const btn = document.getElementById('btnSiguiente');
-            
-            btn.disabled = !todoLleno;
+            if(todoLleno) {
+                btn.disabled = false;
+                btn.className = "w-full h-16 bg-primary text-white font-black rounded-2xl uppercase tracking-widest active:scale-95 transition-all";
+            } else {
+                btn.disabled = true;
+                btn.className = "w-full h-16 bg-zinc-800 text-zinc-500 font-black rounded-2xl uppercase tracking-widest";
+            }
         }
 
         function irAPaso2() {
             document.getElementById('paso1').classList.add('hidden');
             document.getElementById('paso2').classList.remove('hidden');
-            document.getElementById('stepLine2').classList.add('step-active');
             window.scrollTo(0, 0);
         }
 
         function irAPaso1() {
             document.getElementById('paso2').classList.add('hidden');
             document.getElementById('paso1').classList.remove('hidden');
-            document.getElementById('stepLine2').classList.remove('step-active');
         }
 
         async function enviarRegistro() {
             const btn = document.getElementById('btnFinalizar');
             btn.disabled = true;
-            btn.innerHTML = `<div class="flex items-center justify-center gap-2"><div class="h-4 w-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div> ENVIANDO...</div>`;
+            btn.innerHTML = "ENVIANDO...";
 
             const payload = {
                 tipoRegistro: "motorizado",
@@ -152,11 +104,15 @@
                 email: document.getElementById('email').value,
                 marca: document.getElementById('marca').value,
                 placa: document.getElementById('placa').value,
-                // Procesamiento de archivos
+                // LOS 8 ARCHIVOS
                 videoBase64: await toBase64(document.getElementById('video').files[0]),
                 fotoCedulaFront: await toBase64(document.getElementById('cedFront').files[0]),
                 fotoCedulaPost: await toBase64(document.getElementById('cedPost').files[0]),
-                fotoLicenciaFront: await toBase64(document.getElementById('licFront').files[0])
+                fotoLicenciaFront: await toBase64(document.getElementById('licFront').files[0]),
+                fotoLicenciaPost: await toBase64(document.getElementById('licPost').files[0]),
+                fotoPlanilla: await toBase64(document.getElementById('planilla').files[0]),
+                fotoAntecedentes: await toBase64(document.getElementById('antecedentes').files[0]),
+                fotoBanco: await toBase64(document.getElementById('banco').files[0])
             };
 
             try {
@@ -165,15 +121,12 @@
                     mode: "no-cors",
                     body: JSON.stringify(payload)
                 });
-
                 document.getElementById('paso2').classList.add('hidden');
                 document.getElementById('pantallaExito').classList.remove('hidden');
-                window.scrollTo(0, 0);
-
             } catch (e) {
-                alert("Error al enviar el registro. Verifique su conexión.");
+                alert("Error de red.");
                 btn.disabled = false;
-                btn.innerHTML = "Finalizar Registro";
+                btn.innerHTML = "Finalizar";
             }
         }
 
