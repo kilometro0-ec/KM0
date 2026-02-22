@@ -58,32 +58,33 @@
         </section>
 
         <section id="pantallaExito" class="hidden py-20 text-center space-y-6">
-            <div class="flex justify-center">
-                <span class="material-symbols-outlined text-7xl text-green-500">check_circle</span>
-            </div>
-            <h2 class="text-3xl font-black uppercase italic leading-tight">¡REGISTRO CON ÉXITO!</h2>
-            <p class="text-zinc-400 text-sm px-6">Tu solicitud ha sido enviada correctamente. El Ing. Darwin Muñoz revisará tu documentación pronto.</p>
-            <button onclick="window.location.href='index.html'" class="w-full h-16 border-2 border-zinc-800 rounded-2xl font-black uppercase tracking-widest text-xs active:scale-95 transition-all">
+            <span class="material-symbols-outlined text-7xl text-green-500">check_circle</span>
+            <h2 class="text-3xl font-black uppercase italic">¡REGISTRO CON ÉXITO!</h2>
+            <p class="text-zinc-500">Su información ha sido enviada correctamente.</p>
+            <button onclick="window.location.href='index.html'" class="w-full h-16 border-2 border-zinc-800 rounded-2xl font-black uppercase tracking-widest text-xs transition-all active:scale-95">
                 VOLVER AL INICIO
             </button>
         </section>
     </main>
 
     <script>
+        // REEMPLAZA ESTA URL POR LA DE TU SCRIPT
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec'; 
 
-        // Lógica para habilitar el botón
+        // FUNCIÓN PARA HABILITAR EL BOTÓN SEGÚN LOS CAMPOS LLENOS
         function validarPaso1() {
-            const campos = ['nombre', 'cedula', 'telefono', 'email', 'marca', 'placa'];
-            const todoLleno = campos.every(id => document.getElementById(id).value.trim() !== "");
+            const ids = ['nombre', 'cedula', 'telefono', 'email', 'marca', 'placa'];
+            const todosLlenos = ids.every(id => document.getElementById(id).value.trim() !== "");
             const btn = document.getElementById('btnSiguiente');
             
-            if(todoLleno) {
+            if(todosLlenos) {
                 btn.disabled = false;
-                btn.className = "w-full h-16 bg-primary text-white font-black rounded-2xl uppercase tracking-widest active:scale-95 transition-all";
+                btn.classList.remove('bg-zinc-800', 'text-zinc-500');
+                btn.classList.add('bg-primary', 'text-white');
             } else {
                 btn.disabled = true;
-                btn.className = "w-full h-16 bg-zinc-800 text-zinc-500 font-black rounded-2xl uppercase tracking-widest";
+                btn.classList.add('bg-zinc-800', 'text-zinc-500');
+                btn.classList.remove('bg-primary', 'text-white');
             }
         }
 
@@ -130,7 +131,7 @@
                 document.getElementById('paso2').classList.add('hidden');
                 document.getElementById('pantallaExito').classList.remove('hidden');
             } catch (e) {
-                alert("Error de red.");
+                alert("Error de red. Intente de nuevo.");
                 btn.disabled = false;
                 btn.innerHTML = "Finalizar";
             }
