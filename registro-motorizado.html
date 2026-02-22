@@ -155,129 +155,62 @@
 
 <script>
     // URL DE TU SCRIPT DE GOOGLE
-    const URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec';
+  // --- CONFIGURACIÓN ---
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec'; // Asegúrate de poner la última URL /exec
 
-    // Helper Base64
-    const toBase64 = file => new Promise((resolve, reject) => {
-        if (!file) resolve(null);
+async function enviarRegistro() {
+    const btn = document.getElementById('btnEnviar');
+    btn.disabled = true;
+    btn.innerText = "SUBIENDO EXPEDIENTE...";
+
+    try {
+        const payload = {
+            tipoRegistro: "motorizado",
+            nombre: document.getElementById('nombre').value,
+            cedula: document.getElementById('cedula').value,
+            telefono: document.getElementById('telefono').value,
+            email: document.getElementById('email').value,
+            provincia: document.getElementById('provincia').value,
+            ciudad: document.getElementById('ciudad').value,
+            placa: document.getElementById('placa').value,
+            marca: document.getElementById('marca').value,
+            // Conversión de archivos a Base64
+            videoBase64: await toBase64(document.getElementById('video').files[0]),
+            fotoCedulaFront: await toBase64(document.getElementById('cedFront').files[0]),
+            fotoCedulaPost: await toBase64(document.getElementById('cedPost').files[0]),
+            fotoLicenciaFront: await toBase64(document.getElementById('licFront').files[0]),
+            fotoLicenciaPost: await toBase64(document.getElementById('licPost').files[0]),
+            fotoPlanilla: await toBase64(document.getElementById('planilla').files[0]),
+            fotoAntecedentes: await toBase64(document.getElementById('antecedentes').files[0]),
+            fotoBanco: await toBase64(document.getElementById('banco').files[0])
+        };
+
+        const response = await fetch(SCRIPT_URL, {
+            method: "POST",
+            mode: "no-cors", // Crucial para evitar bloqueos de navegador
+            body: JSON.stringify(payload)
+        });
+
+        // Como usamos no-cors, no podemos leer el JSON de respuesta, 
+        // pero si llega aquí es porque se envió.
+        alert("✅ REGISTRO ENVIADO. El Ing. Darwin Muñoz revisará su documentación.");
+        location.reload();
+
+    } catch (error) {
+        console.error(error);
+        alert("❌ Error al enviar. Verifique su conexión o el tamaño de los archivos.");
+        btn.disabled = false;
+        btn.innerText = "REINTENTAR REGISTRO";
+    }
+}
+
+// Función auxiliar para convertir archivos
+function toBase64(file) {
+    return new Promise((resolve, reject) => {
+        if (!file) resolve("");
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = () => resolve(reader.result);
         reader.onerror = error => reject(error);
     });
-
-    function validateFile(input, textId, boxId = null, iconId = null) {
-        if(input.files && input.files[0]) {
-            const label = document.getElementById(textId);
-            label.innerText = "LISTO ✅";
-            label.classList.add('text-green-500');
-            label.classList.remove('text-slate-400');
-
-            if(boxId) {
-                const box = document.getElementById(boxId);
-                box.classList.add('bg-green-500/20', 'border-green-500');
-            }
-            if(iconId) {
-                const icon = document.getElementById(iconId);
-                icon.innerText = "check_circle";
-                icon.classList.replace('text-primary', 'text-green-500');
-            }
-            input.closest('label').classList.add('border-green-500', 'bg-green-500/5');
-        }
-    }
-
-    function goToStep2() {
-        const campos = [
-            { id: 'nombre', msj: "Nombre incompleto" },
-            { id: 'email', msj: "Email requerido" },
-            { id: 'cedula', len: 10 },
-            { id: 'tel', len: 9 },
-            { id: 'placa', msj: "Placa requerida" },
-            { id: 'marca', msj: "Marca requerida" }
-        ];
-
-        let valido = true;
-        campos.forEach(c => {
-            const el = document.getElementById(c.id);
-            if (!el.value || (c.len && el.value.length !== c.len)) {
-                el.classList.add('ring-2', 'ring-primary', 'bg-red-50');
-                valido = false;
-            } else {
-                el.classList.remove('ring-2', 'ring-primary', 'bg-red-50');
-            }
-        });
-
-        if (valido) {
-            document.getElementById('step-1').classList.remove('active');
-            document.getElementById('step-2').classList.add('active');
-            window.scrollTo(0,0);
-        } else {
-            alert("Revise los campos marcados en rojo.");
-        }
-    }
-
-    document.getElementById('placa').addEventListener('input', (e) => {
-        let val = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
-        if (val.length > 2 && val.indexOf('-') === -1) val = val.slice(0, 2) + '-' + val.slice(2);
-        e.target.value = val;
-    });
-
-    document.getElementById('main-form').onsubmit = async (e) => {
-        e.preventDefault();
-        const btn = document.getElementById('btn-finalizar');
-        btn.disabled = true;
-        btn.innerText = "ENVIANDO EXPEDIENTE...";
-
-        try {
-            const f = document.querySelectorAll('input[type="file"]');
-            
-            const payload = {
-                tipoRegistro: "motorizado",
-                nombre: document.getElementById('nombre').value,
-                email: document.getElementById('email').value,
-                cedula: "'" + document.getElementById('cedula').value,
-                telefono: "'+593" + document.getElementById('tel').value,
-                placa: document.getElementById('placa').value,
-                marca: document.getElementById('marca').value,
-                
-                // Mapeo de archivos
-                videoBase64:       await toBase64(f[0].files[0]),
-                fotoCedulaFront:   await toBase64(f[1].files[0]),
-                fotoCedulaPost:    await toBase64(f[2].files[0]),
-                fotoLicenciaFront: await toBase64(f[3].files[0]),
-                fotoLicenciaPost:  await toBase64(f[4].files[0]),
-                fotoPlanilla:      await toBase64(f[5].files[0]),
-                fotoAntecedentes:  await toBase64(f[6].files[0]),
-                fotoBanco:         await toBase64(f[7].files[0])
-            };
-
-            await fetch(URL_SCRIPT, {
-                method: 'POST',
-                mode: 'no-cors',
-                body: JSON.stringify(payload)
-            });
-
-            document.getElementById('step-2').classList.remove('active');
-            document.getElementById('header-nav').classList.add('hidden');
-            document.getElementById('step-success').classList.add('active');
-            
-            setTimeout(() => {
-                window.location.href = "about:blank";
-            }, 8000);
-
-        } catch (err) {
-            alert("Error de conexión. Intente nuevamente.");
-            btn.disabled = false;
-            btn.innerText = "FINALIZAR REGISTRO";
-        }
-    };
-
-    function handleBack() {
-        if(document.getElementById('step-2').classList.contains('active')) {
-            document.getElementById('step-2').classList.remove('active');
-            document.getElementById('step-1').classList.add('active');
-        } else { window.history.back(); }
-    }
-</script>
-</body>
-</html>
+} 
