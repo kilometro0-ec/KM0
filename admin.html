@@ -68,6 +68,7 @@
     </footer>
 
     <script>
+        // ASEGÚRATE QUE ESTA URL SEA LA DE TU ÚLTIMA IMPLEMENTACIÓN
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec';
         let db = { motorizados: [], tiendas: [] };
         let currentTab = 'motorizados';
@@ -76,15 +77,20 @@
         async function init() {
             try {
                 const response = await fetch(SCRIPT_URL);
-                db = await response.json();
+                const data = await response.json();
                 
-                // Actualizar contadores
+                // Limpieza y asignación de datos
+                db.motorizados = data.motorizados || [];
+                db.tiendas = data.tiendas || [];
+
+                // Actualizar contadores visuales
                 document.getElementById('countM').innerText = db.motorizados.length;
                 document.getElementById('countT').innerText = db.tiendas.length;
                 
                 render();
             } catch (e) {
-                alert("Error de conexión. Verifique su URL de Apps Script.");
+                console.error(e);
+                alert("Error de conexión. Verifique que el script esté publicado como 'Cualquiera'.");
             }
         }
 
@@ -100,13 +106,17 @@
             const main = document.getElementById('main');
             const footer = document.getElementById('footer');
             const loading = document.getElementById('loading');
+            const content = document.getElementById('content');
 
             loading.classList.add('hidden');
-            const content = document.getElementById('content');
             content.classList.remove('hidden');
 
             if (!list || list.length === 0) {
-                content.innerHTML = `<div class="py-20 text-center opacity-30"><span class="material-symbols-outlined text-6xl">check_circle</span><p class="mt-4 text-[10px] font-black uppercase">No hay solicitudes pendientes</p></div>`;
+                content.innerHTML = `
+                    <div class="py-20 text-center opacity-30">
+                        <span class="material-symbols-outlined text-6xl">check_circle</span>
+                        <p class="mt-4 text-[10px] font-black uppercase">No hay solicitudes en ${currentTab}</p>
+                    </div>`;
                 footer.classList.add('hidden');
                 return;
             }
@@ -117,8 +127,8 @@
             if (currentTab === 'motorizados') {
                 content.innerHTML = `
                 <div class="mb-8 animate-in fade-in slide-in-from-bottom duration-500">
-                    <h2 class="text-3xl font-black italic uppercase leading-none tracking-tighter">${currentItem.nombre}</h2>
-                    <p class="text-primary font-black text-xs uppercase mt-2 tracking-widest italic">${currentItem.marca} • ${currentItem.placa}</p>
+                    <h2 class="text-3xl font-black italic uppercase leading-none tracking-tighter">${currentItem.nombre || 'Sin nombre'}</h2>
+                    <p class="text-primary font-black text-xs uppercase mt-2 tracking-widest italic">${currentItem.marca || 'Marca'} • ${currentItem.placa || 'Placa'}</p>
                     <div class="mt-4 flex gap-2">
                         <span class="px-2 py-1 bg-zinc-900 border border-border rounded text-[9px] font-bold text-zinc-400 uppercase">ID: ${currentItem.cedula}</span>
                         <span class="px-2 py-1 bg-zinc-900 border border-border rounded text-[9px] font-bold text-zinc-400 uppercase">TEL: ${currentItem.telefono}</span>
@@ -126,25 +136,25 @@
                 </div>
 
                 <div class="grid grid-cols-1 gap-3">
-                    <p class="text-[9px] font-black uppercase text-zinc-600 tracking-widest ml-1">Verificación de Documentos</p>
-                    <button class="btn-doc text-primary border-primary/30" onclick="window.open('${currentItem.urlVideo}', '_blank')"><span class="material-symbols-outlined">videocam</span> VIDEO BIOMÉTRICO (VERIFICAR ROSTRO)</button>
+                    <p class="text-[9px] font-black uppercase text-zinc-600 tracking-widest ml-1">Documentación Registrada</p>
+                    <button class="btn-doc text-primary border-primary/30" onclick="window.open('${currentItem.urlVideo}', '_blank')"><span class="material-symbols-outlined">videocam</span> VIDEO BIOMÉTRICO</button>
                     <button class="btn-doc" onclick="window.open('${currentItem.urlCedFront}', '_blank')"><span class="material-symbols-outlined">badge</span> CÉDULA FRONTAL</button>
                     <button class="btn-doc" onclick="window.open('${currentItem.urlCedPost}', '_blank')"><span class="material-symbols-outlined">badge</span> CÉDULA POSTERIOR</button>
-                    <button class="btn-doc" onclick="window.open('${currentItem.urlLicFront}', '_blank')"><span class="material-symbols-outlined">license</span> LICENCIA DE CONDUCIR</button>
-                    <button class="btn-doc" onclick="window.open('${currentItem.urlPlanilla}', '_blank')"><span class="material-symbols-outlined">receipt</span> PLANILLA DE LUZ (DOMICILIO)</button>
-                    <button class="btn-doc" onclick="window.open('${currentItem.urlAntecedentes}', '_blank')"><span class="material-symbols-outlined">gavel</span> ANTECEDENTES PENALES</button>
-                    <button class="btn-doc" onclick="window.open('${currentItem.urlBanco}', '_blank')"><span class="material-symbols-outlined">account_balance</span> CERTIFICADO BANCARIO</button>
+                    <button class="btn-doc" onclick="window.open('${currentItem.urlLicFront}', '_blank')"><span class="material-symbols-outlined">license</span> LICENCIA FRONTAL</button>
+                    <button class="btn-doc" onclick="window.open('${currentItem.urlPlanilla}', '_blank')"><span class="material-symbols-outlined">receipt</span> PLANILLA DE LUZ</button>
+                    <button class="btn-doc" onclick="window.open('${currentItem.urlAntecedentes}', '_blank')"><span class="material-symbols-outlined">gavel</span> ANTECEDENTES</button>
+                    <button class="btn-doc" onclick="window.open('${currentItem.urlBanco}', '_blank')"><span class="material-symbols-outlined">account_balance</span> CERT. BANCARIO</button>
                 </div>`;
             } else {
                 content.innerHTML = `
                 <div class="mb-8 animate-in fade-in slide-in-from-bottom duration-500">
-                    <h2 class="text-3xl font-black italic uppercase leading-none tracking-tighter">${currentItem.nombreTienda}</h2>
-                    <p class="text-primary font-black text-xs uppercase mt-2 tracking-widest italic">${currentItem.ciudad} • ${currentItem.provincia}</p>
+                    <h2 class="text-3xl font-black italic uppercase leading-none tracking-tighter">${currentItem.nombreTienda || 'Tienda'}</h2>
+                    <p class="text-primary font-black text-xs uppercase mt-2 tracking-widest italic">${currentItem.ciudad || 'Ciudad'}</p>
                 </div>
-                <div class="bg-card border border-border rounded-3xl p-6 space-y-4 shadow-2xl">
-                    <div><p class="text-[9px] font-black text-zinc-600 uppercase mb-1">Representante Legal</p><p class="font-bold text-sm">${currentItem.representante}</p></div>
-                    <div><p class="text-[9px] font-black text-zinc-600 uppercase mb-1">RUC / Identificación</p><p class="font-bold text-sm">${currentItem.cedula}</p></div>
-                    <div><p class="text-[9px] font-black text-zinc-600 uppercase mb-1">Contacto Directo</p><p class="font-bold text-sm">${currentItem.telefono} • ${currentItem.correo}</p></div>
+                <div class="bg-card border border-border rounded-3xl p-6 space-y-4">
+                    <div><p class="text-[9px] font-black text-zinc-600 uppercase mb-1">Representante</p><p class="font-bold text-sm">${currentItem.representante}</p></div>
+                    <div><p class="text-[9px] font-black text-zinc-600 uppercase mb-1">RUC / ID</p><p class="font-bold text-sm">${currentItem.cedula}</p></div>
+                    <div><p class="text-[9px] font-black text-zinc-600 uppercase mb-1">Contacto</p><p class="font-bold text-sm">${currentItem.telefono}</p></div>
                 </div>`;
             }
         }
@@ -153,10 +163,8 @@
             const nota = document.getElementById('notas').value;
             if(!aprobado && !nota) return alert("❌ Motivo de rechazo obligatorio.");
             
-            const conf = confirm(aprobado ? "¿Confirmar aprobación de cuenta?" : "¿Confirmar rechazo y eliminación definitiva?");
-            if(!conf) return;
+            if(!confirm(aprobado ? "¿Aprobar cuenta?" : "¿Eliminar registro?")) return;
 
-            // Bloqueo visual
             document.getElementById('footer').classList.add('opacity-50', 'pointer-events-none');
 
             const payload = {
@@ -170,20 +178,18 @@
             try {
                 await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload) });
 
-                // --- LÓGICA WHATSAPP CORREGIDA ---
                 let telf = currentItem.telefono.toString().replace(/\D/g,'');
                 if (telf.startsWith('0')) telf = telf.substring(1);
                 if (!telf.startsWith('593')) telf = '593' + telf;
 
                 let msj = aprobado ? 
-                    `*¡BIENVENIDO A KM0!* 🏁%0AHola *${currentItem.nombre || currentItem.nombreTienda}*, tu solicitud ha sido *APROBADA*.%0A%0A*ACCESO:*%0A👤 Usuario: ${currentItem.cedula}%0A🔑 Clave: 123456789%0A%0A_Favor cambiar clave al ingresar._` :
-                    `*NOTIFICACIÓN KM0* ⚠️%0AHola *${currentItem.nombre || currentItem.nombreTienda}*, tu solicitud ha sido *RECHAZADA*.%0A%0A*MOTIVO:* ${nota}`;
+                    `*KM0* 🏁%0AHola *${currentItem.nombre || currentItem.nombreTienda}*, tu cuenta ha sido *APROBADA*.%0A%0A*ACCESO:*%0A👤 Usuario: ${currentItem.cedula}%0A🔑 Clave: 123456789` :
+                    `*KM0* ⚠️%0AHola, tu solicitud fue *RECHAZADA*.%0A*MOTIVO:* ${nota}`;
                 
                 window.open(`https://wa.me/${telf}?text=${msj}`, '_blank');
                 location.reload();
-
             } catch (e) {
-                alert("Fallo de red.");
+                alert("Error al procesar. Reintente.");
                 document.getElementById('footer').classList.remove('opacity-50', 'pointer-events-none');
             }
         }
