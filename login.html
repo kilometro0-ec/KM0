@@ -1,61 +1,131 @@
-<div class="w-full space-y-5">
-    <div class="space-y-2">
-        <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 ml-1">Usuario</label>
-        <div class="relative">
-            <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-zinc-600">person</span>
-            <input id="inputUsuario" class="w-full bg-input-bg border border-input-border rounded-2xl py-4 pl-12 pr-4 text-white placeholder:text-zinc-800 focus:border-primary transition-all duration-200 text-base" placeholder="Cédula de usuario" type="text"/>
-        </div>
-    </div>
+<!DOCTYPE html>
+<html class="dark" lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Login - Kilómetro Cero</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     
-    <div class="space-y-2">
-        <div class="flex justify-between items-center ml-1">
-            <label class="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500">Clave</label>
-            <a class="text-[10px] font-bold text-zinc-600 uppercase tracking-widest hover:text-primary transition-colors" href="#">¿Olvido?</a>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ec1313",
+                        "input-bg": "#111111",
+                        "input-border": "#222222",
+                    },
+                    fontFamily: { "sans": ["Inter", "sans-serif"] },
+                },
+            },
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #000000;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100dvh;
+        }
+        input:focus {
+            outline: none !important;
+            border-color: #ec1313 !important;
+            box-shadow: 0 0 0 1px #ec1313 !important;
+        }
+        .bull-logo-container {
+            filter: drop-shadow(0 0 15px rgba(236, 19, 19, 0.3));
+        }
+    </style>
+</head>
+
+<body class="items-center justify-between p-8">
+    
+    <div class="h-4"></div>
+
+    <div class="w-full max-w-[340px] flex flex-col items-center flex-1 justify-center">
+        
+        <div class="mb-12 flex flex-col items-center">
+            <div class="w-28 h-28 mb-4 bull-logo-container">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 25C15 15 25 5 40 15C42 16 45 20 45 20" fill="none" stroke="#ec1313" stroke-linecap="round" stroke-width="4"></path>
+                    <path d="M80 25C85 15 75 5 60 15C58 16 55 20 55 20" fill="none" stroke="#ec1313" stroke-linecap="round" stroke-width="4"></path>
+                    <path d="M30 35L50 25L70 35L75 60L50 85L25 60L30 35Z" fill="#ec1313"></path>
+                    <circle cx="40" cy="45" fill="white" r="2"></circle>
+                    <circle cx="60" cy="45" fill="white" r="2"></circle>
+                </svg>
+            </div>
+            <div class="text-center">
+                <h1 class="text-3xl font-[900] tracking-tighter uppercase leading-none italic">Kilómetro</h1>
+                <h2 class="text-xl font-bold tracking-[0.4em] uppercase text-primary mt-1">Cero</h2>
+            </div>
         </div>
-        <div class="relative">
-            <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-zinc-600">lock</span>
-            <input id="inputClave" class="w-full bg-input-bg border border-input-border rounded-2xl py-4 pl-12 pr-4 text-white placeholder:text-zinc-800 focus:border-primary transition-all duration-200 text-base" placeholder="••••••••" type="password"/>
+
+        <div class="w-full space-y-5">
+            <div class="space-y-2">
+                <label class="block text-[10px] font-black uppercase tracking-widest text-zinc-500 ml-1">Usuario</label>
+                <div class="relative">
+                    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-zinc-600">person</span>
+                    <input id="user" type="text" class="w-full bg-input-bg border border-input-border rounded-2xl py-4 pl-12 pr-4 text-white placeholder:text-zinc-800 transition-all" placeholder="Cédula de identidad">
+                </div>
+            </div>
+
+            <div class="space-y-2">
+                <div class="flex justify-between items-center ml-1">
+                    <label class="text-[10px] font-black uppercase tracking-widest text-zinc-500">Clave</label>
+                    <a href="#" class="text-[9px] font-bold text-zinc-600 uppercase tracking-widest hover:text-primary">¿Olvido?</a>
+                </div>
+                <div class="relative">
+                    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-zinc-600">lock</span>
+                    <input id="pass" type="password" class="w-full bg-input-bg border border-input-border rounded-2xl py-4 pl-12 pr-4 text-white placeholder:text-zinc-800 transition-all" placeholder="••••••••">
+                </div>
+            </div>
+
+            <div class="pt-4">
+                <button onclick="validarAcceso()" class="w-full bg-primary hover:bg-red-700 text-white py-5 rounded-2xl font-black text-xs tracking-[0.3em] transition-all active:scale-95 uppercase shadow-lg shadow-red-900/20">
+                    ENTRAR
+                </button>
+            </div>
         </div>
     </div>
 
-    <div class="pt-6">
-        <button id="btnEntrar" class="w-full bg-primary hover:bg-red-700 text-white py-5 rounded-2xl font-black text-sm tracking-[0.3em] transition-all active:scale-[0.98] uppercase shadow-[0_8px_25px_rgba(255,0,0,0.35)]">
-            ENTRAR
-        </button>
+    <div class="w-full max-w-[340px] mt-8 flex flex-col items-center space-y-6">
+        <a href="index.html" class="text-[10px] font-black text-zinc-600 hover:text-white uppercase tracking-widest transition-colors">
+            ← VOLVER AL INICIO
+        </a>
+        <div class="flex items-center space-x-3 opacity-20">
+            <span class="h-[1px] w-8 bg-zinc-700"></span>
+            <p class="text-[8px] text-zinc-500 uppercase tracking-[0.5em] font-black">Identidad K0</p>
+            <span class="h-[1px] w-8 bg-zinc-700"></span>
+        </div>
     </div>
-</div>
 
-<script>
-    document.getElementById('btnEntrar').addEventListener('click', function() {
-        const usuario = document.getElementById('inputUsuario').value;
-        const clave = document.getElementById('inputClave').value;
+    <script>
+        function validarAcceso() {
+            const user = document.getElementById('user').value;
+            const pass = document.getElementById('pass').value;
+            const target = "1716001431";
 
-        // Credenciales solicitadas
-        const CREDENCIAL_CORRECTA = "1716001431";
-
-        if (usuario === CREDENCIAL_CORRECTA && clave === CREDENCIAL_CORRECTA) {
-            // Guardamos la sesión para que el panel de admin nos deje entrar
-            localStorage.setItem("sesion_km0", "admin");
-            
-            // Animación de éxito opcional antes de redirigir
-            this.innerText = "ACCEDIENDO...";
-            this.style.backgroundColor = "#22c55e"; // Color verde de éxito
-
-            setTimeout(() => {
-                window.location.href = 'admin.html'; // Asegúrate que tu archivo se llame así
-            }, 800);
-            
-        } else {
-            alert("❌ Credenciales incorrectas. Verifique los datos.");
-            // Limpiamos la clave por seguridad
-            document.getElementById('inputClave').value = "";
+            if (user === target && pass === target) {
+                localStorage.setItem("sesion_km0", "admin");
+                // Redirige al panel de administración
+                window.location.href = 'admin.html';
+            } else {
+                alert("❌ Credenciales incorrectas");
+                document.getElementById('pass').value = "";
+            }
         }
-    });
 
-    // Permitir entrar con la tecla "Enter"
-    document.addEventListener('keypress', function (e) {
-        if (e.key === 'Enter') {
-            document.getElementById('btnEntrar').click();
-        }
-    });
-</script>
+        // Detectar tecla Enter
+        document.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') validarAcceso();
+        });
+    </script>
+</body>
+</html>
