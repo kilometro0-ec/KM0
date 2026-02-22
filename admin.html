@@ -5,220 +5,126 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>Admin: Ing. Darwin Muñoz - KM0</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-    
     <script>
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#ec1313",
-                        "card-dark": "#111111",
-                        "border-dark": "#222222",
-                    },
-                },
-            },
-        }
+        tailwind.config = { darkMode: "class", theme: { extend: { colors: { "primary": "#ec1313", "card": "#111111", "border": "#222" } } } }
     </script>
-
     <style>
-        body { background-color: #000000; font-family: 'Inter', sans-serif; color: white; -webkit-tap-highlight-color: transparent; }
+        body { background: #000; font-family: 'Inter', sans-serif; color: white; }
+        .tab-active { color: #ec1313; border-bottom: 2px solid #ec1313; font-weight: 900; }
         .ios-blur { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
-        .loader {
-            border: 3px solid #222;
-            border-top: 3px solid #ec1313;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
+<body class="min-h-screen pb-44">
 
-<body class="min-h-screen pb-40">
-
-    <header class="sticky top-0 z-50 bg-black/80 ios-blur border-b border-border-dark px-6 py-4 flex items-center justify-between">
-        <div class="flex items-center gap-3">
-            <div class="h-10 w-10 bg-primary/10 rounded-full flex items-center justify-center border border-primary/20">
-                <span class="material-symbols-outlined text-primary">admin_panel_settings</span>
-            </div>
-            <div>
-                <h1 class="text-[10px] font-black tracking-[0.2em] uppercase text-primary leading-none">Administrador</h1>
-                <p class="text-sm font-bold text-white mt-0.5 italic">Ing. Darwin Muñoz</p>
-            </div>
+    <header class="sticky top-0 z-50 bg-black/80 ios-blur border-b border-border px-6 py-4 flex justify-between items-center">
+        <div>
+            <h1 class="text-[10px] font-black tracking-widest text-primary uppercase">Administrador</h1>
+            <p class="text-sm font-bold italic">Ing. Darwin Muñoz</p>
         </div>
-        <button onclick="cerrarSesion()" class="p-2 text-zinc-500 hover:text-white transition-colors">
-            <span class="material-symbols-outlined">logout</span>
-        </button>
+        <button onclick="localStorage.clear(); location.reload();" class="material-symbols-outlined text-zinc-500">logout</button>
     </header>
 
-    <main id="mainContent" class="max-w-xl mx-auto">
-        <div id="loadingScreen" class="flex flex-col items-center justify-center py-24">
-            <div class="loader mb-4"></div>
-            <p class="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-600">Sincronizando KM0 Cloud...</p>
-        </div>
+    <nav class="flex border-b border-border bg-zinc-900/20">
+        <button onclick="cambiarTab('motorizados')" id="btnM" class="flex-1 py-4 text-[10px] uppercase tracking-widest tab-active">Motorizados</button>
+        <button onclick="cambiarTab('tiendas')" id="btnT" class="flex-1 py-4 text-[10px] uppercase tracking-widest text-zinc-500">Tiendas</button>
+    </nav>
 
-        <div id="approvalPanel" class="hidden">
-            <section class="p-6 bg-card-dark border-b border-border-dark animate-in fade-in duration-500">
-                <div class="flex items-center gap-5">
-                    <div class="relative">
-                        <div class="h-20 w-20 rounded-2xl bg-zinc-900 border-2 border-primary flex items-center justify-center overflow-hidden">
-                            <span class="material-symbols-outlined text-4xl text-zinc-700">person</span>
-                        </div>
-                        <div class="absolute -bottom-2 -right-2 bg-primary p-1 rounded-full border-2 border-black">
-                            <span class="material-symbols-outlined text-white text-[16px] block">pending_actions</span>
-                        </div>
-                    </div>
-                    <div class="flex-1">
-                        <h2 id="motorizadoNombre" class="text-xl font-black italic uppercase tracking-tighter">---</h2>
-                        <div class="flex gap-2 mt-1">
-                            <span id="motorizadoCedula" class="px-2 py-0.5 bg-zinc-800 text-[9px] font-bold rounded uppercase text-zinc-400">ID: ---</span>
-                            <span class="px-2 py-0.5 bg-amber-900/30 text-amber-500 text-[9px] font-black rounded uppercase italic">Pendiente</span>
-                        </div>
-                        <p id="motorizadoVehiculo" class="text-[11px] font-black text-primary mt-2 uppercase tracking-widest italic leading-none">---</p>
-                    </div>
-                </div>
-            </section>
-
-            <section class="p-6 space-y-4">
-                <h3 class="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-600 mb-6">Expediente Digital</h3>
-                
-                <div id="docsList" class="space-y-3">
-                    </div>
-
-                <div class="mt-8">
-                    <label class="block text-[10px] font-black uppercase tracking-[0.3em] text-zinc-600 mb-2 px-1 italic">Observaciones del Administrador</label>
-                    <textarea id="adminNotes" class="w-full bg-card-dark border border-border-dark rounded-2xl p-4 text-sm text-white focus:border-primary transition-all outline-none" placeholder="Motivo de rechazo o notas adicionales..." rows="3"></textarea>
-                </div>
-            </section>
-        </div>
+    <main id="panel" class="p-6 max-w-xl mx-auto">
+        <div id="loading" class="text-center py-20 text-zinc-600 animate-pulse font-black text-xs">SINCRONIZANDO KM0...</div>
+        <div id="content" class="hidden"></div>
     </main>
 
-    <footer id="actionFooter" class="fixed bottom-0 left-0 right-0 p-6 bg-black/95 ios-blur border-t border-border-dark z-50 hidden">
-        <div class="max-w-md mx-auto flex gap-4">
-            <button id="btnRechazar" onclick="finalizarTramite(false)" class="flex-1 h-14 rounded-2xl border-2 border-primary text-primary font-black uppercase text-[10px] tracking-widest active:scale-95 transition-all">
-                RECHAZAR
-            </button>
-            <button id="btnAprobar" onclick="finalizarTramite(true)" class="flex-[2] h-14 rounded-2xl bg-primary text-white font-black uppercase text-[10px] tracking-[0.2em] shadow-xl shadow-primary/20 active:scale-95 transition-all">
-                APROBAR CUENTA
-            </button>
+    <footer id="footer" class="fixed bottom-0 inset-x-0 p-6 bg-black/90 ios-blur border-t border-border hidden">
+        <div class="max-w-md mx-auto">
+            <textarea id="notas" class="w-full bg-zinc-900 border border-border rounded-xl p-3 text-xs mb-4 outline-none focus:border-primary" placeholder="Notas de revisión..."></textarea>
+            <div class="flex gap-4">
+                <button onclick="procesar(false)" class="flex-1 h-12 rounded-xl border border-primary text-primary font-black text-[10px] uppercase">Rechazar</button>
+                <button onclick="procesar(true)" class="flex-[2] h-12 rounded-xl bg-primary text-white font-black text-[10px] uppercase shadow-lg shadow-primary/20">Aprobar y Enviar Claves</button>
+            </div>
         </div>
     </footer>
 
     <script>
-        // --- CONFIGURACIÓN ---
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec";
-        let actualM = null;
+        let db = { motorizados: [], tiendas: [] };
+        let tabActual = 'motorizados';
+        let item = null;
 
-        // 1. Seguridad
-        if (localStorage.getItem("sesion_km0") !== "admin") {
-            window.location.replace("login.html");
+        async function cargar() {
+            if (localStorage.getItem("sesion_km0") !== "admin") location.replace("login.html");
+            const r = await fetch(SCRIPT_URL);
+            db = await r.json();
+            render();
         }
 
-        // 2. Carga de Datos
-        async function cargarPendientes() {
-            try {
-                const res = await fetch(SCRIPT_URL);
-                const data = await res.json();
-                
-                if (data.motorizados && data.motorizados.length > 0) {
-                    actualM = data.motorizados[0]; // Mostrar el primero
-                    renderizar(actualM);
-                } else {
-                    mostrarVacio();
-                }
-            } catch (e) {
-                alert("Error de conexión con la base de datos.");
+        function cambiarTab(t) {
+            tabActual = t;
+            document.getElementById('btnM').className = t === 'motorizados' ? 'flex-1 py-4 text-[10px] uppercase tab-active' : 'flex-1 py-4 text-[10px] uppercase text-zinc-500';
+            document.getElementById('btnT').className = t === 'tiendas' ? 'flex-1 py-4 text-[10px] uppercase tab-active' : 'flex-1 py-4 text-[10px] uppercase text-zinc-500';
+            render();
+        }
+
+        function render() {
+            const list = tabActual === 'motorizados' ? db.motorizados : db.tiendas;
+            document.getElementById('loading').classList.add('hidden');
+            const cont = document.getElementById('content');
+            const foot = document.getElementById('footer');
+            cont.classList.remove('hidden');
+
+            if (!list.length) {
+                cont.innerHTML = "<p class='text-center py-20 text-zinc-700 font-black text-xs uppercase'>Sin pendientes</p>";
+                foot.classList.add('hidden');
+                return;
+            }
+
+            item = list[0];
+            foot.classList.remove('hidden');
+
+            if (tabActual === 'motorizados') {
+                cont.innerHTML = `
+                <div class='mb-6'><h2 class='text-2xl font-black italic'>${item.nombre}</h2><p class='text-primary font-bold text-xs'>${item.marca} • ${item.placa}</p></div>
+                <div class='grid gap-3'>
+                    <button onclick="window.open('${item.urlCedFront}')" class='p-4 bg-card border border-border rounded-xl text-left text-[10px] font-black'>CÉDULA</button>
+                    <button onclick="window.open('${item.urlLicFront}')" class='p-4 bg-card border border-border rounded-xl text-left text-[10px] font-black'>LICENCIA</button>
+                    <button onclick="window.open('${item.urlVideo}')" class='p-4 bg-card border border-border rounded-xl text-left text-[10px] font-black text-primary'>VIDEO BIOMÉTRICO</button>
+                </div>`;
+            } else {
+                cont.innerHTML = `
+                <div class='mb-6'><h2 class='text-2xl font-black italic'>${item.nombreTienda}</h2><p class='text-primary font-bold text-xs'>${item.ciudad}</p></div>
+                <div class='bg-card p-4 border border-border rounded-xl text-xs space-y-2'>
+                    <p><b>Representante:</b> ${item.representante}</p>
+                    <p><b>RUC/ID:</b> ${item.cedula}</p>
+                    <p><b>Telf:</b> ${item.telefono}</p>
+                </div>`;
             }
         }
 
-        function renderizar(m) {
-            document.getElementById('loadingScreen').classList.add('hidden');
-            document.getElementById('approvalPanel').classList.remove('hidden');
-            document.getElementById('actionFooter').classList.remove('hidden');
-
-            document.getElementById('motorizadoNombre').innerText = m.nombre;
-            document.getElementById('motorizadoCedula').innerText = `ID: ${m.cedula}`;
-            document.getElementById('motorizadoVehiculo').innerText = `${m.marca} • ${m.placa}`;
-
-            const expedientes = [
-                { n: 'Video Selfie Biométrico', u: m.urlVideo, icon: 'face' },
-                { n: 'Cédula (Frontal)', u: m.urlCedFront, icon: 'badge' },
-                { n: 'Cédula (Posterior)', u: m.urlCedPost, icon: 'badge' },
-                { n: 'Licencia de Conducir', u: m.urlLicFront, icon: 'minor_crash' },
-                { n: 'Certificado Bancario', u: m.urlBanco, icon: 'account_balance' }
-            ];
-
-            const html = expedientes.map(doc => `
-                <div class="bg-card-dark rounded-2xl border border-border-dark p-4 flex items-center justify-between group hover:border-primary/50 transition-colors">
-                    <div class="flex items-center gap-4">
-                        <div class="bg-zinc-900 p-2 rounded-xl text-primary border border-white/5">
-                            <span class="material-symbols-outlined">${doc.icon}</span>
-                        </div>
-                        <div>
-                            <p class="font-bold text-xs text-white uppercase tracking-tight">${doc.n}</p>
-                            <button onclick="window.open('${doc.u}', '_blank')" class="text-[9px] font-black text-primary hover:underline uppercase italic">Abrir Documento ↗</button>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
+        async function procesar(aprobado) {
+            const nota = document.getElementById('notas').value;
+            if(!aprobado && !nota) return alert("Escriba el motivo.");
             
-            document.getElementById('docsList').innerHTML = html;
-        }
-
-        function mostrarVacio() {
-            document.getElementById('loadingScreen').innerHTML = `
-                <div class="text-center opacity-40">
-                    <span class="material-symbols-outlined text-6xl">verified_user</span>
-                    <p class="mt-4 font-black uppercase tracking-[0.3em] text-[10px]">Todo al día, Ing. Darwin</p>
-                </div>`;
-        }
-
-        // 3. Acción de Aprobación/Rechazo
-        async function finalizarTramite(aprobado) {
-            const notas = document.getElementById('adminNotes').value;
-            if (!aprobado && !notas) return alert("Debe indicar el motivo del rechazo.");
-
-            const confirmacion = confirm(aprobado ? "¿Confirmar activación de este motorizado?" : "¿Confirmar rechazo?");
-            if (!confirmacion) return;
-
-            // Bloqueo de UI
-            const b = document.getElementById(aprobado ? 'btnAprobar' : 'btnRechazar');
-            const originalText = b.innerText;
-            b.innerText = "ENVIANDO...";
-            b.disabled = true;
-
             const payload = {
                 accion: "ACTUALIZAR_ESTADO",
-                cedula: actualM.cedula,
+                cedula: item.cedula,
+                tipoRegistro: tabActual === 'motorizados' ? 'motorizado' : 'tienda',
                 nuevoEstado: aprobado ? "APROBADO" : "RECHAZADO",
-                observaciones: notas
+                observaciones: nota
             };
 
-            try {
-                await fetch(SCRIPT_URL, {
-                    method: "POST",
-                    body: JSON.stringify(payload)
-                });
-                
-                alert(aprobado ? "✅ CUENTA ACTIVADA" : "❌ REGISTRO RECHAZADO");
-                location.reload();
-            } catch (e) {
-                alert("Error al procesar. Reintente.");
-                b.innerText = originalText;
-                b.disabled = false;
-            }
+            await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload) });
+            
+            // WHATSAPP
+            let msj = aprobado ? 
+                `*¡APROBADO!* 🏁%0AHola *${item.nombre || item.nombreTienda}*, tu cuenta en KM0 está activa.%0A%0A*ACCESO:*%0A👤 Usuario: ${item.cedula}%0A🔑 Clave: 123456789%0A%0A_Cambia tu clave al entrar._` : 
+                `*KM0 INFORMA:*%0ALamentamos informarte que tu solicitud fue rechazada.%0A*MOTIVO:* ${nota}`;
+            
+            window.open(`https://wa.me/593${item.telefono.toString().replace(/\D/g,'')}?text=${msj}`, '_blank');
+            location.reload();
         }
 
-        function cerrarSesion() {
-            localStorage.removeItem("sesion_km0");
-            window.location.replace("index.html");
-        }
-
-        cargarPendientes();
+        cargar();
     </script>
 </body>
 </html>
