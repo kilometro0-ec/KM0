@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Login - Kilómetro Cero</title>
+    <title>Admin: Ing. Darwin Muñoz - KM0</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     
     <script>
@@ -15,8 +15,8 @@
                 extend: {
                     colors: {
                         "primary": "#ec1313",
-                        "input-bg": "#111111",
-                        "input-border": "#222222",
+                        "card-dark": "#111111",
+                        "border-dark": "#222222",
                     },
                 },
             },
@@ -24,131 +24,201 @@
     </script>
 
     <style>
-        body {
-            background-color: #000000;
-            color: white;
-            font-family: 'Inter', sans-serif;
-            min-height: 100dvh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+        body { background-color: #000000; font-family: 'Inter', sans-serif; color: white; -webkit-tap-highlight-color: transparent; }
+        .ios-blur { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+        .loader {
+            border: 3px solid #222;
+            border-top: 3px solid #ec1313;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
         }
-        input:focus {
-            outline: none !important;
-            border-color: #ec1313 !important;
-            box-shadow: 0 0 10px rgba(236, 19, 19, 0.2) !important;
-        }
-        .logo-glow {
-            filter: drop-shadow(0 0 15px rgba(236, 19, 19, 0.4));
-        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 
-<body class="p-6">
+<body class="min-h-screen pb-40">
 
-    <div class="w-full max-w-[340px] flex flex-col items-center">
-        
-        <div class="mb-10 text-center">
-            <div class="w-24 h-24 mx-auto mb-4 logo-glow">
-                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M20 25C15 15 25 5 40 15C42 16 45 20 45 20" fill="none" stroke="#ec1313" stroke-linecap="round" stroke-width="4"></path>
-                    <path d="M80 25C85 15 75 5 60 15C58 16 55 20 55 20" fill="none" stroke="#ec1313" stroke-linecap="round" stroke-width="4"></path>
-                    <path d="M30 35L50 25L70 35L75 60L50 85L25 60L30 35Z" fill="#ec1313"></path>
-                    <circle cx="40" cy="45" fill="white" r="2"></circle>
-                    <circle cx="60" cy="45" fill="white" r="2"></circle>
-                </svg>
+    <header class="sticky top-0 z-50 bg-black/80 ios-blur border-b border-border-dark px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <div class="h-10 w-10 bg-primary/10 rounded-full flex items-center justify-center border border-primary/20">
+                <span class="material-symbols-outlined text-primary">admin_panel_settings</span>
             </div>
-            <h1 class="text-3xl font-black tracking-tighter uppercase italic leading-none">Kilómetro</h1>
-            <h2 class="text-lg font-bold tracking-[0.4em] uppercase text-primary">Cero</h2>
-        </div>
-
-        <div class="w-full space-y-4">
-            <div class="space-y-1">
-                <label class="text-[10px] font-black uppercase tracking-widest text-zinc-500 ml-1">Usuario / Cédula</label>
-                <div class="relative">
-                    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-zinc-600">person</span>
-                    <input id="user" type="text" 
-                           class="w-full bg-input-bg border border-input-border rounded-2xl py-4 pl-12 pr-4 text-white placeholder:text-zinc-800 transition-all" 
-                           placeholder="1716001431">
-                </div>
-            </div>
-
-            <div class="space-y-1">
-                <div class="flex justify-between items-center ml-1">
-                    <label class="text-[10px] font-black uppercase tracking-widest text-zinc-500">Contraseña</label>
-                </div>
-                <div class="relative">
-                    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-zinc-600">lock</span>
-                    <input id="pass" type="password" 
-                           class="w-full bg-input-bg border border-input-border rounded-2xl py-4 pl-12 pr-4 text-white placeholder:text-zinc-800 transition-all" 
-                           placeholder="••••••••">
-                    <button onclick="togglePass()" class="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-600 hover:text-white transition-colors">
-                        <span id="eye-icon" class="material-symbols-outlined">visibility</span>
-                    </button>
-                </div>
-            </div>
-
-            <div class="pt-4">
-                <button onclick="intentarLogin()" 
-                        class="w-full bg-primary hover:bg-red-700 text-white py-5 rounded-2xl font-black text-xs tracking-[0.3em] transition-all active:scale-95 uppercase shadow-lg shadow-red-900/30">
-                    INGRESAR AL PANEL
-                </button>
+            <div>
+                <h1 class="text-[10px] font-black tracking-[0.2em] uppercase text-primary leading-none">Administrador</h1>
+                <p class="text-sm font-bold text-white mt-0.5 italic">Ing. Darwin Muñoz</p>
             </div>
         </div>
+        <button onclick="cerrarSesion()" class="p-2 text-zinc-500 hover:text-white transition-colors">
+            <span class="material-symbols-outlined">logout</span>
+        </button>
+    </header>
 
-        <div class="mt-12 flex flex-col items-center gap-6">
-            <a href="index.html" class="text-[10px] font-black text-zinc-500 hover:text-white uppercase tracking-widest transition-colors">
-                ← Regresar al Inicio
-            </a>
-            <div class="opacity-20 flex items-center gap-2">
-                <span class="h-[1px] w-6 bg-zinc-700"></span>
-                <p class="text-[8px] font-black uppercase tracking-[0.5em]">System V.1</p>
-                <span class="h-[1px] w-6 bg-zinc-700"></span>
-            </div>
+    <main id="mainContent" class="max-w-xl mx-auto">
+        <div id="loadingScreen" class="flex flex-col items-center justify-center py-24">
+            <div class="loader mb-4"></div>
+            <p class="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-600">Sincronizando KM0 Cloud...</p>
         </div>
-    </div>
+
+        <div id="approvalPanel" class="hidden">
+            <section class="p-6 bg-card-dark border-b border-border-dark animate-in fade-in duration-500">
+                <div class="flex items-center gap-5">
+                    <div class="relative">
+                        <div class="h-20 w-20 rounded-2xl bg-zinc-900 border-2 border-primary flex items-center justify-center overflow-hidden">
+                            <span class="material-symbols-outlined text-4xl text-zinc-700">person</span>
+                        </div>
+                        <div class="absolute -bottom-2 -right-2 bg-primary p-1 rounded-full border-2 border-black">
+                            <span class="material-symbols-outlined text-white text-[16px] block">pending_actions</span>
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <h2 id="motorizadoNombre" class="text-xl font-black italic uppercase tracking-tighter">---</h2>
+                        <div class="flex gap-2 mt-1">
+                            <span id="motorizadoCedula" class="px-2 py-0.5 bg-zinc-800 text-[9px] font-bold rounded uppercase text-zinc-400">ID: ---</span>
+                            <span class="px-2 py-0.5 bg-amber-900/30 text-amber-500 text-[9px] font-black rounded uppercase italic">Pendiente</span>
+                        </div>
+                        <p id="motorizadoVehiculo" class="text-[11px] font-black text-primary mt-2 uppercase tracking-widest italic leading-none">---</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="p-6 space-y-4">
+                <h3 class="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-600 mb-6">Expediente Digital</h3>
+                
+                <div id="docsList" class="space-y-3">
+                    </div>
+
+                <div class="mt-8">
+                    <label class="block text-[10px] font-black uppercase tracking-[0.3em] text-zinc-600 mb-2 px-1 italic">Observaciones del Administrador</label>
+                    <textarea id="adminNotes" class="w-full bg-card-dark border border-border-dark rounded-2xl p-4 text-sm text-white focus:border-primary transition-all outline-none" placeholder="Motivo de rechazo o notas adicionales..." rows="3"></textarea>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer id="actionFooter" class="fixed bottom-0 left-0 right-0 p-6 bg-black/95 ios-blur border-t border-border-dark z-50 hidden">
+        <div class="max-w-md mx-auto flex gap-4">
+            <button id="btnRechazar" onclick="finalizarTramite(false)" class="flex-1 h-14 rounded-2xl border-2 border-primary text-primary font-black uppercase text-[10px] tracking-widest active:scale-95 transition-all">
+                RECHAZAR
+            </button>
+            <button id="btnAprobar" onclick="finalizarTramite(true)" class="flex-[2] h-14 rounded-2xl bg-primary text-white font-black uppercase text-[10px] tracking-[0.2em] shadow-xl shadow-primary/20 active:scale-95 transition-all">
+                APROBAR CUENTA
+            </button>
+        </div>
+    </footer>
 
     <script>
-        function togglePass() {
-            const passInput = document.getElementById('pass');
-            const eyeIcon = document.getElementById('eye-icon');
-            if (passInput.type === 'password') {
-                passInput.type = 'text';
-                eyeIcon.innerText = 'visibility_off';
-            } else {
-                passInput.type = 'password';
-                eyeIcon.innerText = 'visibility';
+        // --- CONFIGURACIÓN ---
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec";
+        let actualM = null;
+
+        // 1. Seguridad
+        if (localStorage.getItem("sesion_km0") !== "admin") {
+            window.location.replace("login.html");
+        }
+
+        // 2. Carga de Datos
+        async function cargarPendientes() {
+            try {
+                const res = await fetch(SCRIPT_URL);
+                const data = await res.json();
+                
+                if (data.motorizados && data.motorizados.length > 0) {
+                    actualM = data.motorizados[0]; // Mostrar el primero
+                    renderizar(actualM);
+                } else {
+                    mostrarVacio();
+                }
+            } catch (e) {
+                alert("Error de conexión con la base de datos.");
             }
         }
 
-        function intentarLogin() {
-            const user = document.getElementById('user').value;
-            const pass = document.getElementById('pass').value;
-            const credencialValida = "1716001431";
+        function renderizar(m) {
+            document.getElementById('loadingScreen').classList.add('hidden');
+            document.getElementById('approvalPanel').classList.remove('hidden');
+            document.getElementById('actionFooter').classList.remove('hidden');
 
-            // Validación para el Ing. Darwin Muñoz
-            if (user === credencialValida && pass === credencialValida) {
-                // Guardamos la sesión en el navegador
-                localStorage.setItem("sesion_km0", "admin");
+            document.getElementById('motorizadoNombre').innerText = m.nombre;
+            document.getElementById('motorizadoCedula').innerText = `ID: ${m.cedula}`;
+            document.getElementById('motorizadoVehiculo').innerText = `${m.marca} • ${m.placa}`;
+
+            const expedientes = [
+                { n: 'Video Selfie Biométrico', u: m.urlVideo, icon: 'face' },
+                { n: 'Cédula (Frontal)', u: m.urlCedFront, icon: 'badge' },
+                { n: 'Cédula (Posterior)', u: m.urlCedPost, icon: 'badge' },
+                { n: 'Licencia de Conducir', u: m.urlLicFront, icon: 'minor_crash' },
+                { n: 'Certificado Bancario', u: m.urlBanco, icon: 'account_balance' }
+            ];
+
+            const html = expedientes.map(doc => `
+                <div class="bg-card-dark rounded-2xl border border-border-dark p-4 flex items-center justify-between group hover:border-primary/50 transition-colors">
+                    <div class="flex items-center gap-4">
+                        <div class="bg-zinc-900 p-2 rounded-xl text-primary border border-white/5">
+                            <span class="material-symbols-outlined">${doc.icon}</span>
+                        </div>
+                        <div>
+                            <p class="font-bold text-xs text-white uppercase tracking-tight">${doc.n}</p>
+                            <button onclick="window.open('${doc.u}', '_blank')" class="text-[9px] font-black text-primary hover:underline uppercase italic">Abrir Documento ↗</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            document.getElementById('docsList').innerHTML = html;
+        }
+
+        function mostrarVacio() {
+            document.getElementById('loadingScreen').innerHTML = `
+                <div class="text-center opacity-40">
+                    <span class="material-symbols-outlined text-6xl">verified_user</span>
+                    <p class="mt-4 font-black uppercase tracking-[0.3em] text-[10px]">Todo al día, Ing. Darwin</p>
+                </div>`;
+        }
+
+        // 3. Acción de Aprobación/Rechazo
+        async function finalizarTramite(aprobado) {
+            const notas = document.getElementById('adminNotes').value;
+            if (!aprobado && !notas) return alert("Debe indicar el motivo del rechazo.");
+
+            const confirmacion = confirm(aprobado ? "¿Confirmar activación de este motorizado?" : "¿Confirmar rechazo?");
+            if (!confirmacion) return;
+
+            // Bloqueo de UI
+            const b = document.getElementById(aprobado ? 'btnAprobar' : 'btnRechazar');
+            const originalText = b.innerText;
+            b.innerText = "ENVIANDO...";
+            b.disabled = true;
+
+            const payload = {
+                accion: "ACTUALIZAR_ESTADO",
+                cedula: actualM.cedula,
+                nuevoEstado: aprobado ? "APROBADO" : "RECHAZADO",
+                observaciones: notas
+            };
+
+            try {
+                await fetch(SCRIPT_URL, {
+                    method: "POST",
+                    body: JSON.stringify(payload)
+                });
                 
-                // Feedback visual antes de saltar
-                document.querySelector('button').innerHTML = "VALIDANDO...";
-                document.querySelector('button').classList.add('bg-green-600');
-                
-                setTimeout(() => {
-                    window.location.href = 'admin.html';
-                }, 600);
-            } else {
-                alert("❌ Credenciales incorrectas. Intente nuevamente.");
-                document.getElementById('pass').value = "";
+                alert(aprobado ? "✅ CUENTA ACTIVADA" : "❌ REGISTRO RECHAZADO");
+                location.reload();
+            } catch (e) {
+                alert("Error al procesar. Reintente.");
+                b.innerText = originalText;
+                b.disabled = false;
             }
         }
 
-        // Acceso con tecla Enter
-        document.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') intentarLogin();
-        });
+        function cerrarSesion() {
+            localStorage.removeItem("sesion_km0");
+            window.location.replace("index.html");
+        }
+
+        cargarPendientes();
     </script>
 </body>
 </html>
