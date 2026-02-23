@@ -3,152 +3,175 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Kilómetro 0 - App Original</title>
+    <title>Ruta de Entrega Kilómetro 0</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-    
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#E30613", // Rojo K0 original del código 2/3
-                        "brand-grey": "#8C8C8C",
+                        "primary": "#E30613", // Kilómetro 0 Red
+                        "brand-grey": "#8C8C8C", // Kilómetro 0 Grey
                         "background-dark": "#000000",
                         "card-dark": "#121212",
                         "action-dark": "#1A1A1A",
-                        "primary-nav": "#ec1313", // Rojo del código 5
-                        "background-nav": "#181111",
                     },
-                    fontFamily: { "display": ["Inter", "sans-serif"] },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.75rem",
+                        "lg": "1rem",
+                        "xl": "1.25rem",
+                        "full": "9999px"
+                    },
                 },
             },
         }
     </script>
-    
     <style type="text/tailwindcss">
-        body { margin: 0; padding: 0; overflow: hidden; background: #000; }
-        .view-section { display: none; height: 100dvh; width: 100%; position: absolute; top: 0; left: 0; overflow-y: auto; }
-        .view-section.active { display: block; }
-        
-        /* Estilos específicos de tus códigos */
-        .ios-blur { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
-        .route-line { stroke-dasharray: 8; stroke-linecap: round; }
-        .map-gradient { background: radial-gradient(circle at center, transparent 0%, rgba(24, 17, 17, 0.4) 100%); }
-        .route-glow { filter: drop-shadow(0 0 8px rgba(236, 19, 19, 0.6)); }
+        :root {
+            --primary-red: #E30613;
+            --brand-grey: #8C8C8C;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            min-height: 100dvh;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .ios-blur {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .route-line {
+            stroke-dasharray: 8;
+            stroke-linecap: round;
+        }
     </style>
 </head>
-<body>
-
-<div id="view-1" class="view-section active bg-white dark:bg-[#101622]">
-    <header class="flex items-center justify-between px-6 py-4 bg-white/80 dark:bg-[#101622]/80 ios-blur sticky top-0 z-50 border-b border-slate-100 dark:border-slate-800">
-        <div class="flex items-center gap-2">
-            <div class="size-10 bg-primary/10 rounded-full flex items-center justify-center text-primary"><span class="material-symbols-outlined">moped</span></div>
-            <h1 class="text-lg font-bold tracking-tight dark:text-white">Mis Entregas</h1>
-        </div>
-        <button onclick="showView('view-4')" class="size-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
-            <span class="material-symbols-outlined text-primary">account_balance_wallet</span>
-        </button>
-    </header>
-    <main class="px-6 py-4 space-y-4">
-        <div onclick="showView('view-2')" class="bg-white dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm cursor-pointer">
-            <div class="flex justify-between mb-3"><span class="text-[10px] font-black bg-primary text-white px-2 py-0.5 rounded uppercase">Urgente</span><span class="text-xs font-bold text-primary">$4.50</span></div>
-            <h3 class="text-xl font-bold dark:text-white">#RT-884210</h3>
-            <p class="text-sm text-slate-500">Gourmet Burger Central</p>
-        </div>
-    </main>
-</div>
-
-<div id="view-2" class="view-section bg-background-dark">
-    <header class="flex items-center justify-between px-4 pt-12 pb-4 bg-background-dark/80 ios-blur sticky top-0 z-50">
-        <button onclick="showView('view-1')" class="size-10 rounded-full bg-card-dark text-white border border-white/10 flex items-center justify-center"><span class="material-symbols-outlined">arrow_back_ios_new</span></button>
-        <h1 class="text-sm font-black uppercase tracking-[0.2em] text-white text-center">Detalle de Entrega</h1>
-        <div class="size-10"></div>
-    </header>
-    <main class="px-4 space-y-4 pt-4 text-white">
-        <section class="bg-card-dark rounded-2xl p-5 border border-white/10">
-            <div class="flex gap-4 mb-5">
-                <div class="size-16 rounded-2xl overflow-hidden border-2 border-primary"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_QB638dS6VuTF4ZmcR4VpvkT2ZTiCwyfEef9kovylT3HqC-HwakNSxFpTfg6SjCXu7vv6Tjp7g_2SqktYeiNqC0NGNAh_hhiOvfG6V5gpEyIbiE1w7HupWsJyWLXSDJB1yP4kete4qQmtbB64EW05l-y7wG-RJTsfBTbvdk2xkuYEwx8atK9oq_9IrbC-_WzcNfhl6Lujg0q-YfhbVCRiB23KwMG4nwjTg8CqQ1TXTasZatBSH_8YP8dgbr0IezwJVTKKbxu2KAvk" class="w-full h-full object-cover"></div>
-                <div><p class="font-black text-2xl leading-none">Juan Pérez</p><p class="text-brand-grey font-bold text-sm">Socio Gold • ID: 4892</p></div>
-            </div>
-            <div class="bg-black/40 p-4 rounded-xl flex items-start gap-4 border border-white/5 mb-4">
-                <div class="size-10 rounded-lg bg-primary/20 flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-primary">location_on</span></div>
-                <div><p class="font-black text-base uppercase">Av. Principal 123</p><p class="text-sm text-brand-grey">Torre B, Depto 402.</p></div>
-            </div>
-            <button onclick="showView('view-3')" class="w-full bg-primary text-white py-5 rounded-2xl font-black text-lg uppercase tracking-widest flex items-center justify-center gap-3">
-                <span class="material-symbols-outlined">directions_run</span> Iniciar Navegación
+<body class="bg-background-dark text-white font-display overflow-hidden">
+    <div class="relative flex h-screen w-full flex-col max-w-md mx-auto border-x border-white/5 bg-background-dark">
+        
+        <header class="flex items-center justify-between px-4 pt-12 pb-4 bg-background-dark/80 ios-blur sticky top-0 z-50">
+            <button class="flex items-center justify-center size-10 rounded-full bg-card-dark text-white border border-white/10 active:scale-95 transition-transform">
+                <span class="material-symbols-outlined">arrow_back_ios_new</span>
             </button>
-        </section>
-    </main>
-</div>
-
-<div id="view-3" class="view-section bg-background-dark">
-    <header class="flex items-center justify-between px-4 pt-12 pb-4 bg-background-dark/80 ios-blur sticky top-0 z-50 text-white">
-        <button onclick="showView('view-2')" class="size-10 rounded-full bg-card-dark border border-white/10 flex items-center justify-center"><span class="material-symbols-outlined">arrow_back_ios_new</span></button>
-        <h1 class="text-sm font-black uppercase tracking-[0.2em]">Ruta de Entrega</h1>
-        <div class="size-10"></div>
-    </header>
-    <main class="px-4 py-4 space-y-4">
-        <div class="relative w-full aspect-video rounded-2xl overflow-hidden border border-white/10 bg-card-dark">
-            <svg class="absolute inset-0 w-full h-full" viewBox="0 0 400 200">
-                <path class="route-line" d="M80,150 L120,130 L180,140 L220,90 L280,70" fill="none" stroke="#E30613" stroke-width="4"></path>
-                <circle cx="80" cy="150" fill="white" r="5" stroke="#E30613" stroke-width="2"></circle>
-                <circle cx="280" cy="70" fill="#E30613" r="8"></circle>
-            </svg>
-        </div>
-        <button onclick="showView('view-5')" class="w-full bg-primary text-white py-5 rounded-2xl font-black text-lg uppercase flex items-center justify-center gap-3">
-            <span class="material-symbols-outlined">navigation</span> Iniciar GPS Vivo
-        </button>
-    </main>
-</div>
-
-<div id="view-4" class="view-section bg-background-dark text-white">
-    <header class="flex items-center justify-between px-6 py-4 bg-background-dark/80 ios-blur sticky top-0 z-50">
-        <button onclick="showView('view-1')" class="size-10 rounded-full bg-slate-800/50 flex items-center justify-center"><span class="material-symbols-outlined">arrow_back_ios_new</span></button>
-        <h1 class="text-lg font-bold">Billetera</h1>
-        <div class="size-10"></div>
-    </header>
-    <main class="px-6 pb-20">
-        <div class="relative overflow-hidden flex flex-col gap-4 rounded-xl p-8 bg-[#135bec] shadow-2xl mt-6">
-            <p class="text-white/80 text-sm font-medium uppercase tracking-wider">Monto Final a Depositar</p>
-            <div class="flex items-end gap-2"><p class="text-white text-5xl font-bold tracking-tighter">$145.50</p><span class="text-white/60 mb-1 text-lg">USD</span></div>
-        </div>
-    </main>
-</div>
-
-<div id="view-5" class="view-section bg-background-nav">
-    <div class="absolute inset-0 z-0">
-        <div class="w-full h-full bg-center bg-cover grayscale contrast-125 brightness-50" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCz3r-GD21CRIhuFT21YPhP9EH_uBuJDZvm8QZAUa8zt1RCPGTDBIAKvEw4YZt6i5_kpaZv0QuA9YdOVzaDY_q43UogJvHfm90AIANL5r93D8wycoifAgxwBJVNOcu200d7RYzMzQ2QNeDv3nNeTly62GEx-wXwq7NE-nl06PK2X94B5WgfLHhd_OsL2cAgks0eg5PYcCmRq-ukPMRafS0IVwcdArLRHgK3MPKPBVn42PAC4iHhkkGejnboNXgLjmTdc7kUVwIuuS3J');"></div>
-        <div class="absolute inset-0 map-gradient"></div>
-        <svg class="absolute inset-0 w-full h-full" viewBox="0 0 400 800">
-            <path class="route-glow" d="M 200 700 L 200 500 L 320 450 L 320 300 L 100 250 L 80 100" fill="none" stroke="#ec1313" stroke-width="8"></path>
-            <circle class="animate-pulse" cx="200" cy="700" fill="#ec1313" r="12"></circle>
-        </svg>
-    </div>
-    <div class="relative z-10 p-4 pt-12">
-        <div class="flex items-center gap-4 rounded-xl bg-[#181111]/95 border border-white/10 p-5 shadow-2xl backdrop-blur-md">
-            <div class="flex size-14 items-center justify-center rounded-full bg-[#ec1313] text-white"><span class="material-symbols-outlined text-4xl">turn_right</span></div>
-            <div class="flex flex-col text-white">
-                <p class="text-white/60 text-xs font-bold uppercase">A 200 metros</p>
-                <p class="text-xl font-extrabold leading-tight">Gire a la derecha</p>
+            <h1 class="text-sm font-black leading-tight tracking-[0.2em] uppercase text-center">Ruta de Entrega</h1>
+            <div class="size-10 flex items-center justify-center">
+                <span class="material-symbols-outlined text-brand-grey">more_horiz</span>
             </div>
+        </header>
+
+        <main class="flex-1 overflow-y-auto px-4 space-y-4 pt-4 pb-40">
+            
+            <div class="relative w-full aspect-video rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-card-dark">
+                <div class="absolute inset-0 bg-[#1e1e1e] flex items-center justify-center overflow-hidden">
+                    <svg class="absolute inset-0 w-full h-full opacity-30" viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0,50 Q100,20 200,80 T400,120" fill="none" stroke="#333" stroke-width="2"></path>
+                        <path d="M50,0 Q120,100 80,200" fill="none" stroke="#333" stroke-width="2"></path>
+                        <path d="M300,0 Q350,100 320,200" fill="none" stroke="#333" stroke-width="2"></path>
+                    </svg>
+                    <svg class="absolute inset-0 w-full h-full" viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+                        <path class="route-line" d="M80,150 L120,130 L180,140 L220,90 L280,70" fill="none" stroke="var(--primary-red)" stroke-linejoin="round" stroke-width="4"></path>
+                        <circle cx="80" cy="150" fill="white" r="5" stroke="var(--primary-red)" stroke-width="2"></circle>
+                        <circle cx="280" cy="70" fill="var(--primary-red)" r="8"></circle>
+                    </svg>
+                    <div class="absolute left-[80px] bottom-[50px] -translate-x-1/2 -translate-y-1/2">
+                        <div class="size-4 bg-blue-500 rounded-full border-2 border-white shadow-[0_0_15px_rgba(59,130,246,0.5)]"></div>
+                    </div>
+                </div>
+                <div class="absolute bottom-3 left-3 right-3 flex justify-between items-center bg-black/60 ios-blur px-3 py-2 rounded-lg border border-white/5">
+                    <div class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary text-sm">navigation</span>
+                        <span class="text-[10px] font-bold uppercase tracking-wider">Distancia: 1.2 km</span>
+                    </div>
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-brand-grey">4 min aprox.</span>
+                </div>
+            </div>
+
+            <button class="w-full bg-primary hover:bg-red-700 text-white py-5 rounded-2xl font-black text-lg uppercase tracking-widest flex items-center justify-center gap-3 shadow-[0_10px_30px_rgba(227,6,19,0.3)] active:scale-[0.98] transition-all">
+                <span class="material-symbols-outlined text-2xl font-bold">directions_run</span>
+                Iniciar Navegación
+            </button>
+
+            <div class="flex items-center gap-3 bg-card-dark p-4 rounded-xl border border-white/5">
+                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 border border-primary/20">
+                    <span class="material-symbols-outlined text-primary">local_shipping</span>
+                </div>
+                <div class="flex flex-col">
+                    <p class="text-[10px] font-black uppercase tracking-widest text-brand-grey">Estado de Entrega</p>
+                    <p class="text-sm font-bold">En camino al punto de entrega</p>
+                </div>
+            </div>
+
+            <section class="bg-card-dark rounded-2xl p-5 border border-white/10 shadow-xl">
+                <div class="flex items-center justify-between mb-5">
+                    <h3 class="text-[10px] font-black text-brand-grey uppercase tracking-widest">Destinatario</h3>
+                    <span class="text-[10px] font-black text-primary uppercase">Urgente</span>
+                </div>
+                <div class="flex gap-4 mb-5">
+                    <div class="size-16 rounded-2xl overflow-hidden shrink-0 border-2 border-primary">
+                        <img alt="Juan Pérez" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_QB638dS6VuTF4ZmcR4VpvkT2ZTiCwyfEef9kovylT3HqC-HwakNSxFpTfg6SjCXu7vv6Tjp7g_2SqktYeiNqC0NGNAh_hhiOvfG6V5gpEyIbiE1w7HupWsJyWLXSDJB1yP4kete4qQmtbB64EW05l-y7wG-RJTsfBTbvdk2xkuYEwx8atK9oq_9IrbC-_WzcNfhl6Lujg0q-YfhbVCRiB23KwMG4nwjTg8CqQ1TXTasZatBSH_8YP8dgbr0IezwJVTKKbxu2KAvk"/>
+                    </div>
+                    <div class="flex flex-col justify-center">
+                        <p class="font-black text-2xl leading-none text-white">Juan Pérez</p>
+                        <p class="text-brand-grey font-bold text-sm mt-1">Socio Gold • ID: 4892</p>
+                    </div>
+                </div>
+                <div class="bg-black/40 p-4 rounded-xl flex items-start gap-4 border border-white/5 mb-4">
+                    <div class="flex items-center justify-center size-10 rounded-lg bg-primary/20 shrink-0">
+                        <span class="material-symbols-outlined text-primary">location_on</span>
+                    </div>
+                    <div>
+                        <p class="font-black text-base leading-tight text-white uppercase tracking-tight">Av. Principal 123</p>
+                        <p class="text-sm text-brand-grey mt-1 font-medium leading-relaxed">Torre B, Depto 402. Tocar el timbre principal al llegar.</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <button class="bg-action-dark hover:bg-white/10 py-3.5 rounded-xl text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-2 border border-white/5">
+                        <span class="material-symbols-outlined text-lg">call</span> Llamar
+                    </button>
+                    <button class="bg-action-dark hover:bg-white/10 py-3.5 rounded-xl text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-2 border border-white/5">
+                        <span class="material-symbols-outlined text-lg">chat_bubble</span> Mensaje
+                    </button>
+                </div>
+            </section>
+
+            <section class="bg-card-dark rounded-2xl p-5 border border-white/10">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-[10px] font-black text-brand-grey uppercase tracking-widest">Detalle del Envío</h3>
+                    <p class="text-xs font-black text-white">#RT-884210</p>
+                </div>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between py-2 border-b border-white/5">
+                        <div class="flex items-center gap-3">
+                            <span class="material-symbols-outlined text-brand-grey">shopping_bag</span>
+                            <span class="text-xs font-bold uppercase">Combo Familiar x 1</span>
+                        </div>
+                        <span class="text-[10px] bg-primary/20 text-primary border border-primary/30 px-2 py-0.5 rounded font-black">FRÁGIL</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <div class="absolute bottom-0 left-0 right-0 bg-background-dark/95 ios-blur border-t border-white/10 p-4 pb-8 space-y-4 z-50">
+            <div class="flex gap-3">
+                <button class="w-16 h-14 bg-action-dark text-brand-grey border border-white/10 rounded-xl flex items-center justify-center">
+                    <span class="material-symbols-outlined text-2xl">report_problem</span>
+                </button>
+                <button class="flex-1 bg-white text-black hover:bg-neutral-200 h-14 rounded-xl font-black text-sm uppercase tracking-widest flex items-center justify-center gap-2 shadow-xl active:scale-95 transition-all">
+                    <span class="material-symbols-outlined text-xl">check_circle</span>
+                    Entregado
+                </button>
+            </div>
+            <div class="w-32 h-1.5 bg-white/20 rounded-full mx-auto mt-2"></div>
         </div>
     </div>
-    <div class="absolute bottom-0 inset-x-0 z-10 bg-[#181111]/95 backdrop-blur-xl border-t border-white/5 px-4 pt-6 pb-8">
-        <button onclick="showView('view-1')" class="w-full h-16 bg-[#ec1313] text-white text-lg font-bold rounded-full flex items-center justify-center gap-2">
-            Confirmar Llegada <span class="material-symbols-outlined">check_circle</span>
-        </button>
-    </div>
-</div>
-
-<script>
-    function showView(viewId) {
-        document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
-        document.getElementById(viewId).classList.add('active');
-    }
-</script>
-
 </body>
 </html>
