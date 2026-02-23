@@ -3,11 +3,11 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Kilómetro 0 - Panel de Tiendas</title>
+    <title>Kilómetro 0 - Gestión de Pedidos</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-    <script>
+    <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
@@ -19,169 +19,270 @@
                         "background-light": "#f8f6f6",
                         "background-dark": "#120808",
                     },
-                    borderRadius: { "DEFAULT": "1rem", "lg": "2rem" }
-                }
-            }
+                    fontFamily: { "display": ["Inter"] },
+                    borderRadius: { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" },
+                },
+            },
         }
     </script>
-    <style>
-        body { font-family: 'Inter', sans-serif; min-height: 100vh; }
-        .hide-scroll::-webkit-scrollbar { display: none; }
-        .loading-overlay { display: none; }
-        .loading-overlay.active { display: flex; }
+    <style type="text/tailwindcss">
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .modal-open { overflow: hidden; }
     </style>
 </head>
-<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white transition-colors duration-300">
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white min-h-screen flex flex-col">
 
-    <div id="loginPage" class="fixed inset-0 z-[100] bg-background-dark flex items-center justify-center p-6">
-        <div class="w-full max-w-sm space-y-8">
-            <div class="text-center">
-                <div class="bg-primary w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-primary/40">
-                    <span class="material-symbols-outlined text-white text-4xl">speed</span>
+    <header class="sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-slate-200 dark:border-white/10">
+        <div class="flex items-center justify-between px-4 py-4">
+            <div class="flex items-center gap-3">
+                <div class="bg-primary p-1.5 rounded-lg flex items-center justify-center">
+                    <span class="material-symbols-outlined text-white text-xl">speed</span>
                 </div>
-                <h2 class="text-3xl font-bold italic">KILÓMETRO 0</h2>
-                <p class="text-slate-400 mt-2">Acceso para Tiendas</p>
+                <h1 class="text-xl font-bold tracking-tight">Mis Pedidos</h1>
             </div>
-            <form id="formLogin" class="space-y-4">
-                <input type="text" id="userLogin" placeholder="Identificación (RUC/Cédula)" class="w-full p-4 rounded-xl bg-white/5 border border-white/10 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" required>
-                <input type="password" id="passLogin" placeholder="Contraseña" class="w-full p-4 rounded-xl bg-white/5 border border-white/10 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" required>
-                <button type="submit" class="w-full py-4 bg-primary text-white font-bold rounded-xl hover:scale-[1.02] active:scale-95 transition-all">Ingresar</button>
-            </form>
-        </div>
-    </div>
-
-    <div id="mainContent" class="hidden flex flex-col min-h-screen">
-        <header class="sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-slate-200 dark:border-white/10">
-            <div class="flex items-center justify-between px-4 py-4">
-                <div class="flex items-center gap-3">
-                    <div class="bg-primary p-1.5 rounded-lg">
-                        <span class="material-symbols-outlined text-white text-xl">speed</span>
-                    </div>
-                    <h1 class="text-xl font-bold tracking-tight" id="storeNameDisplay">Mi Tienda</h1>
-                </div>
-                <button onclick="logout()" class="p-2 text-slate-400"><span class="material-symbols-outlined">logout</span></button>
-            </div>
-            <div class="px-4 pb-4">
-                <div class="flex h-11 items-center justify-center rounded-full bg-slate-200 dark:bg-white/5 p-1">
-                    <button class="flex-1 h-full rounded-full text-sm font-bold bg-white dark:bg-[#2a1818] text-primary dark:text-white shadow-sm">En curso</button>
-                    <button class="flex-1 h-full rounded-full text-sm font-bold text-slate-500">Historial</button>
-                </div>
-            </div>
-        </header>
-
-        <main class="flex-1 px-4 py-4 space-y-4" id="pedidosContainer">
-            <div class="text-center py-10 text-slate-500">No hay pedidos activos hoy</div>
-        </main>
-
-        <nav class="sticky bottom-0 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-lg border-t border-slate-200 dark:border-white/10 pb-8 pt-2">
-            <div class="flex justify-around items-center px-4">
-                <button class="flex flex-col items-center gap-1 text-primary"><span class="material-symbols-outlined">grid_view</span><span class="text-[10px] font-bold">INICIO</span></button>
-                <button class="flex flex-col items-center gap-1 text-slate-400"><span class="material-symbols-outlined">local_mall</span><span class="text-[10px] font-bold">PEDIDOS</span></button>
-                <button onclick="abrirModal()" class="flex flex-col items-center justify-center -mt-8 size-14 bg-primary rounded-full shadow-lg shadow-primary/40 text-white hover:scale-110 transition-transform">
-                    <span class="material-symbols-outlined text-3xl">add</span>
+            <div class="flex items-center gap-2">
+                <button onclick="alert('Buscador habilitado')" class="p-2 hover:bg-slate-200 dark:hover:bg-white/10 rounded-full transition-colors">
+                    <span class="material-symbols-outlined text-2xl">search</span>
                 </button>
-                <button class="flex flex-col items-center gap-1 text-slate-400"><span class="material-symbols-outlined">analytics</span><span class="text-[10px] font-bold">REPORTES</span></button>
-                <button class="flex flex-col items-center gap-1 text-slate-400"><span class="material-symbols-outlined">store</span><span class="text-[10px] font-bold">PERFIL</span></button>
+                <button onclick="alert('No hay notificaciones nuevas')" class="p-2 hover:bg-slate-200 dark:hover:bg-white/10 rounded-full transition-colors">
+                    <span class="material-symbols-outlined text-2xl">notifications</span>
+                </button>
             </div>
-        </nav>
-    </div>
+        </div>
+        <div class="px-4 pb-4">
+            <div class="flex h-11 items-center justify-center rounded-full bg-slate-200 dark:bg-white/5 p-1">
+                <label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-full px-2 has-[:checked]:bg-white dark:has-[:checked]:bg-[#2a1818] has-[:checked]:shadow-sm text-slate-600 dark:text-slate-400 has-[:checked]:text-primary dark:has-[:checked]:text-white text-sm font-semibold transition-all">
+                    <span>En curso</span>
+                    <input checked="" class="hidden" name="filter" type="radio" value="active" onchange="filterPedidos('active')"/>
+                </label>
+                <label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-full px-2 has-[:checked]:bg-white dark:has-[:checked]:bg-[#2a1818] has-[:checked]:shadow-sm text-slate-600 dark:text-slate-400 has-[:checked]:text-primary dark:has-[:checked]:text-white text-sm font-semibold transition-all">
+                    <span>Historial</span>
+                    <input class="hidden" name="filter" type="radio" value="history" onchange="filterPedidos('history')"/>
+                </label>
+            </div>
+        </div>
+    </header>
 
-    <div id="modalPedido" class="fixed inset-0 z-[110] hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-        <div class="bg-white dark:bg-background-dark w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden border border-slate-200 dark:border-white/10 p-6">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-xl font-bold">Crear Nuevo Pedido</h2>
-                <button onclick="cerrarModal()" class="text-slate-400"><span class="material-symbols-outlined">close</span></button>
+    <main id="pedidos-container" class="flex-1 px-4 py-4 space-y-4">
+        <div class="pedido-card bg-white dark:bg-white/5 border border-slate-100 dark:border-white/10 rounded-2xl p-4 shadow-sm" data-status="active">
+            <div class="flex justify-between items-start mb-4">
+                <div>
+                    <span class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">ID #KM0-8429</span>
+                    <h3 class="text-lg font-bold mt-1">Pedido Gourmet Express</h3>
+                </div>
+                <div class="flex items-center gap-1.5 px-3 py-1 rounded-full border border-primary/40 bg-primary/5 text-primary">
+                    <span class="size-2 rounded-full bg-primary animate-pulse"></span>
+                    <span class="text-xs font-bold uppercase tracking-tight">Pendiente</span>
+                </div>
             </div>
-            <form id="formNuevoPedido" class="space-y-4">
-                <div class="grid grid-cols-2 gap-3">
-                    <input type="text" id="ciudad" placeholder="Ciudad" class="p-3 rounded-xl bg-slate-100 dark:bg-white/5 border-none" required>
-                    <input type="text" id="cliente" placeholder="Cliente" class="p-3 rounded-xl bg-slate-100 dark:bg-white/5 border-none" required>
+            <div class="flex items-center gap-4 py-3 border-y border-slate-100 dark:border-white/5">
+                <div class="w-12 h-12 rounded-full bg-slate-100 dark:bg-white/10 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-slate-400">person_search</span>
                 </div>
-                <input type="tel" id="telCliente" placeholder="Teléfono Cliente" class="w-full p-3 rounded-xl bg-slate-100 dark:bg-white/5 border-none" required>
-                <input type="text" id="direccion" placeholder="Dirección de entrega" class="w-full p-3 rounded-xl bg-slate-100 dark:bg-white/5 border-none" required>
-                <div class="grid grid-cols-3 gap-3">
-                    <input type="number" id="cantidad" placeholder="Cant." class="p-3 rounded-xl bg-slate-100 dark:bg-white/5 border-none" required>
-                    <input type="text" id="detalle" placeholder="Producto" class="col-span-2 p-3 rounded-xl bg-slate-100 dark:bg-white/5 border-none" required>
+                <div class="flex-1">
+                    <p class="text-sm font-semibold">Repartidor</p>
+                    <p class="text-sm text-slate-500 dark:text-slate-400">Buscando el más cercano...</p>
                 </div>
-                <input type="number" id="valor" placeholder="Valor a recaudar ($)" class="w-full p-3 rounded-xl bg-slate-100 dark:bg-white/5 border-none" required>
-                <button type="submit" id="btnEnviar" class="w-full py-4 bg-primary text-white font-bold rounded-xl shadow-lg shadow-primary/30">Enviar Pedido</button>
-            </form>
+            </div>
+            <div class="mt-4 flex gap-2">
+                <button onclick="verDetalles('#KM0-8429')" class="flex-1 py-3 px-4 bg-primary text-white text-sm font-bold rounded-xl hover:bg-primary/90 transition-colors">Ver Detalles</button>
+            </div>
+        </div>
+
+        <div class="pedido-card bg-white dark:bg-white/5 border border-slate-100 dark:border-white/10 rounded-2xl p-4 shadow-sm" data-status="active">
+            <div class="flex justify-between items-start mb-4">
+                <div>
+                    <span class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">ID #KM0-8412</span>
+                    <h3 class="text-lg font-bold mt-1">Paquete Tecnología Pro</h3>
+                </div>
+                <div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary text-white">
+                    <span class="material-symbols-outlined text-xs">local_shipping</span>
+                    <span class="text-xs font-bold uppercase tracking-tight">En Camino</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-4 py-3 border-y border-slate-100 dark:border-white/5">
+                <div class="w-12 h-12 rounded-full bg-slate-200" style="background-image: url('https://ui-avatars.com/api/?name=Carlos+Gomez&background=random')"></div>
+                <div class="flex-1">
+                    <p class="text-sm font-semibold">Carlos Gómez</p>
+                    <p class="text-sm text-slate-500 dark:text-slate-400">A 5 min de la tienda</p>
+                </div>
+                <button onclick="alert('Abriendo chat con Carlos...')" class="p-2 bg-slate-100 dark:bg-white/10 rounded-full text-primary">
+                    <span class="material-symbols-outlined">chat</span>
+                </button>
+            </div>
+            <div class="mt-4 flex gap-2">
+                <button onclick="alert('Abriendo mapa de rastreo...')" class="flex-1 py-3 px-4 bg-primary/10 text-primary text-sm font-bold rounded-xl border border-primary/20 hover:bg-primary/20 transition-colors">Rastrear Mapa</button>
+                <button onclick="verDetalles('#KM0-8412')" class="flex-1 py-3 px-4 bg-primary text-white text-sm font-bold rounded-xl hover:bg-primary/90 transition-colors">Ver Detalles</button>
+            </div>
+        </div>
+
+        <div class="pedido-card bg-white dark:bg-white/5 border-2 border-status-purple/30 rounded-2xl p-4 shadow-sm relative overflow-hidden" data-status="active">
+            <div class="absolute top-0 right-0 p-1">
+                <div class="bg-status-purple/10 text-status-purple text-[10px] font-black uppercase px-2 py-0.5 rounded-bl-lg">Urgente</div>
+            </div>
+            <div class="flex justify-between items-start mb-4">
+                <div>
+                    <span class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">ID #KM0-8399</span>
+                    <h3 class="text-lg font-bold mt-1">Suministros Médicos</h3>
+                </div>
+                <div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-status-purple text-white">
+                    <span class="material-symbols-outlined text-xs">report</span>
+                    <span class="text-xs font-bold uppercase tracking-tight">Incidencia</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-4 py-3 border-y border-slate-100 dark:border-white/5">
+                <div class="w-12 h-12 rounded-full bg-slate-200" style="background-image: url('https://ui-avatars.com/api/?name=Marco+Ruiz&background=random')"></div>
+                <div class="flex-1">
+                    <p class="text-sm font-semibold">Marco Ruiz</p>
+                    <p class="text-sm text-status-purple dark:text-status-purple/80 font-medium">Dirección no localizada</p>
+                </div>
+                <button onclick="window.location.href='tel:0900000000'" class="p-2 bg-status-purple text-white rounded-full transition-transform active:scale-90">
+                    <span class="material-symbols-outlined">call</span>
+                </button>
+            </div>
+            <div class="mt-4 flex gap-2">
+                <button onclick="alert('Novedad: El cliente no responde llamadas.')" class="flex-1 py-3 px-4 bg-status-purple text-white text-sm font-bold rounded-xl hover:bg-status-purple/90 transition-colors flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-lg">visibility</span> Leer Novedad
+                </button>
+                <button onclick="alert('Abriendo editor de dirección...')" class="flex-1 py-3 px-4 bg-white dark:bg-white/5 border border-status-purple text-status-purple dark:text-white text-sm font-bold rounded-xl hover:bg-status-purple/10 transition-colors">Resolver</button>
+            </div>
+        </div>
+
+        <div class="pedido-card bg-white dark:bg-white/5 border border-slate-100 dark:border-white/10 rounded-2xl p-4 shadow-sm opacity-90 hidden" data-status="history">
+            <div class="flex justify-between items-start mb-4">
+                <div>
+                    <span class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">ID #KM0-8395</span>
+                    <h3 class="text-lg font-bold mt-1">Pedido Repostería</h3>
+                </div>
+                <div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-status-green text-white">
+                    <span class="material-symbols-outlined text-xs">check_circle</span>
+                    <span class="text-xs font-bold uppercase tracking-tight">Entregado</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-4 py-3 border-y border-slate-100 dark:border-white/5">
+                <div class="w-12 h-12 rounded-full bg-slate-200" style="background-image: url('https://ui-avatars.com/api/?name=Lucia+F&background=random')"></div>
+                <div class="flex-1">
+                    <p class="text-sm font-semibold text-slate-900 dark:text-white">Lucía Fernández</p>
+                    <p class="text-sm text-status-green font-medium">Completado hoy 14:30</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <nav class="sticky bottom-0 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-lg border-t border-slate-200 dark:border-white/10 pb-8 pt-2">
+        <div class="flex justify-around items-center px-4">
+            <button onclick="navSelect(this)" class="nav-item flex flex-col items-center gap-1 text-slate-400">
+                <span class="material-symbols-outlined">grid_view</span>
+                <span class="text-[10px] font-bold uppercase">Inicio</span>
+            </button>
+            <button onclick="navSelect(this)" class="nav-item flex flex-col items-center gap-1 text-primary">
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">local_mall</span>
+                <span class="text-[10px] font-bold uppercase">Pedidos</span>
+            </button>
+            <button onclick="openModal()" class="flex flex-col items-center justify-center -mt-8 size-14 bg-primary rounded-full shadow-lg shadow-primary/40 text-white transition-transform active:scale-90">
+                <span class="material-symbols-outlined text-3xl">add</span>
+            </button>
+            <button onclick="navSelect(this)" class="nav-item flex flex-col items-center gap-1 text-slate-400">
+                <span class="material-symbols-outlined">analytics</span>
+                <span class="text-[10px] font-bold uppercase">Reportes</span>
+            </button>
+            <button onclick="navSelect(this)" class="nav-item flex flex-col items-center gap-1 text-slate-400">
+                <span class="material-symbols-outlined">store</span>
+                <span class="text-[10px] font-bold uppercase">Mi Tienda</span>
+            </button>
+        </div>
+    </nav>
+
+    <div id="modal-pedido" class="fixed inset-0 z-[60] hidden flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal()"></div>
+        <div class="relative bg-white dark:bg-slate-900 w-full max-w-md rounded-3xl shadow-2xl overflow-hidden border border-white/10 animate-in fade-in zoom-in duration-200">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold">Nuevo Pedido</h2>
+                    <button onclick="closeModal()" class="p-2 hover:bg-slate-100 dark:hover:bg-white/10 rounded-full">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+                <form id="form-pedido" class="space-y-4" onsubmit="savePedido(event)">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Nombre del Cliente</label>
+                        <input type="text" required class="w-full bg-slate-100 dark:bg-white/5 border-none rounded-xl focus:ring-2 focus:ring-primary text-sm" placeholder="Ej. Juan Pérez">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Dirección de Entrega</label>
+                        <input type="text" required class="w-full bg-slate-100 dark:bg-white/5 border-none rounded-xl focus:ring-2 focus:ring-primary text-sm" placeholder="Calle principal y secundaria">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Valor a Cobrar</label>
+                            <input type="number" step="0.01" required class="w-full bg-slate-100 dark:bg-white/5 border-none rounded-xl focus:ring-2 focus:ring-primary text-sm" placeholder="0.00">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Ciudad</label>
+                            <select class="w-full bg-slate-100 dark:bg-white/5 border-none rounded-xl focus:ring-2 focus:ring-primary text-sm">
+                                <option>Quito</option>
+                                <option>Guayaquil</option>
+                                <option>Cuenca</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full py-4 bg-primary text-white font-bold rounded-2xl shadow-lg shadow-primary/30 hover:bg-primary/90 transition-all mt-4">
+                        Crear Pedido Ahora
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 
     <script>
-        // --- CONFIGURACIÓN ---
-        const WEB_APP_URL = "TU_URL_DE_GOOGLE_APPS_SCRIPT_AQUI"; 
-        let TIENDA_ACTUAL = localStorage.getItem('km0_tienda') || "";
-
-        // --- MANEJO DE LOGIN ---
-        if(TIENDA_ACTUAL) { mostrarPanel(TIENDA_ACTUAL); }
-
-        document.getElementById('formLogin').onsubmit = async (e) => {
-            e.preventDefault();
-            const user = document.getElementById('userLogin').value;
-            const pass = document.getElementById('passLogin').value;
-            
-            // Llamada al script de Google (Accion: LOGIN)
-            const res = await fetch(WEB_APP_URL, {
-                method: 'POST',
-                body: JSON.stringify({ accion: "LOGIN", tipo: "tienda", usuario: user, clave: pass })
+        // Función para cambiar de estado los botones de navegación
+        function navSelect(btn) {
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('text-primary');
+                item.classList.add('text-slate-400');
+                item.querySelector('.material-symbols-outlined').style.fontVariationSettings = "'FILL' 0";
             });
-            const data = await res.json();
-
-            if(data.status === "SUCCESS") {
-                localStorage.setItem('km0_tienda', data.nombre);
-                mostrarPanel(data.nombre);
-            } else {
-                alert("❌ Credenciales incorrectas");
-            }
-        };
-
-        function mostrarPanel(nombre) {
-            document.getElementById('loginPage').classList.add('hidden');
-            document.getElementById('mainContent').classList.remove('hidden');
-            document.getElementById('storeNameDisplay').innerText = nombre;
+            btn.classList.add('text-primary');
+            btn.classList.remove('text-slate-400');
+            btn.querySelector('.material-symbols-outlined').style.fontVariationSettings = "'FILL' 1";
         }
 
-        function logout() {
-            localStorage.clear();
-            location.reload();
+        // Función para filtrar pedidos (En curso / Historial)
+        function filterPedidos(type) {
+            const cards = document.querySelectorAll('.pedido-card');
+            cards.forEach(card => {
+                if (card.dataset.status === type) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
         }
 
-        // --- MODAL Y PEDIDOS ---
-        function abrirModal() { document.getElementById('modalPedido').classList.remove('hidden'); }
-        function cerrarModal() { document.getElementById('modalPedido').classList.add('hidden'); }
+        // Modal Control
+        function openModal() {
+            document.getElementById('modal-pedido').classList.remove('hidden');
+            document.body.classList.add('modal-open');
+        }
 
-        document.getElementById('formNuevoPedido').onsubmit = async (e) => {
+        function closeModal() {
+            document.getElementById('modal-pedido').classList.add('hidden');
+            document.body.classList.remove('modal-open');
+        }
+
+        // Simulación de guardado
+        function savePedido(e) {
             e.preventDefault();
-            const btn = document.getElementById('btnEnviar');
-            btn.disabled = true;
-            btn.innerText = "Procesando...";
+            alert("✅ Pedido enviado exitosamente a Kilómetro 0");
+            closeModal();
+            e.target.reset();
+        }
 
-            const pedido = {
-                accion: "NUEVO_PEDIDO",
-                tienda: localStorage.getItem('km0_tienda'),
-                ciudad: document.getElementById('ciudad').value,
-                cliente: document.getElementById('cliente').value,
-                telCliente: document.getElementById('telCliente').value,
-                direccion: document.getElementById('direccion').value,
-                cantidad: document.getElementById('cantidad').value,
-                detalle: document.getElementById('detalle').value,
-                valor: document.getElementById('valor').value
-            };
-
-            try {
-                await fetch(WEB_APP_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(pedido) });
-                alert("✅ Pedido creado exitosamente");
-                cerrarModal();
-                e.target.reset();
-            } catch (err) {
-                alert("Error al conectar");
-            } finally {
-                btn.disabled = false;
-                btn.innerText = "Enviar Pedido";
-            }
-        };
+        // Simulación de Ver Detalles
+        function verDetalles(id) {
+            alert("Consultando base de datos para el ID: " + id);
+        }
     </script>
 </body>
 </html>
