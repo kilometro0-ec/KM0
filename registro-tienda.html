@@ -3,60 +3,148 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KM0 - Registro Tienda</title>
+    <title>KM0 - Registro de Comercio</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        body { background: #000; color: white; font-family: 'Inter', sans-serif; }
-        input, select { background: #111 !important; border: 1px solid #333 !important; color: white !important; }
-        input:focus { border-color: #FF00FF !important; outline: none; }
+        body { font-family: 'Inter', sans-serif; background-color: #000; color: white; min-height: 100dvh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        input, select { background: #111 !important; border: 1px solid #333 !important; color: white !important; transition: all 0.3s ease; }
+        input:focus, select:focus { border-color: #FF00FF !important; outline: none; box-shadow: 0 0 15px rgba(255, 0, 255, 0.2); }
         .text-magenta { color: #FF00FF; }
         .bg-magenta { background-color: #FF00FF; }
+        .hidden { display: none; }
+        
+        /* Estilo para mensajes de error */
+        .error-input { border-color: #ef4444 !important; }
+        .error-text { color: #ef4444; font-size: 10px; margin-top: 4px; font-weight: bold; text-transform: uppercase; }
     </style>
 </head>
-<body class="p-6 flex items-center justify-center min-h-screen">
-    <div class="w-full max-w-[400px]">
+<body class="p-6">
+
+    <div id="contenedorForm" class="w-full max-w-[400px]">
         <header class="mb-10 text-center">
-            <h1 class="text-3xl font-black italic text-magenta uppercase">Registro Tienda</h1>
-            <p class="text-zinc-500 text-[10px] uppercase tracking-widest mt-2">Aliados KM0</p>
+            <h1 class="text-3xl font-black italic text-magenta uppercase tracking-tighter">Registro Tienda</h1>
+            <p class="text-zinc-500 text-[10px] uppercase tracking-[0.3em] mt-2">Seguridad y Validación Estricta</p>
         </header>
 
         <form id="formTienda" class="space-y-5">
-            <input type="text" id="nombreTienda" placeholder="NOMBRE COMERCIAL" required class="w-full p-4 rounded-2xl text-sm">
-            <input type="text" id="representante" placeholder="REPRESENTANTE LEGAL" required class="w-full p-4 rounded-2xl text-sm">
-            <input type="text" id="identificacion" placeholder="CI O RUC" required class="w-full p-4 rounded-2xl text-sm">
-            <input type="tel" id="telefono" placeholder="WHATSAPP (+593...)" required class="w-full p-4 rounded-2xl text-sm">
-            <input type="email" id="correo" placeholder="CORREO ELECTRÓNICO" required class="w-full p-4 rounded-2xl text-sm">
-            <div class="grid grid-cols-2 gap-4">
-                <input type="text" id="provincia" placeholder="PROVINCIA" required class="w-full p-4 rounded-2xl text-sm">
-                <input type="text" id="ciudad" placeholder="CIUDAD" required class="w-full p-4 rounded-2xl text-sm">
+            <div>
+                <label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1 ml-1">Nombre Comercial</label>
+                <input type="text" id="nombreTienda" required class="w-full p-4 rounded-2xl text-sm" placeholder="Ej: Pizzería KM0">
             </div>
+
+            <div>
+                <label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1 ml-1">Representante Legal</label>
+                <input type="text" id="representante" required class="w-full p-4 rounded-2xl text-sm" placeholder="Nombres y Apellidos">
+            </div>
+
+            <div>
+                <label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1 ml-1">CI o RUC (Único)</label>
+                <input type="text" id="identificacion" minlength="10" maxlength="13" pattern="[0-9]{10,13}" 
+                       title="Debe ingresar de 10 a 13 dígitos numéricos" required 
+                       class="w-full p-4 rounded-2xl text-sm" placeholder="17XXXXXXXX001">
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1 ml-1">Provincia</label>
+                    <select id="provincia" required class="w-full p-4 rounded-2xl text-sm appearance-none">
+                        <option value="" disabled selected>Seleccione...</option>
+                        <option value="Azuay">Azuay</option><option value="Bolívar">Bolívar</option>
+                        <option value="Cañar">Cañar</option><option value="Carchi">Carchi</option>
+                        <option value="Chimborazo">Chimborazo</option><option value="Cotopaxi">Cotopaxi</option>
+                        <option value="El Oro">El Oro</option><option value="Esmeraldas">Esmeraldas</option>
+                        <option value="Galápagos">Galápagos</option><option value="Guayas">Guayas</option>
+                        <option value="Imbabura">Imbabura</option><option value="Loja">Loja</option>
+                        <option value="Los Ríos">Los Ríos</option><option value="Manabí">Manabí</option>
+                        <option value="Morona Santiago">Morona Santiago</option><option value="Napo">Napo</option>
+                        <option value="Orellana">Orellana</option><option value="Pastaza">Pastaza</option>
+                        <option value="Pichincha">Pichincha</option><option value="Santa Elena">Santa Elena</option>
+                        <option value="Santo Domingo">Santo Domingo</option><option value="Sucumbíos">Sucumbíos</option>
+                        <option value="Tungurahua">Tungurahua</option><option value="Zamora Chinchipe">Zamora Chinchipe</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1 ml-1">Ciudad</label>
+                    <input type="text" id="ciudad" required class="w-full p-4 rounded-2xl text-sm" placeholder="Ej: Quito">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1 ml-1">WhatsApp (+593 + 9 dígitos)</label>
+                <input type="tel" id="telefono" pattern="^\+593[0-9]{9}$" 
+                       title="Formato requerido: +593999888777 (Símbolo + y 12 dígitos en total)" 
+                       required class="w-full p-4 rounded-2xl text-sm" placeholder="+593XXXXXXXXX">
+            </div>
+
+            <div>
+                <label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1 ml-1">Correo Electrónico (Único)</label>
+                <input type="email" id="correo" required class="w-full p-4 rounded-2xl text-sm" placeholder="comercio@ejemplo.com">
+            </div>
+
             <button type="submit" id="btnEnviar" class="w-full bg-magenta text-black font-black py-5 rounded-2xl uppercase text-xs tracking-widest active:scale-95 transition-all shadow-lg shadow-magenta/30">
                 Registrar Comercio
             </button>
         </form>
     </div>
 
+    <div id="pantallaExito" class="hidden text-center max-w-[400px]">
+        <div class="mb-6 flex justify-center">
+            <div class="w-20 h-20 bg-magenta/10 border-2 border-magenta rounded-full flex items-center justify-center shadow-[0_0_30px_#FF00FF]">
+                <svg class="w-10 h-10 text-magenta" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                </svg>
+            </div>
+        </div>
+        <h2 class="text-3xl font-black uppercase text-white mb-4 italic">¡Registro Exitoso!</h2>
+        <p class="text-zinc-400 text-sm leading-relaxed mb-8 px-4">
+            La información fue enviada a <span class="text-magenta font-bold underline">Kilometro 0</span>.<br>
+            Nuestro equipo revisará los datos y pronto nos comunicaremos con usted.
+        </p>
+        <button onclick="window.location.href='index.html'" class="w-full border border-zinc-800 text-zinc-500 font-bold text-[10px] tracking-[0.3em] py-4 rounded-2xl uppercase hover:text-white hover:border-white transition-all">
+            Volver al Inicio
+        </button>
+    </div>
+
     <script>
         const URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec';
-        document.getElementById('formTienda').addEventListener('submit', async (e) => {
+
+        const form = document.getElementById('formTienda');
+        const btn = document.getElementById('btnEnviar');
+
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const btn = document.getElementById('btnEnviar');
-            btn.disabled = true; btn.innerText = "ENVIANDO...";
+            
+            btn.disabled = true;
+            btn.innerText = 'VERIFICANDO DATOS...';
 
             const datos = {
-                tipoRegistro: "tienda",
-                nombreTienda: document.getElementById('nombreTienda').value,
-                representante: document.getElementById('representante').value,
-                identificacion: document.getElementById('identificacion').value,
-                telefono: document.getElementById('telefono').value,
-                correo: document.getElementById('correo').value,
-                provincia: document.getElementById('provincia').value,
-                ciudad: document.getElementById('ciudad').value
+                tipoRegistro:   "tienda", // <-- INDICADOR PARA EL SCRIPT
+                nombreTienda:   document.getElementById('nombreTienda').value.trim(),
+                representante:  document.getElementById('representante').value.trim(),
+                identificacion: document.getElementById('identificacion').value.trim(),
+                provincia:      document.getElementById('provincia').value,
+                ciudad:         document.getElementById('ciudad').value.trim(),
+                telefono:       "'" + document.getElementById('telefono').value.trim(), 
+                correo:         document.getElementById('correo').value.trim().toLowerCase()
             };
 
-            await fetch(URL_SCRIPT, { method: 'POST', mode: 'no-cors', body: JSON.stringify(datos) });
-            alert("Tienda registrada con éxito");
-            location.reload();
+            try {
+                await fetch(URL_SCRIPT, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(datos)
+                });
+
+                document.getElementById('contenedorForm').classList.add('hidden');
+                document.getElementById('pantallaExito').classList.remove('hidden');
+
+            } catch (error) {
+                alert('Error al conectar con la base de datos. Verifique su internet.');
+                btn.disabled = false;
+                btn.innerText = 'REGISTRAR COMERCIO';
+            }
         });
     </script>
 </body>
