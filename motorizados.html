@@ -3,33 +3,37 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Kilómetro 0 - App Completa</title>
+    <title>Kilómetro 0 - App Original</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-    <script>
+    
+    <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#ec1313",
-                        "brand-blue": "#135bec",
-                        "background-light": "#f6f6f8",
-                        "background-dark": "#101622",
+                        "primary": "#E30613", // Rojo K0 original del código 2/3
+                        "brand-grey": "#8C8C8C",
+                        "background-dark": "#000000",
                         "card-dark": "#121212",
                         "action-dark": "#1A1A1A",
+                        "primary-nav": "#ec1313", // Rojo del código 5
+                        "background-nav": "#181111",
                     },
                     fontFamily: { "display": ["Inter", "sans-serif"] },
-                    borderRadius: { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" },
                 },
             },
         }
     </script>
+    
     <style type="text/tailwindcss">
-        body { @apply bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-hidden; min-height: 100dvh; }
-        .view-section { display: none; height: 100vh; overflow-y: auto; }
+        body { margin: 0; padding: 0; overflow: hidden; background: #000; }
+        .view-section { display: none; height: 100dvh; width: 100%; position: absolute; top: 0; left: 0; overflow-y: auto; }
         .view-section.active { display: block; }
+        
+        /* Estilos específicos de tus códigos */
         .ios-blur { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
         .route-line { stroke-dasharray: 8; stroke-linecap: round; }
         .map-gradient { background: radial-gradient(circle at center, transparent 0%, rgba(24, 17, 17, 0.4) 100%); }
@@ -38,283 +42,113 @@
 </head>
 <body>
 
-    <section id="view-tasks" class="view-section active pb-24">
-        <header class="flex items-center justify-between px-6 py-4 bg-background-light/80 dark:bg-background-dark/80 ios-blur sticky top-0 z-50">
-            <div class="flex items-center gap-2">
-                <div class="size-10 bg-primary/10 rounded-full flex items-center justify-center text-primary">
-                    <span class="material-symbols-outlined">moped</span>
-                </div>
-                <h1 class="text-lg font-bold tracking-tight">Mis Entregas</h1>
+<div id="view-1" class="view-section active bg-white dark:bg-[#101622]">
+    <header class="flex items-center justify-between px-6 py-4 bg-white/80 dark:bg-[#101622]/80 ios-blur sticky top-0 z-50 border-b border-slate-100 dark:border-slate-800">
+        <div class="flex items-center gap-2">
+            <div class="size-10 bg-primary/10 rounded-full flex items-center justify-center text-primary"><span class="material-symbols-outlined">moped</span></div>
+            <h1 class="text-lg font-bold tracking-tight dark:text-white">Mis Entregas</h1>
+        </div>
+        <button onclick="showView('view-4')" class="size-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary">account_balance_wallet</span>
+        </button>
+    </header>
+    <main class="px-6 py-4 space-y-4">
+        <div onclick="showView('view-2')" class="bg-white dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm cursor-pointer">
+            <div class="flex justify-between mb-3"><span class="text-[10px] font-black bg-primary text-white px-2 py-0.5 rounded uppercase">Urgente</span><span class="text-xs font-bold text-primary">$4.50</span></div>
+            <h3 class="text-xl font-bold dark:text-white">#RT-884210</h3>
+            <p class="text-sm text-slate-500">Gourmet Burger Central</p>
+        </div>
+    </main>
+</div>
+
+<div id="view-2" class="view-section bg-background-dark">
+    <header class="flex items-center justify-between px-4 pt-12 pb-4 bg-background-dark/80 ios-blur sticky top-0 z-50">
+        <button onclick="showView('view-1')" class="size-10 rounded-full bg-card-dark text-white border border-white/10 flex items-center justify-center"><span class="material-symbols-outlined">arrow_back_ios_new</span></button>
+        <h1 class="text-sm font-black uppercase tracking-[0.2em] text-white text-center">Detalle de Entrega</h1>
+        <div class="size-10"></div>
+    </header>
+    <main class="px-4 space-y-4 pt-4 text-white">
+        <section class="bg-card-dark rounded-2xl p-5 border border-white/10">
+            <div class="flex gap-4 mb-5">
+                <div class="size-16 rounded-2xl overflow-hidden border-2 border-primary"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_QB638dS6VuTF4ZmcR4VpvkT2ZTiCwyfEef9kovylT3HqC-HwakNSxFpTfg6SjCXu7vv6Tjp7g_2SqktYeiNqC0NGNAh_hhiOvfG6V5gpEyIbiE1w7HupWsJyWLXSDJB1yP4kete4qQmtbB64EW05l-y7wG-RJTsfBTbvdk2xkuYEwx8atK9oq_9IrbC-_WzcNfhl6Lujg0q-YfhbVCRiB23KwMG4nwjTg8CqQ1TXTasZatBSH_8YP8dgbr0IezwJVTKKbxu2KAvk" class="w-full h-full object-cover"></div>
+                <div><p class="font-black text-2xl leading-none">Juan Pérez</p><p class="text-brand-grey font-bold text-sm">Socio Gold • ID: 4892</p></div>
             </div>
-            <button onclick="switchTab('view-finance')" class="size-10 rounded-full bg-slate-200/50 dark:bg-slate-800/50 flex items-center justify-center">
-                <span class="material-symbols-outlined text-primary">account_balance_wallet</span>
-            </button>
-        </header>
-
-        <main class="px-6 py-4 space-y-4">
-            <div class="flex items-center justify-between mb-2">
-                <span class="text-xs font-semibold uppercase tracking-widest text-slate-500">Pendientes de hoy</span>
-                <span class="bg-emerald-500/10 text-emerald-500 text-[10px] font-bold px-2 py-1 rounded-full animate-pulse">EN LÍNEA</span>
+            <div class="bg-black/40 p-4 rounded-xl flex items-start gap-4 border border-white/5 mb-4">
+                <div class="size-10 rounded-lg bg-primary/20 flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-primary">location_on</span></div>
+                <div><p class="font-black text-base uppercase">Av. Principal 123</p><p class="text-sm text-brand-grey">Torre B, Depto 402.</p></div>
             </div>
-
-            <div onclick="openOrder('RT-884210')" class="bg-white dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm active:scale-95 transition-all cursor-pointer">
-                <div class="flex justify-between items-start mb-3">
-                    <span class="text-[10px] font-black bg-primary text-white px-2 py-0.5 rounded">URGENTE</span>
-                    <span class="text-xs font-bold text-primary">$4.50</span>
-                </div>
-                <h3 class="text-xl font-bold">#RT-884210</h3>
-                <p class="text-sm text-slate-500">Gourmet Burger Central</p>
-                <div class="mt-4 flex items-center gap-2 text-xs text-slate-400">
-                    <span class="material-symbols-outlined text-sm text-primary">location_on</span>
-                    Av. Principal 123, Torre B
-                </div>
-            </div>
-        </main>
-    </section>
-
-    <section id="view-detail" class="view-section pb-40">
-        <header class="flex items-center justify-between px-4 pt-12 pb-4 sticky top-0 bg-background-dark z-50">
-            <button onclick="switchTab('view-tasks')" class="size-10 rounded-full bg-card-dark text-white border border-white/10 flex items-center justify-center">
-                <span class="material-symbols-outlined">arrow_back_ios_new</span>
+            <button onclick="showView('view-3')" class="w-full bg-primary text-white py-5 rounded-2xl font-black text-lg uppercase tracking-widest flex items-center justify-center gap-3">
+                <span class="material-symbols-outlined">directions_run</span> Iniciar Navegación
             </button>
-            <h1 class="text-sm font-black tracking-[0.2em] uppercase">Detalle de Entrega</h1>
-            <div class="size-10"></div>
-        </header>
+        </section>
+    </main>
+</div>
 
-        <main class="px-4 space-y-4 pt-4">
-            <section class="bg-card-dark rounded-2xl p-5 border border-white/10 shadow-xl">
-                <div class="flex items-center justify-between mb-5">
-                    <h3 class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Destinatario</h3>
-                    <span class="text-[10px] font-black text-primary uppercase">Urgente</span>
-                </div>
-                <div class="flex gap-4 mb-5">
-                    <div class="size-16 rounded-2xl overflow-hidden border-2 border-primary">
-                        <img src="https://i.pravatar.cc/150?img=11" class="w-full h-full object-cover">
-                    </div>
-                    <div class="flex flex-col justify-center">
-                        <p class="font-black text-2xl leading-none">Juan Pérez</p>
-                        <p class="text-slate-500 font-bold text-sm mt-1">Socio Gold • ID: 4892</p>
-                    </div>
-                </div>
-                <div class="bg-black/40 p-4 rounded-xl flex items-start gap-4 border border-white/5">
-                    <div class="size-10 rounded-lg bg-primary/20 flex items-center justify-center shrink-0">
-                        <span class="material-symbols-outlined text-primary">location_on</span>
-                    </div>
-                    <div>
-                        <p class="font-black text-base uppercase">Av. Principal 123</p>
-                        <p class="text-sm text-slate-500 mt-1">Torre B, Depto 402. Tocar timbre.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section class="bg-card-dark rounded-2xl p-5 border border-white/10">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Detalle del Envío</h3>
-                    <p class="text-xs font-black">#RT-884210</p>
-                </div>
-                <div class="space-y-4">
-                    <div class="flex items-center justify-between py-2 border-b border-white/5">
-                        <span class="text-xs font-bold uppercase">Combo Familiar x 1</span>
-                        <span class="text-[10px] bg-primary/20 text-primary px-2 py-0.5 rounded font-black">FRÁGIL</span>
-                    </div>
-                </div>
-            </section>
-        </main>
-
-        <footer class="fixed bottom-0 inset-x-0 p-4 pb-8 bg-background-dark/95 ios-blur border-t border-white/10 flex gap-3 z-[60]">
-            <button onclick="switchTab('view-route-map')" class="flex-1 bg-primary h-14 rounded-xl font-black text-sm uppercase tracking-widest flex items-center justify-center gap-2 shadow-xl">
-                <span class="material-symbols-outlined">directions_run</span> INICIAR RUTA
-            </button>
-        </footer>
-    </section>
-
-    <section id="view-route-map" class="view-section pb-40">
-        <header class="flex items-center justify-between px-4 pt-12 pb-4 bg-background-dark/80 ios-blur sticky top-0 z-50">
-            <button onclick="switchTab('view-detail')" class="size-10 rounded-full bg-card-dark border border-white/10 flex items-center justify-center">
-                <span class="material-symbols-outlined">arrow_back_ios_new</span>
-            </button>
-            <h1 class="text-sm font-black tracking-[0.2em] uppercase">Mapa de Ruta</h1>
-            <div class="size-10"></div>
-        </header>
-
-        <main class="p-4 space-y-4">
-            <div class="relative w-full aspect-video rounded-2xl overflow-hidden border border-white/10 bg-card-dark">
-                <svg class="absolute inset-0 w-full h-full opacity-30" viewBox="0 0 400 200">
-                    <path class="route-line" d="M80,150 L120,130 L180,140 L220,90 L280,70" fill="none" stroke="#ec1313" stroke-width="4"></path>
-                    <circle cx="80" cy="150" fill="white" r="5" stroke="#ec1313" stroke-width="2"></circle>
-                    <circle cx="280" cy="70" fill="#ec1313" r="8"></circle>
-                </svg>
-                <div class="absolute bottom-3 left-3 right-3 flex justify-between items-center bg-black/60 ios-blur px-3 py-2 rounded-lg border border-white/5">
-                    <span class="text-[10px] font-bold uppercase tracking-wider">Distancia: 1.2 km</span>
-                    <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">4 min</span>
-                </div>
-            </div>
-            
-            <button onclick="switchTab('view-navigation')" class="w-full bg-primary py-5 rounded-2xl font-black text-lg uppercase tracking-widest flex items-center justify-center gap-3 shadow-lg active:scale-95 transition-all">
-                <span class="material-symbols-outlined text-2xl">navigation</span> INICIAR GPS
-            </button>
-        </main>
-    </section>
-
-    <section id="view-navigation" class="view-section relative">
-        <div class="absolute inset-0 z-0">
-            <div class="w-full h-full bg-center bg-cover grayscale contrast-125 brightness-50" style="background-image: url('https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=1000');"></div>
-            <div class="absolute inset-0 map-gradient"></div>
-            <svg class="absolute inset-0 w-full h-full" viewBox="0 0 400 800">
-                <path class="route-glow opacity-90" d="M 200 700 L 200 500 L 320 450 L 320 300 L 100 250 L 80 100" fill="none" stroke="#ec1313" stroke-linecap="round" stroke-linejoin="round" stroke-width="8"></path>
-                <circle class="animate-pulse" cx="200" cy="700" fill="#ec1313" r="12"></circle>
-                <circle cx="80" cy="100" fill="white" r="10"></circle>
+<div id="view-3" class="view-section bg-background-dark">
+    <header class="flex items-center justify-between px-4 pt-12 pb-4 bg-background-dark/80 ios-blur sticky top-0 z-50 text-white">
+        <button onclick="showView('view-2')" class="size-10 rounded-full bg-card-dark border border-white/10 flex items-center justify-center"><span class="material-symbols-outlined">arrow_back_ios_new</span></button>
+        <h1 class="text-sm font-black uppercase tracking-[0.2em]">Ruta de Entrega</h1>
+        <div class="size-10"></div>
+    </header>
+    <main class="px-4 py-4 space-y-4">
+        <div class="relative w-full aspect-video rounded-2xl overflow-hidden border border-white/10 bg-card-dark">
+            <svg class="absolute inset-0 w-full h-full" viewBox="0 0 400 200">
+                <path class="route-line" d="M80,150 L120,130 L180,140 L220,90 L280,70" fill="none" stroke="#E30613" stroke-width="4"></path>
+                <circle cx="80" cy="150" fill="white" r="5" stroke="#E30613" stroke-width="2"></circle>
+                <circle cx="280" cy="70" fill="#E30613" r="8"></circle>
             </svg>
         </div>
+        <button onclick="showView('view-5')" class="w-full bg-primary text-white py-5 rounded-2xl font-black text-lg uppercase flex items-center justify-center gap-3">
+            <span class="material-symbols-outlined">navigation</span> Iniciar GPS Vivo
+        </button>
+    </main>
+</div>
 
-        <div class="relative z-10 p-4 pt-12">
-            <div class="flex items-center gap-4 rounded-xl bg-background-dark/95 border border-white/10 p-5 shadow-2xl backdrop-blur-md">
-                <div class="size-14 items-center justify-center rounded-full bg-primary text-white flex">
-                    <span class="material-symbols-outlined text-4xl">turn_right</span>
-                </div>
-                <div class="flex flex-col">
-                    <p class="text-white/60 text-xs font-bold uppercase">A 200 metros</p>
-                    <p class="text-xl font-extrabold leading-tight">Gire a la derecha</p>
-                </div>
+<div id="view-4" class="view-section bg-background-dark text-white">
+    <header class="flex items-center justify-between px-6 py-4 bg-background-dark/80 ios-blur sticky top-0 z-50">
+        <button onclick="showView('view-1')" class="size-10 rounded-full bg-slate-800/50 flex items-center justify-center"><span class="material-symbols-outlined">arrow_back_ios_new</span></button>
+        <h1 class="text-lg font-bold">Billetera</h1>
+        <div class="size-10"></div>
+    </header>
+    <main class="px-6 pb-20">
+        <div class="relative overflow-hidden flex flex-col gap-4 rounded-xl p-8 bg-[#135bec] shadow-2xl mt-6">
+            <p class="text-white/80 text-sm font-medium uppercase tracking-wider">Monto Final a Depositar</p>
+            <div class="flex items-end gap-2"><p class="text-white text-5xl font-bold tracking-tighter">$145.50</p><span class="text-white/60 mb-1 text-lg">USD</span></div>
+        </div>
+    </main>
+</div>
+
+<div id="view-5" class="view-section bg-background-nav">
+    <div class="absolute inset-0 z-0">
+        <div class="w-full h-full bg-center bg-cover grayscale contrast-125 brightness-50" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCz3r-GD21CRIhuFT21YPhP9EH_uBuJDZvm8QZAUa8zt1RCPGTDBIAKvEw4YZt6i5_kpaZv0QuA9YdOVzaDY_q43UogJvHfm90AIANL5r93D8wycoifAgxwBJVNOcu200d7RYzMzQ2QNeDv3nNeTly62GEx-wXwq7NE-nl06PK2X94B5WgfLHhd_OsL2cAgks0eg5PYcCmRq-ukPMRafS0IVwcdArLRHgK3MPKPBVn42PAC4iHhkkGejnboNXgLjmTdc7kUVwIuuS3J');"></div>
+        <div class="absolute inset-0 map-gradient"></div>
+        <svg class="absolute inset-0 w-full h-full" viewBox="0 0 400 800">
+            <path class="route-glow" d="M 200 700 L 200 500 L 320 450 L 320 300 L 100 250 L 80 100" fill="none" stroke="#ec1313" stroke-width="8"></path>
+            <circle class="animate-pulse" cx="200" cy="700" fill="#ec1313" r="12"></circle>
+        </svg>
+    </div>
+    <div class="relative z-10 p-4 pt-12">
+        <div class="flex items-center gap-4 rounded-xl bg-[#181111]/95 border border-white/10 p-5 shadow-2xl backdrop-blur-md">
+            <div class="flex size-14 items-center justify-center rounded-full bg-[#ec1313] text-white"><span class="material-symbols-outlined text-4xl">turn_right</span></div>
+            <div class="flex flex-col text-white">
+                <p class="text-white/60 text-xs font-bold uppercase">A 200 metros</p>
+                <p class="text-xl font-extrabold leading-tight">Gire a la derecha</p>
             </div>
         </div>
-
-        <div class="absolute bottom-0 inset-x-0 z-10 bg-background-dark/95 backdrop-blur-xl border-t border-white/5 px-4 pt-6 pb-8">
-            <div class="flex gap-4 mb-6">
-                <div class="flex-1 bg-white/5 p-4 rounded-2xl border border-white/5">
-                    <p class="text-xs font-semibold uppercase text-white/50">Llegada</p>
-                    <p class="text-2xl font-black">12 <span class="text-sm font-normal">min</span></p>
-                </div>
-                <div class="flex-1 bg-white/5 p-4 rounded-2xl border border-white/5">
-                    <p class="text-xs font-semibold uppercase text-white/50">Distancia</p>
-                    <p class="text-2xl font-black">4.2 <span class="text-sm font-normal">km</span></p>
-                </div>
-            </div>
-            <button onclick="finishOrder()" class="w-full h-16 bg-primary text-white text-lg font-bold rounded-full shadow-lg flex items-center justify-center gap-2 active:scale-95">
-                Confirmar Llegada <span class="material-symbols-outlined">check_circle</span>
-            </button>
-        </div>
-    </section>
-
-    <section id="view-finance" class="view-section pb-32">
-        <header class="flex items-center justify-between px-6 py-4 bg-background-dark/80 ios-blur sticky top-0 z-50">
-            <button onclick="switchTab('view-tasks')" class="size-10 rounded-full bg-slate-800/50 flex items-center justify-center">
-                <span class="material-symbols-outlined">arrow_back_ios_new</span>
-            </button>
-            <h1 class="text-lg font-bold">Liquidación Diaria</h1>
-            <div class="size-10"></div>
-        </header>
-
-        <main class="px-6 pb-32">
-            <div class="flex items-center justify-between mt-6 mb-4">
-                <div class="flex flex-col">
-                    <span class="text-xs font-semibold uppercase text-slate-400">Hoy, 24 Mayo</span>
-                    <span class="text-sm font-medium text-slate-500">ID Sesión: #ML-92834</span>
-                </div>
-                <div class="flex items-center gap-1.5 px-3 py-1 bg-amber-500/10 border border-amber-500/20 rounded-full">
-                    <span class="size-2 bg-amber-500 rounded-full animate-pulse"></span>
-                    <span class="text-[10px] font-bold text-amber-500 uppercase">Pendiente</span>
-                </div>
-            </div>
-
-            <div class="relative overflow-hidden flex flex-col gap-4 rounded-xl p-8 bg-brand-blue shadow-2xl mb-8">
-                <p class="text-white/80 text-sm font-medium uppercase tracking-wider">Monto Final a Depositar</p>
-                <div class="flex items-end gap-2">
-                    <p class="text-white text-5xl font-bold tracking-tighter">$145.50</p>
-                    <span class="text-white/60 mb-1 text-lg">USD</span>
-                </div>
-                <div class="flex items-center gap-1 px-2 py-0.5 bg-white/20 rounded-md w-fit">
-                    <span class="material-symbols-outlined text-xs">receipt_long</span>
-                    <span class="text-xs font-medium">12 Entregas hoy</span>
-                </div>
-            </div>
-
-            <div class="space-y-4">
-                <h3 class="text-base font-bold px-1">Resumen de Cuenta</h3>
-                <div class="flex items-center justify-between p-4 rounded-xl bg-slate-800/40 border border-slate-800">
-                    <div class="flex items-center gap-3">
-                        <div class="size-10 flex items-center justify-center rounded-full bg-emerald-500/10 text-emerald-500">
-                            <span class="material-symbols-outlined">payments</span>
-                        </div>
-                        <p class="text-sm font-semibold">Total Recaudado</p>
-                    </div>
-                    <p class="font-bold">$185.00</p>
-                </div>
-                <div class="flex items-center justify-between p-4 rounded-xl bg-slate-800/40 border border-slate-800">
-                    <div class="flex items-center gap-3">
-                        <div class="size-10 flex items-center justify-center rounded-full bg-primary/10 text-primary">
-                            <span class="material-symbols-outlined">account_balance_wallet</span>
-                        </div>
-                        <p class="text-sm font-semibold">Comisión de App</p>
-                    </div>
-                    <p class="font-bold text-primary">-$45.00</p>
-                </div>
-            </div>
-
-            <div class="mt-8 p-5 bg-brand-blue/5 border-2 border-dashed border-brand-blue/20 rounded-xl">
-                <h4 class="text-sm font-bold text-brand-blue mb-2 flex items-center gap-2">
-                    <span class="material-symbols-outlined text-lg">info</span> Instrucciones de Pago
-                </h4>
-                <p class="text-xs text-slate-400 leading-relaxed">
-                    Realiza el depósito a la cuenta <span class="font-bold text-white">#4920-302-120</span>. Sube la foto del comprobante para liberar tu cuenta.
-                </p>
-            </div>
-        </main>
-
-        <footer class="fixed bottom-0 inset-x-0 p-6 bg-background-dark/90 ios-blur border-t border-white/10 z-50">
-            <button class="w-full h-16 bg-brand-blue text-white rounded-full font-bold flex items-center justify-center gap-3 shadow-lg">
-                <span class="material-symbols-outlined">cloud_upload</span> Subir Comprobante
-            </button>
-        </footer>
-    </section>
-
-    <nav id="main-nav" class="fixed bottom-0 inset-x-0 h-20 bg-black/95 ios-blur border-t border-white/10 flex items-center justify-around pb-4 z-[100]">
-        <button onclick="switchTab('view-tasks', this)" class="nav-item flex flex-col items-center gap-1 text-primary">
-            <span class="material-symbols-outlined fill-1">task</span>
-            <span class="text-[10px] font-black uppercase">Tareas</span>
+    </div>
+    <div class="absolute bottom-0 inset-x-0 z-10 bg-[#181111]/95 backdrop-blur-xl border-t border-white/5 px-4 pt-6 pb-8">
+        <button onclick="showView('view-1')" class="w-full h-16 bg-[#ec1313] text-white text-lg font-bold rounded-full flex items-center justify-center gap-2">
+            Confirmar Llegada <span class="material-symbols-outlined">check_circle</span>
         </button>
-        <button onclick="switchTab('view-finance', this)" class="nav-item flex flex-col items-center gap-1 text-slate-500">
-            <span class="material-symbols-outlined">payments</span>
-            <span class="text-[10px] font-black uppercase">Pagos</span>
-        </button>
-        <button onclick="alert('Perfil')" class="nav-item flex flex-col items-center gap-1 text-slate-500">
-            <span class="material-symbols-outlined">person</span>
-            <span class="text-[10px] font-black uppercase">Perfil</span>
-        </button>
-    </nav>
+    </div>
+</div>
 
-    <script>
-        function switchTab(tabId, el) {
-            document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
+<script>
+    function showView(viewId) {
+        document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
+        document.getElementById(viewId).classList.add('active');
+    }
+</script>
 
-            // Ocultar nav en navegación mapa
-            const nav = document.getElementById('main-nav');
-            if (tabId === 'view-navigation' || tabId === 'view-route-map' || tabId === 'view-detail') {
-                nav.style.display = 'none';
-            } else {
-                nav.style.display = 'flex';
-            }
-
-            // Actualizar estilo botones
-            if(el && el.classList.contains('nav-item')) {
-                document.querySelectorAll('.nav-item').forEach(btn => {
-                    btn.classList.replace('text-primary', 'text-slate-500');
-                    btn.querySelector('span').classList.remove('fill-1');
-                });
-                el.classList.replace('text-slate-500', 'text-primary');
-                el.querySelector('span').classList.add('fill-1');
-            }
-        }
-
-        function openOrder(id) {
-            switchTab('view-detail');
-        }
-
-        function finishOrder() {
-            alert("¡Entrega finalizada con éxito! ✅");
-            switchTab('view-tasks');
-        }
-    </script>
 </body>
 </html>
