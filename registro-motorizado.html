@@ -1,89 +1,310 @@
 <!DOCTYPE html>
-<html lang="es">
+<html class="dark" lang="es">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KM0 - Registro Motorizado</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Kilómetro Cero - Registro Seguro</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: { "primary": "#ec1313", "background-dark": "#121212" },
+                },
+            },
+        }
+    </script>
     <style>
-        body { font-family: 'Inter', sans-serif; background: #000; color: white; }
-        input, select { background: #111 !important; border: 1px solid #222 !important; color: white !important; }
-        input:focus { border-color: #ec1313 !important; outline: none; }
-        .text-primary { color: #ec1313; }
-        .bg-primary { background-color: #ec1313; }
-        .hidden { display: none; }
+        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        .step-content { display: none; }
+        .step-content.active { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        input:focus, select:focus { ring: 2px solid #ec1313 !important; outline: none; }
+        button:disabled { opacity: 0.5; cursor: not-allowed; filter: grayscale(1); }
+        .error-label { color: #ec1313; font-size: 10px; font-weight: 800; display: none; margin-top: 4px; text-transform: uppercase; }
     </style>
 </head>
-<body class="p-6">
-    <div id="contenedorForm" class="max-w-md mx-auto">
-        <header class="mb-8 text-center">
-            <h1 class="text-3xl font-black italic text-primary uppercase italic">Registro Motorizado</h1>
-            <p class="text-zinc-500 text-[10px] uppercase tracking-widest mt-2">Expediente Digital KM0</p>
-        </header>
+<body class="bg-slate-50 dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
 
-        <form id="formMoto" class="space-y-4">
-            <input type="text" id="nombre" placeholder="NOMBRE COMPLETO" required class="w-full p-4 rounded-2xl text-sm">
-            <input type="text" id="cedula" placeholder="CÉDULA" required class="w-full p-4 rounded-2xl text-sm">
-            <input type="tel" id="telefono" placeholder="WHATSAPP (+593...)" required class="w-full p-4 rounded-2xl text-sm">
-            <input type="email" id="email" placeholder="CORREO ELECTRÓNICO" required class="w-full p-4 rounded-2xl text-sm">
-            
-            <div class="grid grid-cols-2 gap-4">
-                <input type="text" id="marca" placeholder="MARCA MOTO" required class="w-full p-4 rounded-2xl text-sm">
-                <input type="text" id="placa" placeholder="PLACA" required class="w-full p-4 rounded-2xl text-sm">
+<header id="header-nav" class="sticky top-0 z-50 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md px-4 py-3 flex items-center justify-between border-b border-slate-200 dark:border-slate-800">
+    <button type="button" onclick="handleBack()" class="flex items-center text-primary">
+        <span class="material-symbols-outlined">chevron_left</span>
+        <span class="text-sm font-medium">Volver</span>
+    </button>
+    <h1 class="text-sm font-bold uppercase italic tracking-tighter">Registro Motorizado</h1>
+    <div class="w-10"></div>
+</header>
+
+<main class="max-w-md mx-auto px-6 py-8">
+    <form id="main-form">
+        <div id="step-1" class="step-content active space-y-6">
+            <div class="flex flex-col items-center mb-8">
+                <div class="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mb-4 border border-primary/20 shadow-xl">
+                    <span class="material-symbols-outlined text-primary text-5xl">shield_person</span>
+                </div>
+                <h2 class="text-2xl font-black italic uppercase tracking-tighter">Kilómetro Cero</h2>
+                <p class="text-primary text-[10px] font-black uppercase tracking-[0.3em]">Corporación 360</p>
             </div>
 
-            <p class="text-[10px] font-black text-zinc-600 uppercase mt-4">Documentación (Fotos/PDF)</p>
-            <div class="grid grid-cols-1 gap-2">
-                <input type="file" id="fVideo" accept="video/*" class="text-[10px]">
-                <input type="file" id="fCedFront" accept="image/*" class="text-[10px]">
-                <input type="file" id="fCedPost" accept="image/*" class="text-[10px]">
-                <input type="file" id="fLicFront" accept="image/*" class="text-[10px]">
-                <input type="file" id="fLicPost" accept="image/*" class="text-[10px]">
+            <div class="space-y-4">
+                <input id="nombre" required type="text" oninput="checkFields()" class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-xl py-4 px-4 text-sm font-medium" placeholder="Nombres Completos *">
+                
+                <div>
+                    <input id="email" required type="email" oninput="checkFields()" class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-xl py-4 px-4 text-sm font-medium" placeholder="Correo Electrónico *">
+                    <p id="err-email" class="error-label">Este correo ya está registrado</p>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <input id="cedula" required maxlength="10" type="tel" oninput="checkFields()" class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-xl py-4 px-4 text-sm font-medium" placeholder="Cédula *">
+                        <p id="err-id" class="error-label">Cédula duplicada</p>
+                    </div>
+                    <div class="relative flex flex-col">
+                        <div class="relative flex items-center">
+                            <span class="absolute left-3 text-sm font-bold text-slate-500">+593</span>
+                            <input id="tel" required maxlength="9" type="tel" oninput="checkFields()" class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-xl py-4 pl-14 pr-4 text-sm font-bold" placeholder="987654321">
+                        </div>
+                        <p id="err-tel" class="error-label">WhatsApp ya existe</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <select id="provincia" required onchange="checkFields()" class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-xl py-4 px-4 text-xs font-bold">
+                        <option value="" disabled selected>Provincia</option>
+                        <option value="Azuay">Azuay</option><option value="Bolívar">Bolívar</option><option value="Cañar">Cañar</option>
+                        <option value="Carchi">Carchi</option><option value="Chimborazo">Chimborazo</option><option value="Cotopaxi">Cotopaxi</option>
+                        <option value="El Oro">El Oro</option><option value="Esmeraldas">Esmeraldas</option><option value="Galápagos">Galápagos</option>
+                        <option value="Guayas">Guayas</option><option value="Imbabura">Imbabura</option><option value="Loja">Loja</option>
+                        <option value="Los Ríos">Los Ríos</option><option value="Manabí">Manabí</option><option value="Morona Santiago">Morona Santiago</option>
+                        <option value="Napo">Napo</option><option value="Orellana">Orellana</option><option value="Pastaza">Pastaza</option>
+                        <option value="Pichincha">Pichincha</option><option value="Santa Elena">Santa Elena</option><option value="Santo Domingo">Santo Domingo</option>
+                        <option value="Sucumbíos">Sucumbíos</option><option value="Tungurahua">Tungurahua</option><option value="Zamora Chinchipe">Zamora Chinchipe</option>
+                    </select>
+                    <input id="ciudad" required type="text" oninput="checkFields()" class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-xl py-4 px-4 text-sm font-medium" placeholder="Ciudad *">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <input id="placa" required type="text" oninput="checkFields()" class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-xl py-4 px-4 text-sm font-bold uppercase" placeholder="Placa (ABC-1234)">
+                    <input id="marca" required type="text" oninput="checkFields()" class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-xl py-4 px-4 text-sm font-medium" placeholder="Marca Moto *">
+                </div>
             </div>
 
-            <button type="submit" id="btn" class="w-full bg-primary text-white font-black py-5 rounded-2xl uppercase text-xs tracking-widest active:scale-95 transition-all mt-6">
-                Enviar Solicitud
+            <button id="btn-paso-1" type="button" disabled onclick="validarYContinuar()" class="w-full bg-primary text-white font-black py-5 rounded-2xl shadow-lg mt-6 flex items-center justify-center gap-2 uppercase italic transition-all active:scale-95">
+                VERIFICAR Y CONTINUAR <span class="material-symbols-outlined">arrow_forward</span>
             </button>
-        </form>
-    </div>
+        </div>
 
-    <script>
-        const URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec';
+        <div id="step-2" class="step-content space-y-5">
+            <h3 class="text-xl font-black italic uppercase tracking-tighter text-primary">Expediente Digital</h3>
+            
+            <div class="p-6 bg-slate-100 dark:bg-white/5 rounded-3xl border border-slate-200 dark:border-white/10 flex flex-col items-center">
+                <div id="v-box" class="w-24 h-24 rounded-full border-4 border-primary flex items-center justify-center bg-white dark:bg-slate-900 mb-3 transition-colors">
+                    <span id="v-icon" class="material-symbols-outlined text-primary text-4xl">videocam</span>
+                </div>
+                <label class="w-full text-center">
+                    <span id="v-label" class="inline-block bg-primary text-white text-[11px] font-black px-8 py-2.5 rounded-full uppercase italic cursor-pointer">Grabar Video Selfie</span>
+                    <input type="file" id="video_file" accept="video/*" capture="user" class="hidden" required onchange="validateFile(this, 'v-label', 'v-box', 'v-icon')">
+                </label>
+            </div>
+
+            <div class="space-y-3">
+                <div class="grid grid-cols-2 gap-3">
+                    <label class="bg-white dark:bg-white/5 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 text-center cursor-pointer active:bg-green-50 transition-all">
+                        <span class="material-symbols-outlined text-primary mb-1">badge</span>
+                        <p id="st-ced-f" class="text-[9px] font-black uppercase">Cédula Frontal</p>
+                        <input type="file" accept="image/*" capture="environment" class="hidden" required onchange="validateFile(this, 'st-ced-f')">
+                    </label>
+                    <label class="bg-white dark:bg-white/5 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 text-center cursor-pointer active:bg-green-50 transition-all">
+                        <span class="material-symbols-outlined text-primary mb-1">badge</span>
+                        <p id="st-ced-p" class="text-[9px] font-black uppercase">Cédula Posterior</p>
+                        <input type="file" accept="image/*" capture="environment" class="hidden" required onchange="validateFile(this, 'st-ced-p')">
+                    </label>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <label class="bg-white dark:bg-white/5 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 text-center cursor-pointer active:bg-green-50 transition-all">
+                        <span class="material-symbols-outlined text-primary mb-1">license</span>
+                        <p id="st-lic-f" class="text-[9px] font-black uppercase">Licencia Frontal</p>
+                        <input type="file" accept="image/*" capture="environment" class="hidden" required onchange="validateFile(this, 'st-lic-f')">
+                    </label>
+                    <label class="bg-white dark:bg-white/5 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 text-center cursor-pointer active:bg-green-50 transition-all">
+                        <span class="material-symbols-outlined text-primary mb-1">license</span>
+                        <p id="st-lic-p" class="text-[9px] font-black uppercase">Licencia Posterior</p>
+                        <input type="file" accept="image/*" capture="environment" class="hidden" required onchange="validateFile(this, 'st-lic-p')">
+                    </label>
+                </div>
+                <div class="space-y-2">
+                    <label class="flex items-center p-4 bg-white dark:bg-white/5 rounded-2xl border border-slate-200 dark:border-slate-800 cursor-pointer">
+                        <span class="material-symbols-outlined text-primary">lightbulb</span>
+                        <span class="ml-3 text-[10px] font-black uppercase flex-1">Planilla de Luz</span>
+                        <input type="file" accept=".pdf,image/*" class="hidden" required onchange="validateFile(this, 'st-luz')">
+                        <span id="st-luz" class="text-[9px] font-black text-slate-400 uppercase">SUBIR</span>
+                    </label>
+                    <label class="flex items-center p-4 bg-white dark:bg-white/5 rounded-2xl border border-slate-200 dark:border-slate-800 cursor-pointer">
+                        <span class="material-symbols-outlined text-primary">gavel</span>
+                        <span class="ml-3 text-[10px] font-black uppercase flex-1">Antecedentes Penales</span>
+                        <input type="file" accept=".pdf,image/*" class="hidden" required onchange="validateFile(this, 'st-ant')">
+                        <span id="st-ant" class="text-[9px] font-black text-slate-400 uppercase">SUBIR</span>
+                    </label>
+                    <label class="flex items-center p-4 bg-white dark:bg-white/5 rounded-2xl border border-slate-200 dark:border-slate-800 cursor-pointer">
+                        <span class="material-symbols-outlined text-primary">account_balance</span>
+                        <span class="ml-3 text-[10px] font-black uppercase flex-1">Certificado Bancario</span>
+                        <input type="file" accept=".pdf,image/*" class="hidden" required onchange="validateFile(this, 'st-bank')">
+                        <span id="st-bank" class="text-[9px] font-black text-slate-400 uppercase">SUBIR</span>
+                    </label>
+                </div>
+            </div>
+
+            <button type="submit" id="btn-finalizar" class="w-full bg-primary text-white font-black py-5 rounded-2xl shadow-xl mt-4 uppercase italic transition-all active:scale-95">
+                ENVIAR EXPEDIENTE FINAL
+            </button>
+        </div>
+
+        <div id="step-success" class="step-content text-center space-y-8 py-16">
+            <div class="w-28 h-28 bg-green-500/20 rounded-full flex items-center justify-center border-4 border-green-500 mx-auto animate-bounce">
+                <span class="material-symbols-outlined text-green-500 text-7xl">check</span>
+            </div>
+            <div class="space-y-4">
+                <h2 class="text-3xl font-black uppercase italic tracking-tighter">¡Registro con Éxito!</h2>
+                <p class="text-sm font-medium px-6 text-slate-600 dark:text-slate-400">Su documentación ha sido enviada correctamente al Ing. Darwin Muñoz.</p>
+                <button type="button" onclick="location.reload()" class="w-full bg-slate-900 text-white font-black py-4 rounded-xl uppercase italic mt-6">Nuevo Registro</button>
+            </div>
+        </div>
+    </form>
+</main>
+
+<script>
+    const URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec';
+
+    function checkFields() {
+        const fields = ['nombre', 'email', 'cedula', 'tel', 'placa', 'marca', 'provincia', 'ciudad'];
+        const isAllFilled = fields.every(id => {
+            const el = document.getElementById(id);
+            return el.value.trim() !== "";
+        });
         
-        async function toBase64(file) {
-            return new Promise((resolve) => {
-                if (!file) resolve("");
-                const reader = new FileReader();
-                reader.onload = () => resolve(reader.result);
-                reader.readAsDataURL(file);
-            });
+        const btn = document.getElementById('btn-paso-1');
+        btn.disabled = !isAllFilled;
+        
+        // Limpiar errores visuales
+        document.querySelectorAll('.error-label').forEach(el => el.style.display = 'none');
+    }
+
+    // Función para validar contra el servidor antes de pasar al paso 2
+    async function validarYContinuar() {
+        const btn = document.getElementById('btn-paso-1');
+        btn.disabled = true;
+        btn.innerText = "VERIFICANDO...";
+
+        const checkData = {
+            tipoRegistro: "motorizado",
+            cedula: "'" + document.getElementById('cedula').value,
+            telefono: "'+593" + document.getElementById('tel').value,
+            correo: document.getElementById('email').value.toLowerCase(),
+            soloValidar: true // Nueva bandera para que el script no registre, solo valide
+        };
+
+        try {
+            // El backend debe manejar esta petición de "soloValidar"
+            // Por simplicidad, el doPost que ya tienes regresará error si existen
+            const response = await fetch(URL_SCRIPT, { method: 'POST', body: JSON.stringify(checkData) });
+            const result = await response.text();
+
+            if (result === "ERR_ID_EXISTE") {
+                document.getElementById('err-id').style.display = 'block';
+                btn.innerText = "VERIFICAR Y CONTINUAR";
+            } else if (result === "ERR_TEL_EXISTE") {
+                document.getElementById('err-tel').style.display = 'block';
+                btn.innerText = "VERIFICAR Y CONTINUAR";
+            } else if (result === "ERR_EMAIL_EXISTE") {
+                document.getElementById('err-email').style.display = 'block';
+                btn.innerText = "VERIFICAR Y CONTINUAR";
+            } else {
+                // Si no hay errores, pasar al Paso 2
+                document.getElementById('step-1').classList.remove('active');
+                document.getElementById('step-2').classList.add('active');
+                window.scrollTo(0,0);
+            }
+        } catch (e) {
+            // En caso de error de conexión, permitimos pasar para no bloquear al usuario
+            document.getElementById('step-1').classList.remove('active');
+            document.getElementById('step-2').classList.add('active');
         }
+    }
 
-        document.getElementById('formMoto').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('btn');
-            btn.disabled = true; btn.innerText = "SUBIENDO EXPEDIENTE...";
+    function validateFile(input, textId, boxId = null, iconId = null) {
+        if(input.files && input.files[0]) {
+            const label = document.getElementById(textId);
+            label.innerText = "LISTO ✅";
+            label.classList.add('text-green-500');
+            if(boxId) document.getElementById(boxId).classList.add('bg-green-500/20', 'border-green-500');
+            if(iconId) document.getElementById(iconId).innerText = "check_circle";
+        }
+    }
 
+    const toBase64 = file => new Promise((resolve, reject) => {
+        if (!file) resolve("");
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+
+    document.getElementById('main-form').onsubmit = async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('btn-finalizar');
+        btn.disabled = true;
+        btn.innerText = "PROCESANDO EXPEDIENTE...";
+
+        try {
+            const f = document.querySelectorAll('input[type="file"]');
             const payload = {
                 tipoRegistro: "motorizado",
                 nombre: document.getElementById('nombre').value,
-                cedula: document.getElementById('cedula').value,
-                telefono: document.getElementById('telefono').value,
-                email: document.getElementById('email').value,
+                email: document.getElementById('email').value.toLowerCase(),
+                cedula: "'" + document.getElementById('cedula').value,
+                telefono: "'+593" + document.getElementById('tel').value,
+                provincia: document.getElementById('provincia').value,
+                ciudad: document.getElementById('ciudad').value,
+                placa: document.getElementById('placa').value.toUpperCase(),
                 marca: document.getElementById('marca').value,
-                placa: document.getElementById('placa').value,
-                videoBase64: await toBase64(document.getElementById('fVideo').files[0]),
-                fotoCedulaFront: await toBase64(document.getElementById('fCedFront').files[0]),
-                fotoCedulaPost: await toBase64(document.getElementById('fCedPost').files[0]),
-                fotoLicenciaFront: await toBase64(document.getElementById('fLicFront').files[0]),
-                fotoLicenciaPost: await toBase64(document.getElementById('fLicPost').files[0])
+                videoBase64:       await toBase64(f[0].files[0]),
+                fotoCedulaFront:   await toBase64(f[1].files[0]),
+                fotoCedulaPost:    await toBase64(f[2].files[0]),
+                fotoLicenciaFront: await toBase64(f[3].files[0]),
+                fotoLicenciaPost:  await toBase64(f[4].files[0]),
+                fotoPlanilla:      await toBase64(f[5].files[0]),
+                fotoAntecedentes:  await toBase64(f[6].files[0]),
+                fotoBanco:         await toBase64(f[7].files[0])
             };
 
-            await fetch(URL_SCRIPT, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
-            alert("¡Registro enviado con éxito!");
-            location.reload();
-        });
-    </script>
+            const resp = await fetch(URL_SCRIPT, { method: 'POST', body: JSON.stringify(payload) });
+            const resText = await resp.text();
+
+            if(resText === "OK" || resText.includes("CAMBIO")) {
+                document.getElementById('step-2').classList.remove('active');
+                document.getElementById('header-nav').classList.add('hidden');
+                document.getElementById('step-success').classList.add('active');
+            } else {
+                alert("Error: " + resText);
+                btn.disabled = false;
+                btn.innerText = "ENVIAR EXPEDIENTE FINAL";
+            }
+        } catch (err) {
+            alert("Error de conexión pesado. Intente con una red más estable.");
+            btn.disabled = false;
+            btn.innerText = "ENVIAR EXPEDIENTE FINAL";
+        }
+    };
+
+    function handleBack() {
+        if(document.getElementById('step-2').classList.contains('active')) {
+            document.getElementById('step-2').classList.remove('active');
+            document.getElementById('step-1').classList.add('active');
+        } else { window.history.back(); }
+    }
+</script>
 </body>
 </html>
