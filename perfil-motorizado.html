@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html class="dark" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Perfil de Rendimiento Motorizado</title>
+
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+
+<script>
+tailwind.config = {
+darkMode: "class",
+theme: {
+extend: {
+colors: {
+primary: "#f20d0d",
+"background-light": "#f8f5f5",
+"background-dark": "#0a0505",
+"surface-dark": "#1a0f0f",
+},
+fontFamily: {
+display: ["Inter", "sans-serif"]
+},
+borderRadius: {
+DEFAULT: "1rem",
+lg: "2rem",
+xl: "3rem",
+full: "9999px"
+},
+},
+},
+}
+</script>
+
+<style>
+body { min-height: 100vh; }
+</style>
+</head>
+
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-white min-h-screen">
+
+<div class="relative flex flex-col min-h-screen pb-20">
+
+<!-- 🔙 Top Bar -->
+<div class="flex items-center p-4 justify-between sticky top-0 z-50 bg-background-dark">
+
+<button onclick="history.back()" class="text-primary">
+<span class="material-symbols-outlined">arrow_back_ios</span>
+</button>
+
+<h2 class="text-lg font-bold text-center flex-1">Perfil de Rendimiento</h2>
+
+<button onclick="alert('Configuración')" class="text-white">
+<span class="material-symbols-outlined">settings</span>
+</button>
+
+</div>
+
+<!-- 👤 Perfil -->
+<div class="flex flex-col items-center mt-6">
+
+<div class="w-32 h-32 rounded-full border-4 border-primary shadow-lg bg-cover bg-center"
+style="background-image:url('https://i.pravatar.cc/300');">
+</div>
+
+<h3 class="text-2xl font-bold mt-4">Carlos Rodríguez</h3>
+<p class="text-primary font-bold text-sm">Nivel Oro</p>
+<p class="text-gray-400 text-xs">Desde 2022</p>
+
+</div>
+
+<!-- 📊 Progreso -->
+<div class="px-6 mt-8">
+<div class="bg-surface-dark p-6 rounded-xl border border-white/5">
+
+<div class="flex justify-between mb-2">
+<span class="text-sm text-gray-400">Camino a Platino</span>
+<span class="text-primary font-bold">75%</span>
+</div>
+
+<div class="w-full bg-white/10 h-3 rounded-full">
+<div class="bg-primary h-3 rounded-full" style="width:75%"></div>
+</div>
+
+<p class="text-gray-400 text-sm mt-3">
+Faltan 50 entregas para subir de nivel
+</p>
+
+</div>
+</div>
+
+<!-- 🚗 Vehículo -->
+<div class="px-6 mt-8">
+<div class="flex justify-between items-center mb-3">
+<h3 class="font-bold">Vehículo Registrado</h3>
+<button onclick="alert('Editar vehículo')" class="text-primary text-xs font-bold">Editar</button>
+</div>
+
+<div class="bg-surface-dark p-4 rounded-xl border border-white/5">
+
+<p class="font-bold text-lg">Yamaha MT-07</p>
+<p class="text-gray-400 text-sm">Placa: ABC-1234</p>
+<p class="text-gray-400 text-sm">Seguro vigente hasta Dic 2024</p>
+
+</div>
+</div>
+
+<!-- ⚡ Acciones rápidas -->
+<div class="px-6 mt-8 grid grid-cols-2 gap-4">
+
+<button onclick="window.location.href='historial.html'"
+class="p-4 bg-white/5 rounded-xl border border-white/5 hover:bg-white/10">
+<span class="material-symbols-outlined text-primary text-3xl">history</span>
+<p class="text-xs mt-2 font-bold">Historial</p>
+</button>
+
+<button onclick="window.location.href='taller.html'"
+class="p-4 bg-white/5 rounded-xl border border-white/5 hover:bg-white/10">
+<span class="material-symbols-outlined text-primary text-3xl">build</span>
+<p class="text-xs mt-2 font-bold">Taller</p>
+</button>
+
+</div>
+
+</div>
+
+<!-- 📱 Bottom Navigation -->
+<div class="fixed bottom-0 left-0 right-0 bg-background-dark border-t border-white/5 px-6 py-3 flex justify-between">
+
+<a href="index.html" class="flex flex-col items-center text-gray-500">
+<span class="material-symbols-outlined">home</span>
+<span class="text-[10px]">Inicio</span>
+</a>
+
+<a href="ganancias.html" class="flex flex-col items-center text-gray-500">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-[10px]">Ganancias</span>
+</a>
+
+<a href="perfil-motorizado.html" class="flex flex-col items-center text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">person</span>
+<span class="text-[10px]">Perfil</span>
+</a>
+
+</div>
+
+</body>
+</html>
