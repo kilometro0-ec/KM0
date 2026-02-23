@@ -14,9 +14,11 @@
         .bg-magenta { background-color: #FF00FF; }
         .hidden { display: none; }
         
-        /* Estilo para mensajes de error */
-        .error-input { border-color: #ef4444 !important; }
-        .error-text { color: #ef4444; font-size: 10px; margin-top: 4px; font-weight: bold; text-transform: uppercase; }
+        /* Botón deshabilitado */
+        button:disabled { opacity: 0.3; cursor: not-allowed; filter: grayscale(1); }
+        
+        /* Mensajes de error en tiempo real */
+        .error-msg { color: #ef4444; font-size: 9px; font-weight: 800; text-transform: uppercase; margin-top: 4px; margin-left: 4px; display: none; }
     </style>
 </head>
 <body class="p-6">
@@ -40,9 +42,8 @@
 
             <div>
                 <label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1 ml-1">CI o RUC (Único)</label>
-                <input type="text" id="identificacion" minlength="10" maxlength="13" pattern="[0-9]{10,13}" 
-                       title="Debe ingresar de 10 a 13 dígitos numéricos" required 
-                       class="w-full p-4 rounded-2xl text-sm" placeholder="17XXXXXXXX001">
+                <input type="text" id="identificacion" minlength="10" maxlength="13" pattern="[0-9]{10,13}" required class="w-full p-4 rounded-2xl text-sm" placeholder="17XXXXXXXX001">
+                <p id="err-id" class="error-msg text-red-500">Este RUC/Cédula ya está registrado</p>
             </div>
 
             <div class="grid grid-cols-2 gap-4">
@@ -50,19 +51,10 @@
                     <label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1 ml-1">Provincia</label>
                     <select id="provincia" required class="w-full p-4 rounded-2xl text-sm appearance-none">
                         <option value="" disabled selected>Seleccione...</option>
-                        <option value="Azuay">Azuay</option><option value="Bolívar">Bolívar</option>
-                        <option value="Cañar">Cañar</option><option value="Carchi">Carchi</option>
-                        <option value="Chimborazo">Chimborazo</option><option value="Cotopaxi">Cotopaxi</option>
-                        <option value="El Oro">El Oro</option><option value="Esmeraldas">Esmeraldas</option>
-                        <option value="Galápagos">Galápagos</option><option value="Guayas">Guayas</option>
-                        <option value="Imbabura">Imbabura</option><option value="Loja">Loja</option>
-                        <option value="Los Ríos">Los Ríos</option><option value="Manabí">Manabí</option>
-                        <option value="Morona Santiago">Morona Santiago</option><option value="Napo">Napo</option>
-                        <option value="Orellana">Orellana</option><option value="Pastaza">Pastaza</option>
-                        <option value="Pichincha">Pichincha</option><option value="Santa Elena">Santa Elena</option>
-                        <option value="Santo Domingo">Santo Domingo</option><option value="Sucumbíos">Sucumbíos</option>
-                        <option value="Tungurahua">Tungurahua</option><option value="Zamora Chinchipe">Zamora Chinchipe</option>
-                    </select>
+                        <option value="Pichincha">Pichincha</option>
+                        <option value="Guayas">Guayas</option>
+                        <option value="Azuay">Azuay</option>
+                        </select>
                 </div>
                 <div>
                     <label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1 ml-1">Ciudad</label>
@@ -71,55 +63,51 @@
             </div>
 
             <div>
-                <label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1 ml-1">WhatsApp (+593 + 9 dígitos)</label>
-                <input type="tel" id="telefono" pattern="^\+593[0-9]{9}$" 
-                       title="Formato requerido: +593999888777 (Símbolo + y 12 dígitos en total)" 
-                       required class="w-full p-4 rounded-2xl text-sm" placeholder="+593XXXXXXXXX">
+                <label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1 ml-1">WhatsApp (+593...)</label>
+                <input type="tel" id="telefono" pattern="^\+593[0-9]{9}$" required class="w-full p-4 rounded-2xl text-sm" placeholder="+593XXXXXXXXX">
+                <p id="err-tel" class="error-msg text-red-500">Este teléfono ya está en uso</p>
             </div>
 
             <div>
-                <label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1 ml-1">Correo Electrónico (Único)</label>
+                <label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1 ml-1">Correo Electrónico</label>
                 <input type="email" id="correo" required class="w-full p-4 rounded-2xl text-sm" placeholder="comercio@ejemplo.com">
+                <p id="err-email" class="error-msg text-red-500">Este correo ya está registrado</p>
             </div>
 
-            <button type="submit" id="btnEnviar" class="w-full bg-magenta text-black font-black py-5 rounded-2xl uppercase text-xs tracking-widest active:scale-95 transition-all shadow-lg shadow-magenta/30">
+            <button type="submit" id="btnEnviar" disabled class="w-full bg-magenta text-black font-black py-5 rounded-2xl uppercase text-xs tracking-widest active:scale-95 transition-all shadow-lg shadow-magenta/30">
                 Registrar Comercio
             </button>
         </form>
     </div>
 
     <div id="pantallaExito" class="hidden text-center max-w-[400px]">
-        <div class="mb-6 flex justify-center">
-            <div class="w-20 h-20 bg-magenta/10 border-2 border-magenta rounded-full flex items-center justify-center shadow-[0_0_30px_#FF00FF]">
-                <svg class="w-10 h-10 text-magenta" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
-                </svg>
-            </div>
-        </div>
         <h2 class="text-3xl font-black uppercase text-white mb-4 italic">¡Registro Exitoso!</h2>
-        <p class="text-zinc-400 text-sm leading-relaxed mb-8 px-4">
-            La información fue enviada a <span class="text-magenta font-bold underline">Kilometro 0</span>.<br>
-            Nuestro equipo revisará los datos y pronto nos comunicaremos con usted.
-        </p>
-        <button onclick="window.location.href='index.html'" class="w-full border border-zinc-800 text-zinc-500 font-bold text-[10px] tracking-[0.3em] py-4 rounded-2xl uppercase hover:text-white hover:border-white transition-all">
-            Volver al Inicio
-        </button>
     </div>
 
+   
+    
     <script>
         const URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec';
 
         const form = document.getElementById('formTienda');
         const btn = document.getElementById('btnEnviar');
+        const inputs = form.querySelectorAll('input, select');
+
+        // SEGURIDAD: El botón solo se habilita si todos los campos requeridos son válidos
+        form.addEventListener('input', () => {
+            const allValid = form.checkValidity();
+            btn.disabled = !allValid;
+            btn.style.opacity = allValid ? "1" : "0.5";
+        });
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             
             btn.disabled = true;
-            btn.innerText = 'VERIFICANDO DATOS...';
+            btn.innerText = 'VALIDANDO EN BASE DE DATOS...';
 
             const datos = {
-                tipoRegistro:   "tienda", // <-- INDICADOR PARA EL SCRIPT
+                tipoRegistro:   "tienda",
                 nombreTienda:   document.getElementById('nombreTienda').value.trim(),
                 representante:  document.getElementById('representante').value.trim(),
                 identificacion: document.getElementById('identificacion').value.trim(),
@@ -130,18 +118,29 @@
             };
 
             try {
-                await fetch(URL_SCRIPT, {
+                const response = await fetch(URL_SCRIPT, {
                     method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(datos)
                 });
 
-                document.getElementById('contenedorForm').classList.add('hidden');
-                document.getElementById('pantallaExito').classList.remove('hidden');
+                const result = await response.text();
+
+                if (result === "OK") {
+                    document.getElementById('contenedorForm').classList.add('hidden');
+                    document.getElementById('pantallaExito').classList.remove('hidden');
+                } else if (result === "ERR_ID_EXISTE") {
+                    alert("ERROR: Esta identificación (CI/RUC) ya está registrada.");
+                    btn.disabled = false; btn.innerText = 'REGISTRAR COMERCIO';
+                } else if (result === "ERR_TEL_EXISTE") {
+                    alert("ERROR: Este número de WhatsApp ya está registrado.");
+                    btn.disabled = false; btn.innerText = 'REGISTRAR COMERCIO';
+                } else if (result === "ERR_EMAIL_EXISTE") {
+                    alert("ERROR: Este correo electrónico ya está registrado.");
+                    btn.disabled = false; btn.innerText = 'REGISTRAR COMERCIO';
+                }
 
             } catch (error) {
-                alert('Error al conectar con la base de datos. Verifique su internet.');
+                alert('Error de conexión. Intente nuevamente.');
                 btn.disabled = false;
                 btn.innerText = 'REGISTRAR COMERCIO';
             }
