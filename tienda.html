@@ -3,140 +3,116 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>KM0 - Panel de Tiendas</title>
+    <title>KM0 - Panel Directo</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@400,0..1" rel="stylesheet"/>
     <script>
         tailwind.config = {
             darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#ec1313",
-                        "background-dark": "#120808",
-                        "status-purple": "#9333ea",
-                        "status-green": "#22c55e",
-                    }
-                }
-            }
+            theme: { extend: { colors: { "primary": "#ec1313", "background-dark": "#120808" } } }
         }
     </script>
-    <style>
-        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
-        .pedido-card { transition: transform 0.2s; }
-        .pedido-card:active { transform: scale(0.98); }
-    </style>
 </head>
-<body class="bg-slate-50 dark:bg-background-dark text-slate-900 dark:text-white min-h-screen flex flex-col">
+<body class="bg-slate-50 dark:bg-background-dark text-slate-900 dark:text-white min-h-screen">
 
     <header class="sticky top-0 z-50 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-slate-200 dark:border-white/10 px-4 py-4 flex justify-between items-center">
         <div class="flex items-center gap-3">
-            <div class="bg-primary p-2 rounded-lg">
-                <span class="material-symbols-outlined text-white">speed</span>
-            </div>
-            <h1 class="font-bold text-xl tracking-tight">Mis Pedidos</h1>
+            <div class="bg-primary p-2 rounded-lg"><span class="material-symbols-outlined text-white text-xl">speed</span></div>
+            <h1 class="font-bold text-xl tracking-tight italic">KILÓMETRO 0</h1>
         </div>
-        <div class="flex gap-2">
-            <button onclick="alert('Buscando...')" class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-white/10">
-                <span class="material-symbols-outlined">search</span>
-            </button>
-        </div>
+        <button class="p-2 bg-slate-100 dark:bg-white/5 rounded-full"><span class="material-symbols-outlined">notifications</span></button>
     </header>
 
-    <div class="px-4 py-3">
-        <div class="flex bg-slate-200 dark:bg-white/5 p-1 rounded-full">
-            <button onclick="filterType('active', this)" class="flex-1 py-2 rounded-full text-sm font-bold bg-white dark:bg-primary text-primary dark:text-white shadow-sm transition-all">En curso</button>
-            <button onclick="filterType('history', this)" class="flex-1 py-2 rounded-full text-sm font-bold text-slate-500 transition-all">Historial</button>
-        </div>
-    </div>
-
-    <main class="flex-1 p-4 space-y-4 pb-24">
-        
-        <div class="pedido-card bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl p-4 shadow-sm active-order">
-            <div class="flex justify-between items-start mb-4">
-                <div>
-                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">ID #KM0-8429</span>
-                    <h3 class="text-lg font-bold">Gourmet Express</h3>
-                </div>
-                <div class="px-3 py-1 rounded-full bg-primary/10 text-primary text-[10px] font-bold border border-primary/20 animate-pulse">PENDIENTE</div>
-            </div>
-            <div class="flex items-center gap-4 py-3 border-y border-slate-100 dark:border-white/5">
-                <span class="material-symbols-outlined text-slate-400">person_search</span>
-                <p class="text-sm text-slate-500">Buscando motorizado...</p>
-            </div>
-            <button onclick="alert('Detalles del pedido...')" class="w-full mt-4 py-3 bg-primary text-white text-sm font-bold rounded-xl">Ver Detalles</button>
+    <main class="p-4 space-y-4 pb-28">
+        <div class="flex justify-between items-center">
+            <h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest">Pedidos Activos</h2>
+            <div class="h-2 w-2 rounded-full bg-primary animate-ping"></div>
         </div>
 
-        <div class="pedido-card bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl p-4 shadow-sm active-order">
-            <div class="flex justify-between items-start mb-4">
-                <div>
-                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">ID #KM0-8412</span>
-                    <h3 class="text-lg font-bold">Paquete Tecnología</h3>
-                </div>
-                <div class="px-3 py-1 rounded-full bg-primary text-white text-[10px] font-bold flex items-center gap-1">
-                    <span class="material-symbols-outlined text-[12px]">local_shipping</span> EN CAMINO
-                </div>
+        <div class="bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl p-4 shadow-sm">
+            <div class="flex justify-between items-start mb-3">
+                <span class="text-[10px] font-bold text-slate-500 uppercase">Ref: KM0-NEW</span>
+                <span class="text-[10px] font-bold text-primary bg-primary/10 px-2 py-1 rounded">PENDIENTE</span>
             </div>
-            <div class="flex items-center justify-between py-3 border-y border-slate-100 dark:border-white/5">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-full bg-slate-200"></div>
-                    <div>
-                        <p class="text-sm font-bold">Carlos Gómez</p>
-                        <p class="text-xs text-slate-500">Moto: ABC-123</p>
-                    </div>
-                </div>
-                <button onclick="window.location.href='tel:0900000000'" class="p-2 bg-primary/10 text-primary rounded-full">
-                    <span class="material-symbols-outlined">call</span>
-                </button>
-            </div>
+            <p class="text-sm font-semibold mb-1">Crea un pedido para empezar</p>
+            <p class="text-xs text-slate-400">Los nuevos pedidos aparecerán aquí abajo.</p>
         </div>
-
     </main>
 
-    <nav class="fixed bottom-0 inset-x-0 bg-white/90 dark:bg-background-dark/90 backdrop-blur-lg border-t border-slate-200 dark:border-white/10 px-6 py-3 flex justify-around items-center pb-8">
-        <button class="flex flex-col items-center text-primary"><span class="material-symbols-outlined">grid_view</span><span class="text-[10px] font-bold">INICIO</span></button>
-        <button onclick="document.getElementById('modalPedido').style.display='flex'" class="size-14 bg-primary rounded-full -mt-12 shadow-lg shadow-primary/40 text-white flex items-center justify-center transition-transform active:scale-90">
-            <span class="material-symbols-outlined text-3xl">add</span>
+    <nav class="fixed bottom-0 inset-x-0 bg-white/90 dark:bg-background-dark/90 backdrop-blur-lg border-t border-slate-200 dark:border-white/10 px-6 py-4 flex justify-around items-center pb-8">
+        <button class="text-primary flex flex-col items-center"><span class="material-symbols-outlined">grid_view</span><span class="text-[10px] font-bold">INICIO</span></button>
+        <button onclick="document.getElementById('modalPedido').classList.remove('hidden')" class="size-16 bg-primary rounded-full -mt-12 shadow-lg shadow-primary/40 text-white flex items-center justify-center transition-transform active:scale-90">
+            <span class="material-symbols-outlined text-4xl">add</span>
         </button>
-        <button onclick="alert('Perfil de Tienda')" class="flex flex-col items-center text-slate-400"><span class="material-symbols-outlined">store</span><span class="text-[10px] font-bold">MI TIENDA</span></button>
+        <button class="text-slate-400 flex flex-col items-center"><span class="material-symbols-outlined">analytics</span><span class="text-[10px] font-bold">REPORTES</span></button>
     </nav>
 
-    <div id="modalPedido" class="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
-        <div class="bg-white dark:bg-slate-900 w-full max-w-md rounded-3xl p-6 shadow-2xl">
+    <div id="modalPedido" class="fixed inset-0 z-[100] bg-black/90 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 w-full max-w-md rounded-3xl p-6 shadow-2xl animate-in zoom-in duration-200">
             <div class="flex justify-between items-center mb-6">
-                <h2 class="text-xl font-bold italic">NUEVO PEDIDO</h2>
-                <button onclick="document.getElementById('modalPedido').style.display='none'" class="text-slate-400"><span class="material-symbols-outlined">close</span></button>
+                <h2 class="text-xl font-bold italic">NUEVO ENVÍO</h2>
+                <button onclick="document.getElementById('modalPedido').classList.add('hidden')" class="text-slate-400 p-2"><span class="material-symbols-outlined">close</span></button>
             </div>
-            <form class="space-y-4" onsubmit="event.preventDefault(); alert('Pedido enviado a Google Sheets'); this.closest('#modalPedido').style.display='none';">
-                <input type="text" placeholder="Nombre Cliente" class="w-full p-4 rounded-xl bg-slate-100 dark:bg-white/5 border-none outline-none focus:ring-2 focus:ring-primary" required>
-                <input type="text" placeholder="Dirección Exacta" class="w-full p-4 rounded-xl bg-slate-100 dark:bg-white/5 border-none outline-none focus:ring-2 focus:ring-primary" required>
+            
+            <form id="formFinal" class="space-y-4">
+                <input type="text" id="cliente" placeholder="Nombre del Cliente" class="w-full p-4 rounded-xl bg-slate-100 dark:bg-white/5 border-none focus:ring-2 focus:ring-primary" required>
+                <input type="text" id="direccion" placeholder="Dirección Exacta" class="w-full p-4 rounded-xl bg-slate-100 dark:bg-white/5 border-none focus:ring-2 focus:ring-primary" required>
+                <input type="tel" id="telefono" placeholder="WhatsApp Cliente" class="w-full p-4 rounded-xl bg-slate-100 dark:bg-white/5 border-none focus:ring-2 focus:ring-primary" required>
+                
                 <div class="grid grid-cols-2 gap-3">
-                    <input type="number" placeholder="Valor ($)" class="p-4 rounded-xl bg-slate-100 dark:bg-white/5 border-none outline-none focus:ring-2 focus:ring-primary" required>
-                    <select class="p-4 rounded-xl bg-slate-100 dark:bg-white/5 border-none outline-none focus:ring-2 focus:ring-primary">
+                    <input type="number" id="valor" placeholder="Valor ($)" class="p-4 rounded-xl bg-slate-100 dark:bg-white/5 border-none focus:ring-2 focus:ring-primary" required>
+                    <select id="ciudad" class="p-4 rounded-xl bg-slate-100 dark:bg-white/5 border-none focus:ring-2 focus:ring-primary">
                         <option>Quito</option>
                         <option>Guayaquil</option>
                         <option>Cuenca</option>
+                        <option>Santo Domingo</option>
                     </select>
                 </div>
-                <button type="submit" class="w-full py-4 bg-primary text-white font-bold rounded-2xl shadow-lg shadow-primary/30">ENVIAR AHORA</button>
+
+                <div class="grid grid-cols-3 gap-3">
+                    <input type="number" id="cant" placeholder="Cant." class="p-4 rounded-xl bg-slate-100 dark:bg-white/5 border-none focus:ring-2 focus:ring-primary" required>
+                    <input type="text" id="detalle" placeholder="¿Qué es?" class="col-span-2 p-4 rounded-xl bg-slate-100 dark:bg-white/5 border-none focus:ring-2 focus:ring-primary" required>
+                </div>
+
+                <button type="submit" id="btnS" class="w-full py-5 bg-primary text-white font-black rounded-2xl shadow-lg shadow-primary/30 active:scale-95 transition-all">ENVIAR A KILÓMETRO 0</button>
             </form>
         </div>
     </div>
 
     <script>
-        function filterType(type, btn) {
-            // Cambiar estilos de botones
-            const buttons = btn.parentElement.querySelectorAll('button');
-            buttons.forEach(b => {
-                b.classList.remove('bg-white', 'dark:bg-primary', 'text-primary', 'dark:text-white', 'shadow-sm');
-                b.classList.add('text-slate-500');
-            });
-            btn.classList.add('bg-white', 'dark:bg-primary', 'text-primary', 'dark:text-white', 'shadow-sm');
-            btn.classList.remove('text-slate-500');
+        const WEB_APP_URL = "TU_URL_DE_GOOGLE_APPS_SCRIPT"; // <--- PEGA TU URL AQUÍ
 
-            alert("Filtrando pedidos: " + type);
-        }
+        document.getElementById('formFinal').onsubmit = async (e) => {
+            e.preventDefault();
+            const b = document.getElementById('btnS');
+            b.innerText = "ENVIANDO...";
+            b.disabled = true;
+
+            const d = {
+                accion: "NUEVO_PEDIDO",
+                tienda: "TIENDA_DIRECTA", 
+                ciudad: document.getElementById('ciudad').value,
+                cliente: document.getElementById('cliente').value,
+                telCliente: document.getElementById('telefono').value,
+                direccion: document.getElementById('direccion').value,
+                cantidad: document.getElementById('cant').value,
+                detalle: document.getElementById('detalle').value,
+                valor: document.getElementById('valor').value
+            };
+
+            try {
+                await fetch(WEB_APP_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(d) });
+                alert("✅ PEDIDO RECIBIDO");
+                document.getElementById('modalPedido').classList.add('hidden');
+                e.target.reset();
+            } catch (err) {
+                alert("❌ ERROR AL ENVIAR");
+            } finally {
+                b.innerText = "ENVIAR A KILÓMETRO 0";
+                b.disabled = false;
+            }
+        };
     </script>
 </body>
 </html>
