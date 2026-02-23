@@ -51,10 +51,31 @@
                     <label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1 ml-1">Provincia</label>
                     <select id="provincia" required class="w-full p-4 rounded-2xl text-sm appearance-none">
                         <option value="" disabled selected>Seleccione...</option>
-                        <option value="Pichincha">Pichincha</option>
-                        <option value="Guayas">Guayas</option>
                         <option value="Azuay">Azuay</option>
-                        </select>
+                        <option value="Bolívar">Bolívar</option>
+                        <option value="Cañar">Cañar</option>
+                        <option value="Carchi">Carchi</option>
+                        <option value="Chimborazo">Chimborazo</option>
+                        <option value="Cotopaxi">Cotopaxi</option>
+                        <option value="El Oro">El Oro</option>
+                        <option value="Esmeraldas">Esmeraldas</option>
+                        <option value="Galápagos">Galápagos</option>
+                        <option value="Guayas">Guayas</option>
+                        <option value="Imbabura">Imbabura</option>
+                        <option value="Loja">Loja</option>
+                        <option value="Los Ríos">Los Ríos</option>
+                        <option value="Manabí">Manabí</option>
+                        <option value="Morona Santiago">Morona Santiago</option>
+                        <option value="Napo">Napo</option>
+                        <option value="Orellana">Orellana</option>
+                        <option value="Pastaza">Pastaza</option>
+                        <option value="Pichincha">Pichincha</option>
+                        <option value="Santa Elena">Santa Elena</option>
+                        <option value="Santo Domingo">Santo Domingo</option>
+                        <option value="Sucumbíos">Sucumbíos</option>
+                        <option value="Tungurahua">Tungurahua</option>
+                        <option value="Zamora Chinchipe">Zamora Chinchipe</option>
+                    </select>
                 </div>
                 <div>
                     <label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1 ml-1">Ciudad</label>
@@ -81,40 +102,53 @@
     </div>
 
     <div id="pantallaExito" class="hidden text-center max-w-[400px]">
+        <div class="mb-6 flex justify-center">
+            <div class="w-20 h-20 bg-magenta/10 border-2 border-magenta rounded-full flex items-center justify-center shadow-[0_0_30px_#FF00FF]">
+                <svg class="w-10 h-10 text-magenta" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                </svg>
+            </div>
+        </div>
         <h2 class="text-3xl font-black uppercase text-white mb-4 italic">¡Registro Exitoso!</h2>
+        <p class="text-zinc-400 text-sm leading-relaxed mb-8 px-4">
+            La información fue enviada a <span class="text-magenta font-bold underline">Kilometro 0</span>. Nuestro equipo revisará los datos pronto.
+        </p>
+        <button onclick="location.reload()" class="w-full border border-zinc-800 text-zinc-500 font-bold text-[10px] tracking-[0.3em] py-4 rounded-2xl uppercase hover:text-white hover:border-white transition-all">
+            Nuevo Registro
+        </button>
     </div>
 
-   
-    
     <script>
         const URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec';
 
         const form = document.getElementById('formTienda');
         const btn = document.getElementById('btnEnviar');
-        const inputs = form.querySelectorAll('input, select');
 
-        // SEGURIDAD: El botón solo se habilita si todos los campos requeridos son válidos
+        // SEGURIDAD: Habilitar botón solo si todo es válido
         form.addEventListener('input', () => {
             const allValid = form.checkValidity();
             btn.disabled = !allValid;
             btn.style.opacity = allValid ? "1" : "0.5";
+            
+            // Limpiar errores visuales al modificar campos
+            document.querySelectorAll('.error-msg').forEach(el => el.style.display = 'none');
         });
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             
             btn.disabled = true;
-            btn.innerText = 'VALIDANDO EN BASE DE DATOS...';
+            btn.innerText = 'VALIDANDO DATOS...';
 
             const datos = {
-                tipoRegistro:   "tienda",
-                nombreTienda:   document.getElementById('nombreTienda').value.trim(),
-                representante:  document.getElementById('representante').value.trim(),
+                tipoRegistro: "tienda",
+                nombreTienda: document.getElementById('nombreTienda').value.trim(),
+                representante: document.getElementById('representante').value.trim(),
                 identificacion: document.getElementById('identificacion').value.trim(),
-                provincia:      document.getElementById('provincia').value,
-                ciudad:         document.getElementById('ciudad').value.trim(),
-                telefono:       "'" + document.getElementById('telefono').value.trim(), 
-                correo:         document.getElementById('correo').value.trim().toLowerCase()
+                provincia: document.getElementById('provincia').value,
+                ciudad: document.getElementById('ciudad').value.trim(),
+                telefono: "'" + document.getElementById('telefono').value.trim(), 
+                correo: document.getElementById('correo').value.trim().toLowerCase()
             };
 
             try {
@@ -129,13 +163,13 @@
                     document.getElementById('contenedorForm').classList.add('hidden');
                     document.getElementById('pantallaExito').classList.remove('hidden');
                 } else if (result === "ERR_ID_EXISTE") {
-                    alert("ERROR: Esta identificación (CI/RUC) ya está registrada.");
+                    document.getElementById('err-id').style.display = 'block';
                     btn.disabled = false; btn.innerText = 'REGISTRAR COMERCIO';
                 } else if (result === "ERR_TEL_EXISTE") {
-                    alert("ERROR: Este número de WhatsApp ya está registrado.");
+                    document.getElementById('err-tel').style.display = 'block';
                     btn.disabled = false; btn.innerText = 'REGISTRAR COMERCIO';
                 } else if (result === "ERR_EMAIL_EXISTE") {
-                    alert("ERROR: Este correo electrónico ya está registrado.");
+                    document.getElementById('err-email').style.display = 'block';
                     btn.disabled = false; btn.innerText = 'REGISTRAR COMERCIO';
                 }
 
