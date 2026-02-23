@@ -3,206 +3,317 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Kilómetro 0 - Logística Multi-Pedido</title>
+    <title>Kilómetro 0 - App Completa</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <script>
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
-                    colors: { "primary": "#ec1313", "background-dark": "#0a0a0a", "card-dark": "#1c1c1e" },
+                    colors: {
+                        "primary": "#ec1313",
+                        "brand-blue": "#135bec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                        "card-dark": "#121212",
+                        "action-dark": "#1A1A1A",
+                    },
                     fontFamily: { "display": ["Inter", "sans-serif"] },
+                    borderRadius: { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" },
                 },
             },
         }
     </script>
     <style type="text/tailwindcss">
-        .view-section { display: none; height: 100vh; @apply overflow-y-auto overflow-x-hidden bg-background-dark; }
+        body { @apply bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-hidden; min-height: 100dvh; }
+        .view-section { display: none; height: 100vh; overflow-y: auto; }
         .view-section.active { display: block; }
         .ios-blur { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+        .route-line { stroke-dasharray: 8; stroke-linecap: round; }
+        .map-gradient { background: radial-gradient(circle at center, transparent 0%, rgba(24, 17, 17, 0.4) 100%); }
         .route-glow { filter: drop-shadow(0 0 8px rgba(236, 19, 19, 0.6)); }
     </style>
 </head>
-<body class="font-display text-white">
+<body>
 
-    <section id="view-tasks" class="view-section active pb-32">
-        <header class="p-6 sticky top-0 bg-black/80 ios-blur z-50 border-b border-white/5 flex justify-between items-center">
-            <div>
-                <p class="text-[10px] font-black text-primary uppercase">Kilómetro 0</p>
-                <h1 class="text-2xl font-black italic">PEDIDOS DISPONIBLES</h1>
+    <section id="view-tasks" class="view-section active pb-24">
+        <header class="flex items-center justify-between px-6 py-4 bg-background-light/80 dark:bg-background-dark/80 ios-blur sticky top-0 z-50">
+            <div class="flex items-center gap-2">
+                <div class="size-10 bg-primary/10 rounded-full flex items-center justify-center text-primary">
+                    <span class="material-symbols-outlined">moped</span>
+                </div>
+                <h1 class="text-lg font-bold tracking-tight">Mis Entregas</h1>
             </div>
-            <span class="bg-emerald-500/10 text-emerald-500 text-[10px] font-black px-3 py-1 rounded-full border border-emerald-500/20">EN LÍNEA</span>
+            <button onclick="switchTab('view-finance')" class="size-10 rounded-full bg-slate-200/50 dark:bg-slate-800/50 flex items-center justify-center">
+                <span class="material-symbols-outlined text-primary">account_balance_wallet</span>
+            </button>
         </header>
 
-        <main class="p-4 space-y-4">
-            <div class="flex justify-between items-center px-2">
-                <p class="text-[10px] font-bold text-slate-500 uppercase">Selecciona para armar ruta</p>
-                <button onclick="clearSelection()" class="text-[10px] font-bold text-primary underline">Limpiar</button>
+        <main class="px-6 py-4 space-y-4">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-semibold uppercase tracking-widest text-slate-500">Pendientes de hoy</span>
+                <span class="bg-emerald-500/10 text-emerald-500 text-[10px] font-bold px-2 py-1 rounded-full animate-pulse">EN LÍNEA</span>
             </div>
 
-            <div onclick="toggleOrderSelection(this, 'RT-884210')" class="order-card bg-card-dark p-5 rounded-[2rem] border border-white/5 transition-all active:scale-95 cursor-pointer">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <h3 class="text-xl font-black italic">#RT-884210</h3>
-                        <p class="text-xs text-slate-400">Rest: Gourmet Burger</p>
-                        <p class="text-[10px] text-slate-500 mt-2 flex items-center gap-1">
-                            <span class="material-symbols-outlined text-sm text-primary">location_on</span> Av. Principal 123
-                        </p>
-                    </div>
-                    <div class="text-right">
-                        <p class="text-lg font-black text-primary">$4.50</p>
-                        <div class="selection-indicator size-6 rounded-full border-2 border-white/20 mt-2 flex items-center justify-center"></div>
-                    </div>
+            <div onclick="openOrder('RT-884210')" class="bg-white dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800 rounded-xl p-5 shadow-sm active:scale-95 transition-all cursor-pointer">
+                <div class="flex justify-between items-start mb-3">
+                    <span class="text-[10px] font-black bg-primary text-white px-2 py-0.5 rounded">URGENTE</span>
+                    <span class="text-xs font-bold text-primary">$4.50</span>
                 </div>
-            </div>
-
-            <div onclick="toggleOrderSelection(this, 'RT-884211')" class="order-card bg-card-dark p-5 rounded-[2rem] border border-white/5 transition-all active:scale-95 cursor-pointer">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <h3 class="text-xl font-black italic">#RT-884211</h3>
-                        <p class="text-xs text-slate-400">Rest: Pizza Italia</p>
-                        <p class="text-[10px] text-slate-500 mt-2 flex items-center gap-1">
-                            <span class="material-symbols-outlined text-sm text-primary">location_on</span> Calle Segunda 45
-                        </p>
-                    </div>
-                    <div class="text-right">
-                        <p class="text-lg font-black text-primary">$3.80</p>
-                        <div class="selection-indicator size-6 rounded-full border-2 border-white/20 mt-2 flex items-center justify-center"></div>
-                    </div>
+                <h3 class="text-xl font-bold">#RT-884210</h3>
+                <p class="text-sm text-slate-500">Gourmet Burger Central</p>
+                <div class="mt-4 flex items-center gap-2 text-xs text-slate-400">
+                    <span class="material-symbols-outlined text-sm text-primary">location_on</span>
+                    Av. Principal 123, Torre B
                 </div>
             </div>
         </main>
-
-        <div class="fixed bottom-24 inset-x-6 z-50">
-            <button id="btn-start-multi" onclick="startMultiRoute()" class="hidden w-full bg-primary h-16 rounded-full font-black text-lg uppercase shadow-2xl shadow-primary/30 flex items-center justify-center gap-3 active:scale-95 transition-all">
-                <span class="material-symbols-outlined">alt_route</span> INICIAR MULTI-RUTA (<span id="count-badge">0</span>)
-            </button>
-        </div>
     </section>
 
-    <section id="view-navigation" class="view-section relative">
-        <div class="absolute inset-0 bg-[#0f0f11]">
-            <svg class="w-full h-full opacity-30" viewBox="0 0 400 800">
-                <path class="route-glow" d="M 200 750 L 200 600 L 100 500 L 300 300 L 200 100" fill="none" stroke="#ec1313" stroke-width="6" stroke-dasharray="10 5" />
-                <circle cx="200" cy="750" r="8" fill="#ec1313" class="animate-pulse" /> <circle cx="100" cy="500" r="6" fill="white" /> <circle cx="300" cy="300" r="6" fill="white" /> </svg>
-        </div>
-
-        <header class="relative z-10 p-4 bg-black/80 ios-blur flex items-center justify-between">
-            <button onclick="switchView('view-tasks')" class="size-10 rounded-full bg-card-dark flex items-center justify-center border border-white/10"><span class="material-symbols-outlined">close</span></button>
-            <div class="text-center">
-                <p class="text-[10px] font-black text-primary uppercase">Ruta Activa</p>
-                <h2 id="nav-title" class="text-sm font-black">2 ENTREGAS PENDIENTES</h2>
-            </div>
+    <section id="view-detail" class="view-section pb-40">
+        <header class="flex items-center justify-between px-4 pt-12 pb-4 sticky top-0 bg-background-dark z-50">
+            <button onclick="switchTab('view-tasks')" class="size-10 rounded-full bg-card-dark text-white border border-white/10 flex items-center justify-center">
+                <span class="material-symbols-outlined">arrow_back_ios_new</span>
+            </button>
+            <h1 class="text-sm font-black tracking-[0.2em] uppercase">Detalle de Entrega</h1>
             <div class="size-10"></div>
         </header>
 
-        <div class="relative z-10 p-4">
-            <div class="bg-primary p-5 rounded-3xl shadow-2xl flex items-center gap-4">
-                <div class="size-12 bg-white text-primary rounded-full flex items-center justify-center"><span class="material-symbols-outlined text-3xl font-bold">home</span></div>
-                <div>
-                    <p class="text-[10px] font-black text-white/60 uppercase">Próximo Punto de Entrega</p>
-                    <p id="current-stop-addr" class="text-lg font-black leading-tight italic">Av. Principal 123, Torre B</p>
+        <main class="px-4 space-y-4 pt-4">
+            <section class="bg-card-dark rounded-2xl p-5 border border-white/10 shadow-xl">
+                <div class="flex items-center justify-between mb-5">
+                    <h3 class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Destinatario</h3>
+                    <span class="text-[10px] font-black text-primary uppercase">Urgente</span>
+                </div>
+                <div class="flex gap-4 mb-5">
+                    <div class="size-16 rounded-2xl overflow-hidden border-2 border-primary">
+                        <img src="https://i.pravatar.cc/150?img=11" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex flex-col justify-center">
+                        <p class="font-black text-2xl leading-none">Juan Pérez</p>
+                        <p class="text-slate-500 font-bold text-sm mt-1">Socio Gold • ID: 4892</p>
+                    </div>
+                </div>
+                <div class="bg-black/40 p-4 rounded-xl flex items-start gap-4 border border-white/5">
+                    <div class="size-10 rounded-lg bg-primary/20 flex items-center justify-center shrink-0">
+                        <span class="material-symbols-outlined text-primary">location_on</span>
+                    </div>
+                    <div>
+                        <p class="font-black text-base uppercase">Av. Principal 123</p>
+                        <p class="text-sm text-slate-500 mt-1">Torre B, Depto 402. Tocar timbre.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="bg-card-dark rounded-2xl p-5 border border-white/10">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Detalle del Envío</h3>
+                    <p class="text-xs font-black">#RT-884210</p>
+                </div>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between py-2 border-b border-white/5">
+                        <span class="text-xs font-bold uppercase">Combo Familiar x 1</span>
+                        <span class="text-[10px] bg-primary/20 text-primary px-2 py-0.5 rounded font-black">FRÁGIL</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="fixed bottom-0 inset-x-0 p-4 pb-8 bg-background-dark/95 ios-blur border-t border-white/10 flex gap-3 z-[60]">
+            <button onclick="switchTab('view-route-map')" class="flex-1 bg-primary h-14 rounded-xl font-black text-sm uppercase tracking-widest flex items-center justify-center gap-2 shadow-xl">
+                <span class="material-symbols-outlined">directions_run</span> INICIAR RUTA
+            </button>
+        </footer>
+    </section>
+
+    <section id="view-route-map" class="view-section pb-40">
+        <header class="flex items-center justify-between px-4 pt-12 pb-4 bg-background-dark/80 ios-blur sticky top-0 z-50">
+            <button onclick="switchTab('view-detail')" class="size-10 rounded-full bg-card-dark border border-white/10 flex items-center justify-center">
+                <span class="material-symbols-outlined">arrow_back_ios_new</span>
+            </button>
+            <h1 class="text-sm font-black tracking-[0.2em] uppercase">Mapa de Ruta</h1>
+            <div class="size-10"></div>
+        </header>
+
+        <main class="p-4 space-y-4">
+            <div class="relative w-full aspect-video rounded-2xl overflow-hidden border border-white/10 bg-card-dark">
+                <svg class="absolute inset-0 w-full h-full opacity-30" viewBox="0 0 400 200">
+                    <path class="route-line" d="M80,150 L120,130 L180,140 L220,90 L280,70" fill="none" stroke="#ec1313" stroke-width="4"></path>
+                    <circle cx="80" cy="150" fill="white" r="5" stroke="#ec1313" stroke-width="2"></circle>
+                    <circle cx="280" cy="70" fill="#ec1313" r="8"></circle>
+                </svg>
+                <div class="absolute bottom-3 left-3 right-3 flex justify-between items-center bg-black/60 ios-blur px-3 py-2 rounded-lg border border-white/5">
+                    <span class="text-[10px] font-bold uppercase tracking-wider">Distancia: 1.2 km</span>
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">4 min</span>
+                </div>
+            </div>
+            
+            <button onclick="switchTab('view-navigation')" class="w-full bg-primary py-5 rounded-2xl font-black text-lg uppercase tracking-widest flex items-center justify-center gap-3 shadow-lg active:scale-95 transition-all">
+                <span class="material-symbols-outlined text-2xl">navigation</span> INICIAR GPS
+            </button>
+        </main>
+    </section>
+
+    <section id="view-navigation" class="view-section relative">
+        <div class="absolute inset-0 z-0">
+            <div class="w-full h-full bg-center bg-cover grayscale contrast-125 brightness-50" style="background-image: url('https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=1000');"></div>
+            <div class="absolute inset-0 map-gradient"></div>
+            <svg class="absolute inset-0 w-full h-full" viewBox="0 0 400 800">
+                <path class="route-glow opacity-90" d="M 200 700 L 200 500 L 320 450 L 320 300 L 100 250 L 80 100" fill="none" stroke="#ec1313" stroke-linecap="round" stroke-linejoin="round" stroke-width="8"></path>
+                <circle class="animate-pulse" cx="200" cy="700" fill="#ec1313" r="12"></circle>
+                <circle cx="80" cy="100" fill="white" r="10"></circle>
+            </svg>
+        </div>
+
+        <div class="relative z-10 p-4 pt-12">
+            <div class="flex items-center gap-4 rounded-xl bg-background-dark/95 border border-white/10 p-5 shadow-2xl backdrop-blur-md">
+                <div class="size-14 items-center justify-center rounded-full bg-primary text-white flex">
+                    <span class="material-symbols-outlined text-4xl">turn_right</span>
+                </div>
+                <div class="flex flex-col">
+                    <p class="text-white/60 text-xs font-bold uppercase">A 200 metros</p>
+                    <p class="text-xl font-extrabold leading-tight">Gire a la derecha</p>
                 </div>
             </div>
         </div>
 
-        <div class="absolute bottom-0 inset-x-0 z-10 bg-background-dark/95 p-6 rounded-t-[3rem] border-t border-white/5">
-            <div class="grid grid-cols-2 gap-4 mb-6">
-                <div class="bg-white/5 p-4 rounded-2xl">
-                    <p class="text-[10px] font-bold text-slate-500 uppercase">Tiempo Total</p>
-                    <p class="text-xl font-black italic">22 MIN</p>
+        <div class="absolute bottom-0 inset-x-0 z-10 bg-background-dark/95 backdrop-blur-xl border-t border-white/5 px-4 pt-6 pb-8">
+            <div class="flex gap-4 mb-6">
+                <div class="flex-1 bg-white/5 p-4 rounded-2xl border border-white/5">
+                    <p class="text-xs font-semibold uppercase text-white/50">Llegada</p>
+                    <p class="text-2xl font-black">12 <span class="text-sm font-normal">min</span></p>
                 </div>
-                <div class="bg-white/5 p-4 rounded-2xl text-right">
-                    <p class="text-[10px] font-bold text-slate-500 uppercase">Recorrido</p>
-                    <p class="text-xl font-black italic">5.4 KM</p>
+                <div class="flex-1 bg-white/5 p-4 rounded-2xl border border-white/5">
+                    <p class="text-xs font-semibold uppercase text-white/50">Distancia</p>
+                    <p class="text-2xl font-black">4.2 <span class="text-sm font-normal">km</span></p>
                 </div>
             </div>
-            <button onclick="markStopAsDone()" class="w-full bg-white text-black h-16 rounded-full font-black uppercase shadow-xl flex items-center justify-center gap-2 active:scale-95 transition-all">
-                CONFIRMAR ENTREGA ACTUAL <span class="material-symbols-outlined">check_circle</span>
+            <button onclick="finishOrder()" class="w-full h-16 bg-primary text-white text-lg font-bold rounded-full shadow-lg flex items-center justify-center gap-2 active:scale-95">
+                Confirmar Llegada <span class="material-symbols-outlined">check_circle</span>
             </button>
         </div>
     </section>
 
-    <nav id="footer-nav" class="fixed bottom-0 inset-x-0 h-20 bg-black/95 ios-blur border-t border-white/10 flex items-center justify-around pb-4 z-[60]">
-        <button onclick="switchView('view-tasks')" class="flex flex-col items-center gap-1 text-primary">
-            <span class="material-symbols-outlined fill-1">map</span>
-            <span class="text-[9px] font-black uppercase">Rutas</span>
+    <section id="view-finance" class="view-section pb-32">
+        <header class="flex items-center justify-between px-6 py-4 bg-background-dark/80 ios-blur sticky top-0 z-50">
+            <button onclick="switchTab('view-tasks')" class="size-10 rounded-full bg-slate-800/50 flex items-center justify-center">
+                <span class="material-symbols-outlined">arrow_back_ios_new</span>
+            </button>
+            <h1 class="text-lg font-bold">Liquidación Diaria</h1>
+            <div class="size-10"></div>
+        </header>
+
+        <main class="px-6 pb-32">
+            <div class="flex items-center justify-between mt-6 mb-4">
+                <div class="flex flex-col">
+                    <span class="text-xs font-semibold uppercase text-slate-400">Hoy, 24 Mayo</span>
+                    <span class="text-sm font-medium text-slate-500">ID Sesión: #ML-92834</span>
+                </div>
+                <div class="flex items-center gap-1.5 px-3 py-1 bg-amber-500/10 border border-amber-500/20 rounded-full">
+                    <span class="size-2 bg-amber-500 rounded-full animate-pulse"></span>
+                    <span class="text-[10px] font-bold text-amber-500 uppercase">Pendiente</span>
+                </div>
+            </div>
+
+            <div class="relative overflow-hidden flex flex-col gap-4 rounded-xl p-8 bg-brand-blue shadow-2xl mb-8">
+                <p class="text-white/80 text-sm font-medium uppercase tracking-wider">Monto Final a Depositar</p>
+                <div class="flex items-end gap-2">
+                    <p class="text-white text-5xl font-bold tracking-tighter">$145.50</p>
+                    <span class="text-white/60 mb-1 text-lg">USD</span>
+                </div>
+                <div class="flex items-center gap-1 px-2 py-0.5 bg-white/20 rounded-md w-fit">
+                    <span class="material-symbols-outlined text-xs">receipt_long</span>
+                    <span class="text-xs font-medium">12 Entregas hoy</span>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <h3 class="text-base font-bold px-1">Resumen de Cuenta</h3>
+                <div class="flex items-center justify-between p-4 rounded-xl bg-slate-800/40 border border-slate-800">
+                    <div class="flex items-center gap-3">
+                        <div class="size-10 flex items-center justify-center rounded-full bg-emerald-500/10 text-emerald-500">
+                            <span class="material-symbols-outlined">payments</span>
+                        </div>
+                        <p class="text-sm font-semibold">Total Recaudado</p>
+                    </div>
+                    <p class="font-bold">$185.00</p>
+                </div>
+                <div class="flex items-center justify-between p-4 rounded-xl bg-slate-800/40 border border-slate-800">
+                    <div class="flex items-center gap-3">
+                        <div class="size-10 flex items-center justify-center rounded-full bg-primary/10 text-primary">
+                            <span class="material-symbols-outlined">account_balance_wallet</span>
+                        </div>
+                        <p class="text-sm font-semibold">Comisión de App</p>
+                    </div>
+                    <p class="font-bold text-primary">-$45.00</p>
+                </div>
+            </div>
+
+            <div class="mt-8 p-5 bg-brand-blue/5 border-2 border-dashed border-brand-blue/20 rounded-xl">
+                <h4 class="text-sm font-bold text-brand-blue mb-2 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-lg">info</span> Instrucciones de Pago
+                </h4>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                    Realiza el depósito a la cuenta <span class="font-bold text-white">#4920-302-120</span>. Sube la foto del comprobante para liberar tu cuenta.
+                </p>
+            </div>
+        </main>
+
+        <footer class="fixed bottom-0 inset-x-0 p-6 bg-background-dark/90 ios-blur border-t border-white/10 z-50">
+            <button class="w-full h-16 bg-brand-blue text-white rounded-full font-bold flex items-center justify-center gap-3 shadow-lg">
+                <span class="material-symbols-outlined">cloud_upload</span> Subir Comprobante
+            </button>
+        </footer>
+    </section>
+
+    <nav id="main-nav" class="fixed bottom-0 inset-x-0 h-20 bg-black/95 ios-blur border-t border-white/10 flex items-center justify-around pb-4 z-[100]">
+        <button onclick="switchTab('view-tasks', this)" class="nav-item flex flex-col items-center gap-1 text-primary">
+            <span class="material-symbols-outlined fill-1">task</span>
+            <span class="text-[10px] font-black uppercase">Tareas</span>
         </button>
-        <button onclick="alert('Historial de pagos')" class="flex flex-col items-center gap-1 text-slate-500">
+        <button onclick="switchTab('view-finance', this)" class="nav-item flex flex-col items-center gap-1 text-slate-500">
             <span class="material-symbols-outlined">payments</span>
-            <span class="text-[9px] font-black uppercase">Balance</span>
+            <span class="text-[10px] font-black uppercase">Pagos</span>
+        </button>
+        <button onclick="alert('Perfil')" class="nav-item flex flex-col items-center gap-1 text-slate-500">
+            <span class="material-symbols-outlined">person</span>
+            <span class="text-[10px] font-black uppercase">Perfil</span>
         </button>
     </nav>
 
     <script>
-        let selectedOrders = [];
-
-        function switchView(id) {
+        function switchTab(tabId, el) {
             document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            
-            // Ocultar nav en modo navegación
-            const nav = document.getElementById('footer-nav');
-            nav.style.transform = (id === 'view-navigation') ? 'translateY(100%)' : 'translateY(0)';
-        }
+            document.getElementById(tabId).classList.add('active');
 
-        function toggleOrderSelection(el, orderId) {
-            const indicator = el.querySelector('.selection-indicator');
-            const index = selectedOrders.indexOf(orderId);
-
-            if (index > -1) {
-                selectedOrders.splice(index, 1);
-                el.classList.remove('border-primary', 'bg-primary/5');
-                indicator.innerHTML = '';
-                indicator.classList.remove('bg-primary', 'border-primary');
+            // Ocultar nav en navegación mapa
+            const nav = document.getElementById('main-nav');
+            if (tabId === 'view-navigation' || tabId === 'view-route-map' || tabId === 'view-detail') {
+                nav.style.display = 'none';
             } else {
-                selectedOrders.push(orderId);
-                el.classList.add('border-primary', 'bg-primary/5');
-                indicator.innerHTML = '<span class="material-symbols-outlined text-white text-xs">check</span>';
-                indicator.classList.add('bg-primary', 'border-primary');
+                nav.style.display = 'flex';
             }
 
-            // Actualizar botón multi-ruta
-            const btn = document.getElementById('btn-start-multi');
-            const badge = document.getElementById('count-badge');
-            if (selectedOrders.length > 0) {
-                btn.classList.remove('hidden');
-                badge.innerText = selectedOrders.length;
-            } else {
-                btn.classList.add('hidden');
+            // Actualizar estilo botones
+            if(el && el.classList.contains('nav-item')) {
+                document.querySelectorAll('.nav-item').forEach(btn => {
+                    btn.classList.replace('text-primary', 'text-slate-500');
+                    btn.querySelector('span').classList.remove('fill-1');
+                });
+                el.classList.replace('text-slate-500', 'text-primary');
+                el.querySelector('span').classList.add('fill-1');
             }
         }
 
-        function clearSelection() {
-            selectedOrders = [];
-            document.querySelectorAll('.order-card').forEach(el => {
-                el.classList.remove('border-primary', 'bg-primary/5');
-                el.querySelector('.selection-indicator').innerHTML = '';
-                el.querySelector('.selection-indicator').classList.remove('bg-primary', 'border-primary');
-            });
-            document.getElementById('btn-start-multi').classList.add('hidden');
+        function openOrder(id) {
+            switchTab('view-detail');
         }
 
-        function startMultiRoute() {
-            if (selectedOrders.length === 0) return;
-            document.getElementById('nav-title').innerText = `${selectedOrders.length} ENTREGAS PENDIENTES`;
-            switchView('view-navigation');
-        }
-
-        function markStopAsDone() {
-            if (selectedOrders.length > 1) {
-                selectedOrders.shift();
-                document.getElementById('nav-title').innerText = `${selectedOrders.length} ENTREGAS RESTANTES`;
-                document.getElementById('current-stop-addr').innerText = "Siguiente parada: Calle Segunda 45";
-                alert("Entrega confirmada. ¡Sigue a la siguiente parada!");
-            } else {
-                alert("¡Ruta completada! Todos los pedidos han sido entregados.");
-                selectedOrders = [];
-                clearSelection();
-                switchView('view-tasks');
-            }
+        function finishOrder() {
+            alert("¡Entrega finalizada con éxito! ✅");
+            switchTab('view-tasks');
         }
     </script>
 </body>
