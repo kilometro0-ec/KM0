@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tareas Asignadas por Sector - Kilómetro 0</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#E30613", // Kilómetro 0 Red
+                        "brand-grey": "#8A8A8D",
+                        "brand-dark-grey": "#1C1C1E",
+                        "background-dark": "#000000",
+                        "status-delivered": "#10B981", // Green
+                        "status-issue": "#A855F7", // Purple
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.75rem",
+                        "lg": "1.5rem",
+                        "xl": "2.25rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            -webkit-tap-highlight-color: transparent;
+            background-color: #000000;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .font-variation-fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            @apply bg-brand-grey;
+        }
+        .toggle-checkbox:checked + .toggle-label .toggle-dot {
+            transform: translateX(100%);
+            @apply bg-white;
+        }
+        #rest-mode-toggle:checked ~ #offline-overlay {
+            display: flex;
+        }
+        #rest-mode-toggle:checked ~ main {
+            filter: grayscale(1) blur(2px);
+            opacity: 0.4;
+            pointer-events: none;
+        }
+    </style>
+<style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-display bg-background-dark text-white antialiased">
+<input class="hidden toggle-checkbox" id="rest-mode-toggle" type="checkbox"/>
+<div class="fixed inset-0 z-[60] hidden flex-col items-center justify-center bg-black/60 backdrop-blur-[4px]" id="offline-overlay">
+<div class="flex flex-col items-center gap-4 text-center px-10">
+<div class="h-20 w-20 rounded-full bg-brand-dark-grey flex items-center justify-center border border-white/10 shadow-2xl">
+<span class="material-symbols-outlined text-4xl text-brand-grey">bedtime</span>
+</div>
+<div>
+<h2 class="text-xl font-black uppercase tracking-tight text-white">Modo Descanso</h2>
+<p class="mt-1 text-sm text-brand-grey leading-tight">No recibirás nuevas tareas mientras estés desconectado.</p>
+</div>
+<label class="mt-4 rounded-full bg-white px-8 py-3 text-xs font-black uppercase tracking-widest text-black active:scale-95 transition-transform" for="rest-mode-toggle">
+                Volver a Conectar
+            </label>
+</div>
+</div>
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden pb-24">
+<header class="sticky top-0 z-50 bg-black/90 backdrop-blur-md border-b border-white/5">
+<div class="flex items-center justify-between px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 border border-primary/20">
+<span class="material-symbols-outlined text-primary">moped</span>
+</div>
+<div>
+<p class="text-[10px] font-bold uppercase tracking-widest text-brand-grey leading-none mb-1">Motorizado</p>
+<p class="text-xs font-semibold text-status-delivered flex items-center gap-1">
+<span class="h-1.5 w-1.5 rounded-full bg-status-delivered animate-pulse"></span> En Línea
+                        </p>
+</div>
+</div>
+<div class="flex flex-col items-center gap-1">
+<p class="text-[9px] font-black uppercase tracking-tighter text-brand-grey">Modo Descanso</p>
+<label class="relative inline-flex cursor-pointer items-center" for="rest-mode-toggle">
+<div class="toggle-label h-5 w-10 rounded-full bg-primary/30 transition-colors border border-white/5">
+<div class="toggle-dot absolute left-0.5 top-0.5 h-4 w-4 rounded-full bg-primary transition-transform duration-200"></div>
+</div>
+</label>
+</div>
+<div class="flex w-10 items-center justify-end">
+<button class="relative flex h-10 w-10 items-center justify-center rounded-full bg-brand-dark-grey text-brand-grey border border-white/5">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 h-2 w-2 rounded-full bg-primary ring-2 ring-black"></span>
+</button>
+</div>
+</div>
+<div class="flex gap-2 px-6 pb-4 overflow-x-auto no-scrollbar">
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-1.5 rounded-full bg-primary px-4 text-white shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-[16px]">near_me</span>
+<p class="text-xs font-bold uppercase">Activos</p>
+</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-1.5 rounded-full bg-brand-dark-grey border border-white/10 px-4 text-brand-grey">
+<span class="material-symbols-outlined text-[16px]">account_balance_wallet</span>
+<p class="text-xs font-medium uppercase">Liquidación</p>
+</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-1.5 rounded-full bg-brand-dark-grey border border-white/10 px-4 text-brand-grey">
+<span class="material-symbols-outlined text-[16px]">history</span>
+<p class="text-xs font-medium uppercase">Finalizados</p>
+</button>
+</div>
+</header>
+<main class="flex-1 px-4 py-4 space-y-5 transition-all duration-300">
+<div class="relative overflow-hidden rounded-2xl bg-primary px-5 py-4 shadow-xl shadow-primary/20 ring-1 ring-white/20">
+<div class="relative z-10 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="flex h-10 w-10 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm">
+<span class="material-symbols-outlined text-white">add_alert</span>
+</div>
+<div>
+<p class="text-[10px] font-black uppercase tracking-widest text-white/70">Nueva Asignación</p>
+<h3 class="text-sm font-bold text-white">Pedido #8824 - Logistics Admin</h3>
+</div>
+</div>
+<button class="rounded-lg bg-black/20 px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-white backdrop-blur-md">
+                        Ver Ahora
+                    </button>
+</div>
+<div class="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-white/5"></div>
+</div>
+<h2 class="px-2 text-sm font-bold text-brand-grey uppercase tracking-widest">Tareas de Hoy</h2>
+<div class="group relative overflow-hidden rounded-2xl bg-brand-dark-grey border border-white/5 shadow-2xl">
+<div class="flex flex-col">
+<div class="relative h-28 w-full bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBLD0rQvIpQrCa3OCPXjzV29mRwSGIRewuYSHzKYVpwSQBtGycLPTxaP7iF1jigXgVhZtxvWYPIqoXbdYwlq5llXNIS-DnVxZkzLYUYhCJJpR01CgsYLSsJj6Hnv0-Wwojxys_vDh8wUHiUWY-ihi429ifnn0ovq5-_m6m_WZ3UbzuBUKWeC2iL9XyCEvtBMiLpj9rE-LDxpeEO5rD8SO9Pw1Ewl_XXN6NPNqOhRaboX5xC-W24dIlVEGmhmoHCBS0pwV3NVu5BSmhm");'>
+<div class="absolute inset-0 bg-gradient-to-t from-brand-dark-grey/90 via-brand-dark-grey/40 to-transparent"></div>
+<div class="absolute top-3 left-3 flex gap-2">
+<span class="inline-flex items-center rounded-md bg-primary px-2 py-1 text-[9px] font-black uppercase tracking-wider text-white">
+                                PENDIENTE RECOLECCIÓN
+                            </span>
+<span class="inline-flex items-center rounded-md bg-white/10 backdrop-blur-md px-2 py-1 text-[9px] font-black uppercase tracking-wider text-white border border-white/10">
+                                SECTOR: NORTE
+                            </span>
+</div>
+</div>
+<div class="p-4 flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-lg font-bold text-white tracking-tight">Burger Town</h3>
+<div class="mt-1 flex items-center gap-1.5 text-brand-grey">
+<span class="material-symbols-outlined text-sm text-primary">location_on</span>
+<p class="text-xs font-medium">Transversal 8 #56-21</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-[10px] font-bold text-brand-grey uppercase tracking-tighter">Estado</p>
+<p class="text-xs font-bold text-primary uppercase">Asignado</p>
+</div>
+</div>
+<div class="flex items-center justify-between border-t border-white/5 pt-4">
+<div class="flex items-center gap-2">
+<div class="h-8 w-8 rounded-full border border-white/10 bg-black overflow-hidden">
+<img alt="Customer" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuArUQ9kL6PciTTRqE_SWbVwBmWCxIzRFq2RGeD76092FYwb4iKSrcYBgxFjuozy_wCd8y6eHcVxezuPZTRudDV5vkju8HArAxd0FR5DfnkFotBep65IJ_MhBy8Yk2TV2jfpllBaWsZelvUT-NaIhettsloJisHL1FFxSnFS_r4EBm4KKONs9Y5qf-8nQ-1g6B6dKt_dpCmwn8UFvnizn7yzs7lplywGsvzJU-fPMsgKcVQ30hpgSLX9Dl8qvetezpVnQc_eM_rCGhZH"/>
+</div>
+<p class="text-xs font-bold text-brand-grey">Carlos R.</p>
+</div>
+<button class="flex h-9 items-center justify-center rounded-lg bg-primary px-5 text-[11px] font-black uppercase tracking-widest text-white shadow-lg shadow-primary/30 transition-transform active:scale-95">
+                                Ver Detalles
+                            </button>
+</div>
+</div>
+</div>
+</div>
+<div class="group relative overflow-hidden rounded-2xl bg-brand-dark-grey border border-white/5 shadow-2xl">
+<div class="flex flex-col">
+<div class="relative h-28 w-full bg-cover bg-center grayscale-[0.2]" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB6Joht8Unodi9Wp8GIUo1_Yl_4zaxnrfmts8wUAGS1SjbA9e1TfT63Px5c6y0N9otFZhTteKTyZESyMq4rp_PtuGp3vADGLhJIYkW2L-t0yXUE6969qwmQjcXFGEc7McBoSHVv6Ki_BQH7hKKiSQ_3LNfvsdF2fc-O502pkZb3NZw7eFguN2icWcfE_sqLtBvd2Y4YgB-SYv3ik2x5F-PRaWViLly4XYOw1feUuZzYyOrNVEKQYLVIFtuN-L6rZEoYA3sGEwp8avyG");'>
+<div class="absolute inset-0 bg-gradient-to-t from-brand-dark-grey/90 via-brand-dark-grey/40 to-transparent"></div>
+<div class="absolute top-3 left-3 flex gap-2">
+<span class="inline-flex items-center rounded-md bg-status-delivered px-2 py-1 text-[9px] font-black uppercase tracking-wider text-white">
+                                ENTREGADO CON ÉXITO
+                            </span>
+<span class="inline-flex items-center rounded-md bg-white/10 backdrop-blur-md px-2 py-1 text-[9px] font-black uppercase tracking-wider text-white border border-white/10">
+                                SECTOR: CENTRO
+                            </span>
+</div>
+</div>
+<div class="p-4 flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-lg font-bold text-white tracking-tight">Pizzeria Bella</h3>
+<div class="mt-1 flex items-center gap-1.5 text-brand-grey">
+<span class="material-symbols-outlined text-sm text-primary">location_on</span>
+<p class="text-xs font-medium">Calle 45 #12-34</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-[10px] font-bold text-brand-grey uppercase tracking-tighter">Estado</p>
+<p class="text-xs font-bold text-status-delivered uppercase">Completado</p>
+</div>
+</div>
+<div class="flex items-center justify-between border-t border-white/5 pt-4">
+<div class="flex items-center gap-2">
+<div class="h-8 w-8 rounded-full border border-white/10 bg-black overflow-hidden">
+<img alt="Customer" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_4yTKGG1R_EBJdGymY_MIjw-6eSUh702bW6jC_ZDULc400p20eREtpF07yG7YznePoR1x2KZ_0GGiE57RQdQTZP311u2S8EWUdVjmB2SC8MqyVzLocklwZeribS3zG37UZDDjvImYYs0ieoNSjO-JdR71BXwgi-ztchJ0UjZN3eMSd-dgzUGbBGAIXaeCP_WFjgOuFUAJH6r-IMbHN8qAKiK-5TvBpdgQ8fYjXRsPcr9z0Et7TDloUwKwpqTAwwjXDAQF4gyfwyg2"/>
+</div>
+<p class="text-xs font-bold text-brand-grey">Juan Pérez</p>
+</div>
+<button class="flex h-9 items-center justify-center rounded-lg bg-brand-dark-grey border border-white/10 px-5 text-[11px] font-black uppercase tracking-widest text-white transition-transform active:scale-95">
+                                Ver Detalles
+                            </button>
+</div>
+</div>
+</div>
+</div>
+<div class="group relative overflow-hidden rounded-2xl bg-brand-dark-grey border border-white/5 shadow-2xl opacity-80">
+<div class="flex flex-col">
+<div class="relative h-28 w-full bg-cover bg-center grayscale" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCAuphqUDxrfbw_ixqL0_m0wXnAFOVVZZ4vojCjuLDjhzGMKpYbU4Y3uWilzulDd7bLpIAAj80xmup5WNBOftnqTP4yGMxksh1MIk1LVKfApGitlQwyLHo4IUk2Zv1V32q_BRRYZOoKQ11gSvoXRSvVyNcbvHhtC2QOAK8sOsABJdNAckN0eB354MQyIWXoY0OSmS3fSRo5HONz5P3xa35tih4S5dVwkM2v8NqXTQT6lJ81bdIJh_XFE6z5TVNN6odv_aP_iygnVSHo");'>
+<div class="absolute inset-0 bg-gradient-to-t from-brand-dark-grey/90 via-brand-dark-grey/40 to-transparent"></div>
+<div class="absolute top-3 left-3 flex gap-2">
+<span class="inline-flex items-center rounded-md bg-status-issue px-2 py-1 text-[9px] font-black uppercase tracking-wider text-white">
+                                NOVEDAD REPORTADA
+                            </span>
+<span class="inline-flex items-center rounded-md bg-white/10 backdrop-blur-md px-2 py-1 text-[9px] font-black uppercase tracking-wider text-white border border-white/10">
+                                SECTOR: SUR
+                            </span>
+</div>
+</div>
+<div class="p-4 flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-lg font-bold text-white tracking-tight">Farmacia Central</h3>
+<div class="mt-1 flex items-center gap-1.5 text-brand-grey">
+<span class="material-symbols-outlined text-sm text-primary">location_on</span>
+<p class="text-xs font-medium">Av. Principal Carrera 10</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-[10px] font-bold text-brand-grey uppercase tracking-tighter">Estado</p>
+<p class="text-xs font-bold text-status-issue uppercase">Incidencia</p>
+</div>
+</div>
+<div class="flex items-center justify-between border-t border-white/5 pt-4">
+<div class="flex items-center gap-2">
+<div class="h-8 w-8 rounded-full border border-white/10 bg-black overflow-hidden">
+<img alt="Customer" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBW72C29b9z0h_Q94Ju_pdsV0b7PWoLekmXhfHVsDrj1-bmC7uzhSL77eQlTLXqvJPMYmUwtoWz20W8Kz3_AMM4l7SDVQcG2EQSIY_JlfPJOd7EfesbvNCvDK19ZSmR-sPX75Dl2km9qrVadb1zpuA1EchQflyA2cQFrz9ZqJTnjZUCVbnS9BtLKijnl8Tvp1YD8ooqM-3NoL0FADEDrKTToAEQJ-enJE3klgQlXvgbiYdjgQCKYtP0loQm9ogVBxhqaAEsBL8RzVTK"/>
+</div>
+<p class="text-xs font-bold text-brand-grey">Maria García</p>
+</div>
+<button class="flex h-9 items-center justify-center rounded-lg bg-primary px-5 text-[11px] font-black uppercase tracking-widest text-white shadow-lg shadow-primary/30 transition-transform active:scale-95">
+                                Ver Novedad
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<nav class="fixed bottom-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-xl border-t border-white/10">
+<div class="mx-auto flex h-20 max-w-md items-center justify-around px-6 pb-6">
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined font-variation-fill">task</span>
+<span class="text-[10px] font-black uppercase tracking-tighter">Tareas</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-brand-grey hover:text-white transition-colors">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="text-[10px] font-black uppercase tracking-tighter">Liquidación</span>
+</button>
+<button class="relative flex flex-col items-center gap-1 text-brand-grey hover:text-white transition-colors">
+<span class="material-symbols-outlined">payments</span>
+<span class="text-[10px] font-black uppercase tracking-tighter">Ganancias</span>
+<span class="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[8px] font-black text-white">2</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-brand-grey hover:text-white transition-colors">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-black uppercase tracking-tighter">Perfil</span>
+</button>
+</div>
+</nav>
+</div>
+
+</body></html>
