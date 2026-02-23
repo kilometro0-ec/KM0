@@ -1,160 +1,217 @@
 <!DOCTYPE html>
-<html class="dark" lang="es">
-<head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Perfil Motorizado - Kilómetro Cero</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-    <script id="tailwind-config">
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Perfil de Rendimiento Motorizado</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#137fec",
-                        "background-dark": "#101922",
-                        "accent-red": "#ef4444",
+                        "primary": "#f20d0d",
+                        "background-light": "#f8f5f5",
+                        "background-dark": "#0a0505",
+                        "surface-dark": "#1a0f0f",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
                     },
                 },
             },
         }
     </script>
-    <style>
-        .ios-blur { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
-        .edit-badge { @apply absolute bottom-0 right-0 size-8 bg-primary text-white rounded-full border-4 border-[#101922] flex items-center justify-center cursor-pointer hover:scale-110 transition-all; }
-    </style>
-</head>
-<body class="bg-slate-50 dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen pb-32">
-
-<header class="sticky top-0 z-50 bg-white/80 dark:bg-background-dark/80 ios-blur border-b border-slate-200 dark:border-slate-800 px-4 py-4 flex items-center justify-between">
-    <h1 class="text-lg font-black italic tracking-tighter text-primary">MI PERFIL</h1>
-    <button class="material-symbols-outlined text-slate-400">settings</button>
-</header>
-
-<main class="px-4 pt-6 space-y-6">
-    
-    <section class="grid grid-cols-2 gap-4">
-        <div class="relative flex flex-col items-center">
-            <div class="relative size-32">
-                <img id="img-driver" alt="Conductor" class="size-full rounded-3xl object-cover border-2 border-primary/30" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2kF4tmuudx0gMk8JHTBNqs28ZuI8FjK603BpnkW_E8-4LCWZzcAY65gUyRNoVWakFZV9SuB0JCLVJ7Mv_Nj07Rg66uxHzbW4G5dSXmTxCE6Vv9dSM7jSwytyXThEfkNEW918Wchsu-XUJ5uzdwOn2Tj2twITg72vAe6Cfw2zfAu_bTv3aeTKIspkK_AiONC5hC_5mvn83e7TBXw8PaMdL3AbMuAWlXyvE1hHs_CGkt5_9IVScCUAxV8rB57KA9txrsyG8nY31NMON"/>
-                <label for="upload-driver" class="edit-badge">
-                    <span class="material-symbols-outlined text-sm">photo_camera</span>
-                </label>
-                <input type="file" id="upload-driver" class="hidden" accept="image/*" onchange="previewImg(this, 'img-driver')">
-            </div>
-            <p class="mt-2 text-[10px] font-black uppercase text-slate-500 italic">Piloto Oficial</p>
-        </div>
-
-        <div class="relative flex flex-col items-center">
-            <div class="relative size-32">
-                <img id="img-bike" alt="Moto" class="size-full rounded-3xl object-cover border-2 border-primary/30" src="https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=80&w=400"/>
-                <label for="upload-bike" class="edit-badge">
-                    <span class="material-symbols-outlined text-sm">directions_run</span>
-                </label>
-                <input type="file" id="upload-bike" class="hidden" accept="image/*" onchange="previewImg(this, 'img-bike')">
-            </div>
-            <p class="mt-2 text-[10px] font-black uppercase text-slate-500 italic">Vehículo ID: K0-992</p>
-        </div>
-    </section>
-
-    <section class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-6">
-        <div class="flex items-center justify-between mb-6">
-            <div>
-                <h3 class="text-2xl font-black italic">4.8 <span class="text-sm text-slate-500 not-italic">/ 5.0</span></h3>
-                <div class="flex text-amber-400">
-                    <span class="material-symbols-outlined fill-1">star</span>
-                    <span class="material-symbols-outlined fill-1">star</span>
-                    <span class="material-symbols-outlined fill-1">star</span>
-                    <span class="material-symbols-outlined fill-1">star</span>
-                    <span class="material-symbols-outlined fill-1">star_half</span>
-                </div>
-            </div>
-            <div class="text-right">
-                <p class="text-[10px] font-black text-emerald-500 bg-emerald-500/10 px-2 py-1 rounded-full">EXCELENTE</p>
-                <p class="text-[10px] font-bold text-slate-500 mt-1 uppercase">248 Viajes</p>
-            </div>
-        </div>
-
-        <div class="space-y-4">
-            <div>
-                <div class="flex justify-between text-[10px] font-black uppercase mb-1">
-                    <span>Puntualidad</span>
-                    <span class="text-primary">98%</span>
-                </div>
-                <div class="h-1.5 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-                    <div class="h-full bg-primary" style="width: 98%"></div>
-                </div>
-            </div>
-            <div>
-                <div class="flex justify-between text-[10px] font-black uppercase mb-1">
-                    <span>Cuidado del Pedido</span>
-                    <span class="text-primary">94%</span>
-                </div>
-                <div class="h-1.5 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-                    <div class="h-full bg-primary" style="width: 94%"></div>
-                </div>
-            </div>
-            <div>
-                <div class="flex justify-between text-[10px] font-black uppercase mb-1">
-                    <span>Amabilidad</span>
-                    <span class="text-primary">100%</span>
-                </div>
-                <div class="h-1.5 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-                    <div class="h-full bg-emerald-500" style="width: 100%"></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="space-y-3">
-        <div class="bg-white dark:bg-slate-900 p-4 rounded-2xl flex items-center justify-between border border-slate-200 dark:border-slate-800">
-            <div class="flex items-center gap-3">
-                <span class="material-symbols-outlined text-primary">badge</span>
-                <span class="text-sm font-bold">Juan Pérez</span>
-            </div>
-            <span class="text-[10px] font-black text-slate-500">ID: 4892</span>
-        </div>
-        <div class="bg-white dark:bg-slate-900 p-4 rounded-2xl flex items-center justify-between border border-slate-200 dark:border-slate-800">
-            <div class="flex items-center gap-3">
-                <span class="material-symbols-outlined text-primary">e_mobiledata</span>
-                <span class="text-sm font-bold">+593 99 888 7766</span>
-            </div>
-            <button class="material-symbols-outlined text-xs text-slate-500">edit</button>
-        </div>
-    </section>
-
-</main>
-
-<nav class="fixed bottom-0 left-0 right-0 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 px-6 pt-2 pb-8 flex justify-between items-center z-50">
-    <a class="flex flex-col items-center gap-1 text-slate-400" href="inicio.html">
-        <span class="material-symbols-outlined">home</span>
-        <span class="text-[10px] font-bold">Inicio</span>
-    </a>
-    <a class="flex flex-col items-center gap-1 text-slate-400" href="pedidos.html">
-        <span class="material-symbols-outlined">package_2</span>
-        <span class="text-[10px] font-medium">Pedidos</span>
-    </a>
-    <a class="flex flex-col items-center gap-1 text-primary" href="#">
-        <span class="material-symbols-outlined fill-1">person</span>
-        <span class="text-[10px] font-bold">Perfil</span>
-    </a>
-</nav>
-
-<script>
-    // Función para previsualizar y simular el cambio de foto
-    function previewImg(input, targetId) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById(targetId).src = e.target.result;
-                alert("¡Foto actualizada correctamente en el sistema!");
-            }
-            reader.readAsDataURL(input.files[0]);
-        }
+<style>
+    body {
+      min-height: max(884px, 100dvh);
     }
-</script>
-
-</body>
-</html>
+  </style>
+  </head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-white min-h-screen">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden pb-10">
+<!-- TopAppBar -->
+<div class="flex items-center bg-background-light dark:bg-background-dark p-4 pb-2 justify-between sticky top-0 z-50">
+<div class="text-primary flex size-12 shrink-0 items-center justify-start">
+<span class="material-symbols-outlined text-2xl">arrow_back_ios</span>
+</div>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-tight flex-1 text-center">Perfil de Rendimiento</h2>
+<div class="flex w-12 items-center justify-end">
+<button class="flex cursor-pointer items-center justify-center rounded-full h-12 bg-transparent text-slate-900 dark:text-white">
+<span class="material-symbols-outlined text-2xl">settings</span>
+</button>
+</div>
+</div>
+<!-- Profile Header Section -->
+<div class="flex p-4 @container mt-2">
+<div class="flex w-full flex-col gap-4 items-center">
+<div class="flex gap-4 flex-col items-center relative">
+<div class="relative">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full min-h-32 w-32 border-4 border-primary shadow-[0_0_20px_rgba(242,13,13,0.3)]" data-alt="Close up portrait of a smiling professional delivery driver" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCJRa9zK9pkvprxutrXIk6clrx5PkH8NwkPrBxBdWa5hOMAAZDCIJpdXG3ixupIY3HjqwsCuDnuw-HG4I0_f0PnUMdYk1Xg8vZt-WIxmKgO5xBAxvHKIu_TgyCtE9ztzv1Y_OL7PBsUVNGGj-QvmvCVHF4BsARL_SlfbD2mZCia8wxpSFb8aL-zhie_iiZeF6I6a38u1yFFrh39KZydE5hU7edWAhl6RL7abiTQtLRHCf4NXWBxgL_Dcm2RC4oWoaIYp1GOY7L52Qln");'>
+</div>
+<div class="absolute bottom-1 right-1 bg-primary text-white rounded-full p-1 border-2 border-background-dark">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">verified</span>
+</div>
+</div>
+<div class="flex flex-col items-center justify-center">
+<p class="text-slate-900 dark:text-white text-2xl font-extrabold leading-tight tracking-tight text-center">Carlos Rodríguez</p>
+<div class="flex items-center gap-2 mt-1">
+<span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border border-primary/20">Nivel Oro</span>
+<span class="text-slate-500 dark:text-gray-400 text-sm font-medium">Desde 2022</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Progression Card -->
+<div class="px-4 mt-6">
+<div class="bg-surface-dark/40 dark:bg-surface-dark border border-white/5 p-6 rounded-xl">
+<div class="flex justify-between items-end mb-4">
+<div>
+<h3 class="text-white/60 text-xs font-bold uppercase tracking-widest">Camino a Platino</h3>
+<p class="text-white text-xl font-bold">150 / 200 Pedidos</p>
+</div>
+<div class="text-right">
+<span class="text-primary text-2xl font-black italic">75%</span>
+</div>
+</div>
+<div class="w-full bg-white/10 h-3 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full shadow-[0_0_10px_rgba(242,13,13,0.5)]" style="width: 75%;"></div>
+</div>
+<p class="text-gray-400 text-sm mt-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-lg">bolt</span>
+                    ¡Faltan solo 50 entregas para subir de nivel!
+                </p>
+</div>
+</div>
+<!-- Ratings Breakdown -->
+<div class="px-4 mt-8">
+<h3 class="text-slate-900 dark:text-white text-xl font-bold px-1 mb-4">Calificaciones Detalladas</h3>
+<div class="space-y-4 bg-surface-dark/40 dark:bg-surface-dark p-6 rounded-xl border border-white/5">
+<div class="flex items-center justify-between mb-4">
+<div class="flex flex-col">
+<span class="text-4xl font-black text-white">4.9</span>
+<div class="flex text-primary">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">star_half</span>
+</div>
+</div>
+<div class="text-right">
+<p class="text-white text-sm font-bold">1,248 total</p>
+<p class="text-gray-400 text-xs uppercase font-bold tracking-tighter">Últimos 6 meses</p>
+</div>
+</div>
+<!-- Star Rows -->
+<div class="space-y-2">
+<!-- 5 Stars -->
+<div class="flex items-center gap-3">
+<span class="text-xs font-bold text-gray-400 w-4">5</span>
+<div class="flex-1 h-2 bg-white/5 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 92%;"></div>
+</div>
+<span class="text-xs text-gray-400 w-8 text-right">92%</span>
+</div>
+<!-- 4 Stars -->
+<div class="flex items-center gap-3">
+<span class="text-xs font-bold text-gray-400 w-4">4</span>
+<div class="flex-1 h-2 bg-white/5 rounded-full overflow-hidden">
+<div class="bg-primary/60 h-full rounded-full" style="width: 6%;"></div>
+</div>
+<span class="text-xs text-gray-400 w-8 text-right">6%</span>
+</div>
+<!-- 3 Stars -->
+<div class="flex items-center gap-3">
+<span class="text-xs font-bold text-gray-400 w-4">3</span>
+<div class="flex-1 h-2 bg-white/5 rounded-full overflow-hidden">
+<div class="bg-primary/30 h-full rounded-full" style="width: 1%;"></div>
+</div>
+<span class="text-xs text-gray-400 w-8 text-right">1%</span>
+</div>
+<!-- 2 Stars -->
+<div class="flex items-center gap-3">
+<span class="text-xs font-bold text-gray-400 w-4">2</span>
+<div class="flex-1 h-2 bg-white/5 rounded-full overflow-hidden">
+<div class="bg-primary/20 h-full rounded-full" style="width: 0.5%;"></div>
+</div>
+<span class="text-xs text-gray-400 w-8 text-right">&lt;1%</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Vehicle Info Section -->
+<div class="px-4 mt-8">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-slate-900 dark:text-white text-xl font-bold px-1">Vehículo Registrado</h3>
+<button class="text-primary text-xs font-bold uppercase tracking-widest">Editar</button>
+</div>
+<div class="bg-surface-dark/40 dark:bg-surface-dark rounded-xl border border-white/5 overflow-hidden">
+<div class="flex items-center p-4 gap-4">
+<div class="w-20 h-20 rounded-lg bg-white/5 flex items-center justify-center border border-white/10 shrink-0 overflow-hidden">
+<div class="w-full h-full bg-cover bg-center" data-alt="Professional black and red sport motorcycle" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCImo_UA2wERK9kuCZErcUluO_xGeIp3iN6pEs_tyn5DHxLmlOMx0L8bw71UpIyDMiJB5sKdEgSDVIZoPoyeln2cJFDKM2XYzGxKDE1ZpTJfe4G39lG50N294vbySWZzS6JsrArSuB9qr_yTf9KhT17LJhr1i7Z-XzUx2zxit0vQSWpSMWUzaEA9bsX0LLLmedI0iI1j3-nggMK_I-v1g3lEVSLvvferIWR06a8OGa95TnpwtTs1ZsR4MpN-ZhaPbXbRLYCqBmUoiqm");'>
+</div>
+</div>
+<div class="flex-1">
+<p class="text-white font-bold text-lg leading-tight">Yamaha MT-07</p>
+<p class="text-gray-400 text-sm">Color: Negro Mate / Rojo</p>
+<div class="flex items-center gap-3 mt-2">
+<span class="bg-white/10 px-2 py-1 rounded text-xs font-mono text-white">ABC-1234</span>
+<span class="flex items-center gap-1 text-[10px] text-green-400 uppercase font-black">
+<span class="size-1.5 bg-green-400 rounded-full"></span>
+                                Verificado
+                            </span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 border-t border-white/5">
+<div class="p-4 border-r border-white/5">
+<p class="text-gray-500 text-[10px] uppercase font-bold tracking-wider">Última Revisión</p>
+<p class="text-white text-sm font-medium mt-1">12 Oct 2023</p>
+</div>
+<div class="p-4">
+<p class="text-gray-500 text-[10px] uppercase font-bold tracking-wider">Seguro Vigente</p>
+<p class="text-white text-sm font-medium mt-1">Dic 2024</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Quick Actions -->
+<div class="px-4 mt-8 grid grid-cols-2 gap-4">
+<button class="flex flex-col items-center justify-center p-4 rounded-xl bg-white/5 border border-white/5 gap-2 hover:bg-white/10">
+<span class="material-symbols-outlined text-primary text-3xl">history</span>
+<span class="text-white text-xs font-bold uppercase">Historial</span>
+</button>
+<button class="flex flex-col items-center justify-center p-4 rounded-xl bg-white/5 border border-white/5 gap-2 hover:bg-white/10">
+<span class="material-symbols-outlined text-primary text-3xl">build</span>
+<span class="text-white text-xs font-bold uppercase">Taller</span>
+</button>
+</div>
+</div>
+<!-- Navigation Bar (iOS Style) -->
+<div class="fixed bottom-0 left-0 right-0 bg-background-dark/80 backdrop-blur-xl border-t border-white/5 px-6 py-3 flex justify-between items-center z-50">
+<button class="flex flex-col items-center gap-1 text-gray-500">
+<span class="material-symbols-outlined">home</span>
+<span class="text-[10px] font-medium">Inicio</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-gray-500">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-[10px] font-medium">Ganancias</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">person</span>
+<span class="text-[10px] font-medium">Perfil</span>
+</button>
+</div>
+</body></html>
