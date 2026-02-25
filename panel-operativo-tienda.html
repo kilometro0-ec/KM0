@@ -3,152 +3,167 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Tienda: Panel Operativo 360</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&display=swap" rel="stylesheet"/>
+    <title>Reporte Global - Kilómetro Cero</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-    <script id="tailwind-config">
+    <script>
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#137fec", // AZUL ELÉCTRICO CORREGIDO
-                        "background-light": "#f8f5f8",
+                        "primary": "#137fec",
                         "background-dark": "#0a0f16",
                         "neutral-dark": "#121923",
-                        "status-green": "#22c55e",
-                        "status-purple": "#a855f7",
-                        "status-gray": "#94a3b8"
-                    },
-                    fontFamily: {
-                        "display": ["Inter", "sans-serif"]
-                    },
-                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
-                },
-            },
+                    }
+                }
+            }
         }
     </script>
     <style>
-        body {
-            min-height: max(884px, 100dvh);
-        }
+        body { font-family: 'Inter'; background-color: #0a0f16; color: white; }
+        .notif-badge { animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.5); opacity: 0.7; } 100% { transform: scale(1); opacity: 1; } }
     </style>
 </head>
-<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
+<body class="min-h-screen flex flex-col pb-24">
 
-<header class="sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-primary/20 px-4 py-3 flex items-center justify-between">
+<div id="toast-container" class="fixed top-20 right-4 left-4 z-[100] flex flex-col gap-2 pointer-events-none"></div>
+
+<header class="sticky top-0 z-50 bg-background-dark/90 backdrop-blur-md border-b border-primary/20 px-4 py-3 flex items-center justify-between">
     <div class="flex items-center gap-3">
-        <div class="size-10 rounded-full bg-primary/20 flex items-center justify-center border border-primary/40 overflow-hidden">
-            <img alt="Logo" class="size-8 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBF8F021zRfOnOEooYcUQznS-fnfpBMFtih2COy228Ha8pPktBFDO0ATk544gEhY1le4GPdp8SATrocx3RJLlmuu5b6MGfdInWcoWI__PaD-raC3OjeuiS19mwr4hG-GL96p1yEsNkq0ALgaBcX-3zv-fWOwaaiLfokr2mCSpY1oana7o9a1m27z5f6HWGTgux66Uh_HLz-H-t-DLRBgUQjaEUuu3bO5fzdPhVC1HRG_KQrS4HoJ843gxQAti8LNclcEjO_yTOa-bgR"/>
-        </div>
+        <button onclick="history.back()" class="text-slate-400"><span class="material-symbols-outlined">arrow_back_ios</span></button>
         <div>
-            <h1 class="text-sm font-bold leading-tight">Kilómetro Cero</h1>
-            <p class="text-[10px] text-primary uppercase tracking-widest font-bold">Tienda Oficial</p>
+            <h1 class="text-sm font-black italic uppercase tracking-tighter">Reporte <span class="text-primary">Global</span></h1>
+            <p class="text-[9px] text-slate-500 font-bold uppercase tracking-[0.2em]">Historial de Operaciones</p>
         </div>
     </div>
-    <div class="flex gap-2">
-        <button class="size-10 flex items-center justify-center rounded-full bg-neutral-dark text-slate-100 border border-white/5">
-            <span class="material-symbols-outlined text-2xl">notifications</span>
-        </button>
-    </div>
+    
+    <button onclick="simularNotificaciones()" class="relative size-10 bg-neutral-dark rounded-full flex items-center justify-center border border-white/10 active:scale-90 transition-all">
+        <span class="material-symbols-outlined text-primary">notifications_active</span>
+        <span class="absolute top-2 right-2 size-2 bg-red-500 rounded-full notif-badge"></span>
+    </button>
 </header>
 
-<main class="flex-1 overflow-y-auto pb-24">
-    <div class="p-4 grid grid-cols-2 gap-3">
-        <button onclick="location.href='nuevo-pedido-tienda.html'" class="flex flex-col items-center justify-center gap-2 bg-primary text-white p-4 rounded-xl font-bold shadow-lg shadow-primary/30 active:scale-95 transition-transform">
-            <span class="material-symbols-outlined text-2xl">add_shopping_cart</span>
-            <span class="text-xs">NUEVO PEDIDO</span>
-        </button>
-        <button class="flex flex-col items-center justify-center gap-2 bg-primary text-white p-4 rounded-xl font-bold shadow-lg shadow-primary/30 active:scale-95 transition-transform">
-            <span class="material-symbols-outlined text-2xl">report_problem</span>
-            <span class="text-xs">INCIDENCIA</span>
-        </button>
+<main class="p-4 space-y-4">
+    <div class="flex gap-2 overflow-x-auto pb-2 no-scrollbar">
+        <button class="bg-primary text-white text-[10px] font-black px-4 py-2 rounded-full uppercase tracking-widest whitespace-nowrap">Todos</button>
+        <button class="bg-neutral-dark text-slate-400 text-[10px] font-black px-4 py-2 rounded-full uppercase tracking-widest whitespace-nowrap border border-white/5">Entregados</button>
+        <button class="bg-neutral-dark text-slate-400 text-[10px] font-black px-4 py-2 rounded-full uppercase tracking-widest whitespace-nowrap border border-white/5">Novedades</button>
     </div>
 
-    <div class="px-4 mb-6">
-        <h2 class="text-lg font-bold mb-3 flex items-center gap-2">
-            <span class="material-symbols-outlined text-primary">analytics</span>
-            Resumen Operativo
-        </h2>
-        <div class="grid grid-cols-1 gap-3">
-            <div class="flex items-center justify-between p-4 rounded-xl bg-neutral-dark border border-white/5">
-                <div>
-                    <p class="text-slate-400 text-sm">Pedidos en Curso</p>
-                    <p class="text-2xl font-bold">12</p>
-                </div>
-                <div class="size-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
-                    <span class="material-symbols-outlined text-3xl">local_shipping</span>
-                </div>
-            </div>
-            <div class="grid grid-cols-2 gap-3">
-                <div class="p-4 rounded-xl bg-neutral-dark border border-white/5">
-                    <p class="text-slate-400 text-xs mb-1">Entregados hoy</p>
-                    <p class="text-xl font-bold text-status-green">45</p>
-                </div>
-                <div onclick="location.href='finanzas-tienda.html'" class="p-4 rounded-xl bg-neutral-dark border border-white/5 cursor-pointer active:bg-primary/5 transition-colors">
-                    <p class="text-slate-400 text-xs mb-1">Pagos por Liquidar</p>
-                    <p class="text-xl font-bold text-primary">$1,250</p>
-                </div>
-            </div>
+    <div class="bg-neutral-dark rounded-2xl border border-white/5 overflow-hidden shadow-2xl">
+        <div class="p-4 border-b border-white/5 bg-white/5">
+            <h3 class="text-[10px] font-black uppercase tracking-[0.3em] text-primary italic">Registros de Hoy</h3>
         </div>
-    </div>
+        <div class="divide-y divide-white/5">
+            <div class="p-4 flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <div class="size-10 rounded-xl bg-green-500/10 flex items-center justify-center text-green-500 border border-green-500/20">
+                        <span class="material-symbols-outlined">task_alt</span>
+                    </div>
+                    <div>
+                        <p class="text-xs font-black uppercase italic">#KC-9011</p>
+                        <p class="text-[10px] text-slate-500 font-bold tracking-tight">Entregado con éxito • 12:45 PM</p>
+                    </div>
+                </div>
+                <p class="text-xs font-black text-green-500">+$12.50</p>
+            </div>
 
-    <div class="px-4">
-        <div class="flex items-center justify-between mb-4">
-            <h2 class="text-lg font-bold">Estado de Pedidos</h2>
-            <button onclick="location.href='reporte-global-tienda.html'" class="text-primary text-sm font-medium hover:underline">Ver todos</button>
-        </div>
-        <div class="space-y-3">
-            <div class="p-4 rounded-xl bg-neutral-dark/40 border border-white/5">
-                <div class="flex justify-between items-start mb-3">
-                    <div>
-                        <p class="font-bold">#KC-8842</p>
-                        <p class="text-xs text-slate-400">Hace 15 min • Av. Principal 123</p>
+            <div class="p-4 flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <div class="size-10 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-500 border border-purple-500/20">
+                        <span class="material-symbols-outlined">running_with_errors</span>
                     </div>
-                    <span class="px-2 py-1 rounded-md bg-status-green/20 text-status-green text-[10px] font-bold uppercase tracking-wider">Entregado</span>
+                    <div>
+                        <p class="text-xs font-black uppercase italic">#KC-9012</p>
+                        <p class="text-[10px] text-slate-500 font-bold tracking-tight">Dirección incorrecta • 11:30 AM</p>
+                    </div>
                 </div>
-                <div class="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
-                    <div class="h-full bg-status-green w-full"></div>
-                </div>
+                <span class="text-[8px] font-black bg-purple-500/20 text-purple-400 px-2 py-1 rounded uppercase">En Espera</span>
             </div>
-            <div class="p-4 rounded-xl bg-neutral-dark/40 border border-white/5">
-                <div class="flex justify-between items-start mb-3">
-                    <div>
-                        <p class="font-bold">#KC-8845</p>
-                        <p class="text-xs text-slate-400">Hace 42 min • Calle Luna 45</p>
+
+            <div class="p-4 flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <div class="size-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary border border-primary/20">
+                        <span class="material-symbols-outlined">account_balance_wallet</span>
                     </div>
-                    <span class="px-2 py-1 rounded-md bg-status-purple/20 text-status-purple text-[10px] font-bold uppercase tracking-wider">Novedad</span>
+                    <div>
+                        <p class="text-xs font-black uppercase italic">LIQUIDACIÓN</p>
+                        <p class="text-[10px] text-slate-500 font-bold tracking-tight">Pago procesado por Admin • 09:00 AM</p>
+                    </div>
                 </div>
-                <div class="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
-                    <div class="h-full bg-status-purple w-2/3"></div>
-                </div>
+                <p class="text-xs font-black text-primary">$450.00</p>
             </div>
         </div>
     </div>
 </main>
 
-<nav class="fixed bottom-0 left-0 right-0 border-t border-white/5 bg-background-dark/95 backdrop-blur-lg px-4 pb-6 pt-2 z-50">
+<nav class="fixed bottom-0 left-0 right-0 border-t border-white/5 bg-background-dark/95 backdrop-blur-lg px-4 pb-8 pt-3 z-50">
     <div class="flex justify-around items-center max-w-md mx-auto">
-        <a class="flex flex-col items-center gap-1 text-primary" href="panel-operativo-tienda.html">
+        <a class="flex flex-col items-center gap-1 text-slate-500" href="panel-operativo-tienda.html">
             <span class="material-symbols-outlined text-2xl">grid_view</span>
-            <span class="text-[10px] font-medium uppercase">Panel</span>
+            <span class="text-[9px] font-black uppercase">Panel</span>
         </a>
-        <a class="flex flex-col items-center gap-1 text-slate-400" href="reporte-global-tienda.html">
-            <span class="material-symbols-outlined text-2xl">receipt_long</span>
-            <span class="text-[10px] font-medium uppercase">Pedidos</span>
+        <a class="flex flex-col items-center gap-1 text-primary" href="reporte-global-tienda.html">
+            <span class="material-symbols-outlined text-2xl font-variation-fill">receipt_long</span>
+            <span class="text-[9px] font-black uppercase">Pedidos</span>
         </a>
-        <a class="flex flex-col items-center gap-1 text-slate-400" href="finanzas-tienda.html">
+        <a class="flex flex-col items-center gap-1 text-slate-500" href="finanzas-tienda.html">
             <span class="material-symbols-outlined text-2xl">payments</span>
-            <span class="text-[10px] font-medium uppercase">Finanzas</span>
+            <span class="text-[9px] font-black uppercase">Finanzas</span>
         </a>
-        <a class="flex flex-col items-center gap-1 text-slate-400" href="perfil-tienda.html">
-            <span class="material-symbols-outlined text-2xl">storefront</span>
-            <span class="text-[10px] font-medium uppercase">Tienda</span>
+        <a class="flex flex-col items-center gap-1 text-slate-500" href="perfil-tienda.html">
+            <span class="material-symbols-outlined text-2xl">person</span>
+            <span class="text-[9px] font-black uppercase">Tienda</span>
         </a>
     </div>
 </nav>
+
+<script>
+    function showToast(title, msg, type = 'primary') {
+        const container = document.getElementById('toast-container');
+        const colors = {
+            primary: 'bg-primary border-primary/50',
+            green: 'bg-green-600 border-green-400',
+            purple: 'bg-purple-600 border-purple-400'
+        };
+        
+        const toast = document.createElement('div');
+        toast.className = `${colors[type]} p-4 rounded-xl border shadow-2xl flex items-start gap-3 transform transition-all duration-500 translate-y-0 opacity-100 pointer-events-auto`;
+        toast.innerHTML = `
+            <span class="material-symbols-outlined text-white">notifications_active</span>
+            <div>
+                <p class="text-[10px] font-black uppercase italic text-white">${title}</p>
+                <p class="text-[11px] text-white/90 font-medium">${msg}</p>
+            </div>
+        `;
+        container.appendChild(toast);
+        
+        setTimeout(() => {
+            toast.classList.add('translate-y-[-20px]', 'opacity-0');
+            setTimeout(() => toast.remove(), 500);
+        }, 4000);
+    }
+
+    // SIMULACIÓN DE NOTIFICACIONES DINÁMICAS
+    function simularNotificaciones() {
+        const azar = Math.floor(Math.random() * 3);
+        if (azar === 0) {
+            showToast('¡Pedido Entregado!', 'El paquete #KC-9011 ha llegado a su destino.', 'green');
+        } else if (azar === 1) {
+            showToast('Alerta de Novedad', 'El motorizado reporta demora en pedido #KC-9012.', 'purple');
+        } else {
+            showToast('Pago Recibido', 'Se ha confirmado la liquidación de $450.00 en tu cuenta.', 'primary');
+        }
+    }
+
+    // Notificación automática al entrar
+    window.onload = () => {
+        setTimeout(() => showToast('Bienvenido', 'Cargando historial completo de hoy...', 'primary'), 1000);
+    }
+</script>
 
 </body>
 </html>
