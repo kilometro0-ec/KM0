@@ -16,10 +16,10 @@
                     colors: {
                         "primary": "#137fec",
                         "background-dark": "#0a0f16",
-                        "sector-norte": "#00f2ff", /* Cian */
-                        "sector-sur": "#7000ff",   /* Morado */
-                        "sector-centro": "#00ff88",/* Verde Neón */
-                        "sector-valles": "#ff00ff" /* Fucsia */
+                        "sector-norte": "#00f2ff",
+                        "sector-sur": "#7000ff",
+                        "sector-centro": "#00ff88",
+                        "sector-valles": "#ff00ff"
                     },
                     fontFamily: { "display": ["Inter"] }
                 },
@@ -47,7 +47,7 @@
             </div>
         </div>
         <div class="flex gap-2">
-            <button onclick="location.href='catalogo-tienda.html'" class="flex size-10 items-center justify-center rounded-full bg-slate-900 border border-slate-800 text-primary">
+            <button onclick="location.href='catalogo-tienda.html'" class="flex size-10 items-center justify-center rounded-full bg-slate-900 border border-slate-800 text-primary active:scale-90 transition-transform">
                 <span class="material-symbols-outlined">inventory</span>
             </button>
             <button onclick="toggleDateModal()" class="flex size-10 items-center justify-center rounded-full bg-slate-900 border border-primary/50 text-primary">
@@ -73,7 +73,7 @@
 
     <section class="px-4 py-2">
         <div class="rounded-2xl bg-slate-900 p-6 border border-slate-800 shadow-xl">
-            <h3 class="text-xs font-black uppercase tracking-widest text-slate-400 mb-6 italic">Envíos por Sector</h3>
+            <h3 class="text-xs font-black uppercase tracking-widest text-slate-400 mb-6 italic">Distribución Geográfica</h3>
             <div class="flex items-center gap-8">
                 <div class="relative size-32 shrink-0">
                     <svg class="size-full -rotate-90" viewbox="0 0 36 36">
@@ -88,22 +88,34 @@
                         <span class="text-[8px] text-slate-500 font-black uppercase italic">Total</span>
                     </div>
                 </div>
-                <div class="grid grid-cols-1 gap-2">
-                    <div class="flex items-center gap-2">
-                        <div class="size-2.5 rounded-full bg-sector-norte shadow-[0_0_5px_#00f2ff]"></div>
-                        <span class="text-[10px] font-black uppercase italic">Norte</span>
+                <div class="flex flex-col gap-3 flex-1">
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center gap-2">
+                            <div class="size-2 rounded-full bg-sector-norte"></div>
+                            <span class="text-[10px] font-black uppercase italic">Norte</span>
+                        </div>
+                        <span class="text-[11px] font-black text-white">499</span>
                     </div>
-                    <div class="flex items-center gap-2">
-                        <div class="size-2.5 rounded-full bg-sector-sur shadow-[0_0_5px_#7000ff]"></div>
-                        <span class="text-[10px] font-black uppercase italic">Sur</span>
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center gap-2">
+                            <div class="size-2 rounded-full bg-sector-sur"></div>
+                            <span class="text-[10px] font-black uppercase italic">Sur</span>
+                        </div>
+                        <span class="text-[11px] font-black text-white">312</span>
                     </div>
-                    <div class="flex items-center gap-2">
-                        <div class="size-2.5 rounded-full bg-sector-centro shadow-[0_0_5px_#00ff88]"></div>
-                        <span class="text-[10px] font-black uppercase italic">Centro</span>
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center gap-2">
+                            <div class="size-2 rounded-full bg-sector-centro"></div>
+                            <span class="text-[10px] font-black uppercase italic">Centro</span>
+                        </div>
+                        <span class="text-[11px] font-black text-white">250</span>
                     </div>
-                    <div class="flex items-center gap-2">
-                        <div class="size-2.5 rounded-full bg-sector-valles shadow-[0_0_5px_#ff00ff]"></div>
-                        <span class="text-[10px] font-black uppercase italic">Valles</span>
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center gap-2">
+                            <div class="size-2 rounded-full bg-sector-valles"></div>
+                            <span class="text-[10px] font-black uppercase italic">Valles</span>
+                        </div>
+                        <span class="text-[11px] font-black text-white">187</span>
                     </div>
                 </div>
             </div>
@@ -112,12 +124,12 @@
 
     <section class="p-4">
         <div class="rounded-2xl bg-slate-900 p-6 border border-slate-800">
-            <h3 class="text-xs font-black uppercase tracking-widest text-slate-400 mb-6 italic">Top Enviados</h3>
+            <h3 class="text-xs font-black uppercase tracking-widest text-slate-400 mb-6 italic">Top 5 Enviados</h3>
             <div class="flex flex-col gap-5">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-4">
                         <div class="size-14 rounded-xl bg-slate-800 overflow-hidden border border-white/5">
-                            <img class="size-full object-cover" src="https://images.unsplash.com/photo-1599819811279-d5ad9cccf838?auto=format&fit=crop&w=100&q=80" alt="Helmet">
+                            <img class="size-full object-cover" src="https://images.unsplash.com/photo-1599819811279-d5ad9cccf838?w=100&q=80" alt="Helmet">
                         </div>
                         <div>
                             <p class="text-xs font-black uppercase italic">HELMET NITRO L</p>
@@ -126,6 +138,67 @@
                     </div>
                     <div class="text-right">
                         <p class="text-sm font-black italic text-primary">142</p>
+                        <p class="text-[8px] text-slate-500 font-black uppercase">Unid.</p>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <div class="size-14 rounded-xl bg-slate-800 overflow-hidden border border-white/5">
+                            <img class="size-full object-cover" src="https://images.unsplash.com/photo-1635350736475-c8cee44e1944?w=100&q=80" alt="Aceite">
+                        </div>
+                        <div>
+                            <p class="text-xs font-black uppercase italic">ACEITE 4T 1L</p>
+                            <p class="text-[9px] text-slate-500 font-bold uppercase">Mantenimiento</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-sm font-black italic text-primary">98</p>
+                        <p class="text-[8px] text-slate-500 font-black uppercase">Unid.</p>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <div class="size-14 rounded-xl bg-slate-800 overflow-hidden border border-white/5">
+                            <img class="size-full object-cover" src="https://images.unsplash.com/photo-1558981403-c5f9899a28bc?w=100&q=80" alt="Guantes">
+                        </div>
+                        <div>
+                            <p class="text-xs font-black uppercase italic">GUANTES PRO T</p>
+                            <p class="text-[9px] text-slate-500 font-bold uppercase">Protección</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-sm font-black italic text-primary">75</p>
+                        <p class="text-[8px] text-slate-500 font-black uppercase">Unid.</p>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <div class="size-14 rounded-xl bg-slate-800 overflow-hidden border border-white/5">
+                            <img class="size-full object-cover" src="https://images.unsplash.com/photo-1444852538915-ac030376226e?w=100&q=80" alt="Freno">
+                        </div>
+                        <div>
+                            <p class="text-xs font-black uppercase italic">KIT FRENOS ABS</p>
+                            <p class="text-[9px] text-slate-500 font-bold uppercase">Repuestos</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-sm font-black italic text-primary">64</p>
+                        <p class="text-[8px] text-slate-500 font-black uppercase">Unid.</p>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <div class="size-14 rounded-xl bg-slate-800 overflow-hidden border border-white/5">
+                            <img class="size-full object-cover" src="https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=100&q=80" alt="Cadena">
+                        </div>
+                        <div>
+                            <p class="text-xs font-black uppercase italic">CADENA REFORZADA</p>
+                            <p class="text-[9px] text-slate-500 font-bold uppercase">Tracción</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-sm font-black italic text-primary">52</p>
+                        <p class="text-[8px] text-slate-500 font-black uppercase">Unid.</p>
                     </div>
                 </div>
             </div>
