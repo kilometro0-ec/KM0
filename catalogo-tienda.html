@@ -1,1 +1,21 @@
-
+<header class="sticky top-0 z-50 bg-background-dark/80 backdrop-blur-md border-b border-primary/20 px-4 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+        <div class="size-10 rounded-full bg-primary/20 flex items-center justify-center border border-primary/30">
+            <span class="material-symbols-outlined text-primary font-variation-fill">two_wheeler</span>
+        </div>
+        <div>
+            <h1 class="text-sm font-black italic uppercase italic">KM0 TIENDA</h1>
+            <p class="text-[9px] text-primary font-black uppercase tracking-widest leading-none">Gestión e Inventario</p>
+        </div>
+    </div>
+    
+    <div class="flex items-center gap-2">
+        <button onclick="location.href='catalogo-tienda.html'" class="size-10 flex items-center justify-center rounded-full bg-neutral-dark border border-white/10 active:bg-primary/20 transition-colors">
+            <span class="material-symbols-outlined text-primary font-variation-fill">auto_stories</span>
+        </button>
+        
+        <button onclick="enviarNotif('Stock Bajo', 'Kit de Arrastre (Solo 2 unidades)')" class="size-10 flex items-center justify-center rounded-full bg-neutral-dark border border-white/10">
+            <span class="material-symbols-outlined text-primary font-variation-fill">notifications_active</span>
+        </button>
+    </div>
+</header>
