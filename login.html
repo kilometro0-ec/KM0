@@ -4,21 +4,22 @@
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>Acceso Oficial - Kilómetro Cero</title>
+
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&display=swap" rel="stylesheet"/>
-    
-    <script id="tailwind-config">
+
+    <script>
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#f20d0d", // ROJO EXACTO
-                        "background-dark": "#0a0505",
+                        primary: "#ff6a00",
+                        backgroundDark: "#050505",
                     },
                     fontFamily: {
-                        "sans": ["Inter", "sans-serif"]
+                        sans: ["Inter", "sans-serif"]
                     }
                 },
             },
@@ -28,80 +29,118 @@
     <style type="text/tailwindcss">
         @layer base {
             body {
-                @apply bg-[#0a0505] text-white antialiased;
+                @apply bg-[#050505] text-white antialiased;
                 font-family: 'Inter', sans-serif;
             }
         }
+
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
         }
-        /* Forzar el color de enfoque a ROJO */
+
         input:focus {
             outline: none !important;
-            border-color: #f20d0d !important;
-            box-shadow: 0 0 0 1px #f20d0d !important;
+            border-color: #ff6a00 !important;
+            box-shadow: 0 0 0 1px #ff6a00 !important;
         }
     </style>
 </head>
+
 <body class="min-h-screen flex flex-col items-center justify-center p-6">
 
     <div class="w-full max-w-[340px] flex flex-col items-center">
         
+        <!-- LOGO -->
         <div class="mb-10 flex flex-col items-center">
             <div class="w-24 h-24 mb-4 flex items-center justify-center">
                 <svg class="w-full h-full" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M20 25C15 15 25 5 40 15C42 16 45 20 45 20" fill="none" stroke="#f20d0d" stroke-linecap="round" stroke-width="5"></path>
-                    <path d="M80 25C85 15 75 5 60 15C58 16 55 20 55 20" fill="none" stroke="#f20d0d" stroke-linecap="round" stroke-width="5"></path>
-                    <path d="M30 35L50 25L70 35L75 60L50 85L25 60L30 35Z" fill="#f20d0d"></path>
+                    <path d="M20 25C15 15 25 5 40 15C42 16 45 20 45 20" fill="none" stroke="#ff6a00" stroke-linecap="round" stroke-width="5"></path>
+                    <path d="M80 25C85 15 75 5 60 15C58 16 55 20 55 20" fill="none" stroke="#ff6a00" stroke-linecap="round" stroke-width="5"></path>
+                    <path d="M30 35L50 25L70 35L75 60L50 85L25 60L30 35Z" fill="#ff6a00"></path>
                     <circle cx="40" cy="45" fill="white" r="2"></circle>
                     <circle cx="60" cy="45" fill="white" r="2"></circle>
                 </svg>
             </div>
+
             <div class="text-center">
-                <h1 class="text-3xl font-[900] tracking-tighter uppercase italic leading-none">Kilómetro</h1>
-                <h2 class="text-xl font-bold tracking-[0.3em] uppercase text-[#f20d0d] mt-1">Cero</h2>
+                <h1 class="text-3xl font-[900] tracking-tighter uppercase italic leading-none">
+                    Kilómetro
+                </h1>
+                <h2 class="text-xl font-bold tracking-[0.3em] uppercase text-[#ff6a00] mt-1">
+                    Cero
+                </h2>
             </div>
         </div>
 
+        <!-- FORMULARIO -->
         <div class="w-full space-y-5">
+
+            <!-- USUARIO -->
             <div class="space-y-2">
-                <label class="text-[10px] font-black uppercase tracking-widest text-zinc-500 ml-1">Usuario</label>
+                <label class="text-[10px] font-black uppercase tracking-widest text-zinc-500 ml-1">
+                    Usuario
+                </label>
                 <div class="relative">
-                    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-zinc-600">person</span>
-                    <input id="user" type="text" placeholder="ID o Usuario" class="w-full bg-[#111] border border-zinc-800 rounded-2xl py-4 pl-12 pr-4 text-white placeholder:text-zinc-700 transition-all focus:bg-black">
+                    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-zinc-600">
+                        person
+                    </span>
+                    <input id="user" type="text" placeholder="ID o Usuario"
+                        class="w-full bg-[#111] border border-zinc-800 rounded-2xl py-4 pl-12 pr-4 text-white placeholder:text-zinc-700 transition-all focus:bg-black">
                 </div>
             </div>
 
+            <!-- CLAVE -->
             <div class="space-y-2">
                 <div class="flex justify-between ml-1">
-                    <label class="text-[10px] font-black uppercase tracking-widest text-zinc-500">Clave</label>
-                    <button class="text-[10px] font-bold text-zinc-600 uppercase hover:text-[#f20d0d]">¿Olvido?</button>
+                    <label class="text-[10px] font-black uppercase tracking-widest text-zinc-500">
+                        Clave
+                    </label>
+                    <button class="text-[10px] font-bold text-zinc-600 uppercase hover:text-[#ff6a00]">
+                        ¿Olvido?
+                    </button>
                 </div>
+
                 <div class="relative">
-                    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-zinc-600">lock</span>
-                    <input id="pass" type="password" placeholder="••••••••" class="w-full bg-[#111] border border-zinc-800 rounded-2xl py-4 pl-12 pr-12 text-white placeholder:text-zinc-700 transition-all focus:bg-black">
-                    <button onclick="togglePass()" class="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-600 hover:text-[#f20d0d]">
+                    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-zinc-600">
+                        lock
+                    </span>
+
+                    <input id="pass" type="password" placeholder="••••••••"
+                        class="w-full bg-[#111] border border-zinc-800 rounded-2xl py-4 pl-12 pr-12 text-white placeholder:text-zinc-700 transition-all focus:bg-black">
+
+                    <button onclick="togglePass()" 
+                        class="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-600 hover:text-[#ff6a00]">
                         <span id="eye" class="material-symbols-outlined">visibility</span>
                     </button>
                 </div>
             </div>
 
-            <button onclick="login()" class="w-full bg-[#f20d0d] hover:bg-[#d00a0a] text-white font-[900] py-5 rounded-2xl tracking-[0.2em] uppercase transition-all active:scale-[0.97] shadow-lg shadow-[#f20d0d]/20 mt-4">
+            <!-- BOTÓN -->
+            <button onclick="login()"
+                class="w-full bg-[#ff6a00] hover:bg-[#e65c00] text-white font-[900] py-5 rounded-2xl tracking-[0.2em] uppercase transition-all active:scale-[0.97] shadow-lg shadow-[#ff6a00]/20 mt-4">
                 Entrar
             </button>
-            
-            <p id="error" class="hidden text-center text-[#f20d0d] text-[10px] font-bold uppercase tracking-widest mt-2">Error de acceso</p>
+
+            <p id="error"
+                class="hidden text-center text-[#ff6a00] text-[10px] font-bold uppercase tracking-widest mt-2">
+                Error de acceso
+            </p>
         </div>
 
-        <button onclick="window.location.href='index.html'" class="mt-12 text-[11px] font-black text-zinc-500 hover:text-white uppercase tracking-widest transition-colors">
+        <!-- VOLVER -->
+        <button onclick="window.location.href='index.html'"
+            class="mt-12 text-[11px] font-black text-zinc-500 hover:text-white uppercase tracking-widest transition-colors">
             VOLVER AL INICIO
         </button>
+
     </div>
 
+    <!-- SCRIPTS -->
     <script>
         function togglePass() {
             const p = document.getElementById('pass');
             const e = document.getElementById('eye');
+
             if (p.type === "password") {
                 p.type = "text";
                 e.innerText = "visibility_off";
@@ -116,15 +155,20 @@
             const p = document.getElementById('pass').value.trim();
             const err = document.getElementById('error');
 
-            if (u === "12345" && p === "12345") window.location.href = 'panel-operativo-tienda.html';
-            else if (u === "54321" && p === "54321") window.location.href = 'panel-operativo-motorizado.html';
-            else if (u === "1716001431" && p === "1716001431") window.location.href = 'admin.html';
-            else if (u === "1722140207" && p === "1722140207") window.location.href = 'finanzas-km0.html';
+            if (u === "12345" && p === "12345") 
+                window.location.href = 'panel-operativo-tienda.html';
+            else if (u === "54321" && p === "54321") 
+                window.location.href = 'panel-operativo-motorizado.html';
+            else if (u === "1716001431" && p === "1716001431") 
+                window.location.href = 'admin.html';
+            else if (u === "1722140207" && p === "1722140207") 
+                window.location.href = 'finanzas-km0.html';
             else {
                 err.classList.remove('hidden');
                 setTimeout(() => err.classList.add('hidden'), 3000);
             }
         }
     </script>
+
 </body>
 </html>
