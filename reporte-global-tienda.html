@@ -15,21 +15,18 @@
                 extend: {
                     colors: {
                         "primary": "#137fec",
-                        "background-light": "#f8f5f8",
                         "background-dark": "#0a0f16",
                     },
-                    fontFamily: {
-                        "display": ["Inter"]
-                    }
+                    fontFamily: { "display": ["Inter"] }
                 },
             },
         }
     </script>
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #0a0f16; color: white; -webkit-tap-highlight-color: transparent; }
-        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
         .font-fill { font-variation-settings: 'FILL' 1; }
         .nav-center-btn { filter: drop-shadow(0 0 15px rgba(19, 127, 236, 0.6)); }
+        input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); }
     </style>
 </head>
 <body class="bg-background-dark text-slate-100 font-display">
@@ -49,7 +46,7 @@
             <button onclick="location.href='catalogo-tienda.html'" class="flex size-10 items-center justify-center rounded-full bg-slate-900 border border-slate-800 text-primary">
                 <span class="material-symbols-outlined">inventory</span>
             </button>
-            <button onclick="toggleDateModal()" class="flex size-10 items-center justify-center rounded-full bg-slate-900 border border-slate-800 text-primary">
+            <button onclick="toggleDateModal()" class="flex size-10 items-center justify-center rounded-full bg-slate-900 border border-primary/50 text-primary shadow-[0_0_10px_rgba(19,127,236,0.3)]">
                 <span class="material-symbols-outlined">calendar_month</span>
             </button>
             <button class="flex size-10 items-center justify-center rounded-full bg-slate-900 border border-slate-800 text-primary">
@@ -58,31 +55,21 @@
         </div>
     </header>
 
-    <section class="p-4 grid grid-cols-2 gap-4">
-        <div class="col-span-2 flex flex-col gap-2 rounded-2xl p-6 bg-primary/10 border border-primary/20 shadow-lg shadow-primary/5">
+    <section class="p-4">
+        <div class="flex flex-col gap-2 rounded-2xl p-6 bg-primary/10 border border-primary/20 shadow-lg shadow-primary/5">
             <p class="text-slate-400 text-xs font-black uppercase tracking-widest">Ventas Totales</p>
             <div class="flex items-end justify-between">
                 <p class="text-3xl font-black italic text-white">$45,280.00</p>
                 <span class="bg-emerald-500/20 text-emerald-400 text-[10px] font-black px-2 py-1 rounded-full flex items-center gap-1 uppercase italic">
-                    <span class="material-symbols-outlined text-xs">trending_up</span>+12.4%
+                    <span class="material-symbols-outlined text-xs font-bold">trending_up</span>+12.4%
                 </span>
             </div>
-        </div>
-        <div class="flex flex-col gap-2 rounded-2xl p-5 bg-slate-900 border border-slate-800">
-            <p class="text-slate-400 text-[10px] font-black uppercase tracking-widest">Pedidos</p>
-            <p class="text-xl font-black italic text-white">1,248</p>
-            <p class="text-primary text-[9px] font-bold">PROCESADOS</p>
-        </div>
-        <div class="flex flex-col gap-2 rounded-2xl p-5 bg-slate-900 border border-slate-800">
-            <p class="text-slate-400 text-[10px] font-black uppercase tracking-widest">Ticket Prom.</p>
-            <p class="text-xl font-black italic text-white">$36.50</p>
-            <p class="text-emerald-400 text-[9px] font-bold">+5.2% CREC.</p>
         </div>
     </section>
 
     <section class="px-4 py-2">
         <div class="rounded-2xl bg-slate-900 p-6 border border-slate-800 shadow-xl">
-            <h3 class="text-xs font-black uppercase tracking-widest text-slate-400 mb-6 italic">Distribución por Sectores</h3>
+            <h3 class="text-xs font-black uppercase tracking-widest text-slate-400 mb-6 italic">Envíos por Sector</h3>
             <div class="flex items-center gap-8">
                 <div class="relative size-32 shrink-0">
                     <svg class="size-full -rotate-90" viewbox="0 0 36 36">
@@ -92,27 +79,15 @@
                         <circle class="stroke-primary/30" cx="18" cy="18" fill="none" r="16" stroke-dasharray="20, 100" stroke-dashoffset="-65" stroke-linecap="round" stroke-width="4"></circle>
                     </svg>
                     <div class="absolute inset-0 flex items-center justify-center flex-col">
-                        <span class="text-lg font-black italic">1.2k</span>
-                        <span class="text-[8px] text-slate-500 font-black uppercase">Envíos</span>
+                        <span class="text-lg font-black italic">1,248</span>
+                        <span class="text-[8px] text-slate-500 font-black uppercase italic">Total</span>
                     </div>
                 </div>
-                <div class="flex flex-col gap-3">
-                    <div class="flex items-center gap-2">
-                        <div class="size-2.5 rounded-full bg-primary"></div>
-                        <span class="text-[10px] font-black uppercase italic">Norte</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <div class="size-2.5 rounded-full bg-primary/60"></div>
-                        <span class="text-[10px] font-black uppercase italic">Sur</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <div class="size-2.5 rounded-full bg-primary/30"></div>
-                        <span class="text-[10px] font-black uppercase italic">Centro</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <div class="size-2.5 rounded-full bg-slate-700"></div>
-                        <span class="text-[10px] font-black uppercase italic">Valles</span>
-                    </div>
+                <div class="grid grid-cols-1 gap-2">
+                    <div class="flex items-center gap-2"><div class="size-2 rounded-full bg-primary"></div><span class="text-[10px] font-bold uppercase">Norte</span></div>
+                    <div class="flex items-center gap-2"><div class="size-2 rounded-full bg-primary/60"></div><span class="text-[10px] font-bold uppercase">Sur</span></div>
+                    <div class="flex items-center gap-2"><div class="size-2 rounded-full bg-primary/30"></div><span class="text-[10px] font-bold uppercase">Centro</span></div>
+                    <div class="flex items-center gap-2"><div class="size-2 rounded-full bg-slate-700"></div><span class="text-[10px] font-bold uppercase">Valles</span></div>
                 </div>
             </div>
         </div>
@@ -120,36 +95,36 @@
 
     <section class="p-4">
         <div class="rounded-2xl bg-slate-900 p-6 border border-slate-800">
-            <h3 class="text-xs font-black uppercase tracking-widest text-slate-400 mb-6 italic">Productos más Vendidos</h3>
+            <h3 class="text-xs font-black uppercase tracking-widest text-slate-400 mb-6 italic">Top Enviados</h3>
             <div class="flex flex-col gap-5">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-4">
-                        <div class="size-12 rounded-xl bg-primary/10 flex items-center justify-center border border-white/5">
-                            <span class="material-symbols-outlined text-primary">oil_barrel</span>
+                        <div class="size-14 rounded-xl bg-slate-800 overflow-hidden border border-white/5">
+                            <img class="size-full object-cover" src="https://images.unsplash.com/photo-1599819811279-d5ad9cccf838?auto=format&fit=crop&w=100&q=80" alt="Helmet">
                         </div>
                         <div>
-                            <p class="text-xs font-black uppercase italic">Aceite 4T 1L</p>
-                            <p class="text-[9px] text-slate-500 font-bold uppercase tracking-tighter">Mantenimiento</p>
+                            <p class="text-xs font-black uppercase italic">HELMET NITRO L</p>
+                            <p class="text-[9px] text-slate-500 font-bold uppercase">Seguridad</p>
                         </div>
                     </div>
                     <div class="text-right">
-                        <p class="text-sm font-black italic">142</p>
-                        <p class="text-[8px] text-primary font-black uppercase">Unid.</p>
+                        <p class="text-sm font-black italic text-primary">142</p>
+                        <p class="text-[8px] text-slate-500 font-black uppercase">Envíos</p>
                     </div>
                 </div>
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-4">
-                        <div class="size-12 rounded-xl bg-primary/10 flex items-center justify-center border border-white/5">
-                            <span class="material-symbols-outlined text-primary">helmet</span>
+                        <div class="size-14 rounded-xl bg-slate-800 overflow-hidden border border-white/5">
+                            <img class="size-full object-cover" src="https://images.unsplash.com/photo-1635350736475-c8cee44e1944?auto=format&fit=crop&w=100&q=80" alt="Aceite">
                         </div>
                         <div>
-                            <p class="text-xs font-black uppercase italic">Casco Nitro L</p>
-                            <p class="text-[9px] text-slate-500 font-bold uppercase tracking-tighter">Seguridad</p>
+                            <p class="text-xs font-black uppercase italic">ACEITE 4T 1L</p>
+                            <p class="text-[9px] text-slate-500 font-bold uppercase">Mantenimiento</p>
                         </div>
                     </div>
                     <div class="text-right">
-                        <p class="text-sm font-black italic">98</p>
-                        <p class="text-[8px] text-primary font-black uppercase">Unid.</p>
+                        <p class="text-sm font-black italic text-primary">98</p>
+                        <p class="text-[8px] text-slate-500 font-black uppercase">Envíos</p>
                     </div>
                 </div>
             </div>
@@ -175,23 +150,44 @@
             <span class="text-[8px] font-black uppercase">Finanzas</span>
         </a>
         <a class="flex flex-col items-center gap-1 text-slate-500" href="perfil-tienda.html">
-            <span class="material-symbols-outlined text-2xl">person</span>
+            <span class="material-symbols-outlined text-2xl font-fill">person</span>
             <span class="text-[8px] font-black uppercase">Tienda</span>
         </a>
     </nav>
-
 </div>
 
 <div id="date-modal" class="fixed inset-0 z-[100] flex items-end justify-center px-4 pb-10 opacity-0 pointer-events-none transition-all duration-300">
     <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="toggleDateModal()"></div>
     <div id="modal-content" class="relative w-full max-w-sm bg-slate-900 border border-primary/30 rounded-3xl p-6 shadow-2xl translate-y-10 transition-all duration-300">
-        <h3 class="text-xs font-black uppercase italic text-primary mb-6 tracking-widest">Seleccionar Período</h3>
-        <div class="grid grid-cols-1 gap-2">
-            <button onclick="seleccionarRango('Hoy')" class="w-full p-4 bg-white/5 rounded-xl text-left text-[10px] font-black uppercase italic border border-white/5 active:bg-primary/20">Hoy</button>
-            <button onclick="seleccionarRango('Esta Semana')" class="w-full p-4 bg-white/5 rounded-xl text-left text-[10px] font-black uppercase italic border border-white/5 active:bg-primary/20">Esta Semana</button>
-            <button onclick="seleccionarRango('Este Mes')" class="w-full p-4 bg-primary rounded-xl text-left text-[10px] font-black uppercase italic shadow-lg shadow-primary/20">Este Mes</button>
+        <h3 class="text-xs font-black uppercase italic text-primary mb-6 tracking-widest">Rango de Reporte</h3>
+        
+        <div class="space-y-4">
+            <div class="grid grid-cols-2 gap-2">
+                <button onclick="seleccionarRapido('Hoy')" class="p-3 bg-white/5 rounded-xl text-[9px] font-black uppercase italic border border-white/5 active:bg-primary/20">Hoy</button>
+                <button onclick="seleccionarRapido('Este Mes')" class="p-3 bg-primary rounded-xl text-[9px] font-black uppercase italic">Este Mes</button>
+            </div>
+            
+            <div class="h-px bg-white/10 w-full"></div>
+
+            <div class="space-y-3">
+                <p class="text-[9px] font-black text-slate-500 uppercase italic">Rango Personalizado</p>
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <label class="text-[8px] font-bold text-slate-400 uppercase">Inicio</label>
+                        <input type="date" id="date-start" class="w-full bg-black/40 border-white/10 rounded-lg text-[10px] text-white focus:border-primary">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[8px] font-bold text-slate-400 uppercase">Fin</label>
+                        <input type="date" id="date-end" class="w-full bg-black/40 border-white/10 rounded-lg text-[10px] text-white focus:border-primary">
+                    </div>
+                </div>
+                <button onclick="aplicarFiltroManual()" class="w-full py-4 bg-primary/20 border border-primary/40 rounded-xl text-[10px] font-black uppercase italic text-primary hover:bg-primary hover:text-white transition-all">
+                    Aplicar Rango
+                </button>
+            </div>
         </div>
-        <button onclick="toggleDateModal()" class="w-full mt-4 py-4 text-[10px] font-black uppercase text-slate-500 italic">Cancelar</button>
+        
+        <button onclick="toggleDateModal()" class="w-full mt-4 py-2 text-[9px] font-black uppercase text-slate-600">Cerrar</button>
     </div>
 </div>
 
@@ -205,9 +201,21 @@
         content.classList.toggle('translate-y-0');
     }
 
-    function seleccionarRango(texto) {
+    function seleccionarRapido(texto) {
         document.getElementById('range-label').innerText = texto;
         toggleDateModal();
+    }
+
+    function aplicarFiltroManual() {
+        const start = document.getElementById('date-start').value;
+        const end = document.getElementById('date-end').value;
+        
+        if(start && end) {
+            document.getElementById('range-label').innerText = `${start} AL ${end}`;
+            toggleDateModal();
+        } else {
+            alert("Por favor selecciona ambas fechas");
+        }
     }
 </script>
 
