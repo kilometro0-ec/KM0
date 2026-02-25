@@ -7,13 +7,13 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-    <script>
+    <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#ef4444", // Naranja Rojizo Original (Accent Red)
+                        "primary": "#ef4444", // Rojo Naranja Forzado
                         "background-dark": "#0a0f16",
                     },
                 },
@@ -21,53 +21,52 @@
         }
     </script>
 </head>
-<body class="bg-background-dark text-white font-['Inter'] flex items-center justify-center min-h-screen p-6">
+<body class="bg-[#0a0f16] text-white font-['Inter'] flex items-center justify-center min-h-screen p-6">
 
     <div class="w-full max-w-sm space-y-8">
         <div class="text-center">
-            <div class="size-20 bg-primary/20 rounded-full flex items-center justify-center border border-primary/30 mx-auto mb-4">
-                <span class="material-symbols-outlined text-primary text-5xl">pest_control_rodent</span>
+            <div class="size-20 bg-[#ef4444]/20 rounded-full flex items-center justify-center border border-[#ef4444]/30 mx-auto mb-4">
+                <span class="material-symbols-outlined text-[#ef4444] text-5xl">pest_control_rodent</span>
             </div>
             <h1 class="text-3xl font-black italic tracking-tighter text-white">KILÓMETRO CERO</h1>
-            <p class="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] mt-2">Gestión Logística 360</p>
+            <p class="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] mt-2">Acceso Administrativo</p>
         </div>
 
         <div class="space-y-4">
             <div>
                 <label class="text-[10px] font-black text-slate-500 uppercase ml-1">Usuario / Cédula</label>
-                <input type="text" id="user" placeholder="Ingrese su credencial" class="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-4 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-white">
+                <input type="text" id="user" placeholder="Ingrese su ID" class="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-4 focus:border-[#ef4444] focus:ring-1 focus:ring-[#ef4444] outline-none transition-all text-white">
             </div>
             
             <div class="relative">
                 <label class="text-[10px] font-black text-slate-500 uppercase ml-1">Contraseña</label>
                 <div class="relative">
-                    <input type="password" id="pass" placeholder="••••••••" class="w-full bg-white/5 border border-white/10 rounded-xl py-4 pl-4 pr-12 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-white">
-                    <button type="button" onclick="togglePassword()" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-primary transition-colors">
+                    <input type="password" id="pass" placeholder="••••••••" class="w-full bg-white/5 border border-white/10 rounded-xl py-4 pl-4 pr-12 focus:border-[#ef4444] focus:ring-1 focus:ring-[#ef4444] outline-none transition-all text-white">
+                    <button type="button" onclick="togglePassword()" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-[#ef4444] transition-colors">
                         <span id="eye-icon" class="material-symbols-outlined text-xl">visibility</span>
                     </button>
                 </div>
             </div>
             
-            <button onclick="validarYRedirigir()" class="w-full bg-primary hover:bg-primary/90 text-white font-black py-4 rounded-xl shadow-xl shadow-primary/30 transition-all active:scale-95">
+            <button onclick="validarYRedirigir()" class="w-full bg-[#ef4444] hover:bg-[#dc2626] text-white font-black py-4 rounded-xl shadow-xl shadow-[#ef4444]/20 transition-all active:scale-95">
                 INICIAR SESIÓN
             </button>
         </div>
 
-        <p id="error-msg" class="text-center text-primary text-[10px] font-black hidden uppercase bg-primary/10 py-3 rounded-lg border border-primary/20">
+        <p id="error-msg" class="text-center text-[#ef4444] text-[10px] font-black hidden uppercase bg-[#ef4444]/10 py-3 rounded-lg border border-[#ef4444]/20">
             Error: Credenciales no válidas
         </p>
 
         <div class="text-center">
-            <button onclick="window.location.href='index.html'" class="text-slate-500 text-[10px] font-bold uppercase hover:text-white">← Volver al inicio</button>
+            <button onclick="window.location.href='index.html'" class="text-slate-500 text-[10px] font-bold uppercase hover:text-white">← Volver al sitio</button>
         </div>
     </div>
 
     <script>
-        // Función para mostrar/ocultar contraseña
+        // Función Ojo de contraseña
         function togglePassword() {
             const passInput = document.getElementById('pass');
             const eyeIcon = document.getElementById('eye-icon');
-            
             if (passInput.type === "password") {
                 passInput.type = "text";
                 eyeIcon.innerText = "visibility_off";
@@ -82,7 +81,7 @@
             const pass = document.getElementById('pass').value.trim();
             const error = document.getElementById('error-msg');
 
-            // --- MATRIZ DE ACCESOS ---
+            // Lógica de Redirección Solicitada
             if (user === "12345" && pass === "12345") {
                 window.location.href = 'panel-operativo-tienda.html';
             }
