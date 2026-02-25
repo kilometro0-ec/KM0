@@ -13,7 +13,7 @@
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#ef4444", // Naranja Rojizo Original (Accent Red)
+                        "primary": "#ef4444", // Naranja Rojizo Original
                         "background-dark": "#0a0f16",
                     },
                 },
@@ -63,11 +63,9 @@
     </div>
 
     <script>
-        // Función para mostrar/ocultar contraseña
         function togglePassword() {
             const passInput = document.getElementById('pass');
             const eyeIcon = document.getElementById('eye-icon');
-            
             if (passInput.type === "password") {
                 passInput.type = "text";
                 eyeIcon.innerText = "visibility_off";
@@ -82,11 +80,17 @@
             const pass = document.getElementById('pass').value.trim();
             const error = document.getElementById('error-msg');
 
-            // --- MATRIZ DE ACCESOS ---
+            // Limpiar sesión anterior
+            localStorage.removeItem('user_id');
+
+            // --- LÓGICA DE PERSISTENCIA Y REDIRECCIÓN ---
             if (user === "12345" && pass === "12345") {
+                // GUARDAR EL ID PARA EL PANEL AZUL
+                localStorage.setItem('user_id', user);
                 window.location.href = 'panel-operativo-tienda.html';
             }
             else if (user === "54321" && pass === "54321") {
+                localStorage.setItem('user_id', user);
                 window.location.href = 'panel-operativo-motorizado.html';
             }
             else if (user === "1716001431" && pass === "1716001431") {
