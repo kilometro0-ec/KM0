@@ -3,136 +3,191 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Reporte Global - Kilómetro Cero</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet"/>
+    <title>Tienda: Panel Operativo 360</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-    <script>
+    <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#137fec",
+                        "primary": "#137fec", // AZUL ELÉCTRICO
+                        "background-light": "#f8f5f8",
                         "background-dark": "#0a0f16",
                         "neutral-dark": "#121923",
+                        "status-green": "#22c55e",
+                        "status-purple": "#a855f7",
+                        "status-gray": "#94a3b8"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
                     }
-                }
-            }
+                },
+            },
         }
     </script>
     <style>
-        body { font-family: 'Inter'; background-color: #0a0f16; color: white; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
+        body { min-height: 100dvh; }
+        /* Animación estilo Notificación de Celular */
+        @keyframes slideDown {
+            from { transform: translateY(-120%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .notif-mobile {
+            animation: slideDown 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
     </style>
 </head>
-<body class="min-h-screen flex flex-col pb-32">
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
 
-<div id="toast-container" class="fixed top-20 right-4 left-4 z-[100] flex flex-col gap-2 pointer-events-none"></div>
+<div id="notification-root" class="fixed top-4 left-0 right-0 z-[100] px-4 pointer-events-none flex flex-col gap-3"></div>
 
-<header class="sticky top-0 z-50 bg-background-dark/90 backdrop-blur-md border-b border-primary/20 px-4 py-3 flex items-center justify-between">
+<header class="sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-primary/20 px-4 py-3 flex items-center justify-between">
     <div class="flex items-center gap-3">
-        <div class="size-10 rounded-full bg-primary/20 flex items-center justify-center border border-primary/40">
-            <span class="material-symbols-outlined text-primary">analytics</span>
+        <div class="size-10 rounded-full bg-primary/20 flex items-center justify-center border border-primary/30 overflow-hidden">
+            <img alt="Logo" class="size-8 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBF8F021zRfOnOEooYcUQznS-fnfpBMFtih2COy228Ha8pPktBFDO0ATk544gEhY1le4GPdp8SATrocx3RJLlmuu5b6MGfdInWcoWI__PaD-raC3OjeuiS19mwr4hG-GL96p1yEsNkq0ALgaBcX-3zv-fWOwaaiLfokr2mCSpY1oana7o9a1m27z5f6HWGTgux66Uh_HLz-H-t-DLRBgUQjaEUuu3bO5fzdPhVC1HRG_KQrS4HoJ843gxQAti8LNclcEjO_yTOa-bgR"/>
         </div>
         <div>
-            <h1 class="text-sm font-black italic uppercase tracking-tighter italic">REPORTE GLOBAL</h1>
-            <p class="text-[9px] text-primary font-black uppercase tracking-widest leading-none">Kilómetro Cero</p>
+            <h1 class="text-sm font-black italic">Kilómetro Cero</h1>
+            <p class="text-[10px] text-primary uppercase tracking-widest font-black">Tienda Oficial</p>
         </div>
     </div>
-    
-    <button onclick="activarCampana()" class="relative size-10 bg-neutral-dark rounded-full flex items-center justify-center border border-white/10 active:scale-90 transition-all">
-        <span class="material-symbols-outlined text-primary">notifications_active</span>
-        <span class="absolute top-2 right-2 size-2 bg-primary rounded-full animate-ping"></span>
-    </button>
+    <div class="flex gap-2">
+        <button onclick="simularEntrada()" class="relative size-10 flex items-center justify-center rounded-full bg-neutral-dark border border-white/5 text-slate-100">
+            <span class="material-symbols-outlined text-2xl">notifications</span>
+            <span class="absolute top-2 right-2 size-2 bg-red-500 rounded-full animate-pulse"></span>
+        </button>
+    </div>
 </header>
 
-<main class="p-4 flex-1">
-    <div class="bg-neutral-dark rounded-2xl border border-white/5 overflow-hidden">
-        <div class="p-4 border-b border-white/5 bg-white/5">
-            <h3 class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Actividad de hoy</h3>
-        </div>
-        
-        <div class="divide-y divide-white/5">
-            <div class="p-4 flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    <span class="material-symbols-outlined text-green-500">check_circle</span>
-                    <div>
-                        <p class="text-xs font-black uppercase italic text-white">#KC-8890 - ENTREGADO</p>
-                        <p class="text-[9px] text-slate-500 font-bold uppercase">Finalizado hace 5 min</p>
-                    </div>
-                </div>
-                <p class="text-[10px] font-black text-primary">+$15.00</p>
-            </div>
+<main class="flex-1 overflow-y-auto pb-32">
+    <div class="p-4 grid grid-cols-2 gap-3">
+        <button onclick="enviarNotif('Pedido Creado', 'El pedido #KC-992 ha sido registrado.', 'primary')" class="flex flex-col items-center justify-center gap-2 bg-primary text-white p-4 rounded-2xl font-black shadow-lg shadow-primary/30 active:scale-95 transition-transform uppercase italic text-[10px]">
+            <span class="material-symbols-outlined text-3xl">add_shopping_cart</span>
+            NUEVO PEDIDO
+        </button>
+        <button onclick="enviarNotif('Alerta Incidencia', 'Se ha reportado un problema con el motorizado.', 'status-purple')" class="flex flex-col items-center justify-center gap-2 bg-neutral-dark text-white p-4 rounded-2xl font-black border border-white/10 active:scale-95 transition-transform uppercase italic text-[10px]">
+            <span class="material-symbols-outlined text-3xl">report_problem</span>
+            INCIDENCIA
+        </button>
+    </div>
 
-            <div class="p-4 flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    <span class="material-symbols-outlined text-purple-500">warning</span>
-                    <div>
-                        <p class="text-xs font-black uppercase italic text-white">#KC-8891 - NOVEDAD</p>
-                        <p class="text-[9px] text-slate-500 font-bold uppercase">Cliente no responde</p>
-                    </div>
+    <div class="px-4 mb-6">
+        <h2 class="text-xs font-black uppercase tracking-widest text-slate-500 mb-4 flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary">analytics</span>
+            Resumen Operativo
+        </h2>
+        <div class="grid grid-cols-1 gap-3">
+            <div class="flex items-center justify-between p-5 rounded-2xl bg-neutral-dark border border-white/5">
+                <div>
+                    <p class="text-slate-400 text-[10px] font-black uppercase">Pedidos en Curso</p>
+                    <p class="text-3xl font-black italic">12</p>
                 </div>
-                <button class="text-[8px] font-black bg-white/5 px-2 py-1 rounded uppercase">Ver</button>
+                <div class="size-14 rounded-xl bg-primary/10 flex items-center justify-center text-primary border border-primary/20">
+                    <span class="material-symbols-outlined text-3xl">local_shipping</span>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div class="p-4 rounded-2xl bg-neutral-dark border border-white/5">
+                    <p class="text-slate-400 text-[10px] font-black uppercase mb-1">Entregados hoy</p>
+                    <p class="text-2xl font-black text-status-green italic">45</p>
+                </div>
+                <div class="p-4 rounded-2xl bg-neutral-dark border border-primary/20 shadow-lg shadow-primary/5">
+                    <p class="text-primary text-[10px] font-black uppercase mb-1 italic">A Liquidar</p>
+                    <p class="text-2xl font-black text-white italic">$1,250</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="px-4">
+        <div class="flex items-center justify-between mb-4">
+            <h2 class="text-sm font-black uppercase tracking-widest text-slate-500 italic">Estado de Pedidos</h2>
+            <button class="text-primary text-[10px] font-black uppercase hover:underline">Ver Historial</button>
+        </div>
+        <div class="space-y-3">
+            <div class="p-4 rounded-2xl bg-neutral-dark/40 border border-white/5">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="font-black italic text-sm">#KC-8842</p>
+                        <p class="text-[10px] text-slate-500 font-bold">Av. Principal 123 • Entregado</p>
+                    </div>
+                    <span class="px-2 py-1 rounded-lg bg-status-green/20 text-status-green text-[9px] font-black uppercase italic">Completado</span>
+                </div>
             </div>
         </div>
     </div>
 </main>
 
 <nav class="fixed bottom-0 left-0 right-0 border-t border-white/5 bg-background-dark/95 backdrop-blur-xl px-2 pb-8 pt-3 z-50">
-    <div class="flex justify-around items-center w-full max-w-lg mx-auto">
-        <a class="flex flex-col items-center gap-1 text-primary" href="reporte-global-tienda.html">
+    <div class="flex justify-around items-center max-w-lg mx-auto">
+        <a class="flex flex-col items-center gap-1 text-primary" href="panel-operativo-tienda.html">
             <span class="material-symbols-outlined text-2xl font-variation-fill">dashboard</span>
-            <span class="text-[8px] font-black uppercase tracking-tighter">Dashboard</span>
+            <span class="text-[8px] font-black uppercase">Dashboard</span>
         </a>
-        <a class="flex flex-col items-center gap-1 text-slate-500 hover:text-primary transition-colors" href="panel-operativo-tienda.html">
-            <span class="material-symbols-outlined text-2xl">grid_view</span>
-            <span class="text-[8px] font-black uppercase tracking-tighter">Panel</span>
-        </a>
-        <a class="flex flex-col items-center gap-1 text-slate-500 hover:text-primary transition-colors" href="pedidos-tienda.html">
+        <a class="flex flex-col items-center gap-1 text-slate-500" href="reporte-global-tienda.html">
             <span class="material-symbols-outlined text-2xl">receipt_long</span>
-            <span class="text-[8px] font-black uppercase tracking-tighter">Pedidos</span>
+            <span class="text-[8px] font-black uppercase">Pedidos</span>
         </a>
-        <a class="flex flex-col items-center gap-1 text-slate-500 hover:text-primary transition-colors" href="finanzas-tienda.html">
+        <a class="flex flex-col items-center gap-1 text-slate-500" href="finanzas-tienda.html">
             <span class="material-symbols-outlined text-2xl">payments</span>
-            <span class="text-[8px] font-black uppercase tracking-tighter">Finanzas</span>
+            <span class="text-[8px] font-black uppercase">Finanzas</span>
         </a>
-        <a class="flex flex-col items-center gap-1 text-slate-500 hover:text-primary transition-colors" href="perfil-tienda.html">
+        <a class="flex flex-col items-center gap-1 text-slate-500" href="perfil-tienda.html">
             <span class="material-symbols-outlined text-2xl">person</span>
-            <span class="text-[8px] font-black uppercase tracking-tighter">Tienda</span>
+            <span class="text-[8px] font-black uppercase">Tienda</span>
         </a>
     </div>
 </nav>
 
 <script>
-    function showNotif(title, msg, type = 'primary') {
-        const box = document.getElementById('toast-container');
-        const colors = { primary: 'bg-primary', green: 'bg-green-600', purple: 'bg-purple-600' };
-        const toast = document.createElement('div');
-        toast.className = `${colors[type]} p-4 rounded-xl shadow-2xl flex items-center gap-3 border border-white/10 pointer-events-auto animate-bounce-short`;
-        toast.innerHTML = `
-            <span class="material-symbols-outlined text-white">notifications</span>
-            <div>
-                <p class="text-[9px] font-black uppercase text-white tracking-widest">${title}</p>
-                <p class="text-[10px] text-white/90 font-bold">${msg}</p>
+    function enviarNotif(titulo, msj, color) {
+        const root = document.getElementById('notification-root');
+        const card = document.createElement('div');
+        
+        // Estilo exacto como notificación de celular (WhatsApp Style)
+        card.className = "notif-mobile pointer-events-auto w-full max-w-sm mx-auto bg-white/95 dark:bg-neutral-dark/95 backdrop-blur-md rounded-2xl shadow-2xl border-l-4 border-primary p-3 flex items-center gap-4 border border-white/10";
+        
+        card.innerHTML = `
+            <div class="size-10 rounded-full bg-primary flex items-center justify-center text-white shadow-lg shadow-primary/30">
+                <span class="material-symbols-outlined text-xl">notifications_active</span>
+            </div>
+            <div class="flex-1">
+                <div class="flex justify-between items-center">
+                    <p class="text-[10px] font-black uppercase text-primary tracking-widest">${titulo}</p>
+                    <p class="text-[9px] text-slate-400 font-bold">Ahora</p>
+                </div>
+                <p class="text-xs font-bold text-slate-800 dark:text-slate-100">${msj}</p>
             </div>
         `;
-        box.appendChild(toast);
-        setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 500); }, 3500);
+        
+        root.appendChild(card);
+
+        // Auto-remover después de 4 segundos (como en el celular)
+        setTimeout(() => {
+            card.style.transform = "translateY(-150%)";
+            card.style.opacity = "0";
+            card.style.transition = "all 0.5s ease";
+            setTimeout(() => card.remove(), 500);
+        }, 4000);
     }
 
-    function activarCampana() {
-        const eventos = [
-            {t: 'Pedido Entregado', m: 'El pedido #KC-8890 fue recibido.', c: 'green'},
-            {t: 'Novedad Detectada', m: 'Paquete #KC-8891 con problemas.', c: 'purple'},
-            {t: 'Pago Realizado', m: 'Liquidación de $150.00 completada.', c: 'primary'}
+    function simularEntrada() {
+        const alertas = [
+            ["Pago Confirmado", "Se han liquidado $450.00 con éxito."],
+            ["Nuevo Pedido", "El pedido #KC-102 está listo para despacho."],
+            ["Novedad de Entrega", "Motorizado reporta: Cliente no se encuentra."]
         ];
-        const random = eventos[Math.floor(Math.random() * eventos.length)];
-        showNotif(random.t, random.m, random.c);
+        const r = alertas[Math.floor(Math.random() * alertas.length)];
+        enviarNotif(r[0], r[1]);
     }
 
+    // Bienvenida
     window.onload = () => {
-        setTimeout(() => showNotif('MODO GLOBAL', 'Visualizando métricas y reportes del día', 'primary'), 500);
+        setTimeout(() => enviarNotif("Sistema Online", "Bienvenido al Panel de Control Azul Eléctrico."), 800);
     };
 </script>
 
