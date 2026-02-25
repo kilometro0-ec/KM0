@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>KM0 - Finanzas Operativas</title>
+    <title>KM0 - Auditoría Financiera</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&display=swap" rel="stylesheet"/>
@@ -16,8 +16,7 @@
                     colors: {
                         "primary": "#137fec",
                         "background-dark": "#0a0f16",
-                    },
-                    fontFamily: { "display": ["Inter"] }
+                    }
                 },
             },
         }
@@ -26,27 +25,26 @@
         body { font-family: 'Inter', sans-serif; background-color: #0a0f16; color: white; -webkit-tap-highlight-color: transparent; }
         .font-fill { font-variation-settings: 'FILL' 1; }
         .nav-center-btn { filter: drop-shadow(0 0 15px rgba(19, 127, 236, 0.6)); }
+        .hide-scroll::-webkit-scrollbar { display: none; }
     </style>
 </head>
-<body class="bg-background-dark text-slate-100 font-display">
+<body class="bg-background-dark text-slate-100">
+
 <div class="relative flex min-h-screen flex-col overflow-x-hidden pb-32">
 
     <header class="flex items-center justify-between p-4 bg-background-dark/50 backdrop-blur-md sticky top-0 z-50 border-b border-primary/20">
         <div class="flex items-center gap-3">
             <div class="flex size-10 items-center justify-center rounded-lg bg-primary/20 text-primary border border-primary/30">
-                <span class="material-symbols-outlined text-3xl font-fill">payments</span>
+                <span class="material-symbols-outlined text-3xl font-fill">account_balance</span>
             </div>
             <div>
-                <h1 class="text-lg font-black italic uppercase leading-none">FINANZAS</h1>
-                <p class="text-[10px] text-primary font-bold uppercase tracking-widest mt-1">Gestión de Cobros</p>
+                <h1 class="text-lg font-black italic uppercase leading-none">AUDITORÍA</h1>
+                <p class="text-[10px] text-primary font-bold uppercase tracking-widest mt-1">Detalle de Cobros</p>
             </div>
         </div>
         <div class="flex gap-2">
-            <button onclick="location.href='catalogo-tienda.html'" class="flex size-10 items-center justify-center rounded-full bg-slate-900 border border-slate-800 text-primary">
+            <button class="flex size-10 items-center justify-center rounded-full bg-slate-900 border border-slate-800 text-primary">
                 <span class="material-symbols-outlined">inventory</span>
-            </button>
-            <button onclick="toggleDateModal()" class="flex size-10 items-center justify-center rounded-full bg-slate-900 border border-slate-800 text-primary">
-                <span class="material-symbols-outlined">calendar_month</span>
             </button>
             <button class="flex size-10 items-center justify-center rounded-full bg-slate-900 border border-slate-800 text-primary">
                 <span class="material-symbols-outlined font-fill text-yellow-500">notifications_active</span>
@@ -55,128 +53,143 @@
     </header>
 
     <section class="p-4">
-        <div class="flex flex-col gap-2 rounded-2xl p-6 bg-primary/10 border border-primary/20 shadow-lg shadow-primary/5">
-            <p class="text-slate-400 text-xs font-black uppercase tracking-widest">Por cobrar a KM0</p>
+        <div onclick="openAuditModal('Pendientes por Cobrar', 'Resumen de 3 entregas acumuladas')" class="flex flex-col gap-2 rounded-2xl p-6 bg-primary/10 border border-primary/20 shadow-lg active:scale-[0.98] transition-all cursor-pointer">
+            <div class="flex justify-between items-center">
+                <p class="text-slate-400 text-[10px] font-black uppercase tracking-widest">Por cobrar a KM0</p>
+                <span class="material-symbols-outlined text-primary text-sm">visibility</span>
+            </div>
             <div class="flex items-end justify-between">
                 <p class="text-3xl font-black italic text-white">$1,152.00</p>
-                <span class="bg-primary/20 text-primary text-[10px] font-black px-3 py-1 rounded-full uppercase italic">
-                    Acumulado
-                </span>
+                <span class="text-[9px] text-primary font-black uppercase">Ver 3 Entregas</span>
             </div>
-            <p class="text-[9px] text-slate-500 font-bold uppercase mt-2 italic">Basado en comisión fija de $4.00 x pedido</p>
         </div>
     </section>
 
     <section class="px-4 py-2">
-        <div class="rounded-2xl bg-slate-900 p-5 border border-slate-800">
+        <div onclick="openAuditModal('Liquidación #9023', 'Detalle de entregas liquidadas')" class="rounded-2xl bg-slate-900 p-5 border border-slate-800 active:bg-slate-800 transition-all">
             <div class="flex justify-between items-center mb-4">
-                <h3 class="text-[10px] font-black uppercase tracking-widest text-slate-400 italic">Desglose de Último Pedido</h3>
-                <span class="text-[9px] font-bold text-emerald-400 italic underline">ID #BK-4502</span>
+                <h3 class="text-[10px] font-black uppercase tracking-widest text-slate-400 italic">Última Liquidación</h3>
+                <span class="text-[9px] font-bold text-primary italic underline">Ver detalle de pedidos</span>
             </div>
-            <div class="space-y-4">
-                <div class="flex justify-between">
-                    <span class="text-xs text-slate-400 uppercase font-bold">Venta del Producto</span>
-                    <span class="text-xs font-black italic text-white">$45.00</span>
-                </div>
-                
+            <div class="space-y-3">
                 <div class="flex justify-between items-center bg-black/30 p-2 rounded-lg border border-white/5">
-                    <div class="flex items-center gap-2">
-                        <span class="text-xs text-primary uppercase font-black italic">Fee KM0 (Fijo)</span>
-                        <span class="material-symbols-outlined text-xs text-slate-600">edit</span>
-                    </div>
-                    <div class="flex items-center">
-                        <span class="text-xs font-black italic text-red-500">-$</span>
-                        <input type="number" value="4.00" class="w-12 bg-transparent border-none text-xs font-black italic text-red-500 p-0 focus:ring-0 text-right">
-                    </div>
+                    <span class="text-[10px] text-primary font-black italic">Fee KM0 fijo x pedido</span>
+                    <input type="number" value="4.00" class="w-10 bg-transparent border-none text-[10px] font-black italic text-red-500 p-0 text-right focus:ring-0">
                 </div>
-
-                <div class="h-px bg-slate-800 w-full my-1"></div>
-                <div class="flex justify-between items-end">
-                    <span class="text-xs font-black uppercase italic text-primary">A favor de tienda</span>
-                    <span class="text-xl font-black italic text-white leading-none">$41.00</span>
+                <div class="flex justify-between">
+                    <span class="text-xs font-black uppercase italic text-primary">Total Recibido</span>
+                    <span class="text-xl font-black italic text-white">$900.00</span>
                 </div>
             </div>
         </div>
     </section>
 
     <section class="p-4">
-        <h2 class="text-xs font-black uppercase tracking-widest text-slate-400 italic mb-4">Pagos Recibidos</h2>
+        <h2 class="text-xs font-black uppercase tracking-widest text-slate-400 italic mb-4">Historial de Pagos</h2>
         <div class="space-y-3">
-            <div onclick="openReceipt('https://i.pinimg.com/736x/88/2c/83/882c83c27057da589b2759a229a4358a.jpg')" class="flex items-center justify-between p-4 rounded-2xl bg-slate-900 border border-slate-800 active:bg-slate-800 transition-all">
-                <div class="flex items-center gap-3">
-                    <div class="size-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
-                        <span class="material-symbols-outlined font-fill">receipt_long</span>
+            <div class="flex flex-col gap-2 p-4 rounded-2xl bg-slate-900 border border-slate-800">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="size-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                            <span class="material-symbols-outlined font-fill">receipt_long</span>
+                        </div>
+                        <div>
+                            <p class="text-[11px] font-black uppercase italic text-white">Transferencia #772</p>
+                            <p class="text-[9px] text-slate-500 font-bold uppercase underline" onclick="openAuditModal('Respaldos #772', 'Validación de entregas')">Ver 5 Entregas</p>
+                        </div>
                     </div>
-                    <div>
-                        <p class="text-[11px] font-black uppercase italic text-white">Transferencia #772</p>
-                        <p class="text-[9px] text-slate-500 font-bold uppercase tracking-tighter">Hoy • 10:45 AM</p>
-                    </div>
-                </div>
-                <div class="text-right">
-                    <p class="text-sm font-black italic text-white">$320.00</p>
-                    <span class="text-[8px] font-black text-primary uppercase tracking-widest">Ver Comprobante</span>
+                    <button onclick="openReceipt('https://i.pinimg.com/736x/88/2c/83/882c83c27057da589b2759a229a4358a.jpg')" class="text-right">
+                        <p class="text-sm font-black italic text-white">$320.00</p>
+                        <span class="text-[8px] font-black text-primary uppercase italic">Comprobante</span>
+                    </button>
                 </div>
             </div>
         </div>
     </section>
 
-    <div id="receipt-modal" class="fixed inset-0 z-[100] flex items-center justify-center p-6 opacity-0 pointer-events-none transition-all duration-300">
-        <div class="absolute inset-0 bg-black/90 backdrop-blur-md" onclick="closeReceipt()"></div>
+    <div id="audit-modal" class="fixed inset-0 z-[101] flex items-end justify-center opacity-0 pointer-events-none transition-all duration-300">
+        <div class="absolute inset-0 bg-black/90 backdrop-blur-sm" onclick="closeAuditModal()"></div>
+        <div class="relative w-full max-w-lg bg-slate-900 border-t border-primary/30 rounded-t-[32px] p-6 shadow-2xl translate-y-20 transition-all duration-300">
+            <div class="w-12 h-1 bg-slate-800 rounded-full mx-auto mb-6"></div>
+            <h3 id="audit-title" class="text-sm font-black uppercase italic text-primary mb-1">Resumen de Entregas</h3>
+            <p id="audit-desc" class="text-[10px] text-slate-500 font-bold uppercase mb-6 italic">Detalle de pedidos</p>
+
+            <div class="space-y-3 max-h-[40vh] overflow-y-auto hide-scroll">
+                <div class="flex items-center justify-between p-3 bg-black/40 rounded-xl border border-white/5">
+                    <div class="flex items-center gap-3">
+                        <div class="size-8 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-500">
+                            <span class="material-symbols-outlined text-sm font-fill">task_alt</span>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-black italic">PEDIDO #BK-101</p>
+                            <p class="text-[8px] text-emerald-500 font-black uppercase italic">Entregado</p>
+                        </div>
+                    </div>
+                    <p class="text-[11px] font-black italic">$41.00 <span class="text-[8px] text-slate-500 font-normal">(45-4)</span></p>
+                </div>
+
+                <div class="flex items-center justify-between p-3 bg-black/40 rounded-xl border border-white/5 opacity-60">
+                    <div class="flex items-center gap-3">
+                        <div class="size-8 rounded-lg bg-red-500/20 flex items-center justify-center text-red-500">
+                            <span class="material-symbols-outlined text-sm">cancel</span>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-black italic">PEDIDO #BK-102</p>
+                            <p class="text-[8px] text-red-500 font-black uppercase italic">No Entregado</p>
+                        </div>
+                    </div>
+                    <p class="text-[11px] font-black italic">$0.00</p>
+                </div>
+            </div>
+
+            <button onclick="closeAuditModal()" class="w-full mt-6 py-4 bg-primary text-[10px] font-black uppercase italic rounded-xl">Regresar</button>
+        </div>
+    </div>
+
+    <div id="receipt-modal" class="fixed inset-0 z-[102] flex items-center justify-center p-6 opacity-0 pointer-events-none transition-all duration-300">
+        <div class="absolute inset-0 bg-black/95 backdrop-blur-md" onclick="closeReceipt()"></div>
         <div class="relative w-full max-w-sm bg-slate-900 border border-primary/30 rounded-3xl overflow-hidden shadow-2xl">
-            <div class="p-4 border-b border-white/5 flex justify-between items-center">
-                <span class="text-[10px] font-black uppercase italic text-primary tracking-widest">Evidencia de Pago</span>
-                <button onclick="closeReceipt()" class="material-symbols-outlined text-white text-sm">close</button>
-            </div>
-            <div class="p-4 bg-white flex items-center justify-center">
-                <img id="receipt-img" src="" class="max-w-full h-auto rounded-lg shadow-inner" alt="Comprobante">
-            </div>
-            <div class="p-4 text-center">
-                <p class="text-[10px] font-black text-slate-400 uppercase italic mb-4">Validado por KM0</p>
-                <button onclick="closeReceipt()" class="w-full py-4 bg-primary text-[10px] font-black uppercase italic rounded-xl shadow-lg shadow-primary/20">Cerrar Visor</button>
-            </div>
+            <img id="receipt-img" src="" class="w-full h-auto" alt="Comprobante">
+            <div class="p-4"><button onclick="closeReceipt()" class="w-full py-4 bg-slate-800 text-[10px] font-black uppercase italic rounded-xl">Cerrar</button></div>
         </div>
     </div>
 
     <nav class="fixed bottom-0 left-0 right-0 bg-slate-900/95 backdrop-blur-xl border-t border-slate-800 px-4 py-2 pb-8 flex justify-between items-center z-50">
-        <a class="flex flex-col items-center gap-1 text-slate-500" href="reporte-global-tienda.html">
-            <span class="material-symbols-outlined text-2xl">dashboard</span>
-            <span class="text-[8px] font-black uppercase">Dashboard</span>
-        </a>
-        <a class="flex flex-col items-center gap-1 text-slate-500" href="panel-operativo-tienda.html">
-            <span class="material-symbols-outlined text-2xl">grid_view</span>
-            <span class="text-[8px] font-black uppercase">Panel</span>
-        </a>
+        <a class="flex flex-col items-center gap-1 text-slate-500" href="#"><span class="material-symbols-outlined text-2xl italic">dashboard</span><span class="text-[8px] font-black uppercase italic">Dash</span></a>
+        <a class="flex flex-col items-center gap-1 text-slate-500" href="#"><span class="material-symbols-outlined text-2xl italic">grid_view</span><span class="text-[8px] font-black uppercase italic">Panel</span></a>
         <div class="relative -top-8">
-            <button onclick="location.href='nuevo-producto-tienda.html'" class="nav-center-btn size-16 bg-primary rounded-full flex items-center justify-center border-[4px] border-background-dark text-white shadow-2xl active:scale-90 transition-transform">
-                <span class="material-symbols-outlined text-3xl font-bold">add</span>
-            </button>
+            <button class="nav-center-btn size-16 bg-primary rounded-full flex items-center justify-center border-[4px] border-background-dark text-white shadow-2xl"><span class="material-symbols-outlined text-3xl font-bold">add</span></button>
         </div>
-        <a class="flex flex-col items-center gap-1 text-primary" href="finanzas-tienda.html">
-            <span class="material-symbols-outlined text-2xl font-fill">payments</span>
-            <span class="text-[8px] font-black uppercase">Finanzas</span>
-        </a>
-        <a class="flex flex-col items-center gap-1 text-slate-500" href="perfil-tienda.html">
-            <span class="material-symbols-outlined text-2xl">person</span>
-            <span class="text-[8px] font-black uppercase">Tienda</span>
-        </a>
+        <a class="flex flex-col items-center gap-1 text-primary" href="#"><span class="material-symbols-outlined text-2xl font-fill italic">payments</span><span class="text-[8px] font-black uppercase italic text-primary">Finanzas</span></a>
+        <a class="flex flex-col items-center gap-1 text-slate-500" href="#"><span class="material-symbols-outlined text-2xl italic">person</span><span class="text-[8px] font-black uppercase italic text-primary">Perfil</span></a>
     </nav>
 
 </div>
 
 <script>
+    function openAuditModal(title, desc) {
+        document.getElementById('audit-title').innerText = title;
+        document.getElementById('audit-desc').innerText = desc;
+        const modal = document.getElementById('audit-modal');
+        const content = modal.querySelector('div:nth-child(2)');
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+        content.classList.remove('translate-y-20');
+    }
+
+    function closeAuditModal() {
+        const modal = document.getElementById('audit-modal');
+        const content = modal.querySelector('div:nth-child(2)');
+        modal.classList.add('opacity-0', 'pointer-events-none');
+        content.classList.add('translate-y-20');
+    }
+
     function openReceipt(url) {
         document.getElementById('receipt-img').src = url;
-        const modal = document.getElementById('receipt-modal');
-        modal.classList.remove('opacity-0', 'pointer-events-none');
+        document.getElementById('receipt-modal').classList.remove('opacity-0', 'pointer-events-none');
     }
 
     function closeReceipt() {
-        const modal = document.getElementById('receipt-modal');
-        modal.classList.add('opacity-0', 'pointer-events-none');
-    }
-
-    function toggleDateModal() {
-        alert("Filtro de fechas activado");
+        document.getElementById('receipt-modal').classList.add('opacity-0', 'pointer-events-none');
     }
 </script>
 
