@@ -17,6 +17,7 @@
                         "background-dark": "#0a0f16",
                         "neutral-dark": "#121923",
                         "status-green": "#22c55e",
+                        "status-fuchsia": "#ff00ff",
                         "status-orange": "#f97316"
                     }
                 },
@@ -25,11 +26,33 @@
     </script>
     <style>
         body { font-family: 'Inter'; background-color: #0a0f16; color: white; -webkit-tap-highlight-color: transparent; }
-        .ios-blur { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+        @keyframes slideDown { from { transform: translateY(-120%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .notif-mobile { animation: slideDown 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
         .nav-center-btn { filter: drop-shadow(0 0 15px rgba(19, 127, 236, 0.6)); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .modal-active { transform: translateY(0); opacity: 1; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
+
+<div id="date-modal" class="fixed inset-0 z-[100] flex items-end justify-center px-4 pb-10 opacity-0 pointer-events-none transition-all duration-300">
+    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="toggleDateModal()"></div>
+    <div id="modal-content" class="relative w-full max-w-sm bg-neutral-dark border border-primary/30 rounded-3xl p-6 shadow-2xl translate-y-20 transition-all duration-300">
+        <h3 class="text-sm font-black italic uppercase text-primary mb-4">Filtrar Período</h3>
+        <div class="space-y-2">
+            <button onclick="seleccionar('Hoy')" class="w-full p-4 bg-white/5 rounded-xl text-left text-[10px] font-black uppercase italic border border-white/5">Hoy</button>
+            <button onclick="seleccionar('Esta Semana')" class="w-full p-4 bg-white/5 rounded-xl text-left text-[10px] font-black uppercase italic border border-white/5">Esta Semana</button>
+            <button onclick="seleccionar('Este Mes')" class="w-full p-4 bg-primary rounded-xl text-left text-[10px] font-black uppercase italic">Este Mes</button>
+            <div class="grid grid-cols-2 gap-2 mt-2">
+                <input type="date" class="bg-black/40 border-white/10 rounded-lg text-[10px] text-white">
+                <input type="date" class="bg-black/40 border-white/10 rounded-lg text-[10px] text-white">
+            </div>
+        </div>
+        <button onclick="toggleDateModal()" class="w-full mt-4 py-4 bg-white/10 rounded-xl font-black italic uppercase text-[10px]">Cerrar</button>
+    </div>
+</div>
+
+<div id="notif-root" class="fixed top-4 left-0 right-0 z-[100] px-4 pointer-events-none flex flex-col gap-3"></div>
 
 <header class="sticky top-0 z-50 bg-background-dark/80 backdrop-blur-md border-b border-primary/20 px-4 py-3 flex items-center justify-between">
     <div class="flex items-center gap-3">
@@ -38,7 +61,7 @@
         </div>
         <div>
             <h1 class="text-sm font-black italic uppercase leading-none">REPORTE GLOBAL</h1>
-            <p class="text-[9px] text-primary font-black uppercase tracking-widest mt-1">Métricas de Tienda</p>
+            <p id="range-text" class="text-[9px] text-primary font-black uppercase tracking-widest leading-none mt-1">Este Mes</p>
         </div>
     </div>
     
@@ -46,94 +69,71 @@
         <button onclick="location.href='catalogo-tienda.html'" class="size-10 flex items-center justify-center rounded-full bg-neutral-dark border border-white/10 active:scale-90 transition-transform">
             <span class="material-symbols-outlined text-primary font-variation-fill">inventory</span>
         </button>
-        <button class="size-10 flex items-center justify-center rounded-full bg-neutral-dark border border-white/10">
+        <button onclick="toggleDateModal()" class="size-10 flex items-center justify-center rounded-full bg-neutral-dark border border-white/10 active:scale-90 transition-transform">
             <span class="material-symbols-outlined text-primary font-variation-fill">calendar_month</span>
+        </button>
+        <button onclick="enviarNotif('Reporte Actualizado', 'Los datos del sector Norte han subido.')" class="size-10 flex items-center justify-center rounded-full bg-neutral-dark border border-white/10">
+            <span class="material-symbols-outlined text-primary font-variation-fill">notifications_active</span>
         </button>
     </div>
 </header>
 
 <main class="flex-1 overflow-y-auto pb-40 p-4 space-y-6">
-
+    
     <div class="grid grid-cols-2 gap-3">
-        <div class="p-4 rounded-2xl bg-neutral-dark border border-white/5">
-            <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1">Ventas del Mes</p>
-            <p class="text-xl font-black italic text-white">$4,280.00</p>
-            <div class="flex items-center gap-1 mt-1 text-status-green">
-                <span class="material-symbols-outlined text-xs">trending_up</span>
-                <span class="text-[9px] font-bold">+12% vs anterior</span>
-            </div>
+        <div class="flex flex-col items-start justify-center p-5 bg-neutral-dark text-white rounded-2xl font-black border border-white/5 shadow-lg">
+            <p class="text-[8px] tracking-widest text-slate-400 uppercase mb-1">Ventas Totales</p>
+            <p class="text-xl text-white font-black leading-none">$4,280.00</p>
+            <p class="text-[7px] text-status-green mt-1 font-bold italic">+12% vs mes ant.</p>
         </div>
-        <div class="p-4 rounded-2xl bg-neutral-dark border border-white/5">
-            <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1">Pedidos Totales</p>
-            <p class="text-xl font-black italic text-white">156</p>
-            <div class="flex items-center gap-1 mt-1 text-primary">
-                <span class="material-symbols-outlined text-xs">local_shipping</span>
-                <span class="text-[9px] font-bold">98% Efectividad</span>
-            </div>
+        <div class="flex flex-col items-start justify-center p-5 bg-neutral-dark text-white rounded-2xl font-black border border-white/5 shadow-lg">
+            <p class="text-[8px] tracking-widest text-slate-400 uppercase mb-1">Pedidos</p>
+            <p class="text-xl text-white font-black leading-none">156</p>
+            <p class="text-[7px] text-primary mt-1 font-bold italic">98% Completados</p>
         </div>
     </div>
 
     <div class="space-y-3">
         <h2 class="text-xs font-black uppercase tracking-widest text-slate-500 italic flex items-center gap-2 px-1">
-            <span class="material-symbols-outlined text-primary text-sm">map</span> Distribución por Sectores
+            <span class="material-symbols-outlined text-primary text-sm font-variation-fill">map</span> Pedidos por Sector
         </h2>
         
-        <div class="bg-neutral-dark rounded-2xl border border-white/5 p-4 space-y-4">
-            <div class="space-y-1">
+        <div class="bg-neutral-dark rounded-2xl border border-white/5 p-5 space-y-5">
+            <div class="space-y-2">
                 <div class="flex justify-between text-[10px] font-black uppercase italic">
                     <span>Sector Norte</span>
-                    <span class="text-primary">42 Pedidos</span>
+                    <span class="text-primary">42</span>
                 </div>
-                <div class="w-full h-2 bg-white/5 rounded-full overflow-hidden">
+                <div class="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
                     <div class="h-full bg-primary w-[40%]"></div>
                 </div>
             </div>
-            <div class="space-y-1">
+            <div class="space-y-2">
                 <div class="flex justify-between text-[10px] font-black uppercase italic">
                     <span>Sector Sur</span>
-                    <span class="text-primary">35 Pedidos</span>
+                    <span class="text-primary">35</span>
                 </div>
-                <div class="w-full h-2 bg-white/5 rounded-full overflow-hidden">
-                    <div class="h-full bg-primary w-[30%]"></div>
+                <div class="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
+                    <div class="h-full bg-primary w-[32%]"></div>
                 </div>
             </div>
-            <div class="space-y-1">
+            <div class="space-y-2">
                 <div class="flex justify-between text-[10px] font-black uppercase italic">
                     <span>Sector Centro</span>
-                    <span class="text-primary">28 Pedidos</span>
+                    <span class="text-primary">58</span>
                 </div>
-                <div class="w-full h-2 bg-white/5 rounded-full overflow-hidden">
-                    <div class="h-full bg-primary w-[20%]"></div>
+                <div class="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
+                    <div class="h-full bg-primary w-[60%]"></div>
                 </div>
             </div>
-            <div class="space-y-1">
+            <div class="space-y-2">
                 <div class="flex justify-between text-[10px] font-black uppercase italic">
                     <span>Valles</span>
-                    <span class="text-primary">15 Pedidos</span>
+                    <span class="text-primary">21</span>
                 </div>
-                <div class="w-full h-2 bg-white/5 rounded-full overflow-hidden">
-                    <div class="h-full bg-primary w-[10%]"></div>
+                <div class="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
+                    <div class="h-full bg-primary w-[18%]"></div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="space-y-3">
-        <h2 class="text-xs font-black uppercase tracking-widest text-slate-500 italic px-1">Top Productos</h2>
-        <div class="space-y-2">
-            <div class="flex items-center justify-between p-3 bg-neutral-dark/50 border border-white/5 rounded-xl">
-                <div class="flex items-center gap-3">
-                    <span class="text-primary font-black italic text-sm">#1</span>
-                    <p class="text-[11px] font-bold uppercase">Aceite Motul 7100</p>
-                </div>
-                <p class="text-[10px] font-black italic">24 vendidos</p>
-            </div>
-            <div class="flex items-center justify-between p-3 bg-neutral-dark/50 border border-white/5 rounded-xl">
-                <div class="flex items-center gap-3">
-                    <span class="text-primary font-black italic text-sm">#2</span>
-                    <p class="text-[11px] font-bold uppercase">Kit Arrastre Pulsar</p>
-                </div>
-                <p class="text-[10px] font-black italic">18 vendidos</p>
             </div>
         </div>
     </div>
@@ -158,15 +158,63 @@
         </div>
 
         <a class="flex flex-col items-center gap-1 text-slate-500" href="finanzas-tienda.html">
-            <span class="material-symbols-outlined text-2xl">payments</span>
+            <span class="material-symbols-outlined text-2xl font-variation-fill">payments</span>
             <span class="text-[8px] font-black uppercase">Finanzas</span>
         </a>
         <a class="flex flex-col items-center gap-1 text-slate-500" href="perfil-tienda.html">
-            <span class="material-symbols-outlined text-2xl">person</span>
+            <span class="material-symbols-outlined text-2xl font-variation-fill">person</span>
             <span class="text-[8px] font-black uppercase">Tienda</span>
         </a>
     </div>
 </nav>
+
+<script>
+    function toggleDateModal() {
+        const modal = document.getElementById('date-modal');
+        const content = document.getElementById('modal-content');
+        if (modal.classList.contains('opacity-0')) {
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.classList.add('opacity-100', 'pointer-events-auto');
+            content.classList.remove('translate-y-20');
+            content.classList.add('translate-y-0');
+        } else {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.classList.remove('opacity-100', 'pointer-events-auto');
+            content.classList.add('translate-y-20');
+            content.classList.remove('translate-y-0');
+        }
+    }
+
+    function seleccionar(rango) {
+        document.getElementById('range-text').innerText = rango;
+        toggleDateModal();
+        enviarNotif('Filtro Aplicado', 'Mostrando datos de: ' + rango);
+    }
+
+    function enviarNotif(titulo, msj) {
+        const root = document.getElementById('notif-root');
+        const card = document.createElement('div');
+        card.className = "notif-mobile pointer-events-auto w-full max-w-sm mx-auto bg-neutral-dark/95 backdrop-blur-md rounded-2xl shadow-2xl border-l-4 border-primary p-3 flex items-center gap-4 border border-white/10";
+        card.innerHTML = `
+            <div class="size-10 rounded-full bg-primary flex items-center justify-center text-white">
+                <span class="material-symbols-outlined font-variation-fill">notifications</span>
+            </div>
+            <div class="flex-1">
+                <div class="flex justify-between items-center">
+                    <p class="text-[10px] font-black uppercase text-primary">${titulo}</p>
+                    <p class="text-[9px] text-slate-400 font-bold">Ahora</p>
+                </div>
+                <p class="text-xs font-bold text-slate-100">${msj}</p>
+            </div>
+        `;
+        root.appendChild(card);
+        setTimeout(() => { 
+            card.style.opacity = "0"; 
+            card.style.transform = "translateY(-20px)"; 
+            setTimeout(() => card.remove(), 500); 
+        }, 4000);
+    }
+</script>
 
 </body>
 </html>
