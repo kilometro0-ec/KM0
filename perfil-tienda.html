@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Perfil de Tienda - Kilómetro Cero</title>
+    <title>Perfil Completo - Kilómetro Cero</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&display=swap" rel="stylesheet"/>
@@ -34,20 +34,21 @@
 <div class="relative flex min-h-screen w-full flex-col overflow-x-hidden pb-40">
     
     <div class="flex items-center glass-effect p-4 sticky top-0 z-30 border-b border-primary/20">
-        <div onclick="location.href='panel-operativo-tienda.html'" class="text-primary flex size-10 shrink-0 items-center justify-center rounded-full bg-primary/10 cursor-pointer active:scale-90 transition-all">
+        <div onclick="history.back()" class="text-primary flex size-10 shrink-0 items-center justify-center rounded-full bg-primary/10 cursor-pointer active:scale-90 transition-all">
             <span class="material-symbols-outlined">arrow_back_ios_new</span>
         </div>
-        <h2 class="text-lg font-extrabold italic uppercase tracking-tight flex-1 text-center pr-10">Perfil de Tienda</h2>
+        <h2 class="text-lg font-extrabold italic uppercase tracking-tight flex-1 text-center">Perfil de Tienda</h2>
+        <button class="flex size-10 items-center justify-center rounded-full bg-primary/10 text-primary active:rotate-90 transition-all">
+            <span class="material-symbols-outlined">settings</span>
+        </button>
     </div>
 
     <div class="flex p-8 flex-col items-center bg-gradient-to-b from-primary/20 to-transparent">
         <div class="relative mb-4 group">
             <div id="profile-preview" class="bg-center bg-no-repeat aspect-square bg-cover rounded-full border-4 border-primary/40 size-32 shadow-2xl shadow-primary/20 transition-transform group-active:scale-95" 
-                 style='background-image: url("https://i.pinimg.com/736x/0d/17/83/0d178381373413997576f3f00f074558.jpg");'>
+                 style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBilXzVPxam6P1tYVBujgVbCsjUejqYrGcmT9kBkh6pL1N9Q1tS6EOTwVwwjxpibKtU_SRA6T6CHvmKFr13CI04kzjOuodcNPkiJFLJhoMipExdwBZkN7xy6Xqph0WxSaMH2rJG9y3uLNLZfdWP1GRsP9ee4kIBFKfZeO4VvWyaaa_koch-GkpihtBq_n2_jYteOODDzhv4tfTn0jUWGdw2c3E0JHsIb8NQ5p63E7ixnHf0l0YQAUs3p8YieaFlMKG2W87UoEUXHSq-");'>
             </div>
-            
             <input type="file" id="file-upload" class="hide-input" accept="image/*" onchange="previewImage(event)">
-            
             <button onclick="document.getElementById('file-upload').click()" class="absolute bottom-0 right-0 bg-primary p-2 rounded-full border-4 border-[#221022] shadow-lg active:scale-90 transition-all">
                 <span class="material-symbols-outlined text-white text-sm block font-fill">photo_camera</span>
             </button>
@@ -59,7 +60,13 @@
                 <span class="material-symbols-outlined text-primary text-sm font-fill">verified</span>
                 <p class="text-primary font-black text-[10px] uppercase tracking-widest italic">Vendedor Verificado</p>
             </div>
+            <p class="text-slate-500 text-[10px] mt-2 font-bold uppercase">Socio desde Enero 2023</p>
         </div>
+
+        <button class="mt-6 w-full max-w-xs flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-white font-black uppercase italic text-xs py-4 px-6 rounded-2xl transition-all shadow-lg shadow-primary/20 active:scale-95">
+            <span class="material-symbols-outlined text-sm">edit</span>
+            Actualizar Perfil
+        </button>
     </div>
 
     <div class="px-4 space-y-8">
@@ -73,7 +80,7 @@
                 <div class="flex items-center gap-4 p-4 opacity-70">
                     <span class="material-symbols-outlined text-primary">person</span>
                     <div class="flex flex-col">
-                        <p class="text-[9px] text-slate-500 font-black uppercase italic">Representante</p>
+                        <p class="text-[9px] text-slate-500 font-black uppercase italic">Representante Legal</p>
                         <p class="text-sm font-bold">Juan Pérez Rodríguez</p>
                     </div>
                 </div>
@@ -84,43 +91,56 @@
                         <p class="text-sm font-bold">800234567-9</p>
                     </div>
                 </div>
+                <div class="flex items-center gap-4 p-4 opacity-70">
+                    <span class="material-symbols-outlined text-primary">fingerprint</span>
+                    <div class="flex flex-col">
+                        <p class="text-[9px] text-slate-500 font-black uppercase italic">Cédula de Identidad</p>
+                        <p class="text-sm font-bold">1.234.567</p>
+                    </div>
+                </div>
             </div>
         </section>
 
         <section>
             <div class="flex items-center justify-between mb-3 px-2">
-                <h3 class="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em] italic">Contacto de Tienda</h3>
+                <h3 class="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em] italic">Datos de Contacto</h3>
                 <span class="material-symbols-outlined text-slate-600 text-sm">lock</span>
             </div>
             <div class="bg-white/5 rounded-2xl border border-white/10 divide-y divide-white/5 overflow-hidden">
                 <div class="flex items-center gap-4 p-4 opacity-70">
                     <span class="material-symbols-outlined text-primary">location_on</span>
                     <div class="flex flex-col">
-                        <p class="text-[9px] text-slate-500 font-black uppercase italic">Ubicación Principal</p>
+                        <p class="text-[9px] text-slate-500 font-black uppercase italic">Dirección</p>
                         <p class="text-sm font-bold">Av. Principal 123, Ciudad Central</p>
                     </div>
                 </div>
                 <div class="flex items-center gap-4 p-4 opacity-70">
                     <span class="material-symbols-outlined text-primary">call</span>
                     <div class="flex flex-col">
-                        <p class="text-[9px] text-slate-500 font-black uppercase italic">Teléfono Enlace</p>
+                        <p class="text-[9px] text-slate-500 font-black uppercase italic">Teléfono</p>
                         <p class="text-sm font-bold">+595 981 123 456</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4 p-4 opacity-70">
+                    <span class="material-symbols-outlined text-primary">language</span>
+                    <div class="flex flex-col">
+                        <p class="text-[9px] text-slate-500 font-black uppercase italic">Sitio Web</p>
+                        <p class="text-sm font-bold underline decoration-primary/30">www.kilometrocero.com.py</p>
                     </div>
                 </div>
             </div>
         </section>
 
         <section>
-            <h3 class="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em] italic mb-3 px-2">Seguridad y Políticas</h3>
+            <h3 class="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em] italic mb-3 px-2">Configuración y Seguridad</h3>
             <div class="bg-white/5 rounded-2xl border border-white/10 overflow-hidden">
                 <button class="w-full flex items-center justify-between p-4 hover:bg-primary/5 active:bg-primary/10 transition-colors">
                     <div class="flex items-center gap-4">
-                        <span class="material-symbols-outlined text-primary">notifications_active</span>
-                        <span class="text-sm font-bold">Notificaciones Push</span>
+                        <span class="material-symbols-outlined text-primary font-fill">notifications</span>
+                        <span class="text-sm font-bold">Notificaciones</span>
                     </div>
                     <span class="material-symbols-outlined text-slate-600 text-sm">arrow_forward_ios</span>
                 </button>
-                
                 <button class="w-full flex items-center justify-between p-4 border-t border-white/5 hover:bg-primary/5 active:bg-primary/10 transition-colors">
                     <div class="flex items-center gap-4">
                         <span class="material-symbols-outlined text-primary">security</span>
@@ -128,18 +148,16 @@
                     </div>
                     <span class="material-symbols-outlined text-slate-600 text-sm">arrow_forward_ios</span>
                 </button>
-
-                <button onclick="location.href='politicas-privacidad.html'" class="w-full flex items-center justify-between p-4 border-t border-white/5 hover:bg-primary/5 active:bg-primary/10 transition-colors">
+                <button class="w-full flex items-center justify-between p-4 border-t border-white/5 hover:bg-primary/5 active:bg-primary/10 transition-colors">
                     <div class="flex items-center gap-4">
                         <span class="material-symbols-outlined text-primary">policy</span>
                         <span class="text-sm font-bold">Políticas y Privacidad</span>
                     </div>
                     <span class="material-symbols-outlined text-slate-600 text-sm">arrow_forward_ios</span>
                 </button>
-                
-                <button class="w-full flex items-center gap-4 p-4 border-t border-white/5 text-red-400 hover:bg-red-500/5 active:bg-red-500/10 transition-colors">
+                <button class="w-full flex items-center gap-4 p-4 border-t border-white/5 text-red-500 hover:bg-red-500/10 active:bg-red-500/20 transition-colors font-black uppercase italic text-xs">
                     <span class="material-symbols-outlined">logout</span>
-                    <span class="text-sm font-black uppercase italic">Cerrar Sesión</span>
+                    Cerrar Sesión
                 </button>
             </div>
         </section>
@@ -147,11 +165,11 @@
 
     <div class="fixed bottom-0 left-0 right-0 z-40 border-t border-primary/20 glass-effect px-4 pb-8 pt-2">
         <div class="flex items-center justify-between">
-            <a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-500" href="reporte-global-tienda.html">
+            <a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-500 active:scale-90 transition-all" href="reporte-global-tienda.html">
                 <span class="material-symbols-outlined">dashboard</span>
                 <p class="text-[9px] font-black uppercase italic">Dashboard</p>
             </a>
-            <a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-500" href="panel-operativo-tienda.html">
+            <a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-500 active:scale-90 transition-all" href="panel-operativo-tienda.html">
                 <span class="material-symbols-outlined">grid_view</span>
                 <p class="text-[9px] font-black uppercase italic">Panel</p>
             </a>
@@ -160,7 +178,7 @@
                     <span class="material-symbols-outlined text-3xl font-bold">add</span>
                 </button>
             </div>
-            <a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-500" href="finanzas-tienda.html">
+            <a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-500 active:scale-90 transition-all" href="finanzas-tienda.html">
                 <span class="material-symbols-outlined">account_balance_wallet</span>
                 <p class="text-[9px] font-black uppercase italic">Finanzas</p>
             </a>
@@ -174,7 +192,6 @@
 </div>
 
 <script>
-    // Función para previsualizar la imagen seleccionada
     function previewImage(event) {
         const reader = new FileReader();
         reader.onload = function() {
