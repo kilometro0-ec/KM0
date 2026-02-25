@@ -23,146 +23,117 @@
     </script>
     <style>
         body { font-family: 'Inter'; background-color: #0a0f16; color: white; }
-        .notif-badge { animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.5); opacity: 0.7; } 100% { transform: scale(1); opacity: 1; } }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col pb-24">
+<body class="min-h-screen flex flex-col pb-32">
 
 <div id="toast-container" class="fixed top-20 right-4 left-4 z-[100] flex flex-col gap-2 pointer-events-none"></div>
 
 <header class="sticky top-0 z-50 bg-background-dark/90 backdrop-blur-md border-b border-primary/20 px-4 py-3 flex items-center justify-between">
     <div class="flex items-center gap-3">
-        <button onclick="history.back()" class="text-slate-400"><span class="material-symbols-outlined">arrow_back_ios</span></button>
+        <div class="size-10 rounded-full bg-primary/20 flex items-center justify-center border border-primary/40">
+            <span class="material-symbols-outlined text-primary">analytics</span>
+        </div>
         <div>
-            <h1 class="text-sm font-black italic uppercase tracking-tighter">Reporte <span class="text-primary">Global</span></h1>
-            <p class="text-[9px] text-slate-500 font-bold uppercase tracking-[0.2em]">Historial de Operaciones</p>
+            <h1 class="text-sm font-black italic uppercase tracking-tighter italic">REPORTE GLOBAL</h1>
+            <p class="text-[9px] text-primary font-black uppercase tracking-widest leading-none">Kilómetro Cero</p>
         </div>
     </div>
     
-    <button onclick="simularNotificaciones()" class="relative size-10 bg-neutral-dark rounded-full flex items-center justify-center border border-white/10 active:scale-90 transition-all">
+    <button onclick="activarCampana()" class="relative size-10 bg-neutral-dark rounded-full flex items-center justify-center border border-white/10 active:scale-90 transition-all">
         <span class="material-symbols-outlined text-primary">notifications_active</span>
-        <span class="absolute top-2 right-2 size-2 bg-red-500 rounded-full notif-badge"></span>
+        <span class="absolute top-2 right-2 size-2 bg-primary rounded-full animate-ping"></span>
     </button>
 </header>
 
-<main class="p-4 space-y-4">
-    <div class="flex gap-2 overflow-x-auto pb-2 no-scrollbar">
-        <button class="bg-primary text-white text-[10px] font-black px-4 py-2 rounded-full uppercase tracking-widest whitespace-nowrap">Todos</button>
-        <button class="bg-neutral-dark text-slate-400 text-[10px] font-black px-4 py-2 rounded-full uppercase tracking-widest whitespace-nowrap border border-white/5">Entregados</button>
-        <button class="bg-neutral-dark text-slate-400 text-[10px] font-black px-4 py-2 rounded-full uppercase tracking-widest whitespace-nowrap border border-white/5">Novedades</button>
-    </div>
-
-    <div class="bg-neutral-dark rounded-2xl border border-white/5 overflow-hidden shadow-2xl">
+<main class="p-4 flex-1">
+    <div class="bg-neutral-dark rounded-2xl border border-white/5 overflow-hidden">
         <div class="p-4 border-b border-white/5 bg-white/5">
-            <h3 class="text-[10px] font-black uppercase tracking-[0.3em] text-primary italic">Registros de Hoy</h3>
+            <h3 class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Actividad de hoy</h3>
         </div>
+        
         <div class="divide-y divide-white/5">
             <div class="p-4 flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                    <div class="size-10 rounded-xl bg-green-500/10 flex items-center justify-center text-green-500 border border-green-500/20">
-                        <span class="material-symbols-outlined">task_alt</span>
-                    </div>
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-green-500">check_circle</span>
                     <div>
-                        <p class="text-xs font-black uppercase italic">#KC-9011</p>
-                        <p class="text-[10px] text-slate-500 font-bold tracking-tight">Entregado con éxito • 12:45 PM</p>
+                        <p class="text-xs font-black uppercase italic text-white">#KC-8890 - ENTREGADO</p>
+                        <p class="text-[9px] text-slate-500 font-bold uppercase">Finalizado hace 5 min</p>
                     </div>
                 </div>
-                <p class="text-xs font-black text-green-500">+$12.50</p>
+                <p class="text-[10px] font-black text-primary">+$15.00</p>
             </div>
 
             <div class="p-4 flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                    <div class="size-10 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-500 border border-purple-500/20">
-                        <span class="material-symbols-outlined">running_with_errors</span>
-                    </div>
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-purple-500">warning</span>
                     <div>
-                        <p class="text-xs font-black uppercase italic">#KC-9012</p>
-                        <p class="text-[10px] text-slate-500 font-bold tracking-tight">Dirección incorrecta • 11:30 AM</p>
+                        <p class="text-xs font-black uppercase italic text-white">#KC-8891 - NOVEDAD</p>
+                        <p class="text-[9px] text-slate-500 font-bold uppercase">Cliente no responde</p>
                     </div>
                 </div>
-                <span class="text-[8px] font-black bg-purple-500/20 text-purple-400 px-2 py-1 rounded uppercase">En Espera</span>
-            </div>
-
-            <div class="p-4 flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                    <div class="size-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary border border-primary/20">
-                        <span class="material-symbols-outlined">account_balance_wallet</span>
-                    </div>
-                    <div>
-                        <p class="text-xs font-black uppercase italic">LIQUIDACIÓN</p>
-                        <p class="text-[10px] text-slate-500 font-bold tracking-tight">Pago procesado por Admin • 09:00 AM</p>
-                    </div>
-                </div>
-                <p class="text-xs font-black text-primary">$450.00</p>
+                <button class="text-[8px] font-black bg-white/5 px-2 py-1 rounded uppercase">Ver</button>
             </div>
         </div>
     </div>
 </main>
 
-<nav class="fixed bottom-0 left-0 right-0 border-t border-white/5 bg-background-dark/95 backdrop-blur-lg px-4 pb-8 pt-3 z-50">
-    <div class="flex justify-around items-center max-w-md mx-auto">
-        <a class="flex flex-col items-center gap-1 text-slate-500" href="panel-operativo-tienda.html">
-            <span class="material-symbols-outlined text-2xl">grid_view</span>
-            <span class="text-[9px] font-black uppercase">Panel</span>
-        </a>
+<nav class="fixed bottom-0 left-0 right-0 border-t border-white/5 bg-background-dark/95 backdrop-blur-xl px-2 pb-8 pt-3 z-50">
+    <div class="flex justify-around items-center w-full max-w-lg mx-auto">
         <a class="flex flex-col items-center gap-1 text-primary" href="reporte-global-tienda.html">
-            <span class="material-symbols-outlined text-2xl font-variation-fill">receipt_long</span>
-            <span class="text-[9px] font-black uppercase">Pedidos</span>
+            <span class="material-symbols-outlined text-2xl font-variation-fill">dashboard</span>
+            <span class="text-[8px] font-black uppercase tracking-tighter">Dashboard</span>
         </a>
-        <a class="flex flex-col items-center gap-1 text-slate-500" href="finanzas-tienda.html">
+        <a class="flex flex-col items-center gap-1 text-slate-500 hover:text-primary transition-colors" href="panel-operativo-tienda.html">
+            <span class="material-symbols-outlined text-2xl">grid_view</span>
+            <span class="text-[8px] font-black uppercase tracking-tighter">Panel</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-slate-500 hover:text-primary transition-colors" href="pedidos-tienda.html">
+            <span class="material-symbols-outlined text-2xl">receipt_long</span>
+            <span class="text-[8px] font-black uppercase tracking-tighter">Pedidos</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-slate-500 hover:text-primary transition-colors" href="finanzas-tienda.html">
             <span class="material-symbols-outlined text-2xl">payments</span>
-            <span class="text-[9px] font-black uppercase">Finanzas</span>
+            <span class="text-[8px] font-black uppercase tracking-tighter">Finanzas</span>
         </a>
-        <a class="flex flex-col items-center gap-1 text-slate-500" href="perfil-tienda.html">
+        <a class="flex flex-col items-center gap-1 text-slate-500 hover:text-primary transition-colors" href="perfil-tienda.html">
             <span class="material-symbols-outlined text-2xl">person</span>
-            <span class="text-[9px] font-black uppercase">Tienda</span>
+            <span class="text-[8px] font-black uppercase tracking-tighter">Tienda</span>
         </a>
     </div>
 </nav>
 
 <script>
-    function showToast(title, msg, type = 'primary') {
-        const container = document.getElementById('toast-container');
-        const colors = {
-            primary: 'bg-primary border-primary/50',
-            green: 'bg-green-600 border-green-400',
-            purple: 'bg-purple-600 border-purple-400'
-        };
-        
+    function showNotif(title, msg, type = 'primary') {
+        const box = document.getElementById('toast-container');
+        const colors = { primary: 'bg-primary', green: 'bg-green-600', purple: 'bg-purple-600' };
         const toast = document.createElement('div');
-        toast.className = `${colors[type]} p-4 rounded-xl border shadow-2xl flex items-start gap-3 transform transition-all duration-500 translate-y-0 opacity-100 pointer-events-auto`;
+        toast.className = `${colors[type]} p-4 rounded-xl shadow-2xl flex items-center gap-3 border border-white/10 pointer-events-auto animate-bounce-short`;
         toast.innerHTML = `
-            <span class="material-symbols-outlined text-white">notifications_active</span>
+            <span class="material-symbols-outlined text-white">notifications</span>
             <div>
-                <p class="text-[10px] font-black uppercase italic text-white">${title}</p>
-                <p class="text-[11px] text-white/90 font-medium">${msg}</p>
+                <p class="text-[9px] font-black uppercase text-white tracking-widest">${title}</p>
+                <p class="text-[10px] text-white/90 font-bold">${msg}</p>
             </div>
         `;
-        container.appendChild(toast);
-        
-        setTimeout(() => {
-            toast.classList.add('translate-y-[-20px]', 'opacity-0');
-            setTimeout(() => toast.remove(), 500);
-        }, 4000);
+        box.appendChild(toast);
+        setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 500); }, 3500);
     }
 
-    // SIMULACIÓN DE NOTIFICACIONES DINÁMICAS
-    function simularNotificaciones() {
-        const azar = Math.floor(Math.random() * 3);
-        if (azar === 0) {
-            showToast('¡Pedido Entregado!', 'El paquete #KC-9011 ha llegado a su destino.', 'green');
-        } else if (azar === 1) {
-            showToast('Alerta de Novedad', 'El motorizado reporta demora en pedido #KC-9012.', 'purple');
-        } else {
-            showToast('Pago Recibido', 'Se ha confirmado la liquidación de $450.00 en tu cuenta.', 'primary');
-        }
+    function activarCampana() {
+        const eventos = [
+            {t: 'Pedido Entregado', m: 'El pedido #KC-8890 fue recibido.', c: 'green'},
+            {t: 'Novedad Detectada', m: 'Paquete #KC-8891 con problemas.', c: 'purple'},
+            {t: 'Pago Realizado', m: 'Liquidación de $150.00 completada.', c: 'primary'}
+        ];
+        const random = eventos[Math.floor(Math.random() * eventos.length)];
+        showNotif(random.t, random.m, random.c);
     }
 
-    // Notificación automática al entrar
     window.onload = () => {
-        setTimeout(() => showToast('Bienvenido', 'Cargando historial completo de hoy...', 'primary'), 1000);
-    }
+        setTimeout(() => showNotif('MODO GLOBAL', 'Visualizando métricas y reportes del día', 'primary'), 500);
+    };
 </script>
 
 </body>
