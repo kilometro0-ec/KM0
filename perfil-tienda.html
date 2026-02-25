@@ -26,11 +26,12 @@
         body { font-family: 'Inter', sans-serif; background-color: #221022; }
         .font-fill { font-variation-settings: 'FILL' 1; }
         .glass-effect { backdrop-filter: blur(12px); background-color: rgba(34, 16, 34, 0.95); }
+        .hide-input { display: none; }
     </style>
 </head>
 <body class="bg-background-dark text-slate-100 font-display antialiased">
 
-<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden pb-32">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden pb-40">
     
     <div class="flex items-center glass-effect p-4 sticky top-0 z-30 border-b border-primary/20">
         <div onclick="location.href='panel-operativo-tienda.html'" class="text-primary flex size-10 shrink-0 items-center justify-center rounded-full bg-primary/10 cursor-pointer active:scale-90 transition-all">
@@ -41,10 +42,14 @@
 
     <div class="flex p-8 flex-col items-center bg-gradient-to-b from-primary/20 to-transparent">
         <div class="relative mb-4 group">
-            <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full border-4 border-primary/40 size-32 shadow-2xl shadow-primary/20 transition-transform group-active:scale-95" style='background-image: url("https://i.pinimg.com/736x/0d/17/83/0d178381373413997576f3f00f074558.jpg");'>
+            <div id="profile-preview" class="bg-center bg-no-repeat aspect-square bg-cover rounded-full border-4 border-primary/40 size-32 shadow-2xl shadow-primary/20 transition-transform group-active:scale-95" 
+                 style='background-image: url("https://i.pinimg.com/736x/0d/17/83/0d178381373413997576f3f00f074558.jpg");'>
             </div>
-            <button class="absolute bottom-0 right-0 bg-primary p-2 rounded-full border-4 border-[#221022] shadow-lg active:scale-90 transition-all">
-                <span class="material-symbols-outlined text-white text-sm block">photo_camera</span>
+            
+            <input type="file" id="file-upload" class="hide-input" accept="image/*" onchange="previewImage(event)">
+            
+            <button onclick="document.getElementById('file-upload').click()" class="absolute bottom-0 right-0 bg-primary p-2 rounded-full border-4 border-[#221022] shadow-lg active:scale-90 transition-all">
+                <span class="material-symbols-outlined text-white text-sm block font-fill">photo_camera</span>
             </button>
         </div>
         
@@ -80,7 +85,6 @@
                     </div>
                 </div>
             </div>
-            <p class="text-[8px] text-slate-600 italic mt-2 px-2">* Para modificar datos legales, contacte al administrador.</p>
         </section>
 
         <section>
@@ -107,7 +111,7 @@
         </section>
 
         <section>
-            <h3 class="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em] italic mb-3 px-2">Configuración</h3>
+            <h3 class="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em] italic mb-3 px-2">Seguridad y Políticas</h3>
             <div class="bg-white/5 rounded-2xl border border-white/10 overflow-hidden">
                 <button class="w-full flex items-center justify-between p-4 hover:bg-primary/5 active:bg-primary/10 transition-colors">
                     <div class="flex items-center gap-4">
@@ -116,11 +120,26 @@
                     </div>
                     <span class="material-symbols-outlined text-slate-600 text-sm">arrow_forward_ios</span>
                 </button>
-                <button class="w-full flex items-center justify-between p-4 border-t border-white/5 text-red-400 hover:bg-red-500/5 active:bg-red-500/10 transition-colors">
+                
+                <button class="w-full flex items-center justify-between p-4 border-t border-white/5 hover:bg-primary/5 active:bg-primary/10 transition-colors">
                     <div class="flex items-center gap-4">
-                        <span class="material-symbols-outlined">logout</span>
-                        <span class="text-sm font-black uppercase italic">Cerrar Sesión</span>
+                        <span class="material-symbols-outlined text-primary">security</span>
+                        <span class="text-sm font-bold">Seguridad de la Cuenta</span>
                     </div>
+                    <span class="material-symbols-outlined text-slate-600 text-sm">arrow_forward_ios</span>
+                </button>
+
+                <button onclick="location.href='politicas-privacidad.html'" class="w-full flex items-center justify-between p-4 border-t border-white/5 hover:bg-primary/5 active:bg-primary/10 transition-colors">
+                    <div class="flex items-center gap-4">
+                        <span class="material-symbols-outlined text-primary">policy</span>
+                        <span class="text-sm font-bold">Políticas y Privacidad</span>
+                    </div>
+                    <span class="material-symbols-outlined text-slate-600 text-sm">arrow_forward_ios</span>
+                </button>
+                
+                <button class="w-full flex items-center gap-4 p-4 border-t border-white/5 text-red-400 hover:bg-red-500/5 active:bg-red-500/10 transition-colors">
+                    <span class="material-symbols-outlined">logout</span>
+                    <span class="text-sm font-black uppercase italic">Cerrar Sesión</span>
                 </button>
             </div>
         </section>
@@ -153,6 +172,18 @@
     </div>
 
 </div>
+
+<script>
+    // Función para previsualizar la imagen seleccionada
+    function previewImage(event) {
+        const reader = new FileReader();
+        reader.onload = function() {
+            const output = document.getElementById('profile-preview');
+            output.style.backgroundImage = `url('${reader.result}')`;
+        }
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script>
 
 </body>
 </html>
