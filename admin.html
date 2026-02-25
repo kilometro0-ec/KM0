@@ -7,41 +7,46 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1" rel="stylesheet">
     <style>
-        body { background: #050505; color: #fff; font-family: 'Inter', sans-serif; }
+        body { background: #050505; color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
         .text-neon { color: #39FF14; text-shadow: 0 0 10px rgba(57, 255, 20, 0.3); }
         .bg-neon { background: #39FF14; }
-        .border-neon { border-color: #39FF14; }
         
         .tab-active { color: #39FF14; border-bottom: 3px solid #39FF14; background: rgba(57, 255, 20, 0.05); }
         
-        /* Glassmorphism Cards */
         .glass-card { 
             background: rgba(20, 20, 20, 0.6); 
             border: 1px solid rgba(255, 255, 255, 0.05); 
             backdrop-filter: blur(10px); 
             border-radius: 24px; 
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
+        .glass-card:hover { border-color: rgba(57, 255, 20, 0.3); transform: translateY(-2px); }
 
         .btn-doc { 
             background: rgba(57, 255, 20, 0.03); 
             border: 1px solid rgba(57, 255, 20, 0.1); 
             padding: 16px; 
             border-radius: 18px; 
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s;
         }
         .btn-doc:hover { border-color: #39FF14; background: rgba(57, 255, 20, 0.08); }
         
+        /* Animación del icono de carga */
+        @keyframes spin-custom {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .refresh-spinning { animation: spin-custom 1s linear infinite; color: #39FF14 !important; }
+
         @keyframes pulse-ring {
             0% { transform: scale(0.8); opacity: 0.5; }
             100% { transform: scale(2); opacity: 0; }
         }
         .status-dot { position: relative; }
         .status-dot::after {
-            content: '';
-            position: absolute;
-            width: 100%; height: 100%;
-            background: inherit; border-radius: 50%;
-            animation: pulse-ring 1.5s infinite;
+            content: ''; position: absolute; width: 100%; height: 100%;
+            background: inherit; border-radius: 50%; animation: pulse-ring 1.5s infinite;
         }
     </style>
 </head>
@@ -51,20 +56,20 @@
             <h1 class="text-xl font-black italic tracking-tighter">KM0 <span class="text-neon uppercase">Control</span></h1>
             <p class="text-[8px] text-zinc-500 font-bold uppercase tracking-[0.4em]">Admin Terminal v2.6</p>
         </div>
-        <button onclick="init()" class="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center border border-white/10 active:scale-90 transition-all">
-            <span class="material-symbols-outlined text-zinc-400 text-sm">refresh</span>
+        <button id="btn-refresh" onclick="init()" class="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center border border-white/10 active:scale-90 transition-all">
+            <span id="icon-refresh" class="material-symbols-outlined text-zinc-400 text-sm">refresh</span>
         </button>
     </header>
 
     <div class="p-4 grid grid-cols-2 gap-4 max-w-xl mx-auto">
-        <div class="glass-card p-4 border-l-4 border-l-neon">
+        <div onclick="cambiarTab('motorizados')" id="card-m" class="glass-card p-4 border-l-4 border-l-neon">
             <div class="flex justify-between items-start">
                 <span class="material-symbols-outlined text-neon text-lg">two_wheeler</span>
                 <span id="count-m" class="text-2xl font-black tracking-tighter text-white">0</span>
             </div>
             <p class="text-[9px] font-bold uppercase text-zinc-500 mt-1">Motos Pendientes</p>
         </div>
-        <div class="glass-card p-4 border-l-4 border-l-white/20">
+        <div onclick="cambiarTab('tiendas')" id="card-t" class="glass-card p-4 border-l-4 border-l-white/20">
             <div class="flex justify-between items-start">
                 <span class="material-symbols-outlined text-zinc-400 text-lg">storefront</span>
                 <span id="count-t" class="text-2xl font-black tracking-tighter text-white">0</span>
@@ -86,9 +91,7 @@
                 <div class="w-2 h-2 bg-neon rounded-full status-dot"></div>
                 <p class="text-[9px] font-black uppercase tracking-widest text-neon">Decisión Administrativa</p>
             </div>
-            
-            <textarea id="notas" class="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-xs mb-4 focus:border-neon focus:ring-1 focus:ring-neon outline-none text-white placeholder-zinc-700 transition-all" placeholder="Añade una nota interna o motivo del rechazo..."></textarea>
-            
+            <textarea id="notas" class="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-xs mb-4 focus:border-neon focus:ring-1 focus:ring-neon outline-none text-white placeholder-zinc-700 transition-all" placeholder="Añade una nota interna..."></textarea>
             <div class="flex gap-4">
                 <button onclick="procesar(false)" class="flex-1 py-4 bg-zinc-900 text-zinc-500 rounded-2xl font-black text-[10px] uppercase border border-white/5 active:bg-red-900/20 active:text-red-500 transition-all">Rechazar</button>
                 <button onclick="procesar(true)" class="flex-[2] py-4 bg-neon text-black rounded-2xl font-black text-[10px] uppercase shadow-[0_0_30px_rgba(57,255,20,0.2)] active:scale-95 transition-all">Confirmar Acceso</button>
@@ -102,10 +105,12 @@
         let currentTab = 'motorizados';
 
         async function init() {
+            const icon = document.getElementById('icon-refresh');
+            icon.classList.add('refresh-spinning');
+            
             document.getElementById('content').innerHTML = `
                 <div class="flex flex-col items-center justify-center py-20 gap-4">
-                    <div class="w-10 h-10 border-2 border-neon border-t-transparent rounded-full animate-spin"></div>
-                    <p class="text-neon text-[9px] font-black uppercase tracking-[0.3em]">Sincronizando con KM0...</p>
+                    <p class="text-neon text-[9px] font-black uppercase tracking-[0.3em] animate-pulse">Sincronizando Base de Datos...</p>
                 </div>`;
             
             try {
@@ -115,17 +120,17 @@
                 render();
             } catch (e) {
                 document.getElementById('content').innerHTML = "<p class='text-center py-20 text-red-500 text-xs font-black uppercase tracking-widest'>Error de Enlace</p>";
+            } finally {
+                icon.classList.remove('refresh-spinning');
             }
         }
 
         function actualizarContadores() {
             const mCount = db.motorizados?.length || 0;
             const tCount = db.tiendas?.length || 0;
-            
             document.getElementById('count-m').innerText = mCount;
             document.getElementById('count-t').innerText = tCount;
             
-            // Efecto visual si hay pendientes
             document.getElementById('count-m').className = mCount > 0 ? "text-2xl font-black tracking-tighter text-neon" : "text-2xl font-black tracking-tighter text-zinc-700";
             document.getElementById('count-t').className = tCount > 0 ? "text-2xl font-black tracking-tighter text-neon" : "text-2xl font-black tracking-tighter text-zinc-700";
         }
@@ -134,6 +139,11 @@
             currentTab = t;
             document.getElementById('btnM').className = t === 'motorizados' ? "flex-1 py-4 text-[10px] font-black uppercase tab-active" : "flex-1 py-4 text-[10px] font-black uppercase text-zinc-500";
             document.getElementById('btnT').className = t === 'tiendas' ? "flex-1 py-4 text-[10px] font-black uppercase tab-active" : "flex-1 py-4 text-[10px] font-black uppercase text-zinc-500";
+            
+            // Highlight visual en las cards
+            document.getElementById('card-m').style.borderColor = t === 'motorizados' ? '#39FF14' : 'transparent';
+            document.getElementById('card-t').style.borderColor = t === 'tiendas' ? '#39FF14' : 'transparent';
+            
             render();
         }
 
@@ -143,11 +153,7 @@
             const footer = document.getElementById('footer');
 
             if (!list || list.length === 0) {
-                container.innerHTML = `
-                    <div class="text-center py-24 opacity-20">
-                        <span class="material-symbols-outlined text-6xl mb-2">auto_awesome</span>
-                        <p class='text-[10px] font-black uppercase tracking-widest'>Bandeja Limpia</p>
-                    </div>`;
+                container.innerHTML = `<div class="text-center py-24 opacity-20"><p class='text-[10px] font-black uppercase tracking-widest'>Bandeja Vacía</p></div>`;
                 footer.classList.add('hidden');
                 return;
             }
@@ -157,88 +163,60 @@
 
             if (currentTab === 'motorizados') {
                 container.innerHTML = `
-                    <div class="animate-in slide-in-from-bottom-4 duration-500">
-                        <div class="flex items-center gap-2 mb-4">
-                            <span class="w-12 h-[1px] bg-neon"></span>
-                            <span class="text-neon text-[9px] font-bold uppercase tracking-[0.4em]">Expediente Motorizado</span>
-                        </div>
+                    <div class="animate-in fade-in slide-in-from-bottom-4 duration-500">
+                        <div class="flex items-center gap-2 mb-4"><span class="w-8 h-[1px] bg-neon"></span><span class="text-neon text-[9px] font-bold uppercase tracking-[0.4em]">Expediente Motorizado</span></div>
                         <h2 class="text-4xl font-black italic uppercase leading-none mb-2 tracking-tighter">${item.nombre}</h2>
                         <div class="flex gap-2 mb-8">
-                            <span class="bg-neon/10 text-neon text-[10px] px-2 py-1 rounded font-bold">${item.placa}</span>
+                            <span class="bg-neon/10 text-neon text-[10px] px-2 py-1 rounded font-bold uppercase">${item.placa}</span>
                             <span class="bg-white/5 text-zinc-500 text-[10px] px-2 py-1 rounded font-bold uppercase">${item.marca}</span>
                         </div>
-                        
                         <div class="space-y-3">
                             <button class="btn-doc w-full flex items-center justify-between group" onclick="window.open('${item.urlVideo}')">
-                                <div class="flex items-center gap-4">
-                                    <span class="material-symbols-outlined text-neon">videocam</span>
-                                    <span class="text-[11px] font-black uppercase italic">Video de Seguridad</span>
-                                </div>
-                                <span class="material-symbols-outlined text-zinc-700 group-hover:text-neon transition-colors">open_in_new</span>
+                                <span class="text-[11px] font-black uppercase italic">Video de Seguridad</span>
+                                <span class="material-symbols-outlined text-neon">videocam</span>
                             </button>
                             <button class="btn-doc w-full flex items-center justify-between group" onclick="window.open('${item.urlCedFront}')">
-                                <div class="flex items-center gap-4">
-                                    <span class="material-symbols-outlined text-neon">badge</span>
-                                    <span class="text-[11px] font-black uppercase italic">Cédula Frontal</span>
-                                </div>
-                                <span class="material-symbols-outlined text-zinc-700 group-hover:text-neon transition-colors">open_in_new</span>
-                            </button>
-                            <button class="btn-doc w-full flex items-center justify-between group" onclick="window.open('${item.urlCedPost}')">
-                                <div class="flex items-center gap-4">
-                                    <span class="material-symbols-outlined text-neon">badge</span>
-                                    <span class="text-[11px] font-black uppercase italic">Cédula Posterior</span>
-                                </div>
-                                <span class="material-symbols-outlined text-zinc-700 group-hover:text-neon transition-colors">open_in_new</span>
+                                <span class="text-[11px] font-black uppercase italic">Cédula Frontal</span>
+                                <span class="material-symbols-outlined text-neon">badge</span>
                             </button>
                         </div>
                     </div>`;
             } else {
                 container.innerHTML = `
-                    <div class="animate-in slide-in-from-bottom-4 duration-500">
-                        <div class="flex items-center gap-2 mb-4">
-                            <span class="w-12 h-[1px] bg-neon"></span>
-                            <span class="text-neon text-[9px] font-bold uppercase tracking-[0.4em]">Solicitud Comercial</span>
-                        </div>
-                        <h2 class="text-4xl font-black italic uppercase leading-none mb-2 tracking-tighter">${item.nombreTienda}</h2>
-                        <p class="text-zinc-500 text-xs font-bold mb-8 italic">Representante: ${item.representante}</p>
-                        
-                        <div class="glass-card p-6 space-y-4 border-neon/20">
-                            <div class="flex flex-col">
-                                <span class="text-[8px] font-black text-zinc-600 uppercase">Número de Identificación</span>
-                                <span class="text-lg font-bold tracking-widest text-white">${item.cedula}</span>
-                            </div>
-                            <div class="flex flex-col">
-                                <span class="text-[8px] font-black text-zinc-600 uppercase">Ubicación</span>
-                                <span class="text-lg font-bold text-neon uppercase">${item.ciudad}</span>
-                            </div>
+                    <div class="animate-in fade-in slide-in-from-bottom-4 duration-500">
+                        <div class="flex items-center gap-2 mb-4"><span class="w-8 h-[1px] bg-neon"></span><span class="text-neon text-[9px] font-bold uppercase tracking-[0.4em]">Solicitud Comercial</span></div>
+                        <h2 class="text-4xl font-black italic uppercase leading-none mb-2 tracking-tighter text-white">${item.nombreTienda}</h2>
+                        <p class="text-zinc-500 text-xs font-bold mb-8 italic uppercase tracking-tighter">Responsable: ${item.representante}</p>
+                        <div class="glass-card p-6 space-y-4 border-neon/20 cursor-default">
+                            <div class="flex flex-col"><span class="text-[8px] font-black text-zinc-600 uppercase">RUC / Cédula</span><span class="text-lg font-bold tracking-widest">${item.cedula}</span></div>
+                            <div class="flex flex-col"><span class="text-[8px] font-black text-zinc-600 uppercase">Zona de Operación</span><span class="text-lg font-bold text-neon uppercase">${item.ciudad}</span></div>
                         </div>
                     </div>`;
             }
         }
 
         async function procesar(aprobado) {
-            // Guardamos referencia al item actual antes de limpiar
-            const cedulaProcesar = currentTab === 'motorizados' ? db.motorizados[0].cedula : db.tiendas[0].cedula;
-            
-            const payload = {
-                accion: "ACTUALIZAR_ESTADO",
-                cedula: cedulaProcesar,
-                tipoRegistro: currentTab === 'motorizados' ? 'motorizado' : 'tienda',
-                nuevoEstado: aprobado ? "APROBADO" : "RECHAZADO",
-                observaciones: document.getElementById('notas').value
-            };
-
-            // Animación de carga en el botón
+            const item = currentTab === 'motorizados' ? db.motorizados[0] : db.tiendas[0];
             const btn = event.currentTarget;
+            const originalContent = btn.innerHTML;
             btn.innerHTML = `<span class="animate-spin material-symbols-outlined text-sm">progress_activity</span>`;
             
             try {
-                await fetch(URL_SCRIPT, { method: "POST", body: JSON.stringify(payload) });
-                init(); // Refrescar todo
+                await fetch(URL_SCRIPT, { 
+                    method: "POST", 
+                    body: JSON.stringify({
+                        accion: "ACTUALIZAR_ESTADO",
+                        cedula: item.cedula,
+                        tipoRegistro: currentTab === 'motorizados' ? 'motorizado' : 'tienda',
+                        nuevoEstado: aprobado ? "APROBADO" : "RECHAZADO",
+                        observaciones: document.getElementById('notas').value
+                    })
+                });
+                init();
                 document.getElementById('notas').value = "";
             } catch (e) {
-                alert("Error de red");
-                init();
+                alert("Error de conexión");
+                btn.innerHTML = originalContent;
             }
         }
 
