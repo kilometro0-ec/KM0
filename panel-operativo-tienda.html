@@ -29,6 +29,7 @@
         @keyframes slideDown { from { transform: translateY(-120%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .notif-mobile { animation: slideDown 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
         .nav-center-btn { filter: drop-shadow(0 0 15px rgba(19, 127, 236, 0.6)); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -41,13 +42,20 @@
             <span class="material-symbols-outlined text-primary font-variation-fill">two_wheeler</span>
         </div>
         <div>
-            <h1 class="text-sm font-black italic uppercase italic">KM0 TIENDA</h1>
-            <p class="text-[9px] text-primary font-black uppercase tracking-widest leading-none">Gestión e Inventario</p>
+            <h1 class="text-sm font-black italic uppercase italic leading-none">KM0 TIENDA</h1>
+            <p class="text-[9px] text-primary font-black uppercase tracking-widest leading-none mt-1">Gestión e Inventario</p>
         </div>
     </div>
-    <button onclick="enviarNotif('Stock Bajo', 'Kit de Arrastre (Solo 2 unidades)')" class="size-10 flex items-center justify-center rounded-full bg-neutral-dark border border-white/10">
-        <span class="material-symbols-outlined text-primary font-variation-fill">notifications_active</span>
-    </button>
+    
+    <div class="flex items-center gap-2">
+        <button onclick="location.href='catalogo-tienda.html'" class="size-10 flex items-center justify-center rounded-full bg-neutral-dark border border-white/10 active:scale-90 transition-transform">
+            <span class="material-symbols-outlined text-primary font-variation-fill">inventory</span>
+        </button>
+        
+        <button onclick="enviarNotif('Stock Bajo', 'Kit de Arrastre (Solo 2 unidades)')" class="size-10 flex items-center justify-center rounded-full bg-neutral-dark border border-white/10">
+            <span class="material-symbols-outlined text-primary font-variation-fill">notifications_active</span>
+        </button>
+    </div>
 </header>
 
 <main class="flex-1 overflow-y-auto pb-40 p-4 space-y-6">
@@ -82,7 +90,7 @@
                 </div>
                 <div>
                     <p class="text-slate-400 text-[10px] font-black uppercase">Total Unidades</p>
-                    <p class="text-[11px] text-white font-bold italic uppercase">24 Productos en catálogo</p>
+                    <p class="text-[11px] text-white font-bold italic uppercase">24 Productos</p>
                 </div>
             </div>
             <div class="text-right">
@@ -149,7 +157,7 @@
                     </div>
                     <span class="px-2 py-1 rounded-lg bg-status-fuchsia/20 text-status-fuchsia text-[9px] font-black uppercase italic">Novedad</span>
                 </div>
-                <div class="w-full h-1 bg-white/5 rounded-full overflow-hidden">
+                <div class="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
                     <div class="h-full bg-status-fuchsia w-[75%]"></div>
                 </div>
             </div>
@@ -169,7 +177,7 @@
         </a>
         
         <div class="relative -top-12">
-            <button onclick="location.href='new-producto-tienda.html'" class="nav-center-btn size-20 bg-primary rounded-full flex flex-col items-center justify-center border-[6px] border-background-dark text-white shadow-2xl active:scale-90 transition-transform">
+            <button onclick="location.href='nuevo-producto-tienda.html'" class="nav-center-btn size-20 bg-primary rounded-full flex flex-col items-center justify-center border-[6px] border-background-dark text-white shadow-2xl active:scale-90 transition-transform">
                 <span class="material-symbols-outlined text-4xl font-bold">add</span>
             </button>
         </div>
@@ -191,14 +199,23 @@
         const card = document.createElement('div');
         card.className = "notif-mobile pointer-events-auto w-full max-w-sm mx-auto bg-neutral-dark/95 backdrop-blur-md rounded-2xl shadow-2xl border-l-4 border-primary p-3 flex items-center gap-4 border border-white/10";
         card.innerHTML = `
-            <div class="size-10 rounded-full bg-primary flex items-center justify-center text-white"><span class="material-symbols-outlined font-variation-fill">notifications</span></div>
+            <div class="size-10 rounded-full bg-primary flex items-center justify-center text-white">
+                <span class="material-symbols-outlined font-variation-fill">notifications</span>
+            </div>
             <div class="flex-1">
-                <div class="flex justify-between items-center"><p class="text-[10px] font-black uppercase text-primary">${titulo}</p><p class="text-[9px] text-slate-400 font-bold">Ahora</p></div>
+                <div class="flex justify-between items-center">
+                    <p class="text-[10px] font-black uppercase text-primary">${titulo}</p>
+                    <p class="text-[9px] text-slate-400 font-bold">Ahora</p>
+                </div>
                 <p class="text-xs font-bold text-slate-100">${msj}</p>
             </div>
         `;
         root.appendChild(card);
-        setTimeout(() => { card.style.opacity = "0"; card.style.transform = "translateY(-20px)"; setTimeout(() => card.remove(), 500); }, 4000);
+        setTimeout(() => { 
+            card.style.opacity = "0"; 
+            card.style.transform = "translateY(-20px)"; 
+            setTimeout(() => card.remove(), 500); 
+        }, 4000);
     }
 </script>
 
