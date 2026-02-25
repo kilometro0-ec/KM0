@@ -1,57 +1,137 @@
 <!DOCTYPE html>
 <html class="dark" lang="es">
 <head>
-    <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Panel Operativo - KM0</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>KM0 - Panel Operativo</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-    <script>
-        tailwind.config = { darkMode: "class", theme: { extend: { colors: { "primary": "#137fec", "background-dark": "#0a0f16", "neutral-dark": "#121923" } } } }
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-dark": "#0a0f16",
+                        "neutral-dark": "#121923",
+                        "status-green": "#22c55e",
+                    }
+                },
+            },
+        }
     </script>
     <style>
         body { font-family: 'Inter'; background-color: #0a0f16; color: white; }
-        .notif-mobile { animation: slideDown 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
         @keyframes slideDown { from { transform: translateY(-120%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .notif-mobile { animation: slideDown 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col pb-32">
-    <div id="notif-root" class="fixed top-4 left-0 right-0 z-[100] px-4 pointer-events-none flex flex-col gap-3"></div>
+<body class="min-h-screen flex flex-col">
 
-    <header class="sticky top-0 z-50 bg-background-dark/90 backdrop-blur-md border-b border-primary/20 px-4 py-3 flex items-center justify-between">
-        <div class="flex items-center gap-3">
-            <div class="size-10 rounded-full bg-primary/20 flex items-center justify-center border border-primary/30"><span class="material-symbols-outlined text-primary">grid_view</span></div>
-            <div><h1 class="text-sm font-black italic uppercase">KM0 PANEL</h1><p class="text-[9px] text-primary font-black uppercase">Tienda Operativa</p></div>
+<div id="notif-root" class="fixed top-4 left-0 right-0 z-[100] px-4 pointer-events-none flex flex-col gap-3"></div>
+
+<header class="sticky top-0 z-50 bg-background-dark/80 backdrop-blur-md border-b border-primary/20 px-4 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+        <div class="size-10 rounded-full bg-primary/20 flex items-center justify-center border border-primary/30">
+            <span class="material-symbols-outlined text-primary">storefront</span>
         </div>
-        <button onclick="enviarNotif('Sistema OK', 'Panel operativo conectado')" class="size-10 bg-neutral-dark rounded-full flex items-center justify-center border border-white/10"><span class="material-symbols-outlined text-primary">notifications</span></button>
-    </header>
-
-    <main class="p-4 space-y-6">
-        <div class="grid grid-cols-2 gap-3">
-            <button onclick="location.href='nuevo-pedido-tienda.html'" class="bg-primary p-6 rounded-2xl flex flex-col items-center gap-2 font-black italic text-[10px] shadow-lg shadow-primary/20"><span class="material-symbols-outlined text-3xl">add_shopping_cart</span>NUEVO PEDIDO</button>
-            <button onclick="enviarNotif('Incidencia', 'Reporte enviado a soporte')" class="bg-neutral-dark p-6 rounded-2xl flex flex-col items-center gap-2 font-black italic text-[10px] border border-white/5"><span class="material-symbols-outlined text-3xl text-red-500">report</span>INCIDENCIA</button>
+        <div>
+            <h1 class="text-sm font-black italic uppercase">KM0 TIENDA</h1>
+            <p class="text-[9px] text-primary font-black uppercase tracking-widest leading-none">Panel Operativo</p>
         </div>
-    </main>
+    </div>
+    <button onclick="enviarNotif('WhatsApp', 'Stock bajo en: Casco Integral L')" class="size-10 flex items-center justify-center rounded-full bg-neutral-dark border border-white/10">
+        <span class="material-symbols-outlined text-primary text-2xl">notifications</span>
+    </button>
+</header>
 
-    <nav class="fixed bottom-0 left-0 right-0 border-t border-white/5 bg-background-dark/95 backdrop-blur-xl px-2 pb-8 pt-3 z-50">
-        <div class="flex justify-around items-center max-w-lg mx-auto">
-            <a class="flex flex-col items-center gap-1 text-primary" href="panel-operativo-tienda.html"><span class="material-symbols-outlined font-variation-fill">grid_view</span><span class="text-[8px] font-black uppercase">Panel</span></a>
-            <a class="flex flex-col items-center gap-1 text-slate-500" href="reporte-global-tienda.html"><span class="material-symbols-outlined">dashboard</span><span class="text-[8px] font-black uppercase">Dashboard</span></a>
-            <a class="flex flex-col items-center gap-1 text-slate-500" href="nuevo-pedido-tienda.html"><span class="material-symbols-outlined">receipt_long</span><span class="text-[8px] font-black uppercase">Pedidos</span></a>
-            <a class="flex flex-col items-center gap-1 text-slate-500" href="finanzas-tienda.html"><span class="material-symbols-outlined">payments</span><span class="text-[8px] font-black uppercase">Finanzas</span></a>
-            <a class="flex flex-col items-center gap-1 text-slate-500" href="perfil-tienda.html"><span class="material-symbols-outlined">person</span><span class="text-[8px] font-black uppercase">Tienda</span></a>
+<main class="flex-1 overflow-y-auto pb-32">
+    <div class="p-4 grid grid-cols-2 gap-3">
+        <button onclick="location.href='nuevo-pedido-tienda.html'" class="flex flex-col items-center justify-center gap-2 bg-primary text-white p-6 rounded-2xl font-black shadow-lg shadow-primary/30 active:scale-95 transition-transform uppercase italic text-[10px]">
+            <span class="material-symbols-outlined text-3xl">add_shopping_cart</span>
+            NUEVO PEDIDO
+        </button>
+        <button onclick="enviarNotif('Incidencia', 'Reporte de flota enviado')" class="flex flex-col items-center justify-center gap-2 bg-neutral-dark text-white p-6 rounded-2xl font-black border border-white/10 active:scale-95 transition-transform uppercase italic text-[10px]">
+            <span class="material-symbols-outlined text-3xl text-red-500">warning</span>
+            INCIDENCIA
+        </button>
+    </div>
+
+    <div class="px-4 mb-6">
+        <h2 class="text-xs font-black uppercase tracking-widest text-slate-500 mb-4 flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary text-sm">analytics</span> RESUMEN OPERATIVO
+        </h2>
+        <div class="grid grid-cols-1 gap-3">
+            <div class="flex items-center justify-between p-5 rounded-2xl bg-neutral-dark border border-white/5">
+                <div>
+                    <p class="text-slate-400 text-[10px] font-black uppercase">En curso</p>
+                    <p class="text-3xl font-black italic">12</p>
+                </div>
+                <div class="size-14 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                    <span class="material-symbols-outlined text-3xl">local_shipping</span>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div class="p-4 rounded-2xl bg-neutral-dark border border-white/5">
+                    <p class="text-slate-400 text-[10px] font-black uppercase">Entregados</p>
+                    <p class="text-2xl font-black text-status-green italic">45</p>
+                </div>
+                <div class="p-4 rounded-2xl bg-neutral-dark border border-primary/20">
+                    <p class="text-primary text-[10px] font-black uppercase italic">Por cobrar</p>
+                    <p class="text-2xl font-black text-white italic">$1,250</p>
+                </div>
+            </div>
         </div>
-    </nav>
+    </div>
+</main>
 
-    <script>
-        function enviarNotif(titulo, msj) {
-            const root = document.getElementById('notif-root');
-            const card = document.createElement('div');
-            card.className = "notif-mobile w-full max-w-sm mx-auto bg-neutral-dark/95 backdrop-blur-md rounded-2xl border-l-4 border-primary p-3 flex items-center gap-4 border border-white/10 pointer-events-auto shadow-2xl";
-            card.innerHTML = `<div class="size-10 rounded-full bg-primary flex items-center justify-center text-white"><span class="material-symbols-outlined">notifications_active</span></div><div class="flex-1"><p class="text-[10px] font-black text-primary uppercase">${titulo}</p><p class="text-xs font-bold text-white">${msj}</p></div>`;
-            root.appendChild(card);
-            setTimeout(() => { card.style.opacity = "0"; setTimeout(() => card.remove(), 500); }, 3000);
-        }
-    </script>
+<nav class="fixed bottom-0 left-0 right-0 border-t border-white/5 bg-background-dark/95 backdrop-blur-xl px-2 pb-8 pt-3 z-50">
+    <div class="flex justify-around items-center max-w-lg mx-auto">
+        <a class="flex flex-col items-center gap-1 text-slate-500" href="reporte-global-tienda.html">
+            <span class="material-symbols-outlined text-2xl">dashboard</span>
+            <span class="text-[8px] font-black uppercase tracking-tighter text-center">Dashboard</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-primary" href="panel-operativo-tienda.html">
+            <span class="material-symbols-outlined text-2xl font-variation-fill">grid_view</span>
+            <span class="text-[8px] font-black uppercase tracking-tighter text-center">Panel</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-slate-500 hover:text-primary transition-colors" href="nuevo-producto-tienda.html">
+            <div class="bg-primary/20 p-2 rounded-xl mb-[-4px]">
+                <span class="material-symbols-outlined text-primary text-2xl">add_box</span>
+            </div>
+            <span class="text-[8px] font-black uppercase tracking-tighter text-center">+ Producto</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-slate-500" href="finanzas-tienda.html">
+            <span class="material-symbols-outlined text-2xl">payments</span>
+            <span class="text-[8px] font-black uppercase tracking-tighter text-center">Finanzas</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-slate-500" href="perfil-tienda.html">
+            <span class="material-symbols-outlined text-2xl">person</span>
+            <span class="text-[8px] font-black uppercase tracking-tighter text-center">Tienda</span>
+        </a>
+    </div>
+</nav>
+
+<script>
+    function enviarNotif(titulo, msj) {
+        const root = document.getElementById('notif-root');
+        const card = document.createElement('div');
+        card.className = "notif-mobile pointer-events-auto w-full max-w-sm mx-auto bg-white dark:bg-neutral-dark rounded-2xl shadow-2xl border-l-4 border-primary p-3 flex items-center gap-4 border border-white/10";
+        card.innerHTML = `
+            <div class="size-10 rounded-full bg-primary flex items-center justify-center text-white shadow-lg shadow-primary/30">
+                <span class="material-symbols-outlined text-xl">notifications_active</span>
+            </div>
+            <div class="flex-1">
+                <div class="flex justify-between items-center"><p class="text-[10px] font-black uppercase text-primary tracking-widest">${titulo}</p><p class="text-[9px] text-slate-400 font-bold">Ahora</p></div>
+                <p class="text-xs font-bold text-slate-100">${msj}</p>
+            </div>
+        `;
+        root.appendChild(card);
+        setTimeout(() => { card.style.opacity = "0"; card.style.transform = "translateY(-20px)"; setTimeout(() => card.remove(), 500); }, 4000);
+    }
+</script>
+
 </body>
 </html>
