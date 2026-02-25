@@ -5,7 +5,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>Acceso Oficial - Kilómetro Cero</title>
 
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&display=swap" rel="stylesheet"/>
 
@@ -15,8 +15,8 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: "#ff6a00",
-                        backgroundDark: "#050505",
+                        'brand-orange': "#ff6a00",
+                        'bg-dark': "#050505",
                     },
                     fontFamily: {
                         sans: ["Inter", "sans-serif"]
@@ -30,7 +30,6 @@
         @layer base {
             body {
                 @apply bg-[#050505] text-white antialiased;
-                font-family: 'Inter', sans-serif;
             }
         }
 
@@ -38,6 +37,7 @@
             font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
         }
 
+        /* Corrección del foco para que SIEMPRE sea naranja */
         input:focus {
             outline: none !important;
             border-color: #ff6a00 !important;
@@ -50,7 +50,6 @@
 
     <div class="w-full max-w-[340px] flex flex-col items-center">
         
-        <!-- LOGO -->
         <div class="mb-10 flex flex-col items-center">
             <div class="w-24 h-24 mb-4 flex items-center justify-center">
                 <svg class="w-full h-full" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -63,7 +62,7 @@
             </div>
 
             <div class="text-center">
-                <h1 class="text-3xl font-[900] tracking-tighter uppercase italic leading-none">
+                <h1 class="text-3xl font-[900] tracking-tighter uppercase italic leading-none text-white">
                     Kilómetro
                 </h1>
                 <h2 class="text-xl font-bold tracking-[0.3em] uppercase text-[#ff6a00] mt-1">
@@ -72,10 +71,8 @@
             </div>
         </div>
 
-        <!-- FORMULARIO -->
         <div class="w-full space-y-5">
 
-            <!-- USUARIO -->
             <div class="space-y-2">
                 <label class="text-[10px] font-black uppercase tracking-widest text-zinc-500 ml-1">
                     Usuario
@@ -84,18 +81,17 @@
                     <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-zinc-600">
                         person
                     </span>
-                    <input id="user" type="text" placeholder="ID o Usuario"
+                    <input id="user" type="text" placeholder="ID o Usuario" autocomplete="off"
                         class="w-full bg-[#111] border border-zinc-800 rounded-2xl py-4 pl-12 pr-4 text-white placeholder:text-zinc-700 transition-all focus:bg-black">
                 </div>
             </div>
 
-            <!-- CLAVE -->
             <div class="space-y-2">
                 <div class="flex justify-between ml-1">
                     <label class="text-[10px] font-black uppercase tracking-widest text-zinc-500">
                         Clave
                     </label>
-                    <button class="text-[10px] font-bold text-zinc-600 uppercase hover:text-[#ff6a00]">
+                    <button class="text-[10px] font-bold text-zinc-600 uppercase hover:text-[#ff6a00] transition-colors">
                         ¿Olvido?
                     </button>
                 </div>
@@ -108,26 +104,24 @@
                     <input id="pass" type="password" placeholder="••••••••"
                         class="w-full bg-[#111] border border-zinc-800 rounded-2xl py-4 pl-12 pr-12 text-white placeholder:text-zinc-700 transition-all focus:bg-black">
 
-                    <button onclick="togglePass()" 
-                        class="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-600 hover:text-[#ff6a00]">
+                    <button type="button" onclick="togglePass()" 
+                        class="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-600 hover:text-[#ff6a00] transition-colors">
                         <span id="eye" class="material-symbols-outlined">visibility</span>
                     </button>
                 </div>
             </div>
 
-            <!-- BOTÓN -->
             <button onclick="login()"
                 class="w-full bg-[#ff6a00] hover:bg-[#e65c00] text-white font-[900] py-5 rounded-2xl tracking-[0.2em] uppercase transition-all active:scale-[0.97] shadow-lg shadow-[#ff6a00]/20 mt-4">
                 Entrar
             </button>
 
             <p id="error"
-                class="hidden text-center text-[#ff6a00] text-[10px] font-bold uppercase tracking-widest mt-2">
+                class="hidden text-center text-[#ff6a00] text-[10px] font-bold uppercase tracking-widest mt-2 bg-[#ff6a00]/10 py-2 rounded-lg border border-[#ff6a00]/20">
                 Error de acceso
             </p>
         </div>
 
-        <!-- VOLVER -->
         <button onclick="window.location.href='index.html'"
             class="mt-12 text-[11px] font-black text-zinc-500 hover:text-white uppercase tracking-widest transition-colors">
             VOLVER AL INICIO
@@ -135,7 +129,6 @@
 
     </div>
 
-    <!-- SCRIPTS -->
     <script>
         function togglePass() {
             const p = document.getElementById('pass');
@@ -155,19 +148,27 @@
             const p = document.getElementById('pass').value.trim();
             const err = document.getElementById('error');
 
-            if (u === "12345" && p === "12345") 
+            // Lógica de acceso solicitada
+            if (u === "12345" && p === "12345") {
                 window.location.href = 'panel-operativo-tienda.html';
-            else if (u === "54321" && p === "54321") 
+            } else if (u === "54321" && p === "54321") {
                 window.location.href = 'panel-operativo-motorizado.html';
-            else if (u === "1716001431" && p === "1716001431") 
+            } else if (u === "1716001431" && p === "1716001431") {
                 window.location.href = 'admin.html';
-            else if (u === "1722140207" && p === "1722140207") 
+            } else if (u === "1722140207" && p === "1722140207") {
                 window.location.href = 'finanzas-km0.html';
-            else {
+            } else {
                 err.classList.remove('hidden');
                 setTimeout(() => err.classList.add('hidden'), 3000);
             }
         }
+
+        // Permitir Login con la tecla Enter
+        document.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                login();
+            }
+        });
     </script>
 
 </body>
