@@ -14,9 +14,9 @@
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#137fec", // Cambio a Azul Eléctrico
+                        "primary": "#137fec", // AZUL ELÉCTRICO CORREGIDO
                         "background-light": "#f8f5f8",
-                        "background-dark": "#0a0f16", // Ajustado para que el azul resalte mejor
+                        "background-dark": "#0a0f16",
                         "neutral-dark": "#121923",
                         "status-green": "#22c55e",
                         "status-purple": "#a855f7",
@@ -38,9 +38,9 @@
 </head>
 <body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
 
-<header class="sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-primary/10 px-4 py-3 flex items-center justify-between">
+<header class="sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-primary/20 px-4 py-3 flex items-center justify-between">
     <div class="flex items-center gap-3">
-        <div class="size-10 rounded-full bg-primary/20 flex items-center justify-center border border-primary/30 overflow-hidden">
+        <div class="size-10 rounded-full bg-primary/20 flex items-center justify-center border border-primary/40 overflow-hidden">
             <img alt="Logo" class="size-8 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBF8F021zRfOnOEooYcUQznS-fnfpBMFtih2COy228Ha8pPktBFDO0ATk544gEhY1le4GPdp8SATrocx3RJLlmuu5b6MGfdInWcoWI__PaD-raC3OjeuiS19mwr4hG-GL96p1yEsNkq0ALgaBcX-3zv-fWOwaaiLfokr2mCSpY1oana7o9a1m27z5f6HWGTgux66Uh_HLz-H-t-DLRBgUQjaEUuu3bO5fzdPhVC1HRG_KQrS4HoJ843gxQAti8LNclcEjO_yTOa-bgR"/>
         </div>
         <div>
@@ -49,7 +49,7 @@
         </div>
     </div>
     <div class="flex gap-2">
-        <button class="size-10 flex items-center justify-center rounded-full bg-neutral-dark text-slate-100">
+        <button class="size-10 flex items-center justify-center rounded-full bg-neutral-dark text-slate-100 border border-white/5">
             <span class="material-symbols-outlined text-2xl">notifications</span>
         </button>
     </div>
@@ -57,11 +57,11 @@
 
 <main class="flex-1 overflow-y-auto pb-24">
     <div class="p-4 grid grid-cols-2 gap-3">
-        <button onclick="location.href='nuevo-pedido-tienda.html'" class="flex flex-col items-center justify-center gap-2 bg-primary text-white p-4 rounded-xl font-bold shadow-lg shadow-primary/20 active:scale-95 transition-transform">
+        <button onclick="location.href='nuevo-pedido-tienda.html'" class="flex flex-col items-center justify-center gap-2 bg-primary text-white p-4 rounded-xl font-bold shadow-lg shadow-primary/30 active:scale-95 transition-transform">
             <span class="material-symbols-outlined text-2xl">add_shopping_cart</span>
             <span class="text-xs">NUEVO PEDIDO</span>
         </button>
-        <button class="flex flex-col items-center justify-center gap-2 bg-primary text-white p-4 rounded-xl font-bold shadow-lg shadow-primary/20 active:scale-95 transition-transform">
+        <button class="flex flex-col items-center justify-center gap-2 bg-primary text-white p-4 rounded-xl font-bold shadow-lg shadow-primary/30 active:scale-95 transition-transform">
             <span class="material-symbols-outlined text-2xl">report_problem</span>
             <span class="text-xs">INCIDENCIA</span>
         </button>
@@ -87,7 +87,7 @@
                     <p class="text-slate-400 text-xs mb-1">Entregados hoy</p>
                     <p class="text-xl font-bold text-status-green">45</p>
                 </div>
-                <div onclick="location.href='finanzas-tienda.html'" class="p-4 rounded-xl bg-neutral-dark border border-white/5 cursor-pointer active:opacity-80">
+                <div onclick="location.href='finanzas-tienda.html'" class="p-4 rounded-xl bg-neutral-dark border border-white/5 cursor-pointer active:bg-primary/5 transition-colors">
                     <p class="text-slate-400 text-xs mb-1">Pagos por Liquidar</p>
                     <p class="text-xl font-bold text-primary">$1,250</p>
                 </div>
@@ -98,12 +98,15 @@
     <div class="px-4">
         <div class="flex items-center justify-between mb-4">
             <h2 class="text-lg font-bold">Estado de Pedidos</h2>
-            <button onclick="location.href='reporte-global-tienda.html'" class="text-primary text-sm font-medium">Ver todos</button>
+            <button onclick="location.href='reporte-global-tienda.html'" class="text-primary text-sm font-medium hover:underline">Ver todos</button>
         </div>
         <div class="space-y-3">
             <div class="p-4 rounded-xl bg-neutral-dark/40 border border-white/5">
                 <div class="flex justify-between items-start mb-3">
-                    <div><p class="font-bold">#KC-8842</p><p class="text-xs text-slate-400">Hace 15 min • Av. Principal 123</p></div>
+                    <div>
+                        <p class="font-bold">#KC-8842</p>
+                        <p class="text-xs text-slate-400">Hace 15 min • Av. Principal 123</p>
+                    </div>
                     <span class="px-2 py-1 rounded-md bg-status-green/20 text-status-green text-[10px] font-bold uppercase tracking-wider">Entregado</span>
                 </div>
                 <div class="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
@@ -112,7 +115,10 @@
             </div>
             <div class="p-4 rounded-xl bg-neutral-dark/40 border border-white/5">
                 <div class="flex justify-between items-start mb-3">
-                    <div><p class="font-bold">#KC-8845</p><p class="text-xs text-slate-400">Hace 42 min • Calle Luna 45</p></div>
+                    <div>
+                        <p class="font-bold">#KC-8845</p>
+                        <p class="text-xs text-slate-400">Hace 42 min • Calle Luna 45</p>
+                    </div>
                     <span class="px-2 py-1 rounded-md bg-status-purple/20 text-status-purple text-[10px] font-bold uppercase tracking-wider">Novedad</span>
                 </div>
                 <div class="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
@@ -123,23 +129,23 @@
     </div>
 </main>
 
-<nav class="fixed bottom-0 left-0 right-0 border-t border-neutral-dark bg-background-dark/95 backdrop-blur-lg px-4 pb-6 pt-2 z-50">
+<nav class="fixed bottom-0 left-0 right-0 border-t border-white/5 bg-background-dark/95 backdrop-blur-lg px-4 pb-6 pt-2 z-50">
     <div class="flex justify-around items-center max-w-md mx-auto">
         <a class="flex flex-col items-center gap-1 text-primary" href="panel-operativo-tienda.html">
             <span class="material-symbols-outlined text-2xl">grid_view</span>
-            <span class="text-[10px] font-medium">Dashboard</span>
+            <span class="text-[10px] font-medium uppercase">Panel</span>
         </a>
         <a class="flex flex-col items-center gap-1 text-slate-400" href="reporte-global-tienda.html">
             <span class="material-symbols-outlined text-2xl">receipt_long</span>
-            <span class="text-[10px] font-medium">Pedidos</span>
+            <span class="text-[10px] font-medium uppercase">Pedidos</span>
         </a>
         <a class="flex flex-col items-center gap-1 text-slate-400" href="finanzas-tienda.html">
-            <span class="material-symbols-outlined text-2xl">inventory_2</span>
-            <span class="text-[10px] font-medium">Finanzas</span>
+            <span class="material-symbols-outlined text-2xl">payments</span>
+            <span class="text-[10px] font-medium uppercase">Finanzas</span>
         </a>
         <a class="flex flex-col items-center gap-1 text-slate-400" href="perfil-tienda.html">
-            <span class="material-symbols-outlined text-2xl">account_circle</span>
-            <span class="text-[10px] font-medium">Perfil</span>
+            <span class="material-symbols-outlined text-2xl">storefront</span>
+            <span class="text-[10px] font-medium uppercase">Tienda</span>
         </a>
     </div>
 </nav>
