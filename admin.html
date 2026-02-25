@@ -3,33 +3,85 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel KM0 - Admin</title>
+    <title>Panel KM0 - Admin Neon</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1" rel="stylesheet">
     <style>
-        body { background: #000; color: white; }
-        .tab-active { color: #ec1313; border-bottom: 2px solid #ec1313; }
-        .btn-doc { background: #111; border: 1px solid #222; padding: 12px; border-radius: 12px; font-size: 10px; width: 100%; text-align: left; display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+        body { background: #000; color: #fff; font-family: 'Inter', sans-serif; }
+        /* Verde Fosforescente */
+        .text-neon { color: #39FF14; }
+        .bg-neon { background: #39FF14; }
+        .border-neon { border-color: #39FF14; }
+        
+        .tab-active { color: #39FF14; border-bottom: 3px solid #39FF14; }
+        
+        .btn-doc { 
+            background: #0a0a0a; 
+            border: 1px solid #1a1a1a; 
+            padding: 14px; 
+            border-radius: 16px; 
+            font-size: 11px; 
+            width: 100%; 
+            text-align: left; 
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+            margin-bottom: 10px;
+            transition: all 0.2s;
+        }
+        .btn-doc:active { scale: 0.98; background: #111; border-color: #39FF14; }
+        
+        @keyframes pulse-neon {
+            0% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(57, 255, 20, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0); }
+        }
+        .bell-active { animation: pulse-neon 2s infinite; color: #39FF14 !important; }
+        
+        .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #39FF14;
+            color: #000;
+            font-size: 10px;
+            font-weight: 900;
+            padding: 2px 6px;
+            border-radius: 50%;
+        }
     </style>
 </head>
 <body>
     <header class="p-6 border-b border-zinc-900 flex justify-between items-center sticky top-0 bg-black/80 backdrop-blur-md z-50">
-        <h1 class="text-xl font-black italic">KM0 ADMIN</h1>
-        <button onclick="init()" class="material-symbols-outlined text-zinc-400">sync</button>
+        <div>
+            <h1 class="text-xl font-black italic tracking-tighter">KM0 <span class="text-neon">ADMIN</span></h1>
+        </div>
+        
+        <div class="flex items-center gap-5">
+            <div class="relative">
+                <span id="bell-icon" class="material-symbols-outlined text-zinc-500">notifications</span>
+                <span id="notif-count" class="badge hidden">0</span>
+            </div>
+            <button onclick="init()" class="material-symbols-outlined text-zinc-400 active:rotate-180 transition-transform duration-500">sync</button>
+        </div>
     </header>
 
-    <nav class="flex border-b border-zinc-900">
-        <button onclick="cambiarTab('motorizados')" id="btnM" class="flex-1 py-4 text-[10px] font-black uppercase tab-active">Motorizados</button>
-        <button onclick="cambiarTab('tiendas')" id="btnT" class="flex-1 py-4 text-[10px] font-black uppercase text-zinc-500">Tiendas</button>
+    <nav class="flex border-b border-zinc-900 bg-zinc-950/50">
+        <button onclick="cambiarTab('motorizados')" id="btnM" class="flex-1 py-4 text-[10px] font-black uppercase tab-active tracking-widest">Motorizados</button>
+        <button onclick="cambiarTab('tiendas')" id="btnT" class="flex-1 py-4 text-[10px] font-black uppercase text-zinc-500 tracking-widest">Tiendas</button>
     </nav>
 
     <main id="content" class="p-6 max-w-xl mx-auto pb-64"></main>
 
-    <footer id="footer" class="fixed bottom-0 inset-x-0 p-6 bg-black/90 border-t border-zinc-900 hidden">
-        <textarea id="notas" class="w-full bg-zinc-900 border border-zinc-800 rounded-xl p-4 text-xs mb-4" placeholder="Observaciones..."></textarea>
+    <footer id="footer" class="fixed bottom-0 inset-x-0 p-6 bg-black/90 border-t border-zinc-900 hidden backdrop-blur-lg">
+        <div class="flex items-center gap-2 mb-3 ml-1">
+            <span class="material-symbols-outlined text-[14px] text-neon">edit_note</span>
+            <p class="text-[9px] font-black uppercase text-zinc-400 italic">Notas de revisión</p>
+        </div>
+        <textarea id="notas" class="w-full bg-zinc-900 border border-zinc-800 rounded-2xl p-4 text-xs mb-4 focus:border-neon outline-none text-white" placeholder="Escribe el motivo del rechazo o felicitaciones..."></textarea>
         <div class="flex gap-4">
-            <button onclick="procesar(false)" class="flex-1 py-4 border border-red-600 text-red-600 rounded-xl font-black text-[10px] uppercase">Rechazar</button>
-            <button onclick="procesar(true)" class="flex-[2] py-4 bg-red-600 text-white rounded-xl font-black text-[10px] uppercase">Aprobar</button>
+            <button onclick="procesar(false)" class="flex-1 py-4 border border-zinc-800 text-zinc-500 rounded-2xl font-black text-[10px] uppercase hover:bg-red-950/20 hover:text-red-500 transition-all">Rechazar</button>
+            <button onclick="procesar(true)" class="flex-[2] py-4 bg-neon text-black rounded-2xl font-black text-[10px] uppercase shadow-lg shadow-neon/20 active:scale-95 transition-all">Aprobar Ahora</button>
         </div>
     </footer>
 
@@ -40,10 +92,35 @@
         let currentItem = null;
 
         async function init() {
-            document.getElementById('content').innerHTML = "<p class='text-center py-20 animate-pulse text-xs uppercase'>Sincronizando Excel...</p>";
-            const resp = await fetch(URL_SCRIPT);
-            db = await resp.json();
-            render();
+            document.getElementById('content').innerHTML = `
+                <div class="flex flex-col items-center justify-center py-20 gap-4">
+                    <div class="w-8 h-8 border-4 border-neon border-t-transparent rounded-full animate-spin"></div>
+                    <p class="text-neon text-[10px] font-black uppercase tracking-[0.2em]">Escaneando Base de Datos...</p>
+                </div>`;
+            
+            try {
+                const resp = await fetch(URL_SCRIPT);
+                db = await resp.json();
+                actualizarCampana();
+                render();
+            } catch (e) {
+                document.getElementById('content').innerHTML = "<p class='text-center py-20 text-red-500 text-xs font-black'>ERROR DE CONEXIÓN</p>";
+            }
+        }
+
+        function actualizarCampana() {
+            const total = (db.motorizados?.length || 0) + (db.tiendas?.length || 0);
+            const bell = document.getElementById('bell-icon');
+            const badge = document.getElementById('notif-count');
+            
+            if (total > 0) {
+                bell.classList.add('bell-active', 'font-fill');
+                badge.classList.remove('hidden');
+                badge.innerText = total;
+            } else {
+                bell.classList.remove('bell-active', 'font-fill');
+                badge.classList.add('hidden');
+            }
         }
 
         function cambiarTab(t) {
@@ -59,7 +136,11 @@
             const footer = document.getElementById('footer');
 
             if (!list || list.length === 0) {
-                container.innerHTML = "<p class='text-center py-20 text-zinc-600 text-xs uppercase'>Todo revisado ✅</p>";
+                container.innerHTML = `
+                    <div class="text-center py-32">
+                        <span class="material-symbols-outlined text-neon text-5xl mb-4">task_alt</span>
+                        <p class='text-zinc-600 text-[10px] font-black uppercase tracking-widest'>Sin solicitudes pendientes</p>
+                    </div>`;
                 footer.classList.add('hidden');
                 return;
             }
@@ -69,27 +150,64 @@
 
             if (currentTab === 'motorizados') {
                 container.innerHTML = `
-                    <h2 class="text-2xl font-black italic uppercase">${currentItem.nombre}</h2>
-                    <p class="text-red-500 text-[10px] font-bold mb-6">${currentItem.marca} • ${currentItem.placa}</p>
-                    <div class="space-y-2">
-                        <button class="btn-doc" onclick="window.open('${currentItem.urlVideo}')">Video Biométrico</button>
-                        <button class="btn-doc" onclick="window.open('${currentItem.urlCedFront}')">Cédula Frontal</button>
-                        <button class="btn-doc" onclick="window.open('${currentItem.urlCedPost}')">Cédula Posterior</button>
+                    <div class="animate-in fade-in duration-500">
+                        <p class="text-neon font-black text-[9px] uppercase tracking-[0.3em] mb-2">Nuevo Motorizado</p>
+                        <h2 class="text-3xl font-black italic uppercase leading-none mb-1">${currentItem.nombre}</h2>
+                        <p class="text-zinc-500 text-[11px] font-bold mb-8 uppercase tracking-tighter">${currentItem.marca} <span class="text-neon">/</span> ${currentItem.placa}</p>
+                        
+                        <div class="grid gap-3">
+                            <button class="btn-doc" onclick="window.open('${currentItem.urlVideo}')">
+                                <span class="material-symbols-outlined text-neon">videocam</span>
+                                <div class="flex flex-col">
+                                    <span class="font-black uppercase italic">Video Biométrico</span>
+                                    <span class="text-[8px] text-zinc-600 uppercase">Ver validación de identidad</span>
+                                </div>
+                            </button>
+                            <button class="btn-doc" onclick="window.open('${currentItem.urlCedFront}')">
+                                <span class="material-symbols-outlined text-neon">contact_page</span>
+                                <div class="flex flex-col">
+                                    <span class="font-black uppercase italic">Cédula Frontal</span>
+                                    <span class="text-[8px] text-zinc-600 uppercase">Ver anverso del documento</span>
+                                </div>
+                            </button>
+                            <button class="btn-doc" onclick="window.open('${currentItem.urlCedPost}')">
+                                <span class="material-symbols-outlined text-neon">contact_page</span>
+                                <div class="flex flex-col">
+                                    <span class="font-black uppercase italic">Cédula Posterior</span>
+                                    <span class="text-[8px] text-zinc-600 uppercase">Ver reverso del documento</span>
+                                </div>
+                            </button>
+                        </div>
                     </div>
                 `;
             } else {
                 container.innerHTML = `
-                    <h2 class="text-2xl font-black italic uppercase text-magenta">${currentItem.nombreTienda}</h2>
-                    <p class="text-zinc-500 text-[10px] font-bold mb-6">${currentItem.representante}</p>
-                    <div class="bg-zinc-900 p-6 rounded-3xl space-y-4">
-                        <p class="text-xs"><b>ID:</b> ${currentItem.cedula}</p>
-                        <p class="text-xs"><b>CIUDAD:</b> ${currentItem.ciudad}</p>
+                    <div class="animate-in fade-in duration-500">
+                        <p class="text-neon font-black text-[9px] uppercase tracking-[0.3em] mb-2">Nueva Tienda</p>
+                        <h2 class="text-3xl font-black italic uppercase leading-none mb-1 text-white">${currentItem.nombreTienda}</h2>
+                        <p class="text-zinc-500 text-[11px] font-bold mb-8 uppercase tracking-tighter">Responsable: ${currentItem.representante}</p>
+                        
+                        <div class="bg-zinc-950 border border-zinc-900 p-6 rounded-3xl space-y-4">
+                            <div class="flex justify-between items-center border-b border-zinc-900 pb-3">
+                                <span class="text-[9px] font-black uppercase text-zinc-500 italic">Identificación</span>
+                                <span class="text-xs font-bold">${currentItem.cedula}</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-[9px] font-black uppercase text-zinc-500 italic">Ciudad</span>
+                                <span class="text-xs font-bold text-neon">${currentItem.ciudad}</span>
+                            </div>
+                        </div>
                     </div>
                 `;
             }
         }
 
         async function procesar(aprobado) {
+            const btn = event.target;
+            const originalText = btn.innerText;
+            btn.innerText = "PROCESANDO...";
+            btn.disabled = true;
+
             const nota = document.getElementById('notas').value;
             const payload = {
                 accion: "ACTUALIZAR_ESTADO",
@@ -98,9 +216,16 @@
                 nuevoEstado: aprobado ? "APROBADO" : "RECHAZADO",
                 observaciones: nota
             };
-            await fetch(URL_SCRIPT, { method: "POST", body: JSON.stringify(payload) });
-            alert(aprobado ? "Cuenta Aprobada" : "Registro Eliminado");
-            location.reload();
+
+            try {
+                await fetch(URL_SCRIPT, { method: "POST", body: JSON.stringify(payload) });
+                init(); // Recargar datos
+                document.getElementById('notas').value = "";
+            } catch (e) {
+                alert("Error al procesar");
+                btn.innerText = originalText;
+                btn.disabled = false;
+            }
         }
 
         init();
