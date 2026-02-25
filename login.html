@@ -3,9 +3,10 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Login Kilómetro Cero</title>
+    <title>Acceso Oficial - Kilómetro Cero</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <script id="tailwind-config">
         tailwind.config = {
@@ -13,144 +14,132 @@
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#135bec",
-                        "brand-fuchsia": "#ff00ff",
-                        "brand-red": "#e63946",
-                        "background-light": "#f6f6f8",
-                        "background-dark": "#0a0c10",
-                        "input-bg": "#111111",
-                        "input-border": "#222222",
+                        "primary": "#f20d0d",
+                        "background-light": "#f8f5f5",
+                        "background-dark": "#0a0505",
                     },
                     fontFamily: {
-                        "sans": ["Inter", "sans-serif"],
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
                     },
                 },
             },
         }
     </script>
-    <style type="text/tailwindcss">
-        :root {
-            --primary-color: #135bec;
-        }
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0a0c10;
-            -webkit-font-smoothing: antialiased;
-            overflow: hidden;
-        }
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
-        }
-        input:focus {
-            outline: none;
-            box-shadow: 0 0 0 2px var(--primary-color) !important;
-            background-color: #000000 !important;
-        }
-        .bull-logo-container {
-            filter: drop-shadow(0 0 20px rgba(19, 91, 236, 0.2));
-        }
+    <style>
+        body { font-family: 'Inter', sans-serif; min-height: max(884px, 100dvh); }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
     </style>
 </head>
-<body class="bg-[#0a0c10] text-white flex flex-col min-h-screen items-center justify-between p-8">
-    <div class="h-4"></div>
-    
-    <div class="w-full max-w-[340px] flex flex-col items-center flex-1 justify-center">
-        <div class="mb-14 flex flex-col items-center">
-            <div class="w-32 h-32 mb-6 flex items-center justify-center bull-logo-container">
-                <svg class="w-full h-full" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M20 25C15 15 25 5 40 15C42 16 45 20 45 20" fill="none" stroke="#135bec" stroke-linecap="round" stroke-width="4"></path>
-                    <path d="M80 25C85 15 75 5 60 15C58 16 55 20 55 20" fill="none" stroke="#135bec" stroke-linecap="round" stroke-width="4"></path>
-                    <path d="M30 35L50 25L70 35L75 60L50 85L25 60L30 35Z" fill="#135bec"></path>
-                    <path d="M50 85L25 60L30 35L50 45L70 35L75 60L50 85Z" fill="#8E8E8E" opacity="0.4"></path>
-                    <circle cx="40" cy="45" fill="white" r="2"></circle>
-                    <circle cx="60" cy="45" fill="white" r="2"></circle>
-                </svg>
-            </div>
-            <div class="text-center">
-                <h1 class="text-[32px] font-[900] tracking-[-0.05em] uppercase leading-none italic">Kilómetro</h1>
-                <h2 class="text-[20px] font-[800] tracking-[0.4em] uppercase text-primary mt-1 pl-[0.4em]">Cero</h2>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
+
+<nav class="flex items-center px-4 py-6 justify-between">
+    <button onclick="window.location.href='index.html'" class="text-slate-900 dark:text-slate-100 p-2 hover:bg-primary/10 rounded-full transition-colors">
+        <span class="material-symbols-outlined text-2xl">arrow_back</span>
+    </button>
+    <h1 class="text-sm font-semibold tracking-wider uppercase text-slate-500 dark:text-slate-400">Acceso Oficial</h1>
+    <div class="w-10"></div>
+</nav>
+
+<main class="flex-1 flex flex-col px-6 max-w-md mx-auto w-full">
+    <div class="flex flex-col items-center mt-8 mb-12">
+        <div class="w-32 h-32 mb-6 bg-gradient-to-br from-primary/20 to-transparent rounded-full flex items-center justify-center border border-primary/30 relative">
+            <svg class="w-20 h-20" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 25C15 15 25 5 40 15C42 16 45 20 45 20" fill="none" stroke="#f20d0d" stroke-linecap="round" stroke-width="4"></path>
+                <path d="M80 25C85 15 75 5 60 15C58 16 55 20 55 20" fill="none" stroke="#f20d0d" stroke-linecap="round" stroke-width="4"></path>
+                <path d="M30 35L50 25L70 35L75 60L50 85L25 60L30 35Z" fill="#f20d0d"></path>
+                <path d="M50 85L25 60L30 35L50 45L70 35L75 60L50 85Z" fill="#8E8E8E" opacity="0.4"></path>
+                <circle cx="40" cy="45" fill="white" r="2"></circle>
+                <circle cx="60" cy="45" fill="white" r="2"></circle>
+            </svg>
+        </div>
+        <h2 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100 text-center">Kilómetro <span class="text-primary">Cero</span></h2>
+        <p class="text-slate-500 dark:text-slate-400 mt-2 text-sm text-center">Mensajería y Entregas Profesionales</p>
+    </div>
+
+    <div class="space-y-5">
+        <div class="space-y-2">
+            <label class="text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 ml-1">Usuario</label>
+            <div class="relative group">
+                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors">person</span>
+                <input id="userId" class="w-full bg-slate-100 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 focus:border-primary dark:focus:border-primary focus:ring-1 focus:ring-primary rounded-xl py-4 pl-12 pr-4 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 transition-all outline-none" placeholder="Ingresa tu ID de usuario" type="text"/>
             </div>
         </div>
 
-        <div class="w-full space-y-5">
-            <div class="space-y-2">
-                <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 ml-1">Usuario</label>
-                <div class="relative">
-                    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-zinc-600">person</span>
-                    <input id="userInput" class="w-full bg-[#111111] border border-[#222222] rounded-2xl py-4 pl-12 pr-4 text-white placeholder:text-zinc-800 focus:border-primary transition-all duration-200 text-base" placeholder="ID o Usuario" type="text"/>
-                </div>
-            </div>
-
-            <div class="space-y-2">
-                <div class="flex justify-between items-center ml-1">
-                    <label class="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500">Clave</label>
-                    <a class="text-[10px] font-bold text-zinc-600 uppercase tracking-widest hover:text-primary transition-colors" href="#">¿Olvido?</a>
-                </div>
-                <div class="relative">
-                    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-zinc-600">lock</span>
-                    <input id="passInput" class="w-full bg-[#111111] border border-[#222222] rounded-2xl py-4 pl-12 pr-12 text-white placeholder:text-zinc-800 focus:border-primary transition-all duration-200 text-base" placeholder="••••••••" type="password"/>
-                    <button type="button" onclick="togglePass()" class="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-600 hover:text-primary">
-                        <span id="eyeIcon" class="material-symbols-outlined">visibility</span>
-                    </button>
-                </div>
-            </div>
-
-            <div class="pt-6">
-                <button onclick="validarAcceso()" class="w-full bg-primary hover:bg-[#114ecc] text-white py-5 rounded-2xl font-black text-sm tracking-[0.3em] transition-all active:scale-[0.98] uppercase shadow-[0_8px_25px_rgba(19,91,236,0.35)]">
-                    ENTRAR
+        <div class="space-y-2">
+            <label class="text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 ml-1">Clave</label>
+            <div class="relative group">
+                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors">lock</span>
+                <input id="password" class="w-full bg-slate-100 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 focus:border-primary dark:focus:border-primary focus:ring-1 focus:ring-primary rounded-xl py-4 pl-12 pr-12 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 transition-all outline-none" placeholder="Introduce tu clave secreta" type="password"/>
+                <button type="button" onclick="togglePass()" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary transition-colors">
+                    <span id="eyeIcon" class="material-symbols-outlined">visibility</span>
                 </button>
             </div>
-            <p id="errorMsg" class="hidden text-center text-[#e63946] text-[10px] font-black uppercase tracking-widest">Credenciales Incorrectas</p>
         </div>
+
+        <div class="flex justify-end pt-1">
+            <a class="text-xs font-semibold text-primary hover:underline" href="#">¿Olvidaste tu contraseña?</a>
+        </div>
+
+        <button onclick="ejecutarLogin()" class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98] mt-4 tracking-widest uppercase">
+            Entrar
+        </button>
+        
+        <p id="errorMsg" class="hidden text-center text-primary text-[10px] font-bold uppercase mt-2 tracking-widest">Credenciales Incorrectas</p>
     </div>
 
-    <div class="w-full max-w-[340px] mt-12 mb-4 flex flex-col items-center space-y-8">
-        <button onclick="window.location.href='index.html'" class="text-[11px] font-black text-zinc-500 hover:text-white uppercase tracking-[0.25em] transition-colors py-2">
+    <div class="mt-auto py-8 flex flex-col items-center gap-4">
+        <button onclick="window.location.href='index.html'" class="flex items-center gap-2 text-slate-500 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors font-medium text-sm">
+            <span class="material-symbols-outlined text-lg">home</span>
             VOLVER AL INICIO
         </button>
-        <div class="flex items-center space-x-3 opacity-30">
-            <span class="h-[1px] w-6 bg-zinc-700"></span>
-            <p class="text-[9px] text-zinc-500 uppercase tracking-[0.5em] font-black">Identidad K0</p>
-            <span class="h-[1px] w-6 bg-zinc-700"></span>
-        </div>
+        <p class="text-[10px] text-slate-600 dark:text-slate-500 tracking-[0.2em] uppercase">Versión 2.4.0 • Kilómetro Cero S.A.</p>
     </div>
+</main>
 
-    <script>
-        // Función mostrar/ocultar clave
-        function togglePass() {
-            const p = document.getElementById('passInput');
-            const e = document.getElementById('eyeIcon');
-            if (p.type === "password") {
-                p.type = "text";
-                e.innerText = "visibility_off";
-            } else {
-                p.type = "password";
-                e.innerText = "visibility";
-            }
+<div class="h-8 w-full bg-background-light dark:bg-background-dark"></div>
+
+<script>
+    // Mostrar/Ocultar Clave
+    function togglePass() {
+        const input = document.getElementById('password');
+        const icon = document.getElementById('eyeIcon');
+        if (input.type === "password") {
+            input.type = "text";
+            icon.innerText = "visibility_off";
+        } else {
+            input.type = "password";
+            icon.innerText = "visibility";
         }
+    }
 
-        // Lógica de Redirección Exacta
-        function validarAcceso() {
-            const u = document.getElementById('userInput').value.trim();
-            const p = document.getElementById('passInput').value.trim();
-            const err = document.getElementById('errorMsg');
+    // Lógica de acceso para los 4 usuarios
+    function ejecutarLogin() {
+        const u = document.getElementById('userId').value.trim();
+        const p = document.getElementById('password').value.trim();
+        const err = document.getElementById('errorMsg');
 
-            if (u === "12345" && p === "12345") {
-                window.location.href = 'panel-operativo-tienda.html';
-            } else if (u === "54321" && p === "54321") {
-                window.location.href = 'panel-operativo-motorizado.html';
-            } else if (u === "1716001431" && p === "1716001431") {
-                window.location.href = 'admin.html';
-            } else if (u === "1722140207" && p === "1722140207") {
-                window.location.href = 'finanzas-km0.html';
-            } else {
-                err.classList.remove('hidden');
-                setTimeout(() => err.classList.add('hidden'), 3000);
-            }
+        if (u === "12345" && p === "12345") {
+            window.location.href = 'panel-operativo-tienda.html';
+        } else if (u === "54321" && p === "54321") {
+            window.location.href = 'panel-operativo-motorizado.html';
+        } else if (u === "1716001431" && p === "1716001431") {
+            window.location.href = 'admin.html';
+        } else if (u === "1722140207" && p === "1722140207") {
+            window.location.href = 'finanzas-km0.html';
+        } else {
+            err.classList.remove('hidden');
+            setTimeout(() => err.classList.add('hidden'), 3000);
         }
+    }
 
-        // Enter para entrar
-        document.addEventListener('keypress', (e) => { if(e.key === 'Enter') validarAcceso(); });
-    </script>
+    // Soporte para tecla Enter
+    document.addEventListener('keypress', (e) => { if(e.key === 'Enter') ejecutarLogin(); });
+</script>
 </body>
 </html>
