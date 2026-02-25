@@ -3,85 +3,96 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel KM0 - Admin Neon</title>
+    <title>KM0 - Terminal de Aprobaciones</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1" rel="stylesheet">
     <style>
-        body { background: #000; color: #fff; font-family: 'Inter', sans-serif; }
-        /* Verde Fosforescente */
-        .text-neon { color: #39FF14; }
+        body { background: #050505; color: #fff; font-family: 'Inter', sans-serif; }
+        .text-neon { color: #39FF14; text-shadow: 0 0 10px rgba(57, 255, 20, 0.3); }
         .bg-neon { background: #39FF14; }
         .border-neon { border-color: #39FF14; }
         
-        .tab-active { color: #39FF14; border-bottom: 3px solid #39FF14; }
+        .tab-active { color: #39FF14; border-bottom: 3px solid #39FF14; background: rgba(57, 255, 20, 0.05); }
         
+        /* Glassmorphism Cards */
+        .glass-card { 
+            background: rgba(20, 20, 20, 0.6); 
+            border: 1px solid rgba(255, 255, 255, 0.05); 
+            backdrop-filter: blur(10px); 
+            border-radius: 24px; 
+        }
+
         .btn-doc { 
-            background: #0a0a0a; 
-            border: 1px solid #1a1a1a; 
-            padding: 14px; 
-            border-radius: 16px; 
-            font-size: 11px; 
-            width: 100%; 
-            text-align: left; 
-            display: flex; 
-            align-items: center; 
-            gap: 12px; 
-            margin-bottom: 10px;
-            transition: all 0.2s;
+            background: rgba(57, 255, 20, 0.03); 
+            border: 1px solid rgba(57, 255, 20, 0.1); 
+            padding: 16px; 
+            border-radius: 18px; 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .btn-doc:active { scale: 0.98; background: #111; border-color: #39FF14; }
+        .btn-doc:hover { border-color: #39FF14; background: rgba(57, 255, 20, 0.08); }
         
-        @keyframes pulse-neon {
-            0% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(57, 255, 20, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0); }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            100% { transform: scale(2); opacity: 0; }
         }
-        .bell-active { animation: pulse-neon 2s infinite; color: #39FF14 !important; }
-        
-        .badge {
+        .status-dot { position: relative; }
+        .status-dot::after {
+            content: '';
             position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #39FF14;
-            color: #000;
-            font-size: 10px;
-            font-weight: 900;
-            padding: 2px 6px;
-            border-radius: 50%;
+            width: 100%; height: 100%;
+            background: inherit; border-radius: 50%;
+            animation: pulse-ring 1.5s infinite;
         }
     </style>
 </head>
 <body>
-    <header class="p-6 border-b border-zinc-900 flex justify-between items-center sticky top-0 bg-black/80 backdrop-blur-md z-50">
+    <header class="p-6 flex justify-between items-center sticky top-0 bg-black/60 backdrop-blur-xl z-50 border-b border-white/5">
         <div>
-            <h1 class="text-xl font-black italic tracking-tighter">KM0 <span class="text-neon">ADMIN</span></h1>
+            <h1 class="text-xl font-black italic tracking-tighter">KM0 <span class="text-neon uppercase">Control</span></h1>
+            <p class="text-[8px] text-zinc-500 font-bold uppercase tracking-[0.4em]">Admin Terminal v2.6</p>
         </div>
-        
-        <div class="flex items-center gap-5">
-            <div class="relative">
-                <span id="bell-icon" class="material-symbols-outlined text-zinc-500">notifications</span>
-                <span id="notif-count" class="badge hidden">0</span>
-            </div>
-            <button onclick="init()" class="material-symbols-outlined text-zinc-400 active:rotate-180 transition-transform duration-500">sync</button>
-        </div>
+        <button onclick="init()" class="w-10 h-10 rounded-full bg-zinc-900 flex items-center justify-center border border-white/10 active:scale-90 transition-all">
+            <span class="material-symbols-outlined text-zinc-400 text-sm">refresh</span>
+        </button>
     </header>
 
-    <nav class="flex border-b border-zinc-900 bg-zinc-950/50">
-        <button onclick="cambiarTab('motorizados')" id="btnM" class="flex-1 py-4 text-[10px] font-black uppercase tab-active tracking-widest">Motorizados</button>
-        <button onclick="cambiarTab('tiendas')" id="btnT" class="flex-1 py-4 text-[10px] font-black uppercase text-zinc-500 tracking-widest">Tiendas</button>
+    <div class="p-4 grid grid-cols-2 gap-4 max-w-xl mx-auto">
+        <div class="glass-card p-4 border-l-4 border-l-neon">
+            <div class="flex justify-between items-start">
+                <span class="material-symbols-outlined text-neon text-lg">two_wheeler</span>
+                <span id="count-m" class="text-2xl font-black tracking-tighter text-white">0</span>
+            </div>
+            <p class="text-[9px] font-bold uppercase text-zinc-500 mt-1">Motos Pendientes</p>
+        </div>
+        <div class="glass-card p-4 border-l-4 border-l-white/20">
+            <div class="flex justify-between items-start">
+                <span class="material-symbols-outlined text-zinc-400 text-lg">storefront</span>
+                <span id="count-t" class="text-2xl font-black tracking-tighter text-white">0</span>
+            </div>
+            <p class="text-[9px] font-bold uppercase text-zinc-500 mt-1">Tiendas Pendientes</p>
+        </div>
+    </div>
+
+    <nav class="flex mt-2 border-b border-white/5 px-4 max-w-xl mx-auto gap-2">
+        <button onclick="cambiarTab('motorizados')" id="btnM" class="flex-1 py-4 text-[10px] font-black uppercase tab-active transition-all">Motorizados</button>
+        <button onclick="cambiarTab('tiendas')" id="btnT" class="flex-1 py-4 text-[10px] font-black uppercase text-zinc-500 transition-all">Tiendas</button>
     </nav>
 
     <main id="content" class="p-6 max-w-xl mx-auto pb-64"></main>
 
-    <footer id="footer" class="fixed bottom-0 inset-x-0 p-6 bg-black/90 border-t border-zinc-900 hidden backdrop-blur-lg">
-        <div class="flex items-center gap-2 mb-3 ml-1">
-            <span class="material-symbols-outlined text-[14px] text-neon">edit_note</span>
-            <p class="text-[9px] font-black uppercase text-zinc-400 italic">Notas de revisión</p>
-        </div>
-        <textarea id="notas" class="w-full bg-zinc-900 border border-zinc-800 rounded-2xl p-4 text-xs mb-4 focus:border-neon outline-none text-white" placeholder="Escribe el motivo del rechazo o felicitaciones..."></textarea>
-        <div class="flex gap-4">
-            <button onclick="procesar(false)" class="flex-1 py-4 border border-zinc-800 text-zinc-500 rounded-2xl font-black text-[10px] uppercase hover:bg-red-950/20 hover:text-red-500 transition-all">Rechazar</button>
-            <button onclick="procesar(true)" class="flex-[2] py-4 bg-neon text-black rounded-2xl font-black text-[10px] uppercase shadow-lg shadow-neon/20 active:scale-95 transition-all">Aprobar Ahora</button>
+    <footer id="footer" class="fixed bottom-0 inset-x-0 p-6 bg-black/80 backdrop-blur-2xl border-t border-white/10 hidden">
+        <div class="max-w-xl mx-auto">
+            <div class="flex items-center gap-2 mb-4">
+                <div class="w-2 h-2 bg-neon rounded-full status-dot"></div>
+                <p class="text-[9px] font-black uppercase tracking-widest text-neon">Decisión Administrativa</p>
+            </div>
+            
+            <textarea id="notas" class="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-xs mb-4 focus:border-neon focus:ring-1 focus:ring-neon outline-none text-white placeholder-zinc-700 transition-all" placeholder="Añade una nota interna o motivo del rechazo..."></textarea>
+            
+            <div class="flex gap-4">
+                <button onclick="procesar(false)" class="flex-1 py-4 bg-zinc-900 text-zinc-500 rounded-2xl font-black text-[10px] uppercase border border-white/5 active:bg-red-900/20 active:text-red-500 transition-all">Rechazar</button>
+                <button onclick="procesar(true)" class="flex-[2] py-4 bg-neon text-black rounded-2xl font-black text-[10px] uppercase shadow-[0_0_30px_rgba(57,255,20,0.2)] active:scale-95 transition-all">Confirmar Acceso</button>
+            </div>
         </div>
     </footer>
 
@@ -89,38 +100,34 @@
         const URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec';
         let db = { motorizados: [], tiendas: [] };
         let currentTab = 'motorizados';
-        let currentItem = null;
 
         async function init() {
             document.getElementById('content').innerHTML = `
                 <div class="flex flex-col items-center justify-center py-20 gap-4">
-                    <div class="w-8 h-8 border-4 border-neon border-t-transparent rounded-full animate-spin"></div>
-                    <p class="text-neon text-[10px] font-black uppercase tracking-[0.2em]">Escaneando Base de Datos...</p>
+                    <div class="w-10 h-10 border-2 border-neon border-t-transparent rounded-full animate-spin"></div>
+                    <p class="text-neon text-[9px] font-black uppercase tracking-[0.3em]">Sincronizando con KM0...</p>
                 </div>`;
             
             try {
                 const resp = await fetch(URL_SCRIPT);
                 db = await resp.json();
-                actualizarCampana();
+                actualizarContadores();
                 render();
             } catch (e) {
-                document.getElementById('content').innerHTML = "<p class='text-center py-20 text-red-500 text-xs font-black'>ERROR DE CONEXIÓN</p>";
+                document.getElementById('content').innerHTML = "<p class='text-center py-20 text-red-500 text-xs font-black uppercase tracking-widest'>Error de Enlace</p>";
             }
         }
 
-        function actualizarCampana() {
-            const total = (db.motorizados?.length || 0) + (db.tiendas?.length || 0);
-            const bell = document.getElementById('bell-icon');
-            const badge = document.getElementById('notif-count');
+        function actualizarContadores() {
+            const mCount = db.motorizados?.length || 0;
+            const tCount = db.tiendas?.length || 0;
             
-            if (total > 0) {
-                bell.classList.add('bell-active', 'font-fill');
-                badge.classList.remove('hidden');
-                badge.innerText = total;
-            } else {
-                bell.classList.remove('bell-active', 'font-fill');
-                badge.classList.add('hidden');
-            }
+            document.getElementById('count-m').innerText = mCount;
+            document.getElementById('count-t').innerText = tCount;
+            
+            // Efecto visual si hay pendientes
+            document.getElementById('count-m').className = mCount > 0 ? "text-2xl font-black tracking-tighter text-neon" : "text-2xl font-black tracking-tighter text-zinc-700";
+            document.getElementById('count-t').className = tCount > 0 ? "text-2xl font-black tracking-tighter text-neon" : "text-2xl font-black tracking-tighter text-zinc-700";
         }
 
         function cambiarTab(t) {
@@ -137,94 +144,101 @@
 
             if (!list || list.length === 0) {
                 container.innerHTML = `
-                    <div class="text-center py-32">
-                        <span class="material-symbols-outlined text-neon text-5xl mb-4">task_alt</span>
-                        <p class='text-zinc-600 text-[10px] font-black uppercase tracking-widest'>Sin solicitudes pendientes</p>
+                    <div class="text-center py-24 opacity-20">
+                        <span class="material-symbols-outlined text-6xl mb-2">auto_awesome</span>
+                        <p class='text-[10px] font-black uppercase tracking-widest'>Bandeja Limpia</p>
                     </div>`;
                 footer.classList.add('hidden');
                 return;
             }
 
-            currentItem = list[0];
+            const item = list[0];
             footer.classList.remove('hidden');
 
             if (currentTab === 'motorizados') {
                 container.innerHTML = `
-                    <div class="animate-in fade-in duration-500">
-                        <p class="text-neon font-black text-[9px] uppercase tracking-[0.3em] mb-2">Nuevo Motorizado</p>
-                        <h2 class="text-3xl font-black italic uppercase leading-none mb-1">${currentItem.nombre}</h2>
-                        <p class="text-zinc-500 text-[11px] font-bold mb-8 uppercase tracking-tighter">${currentItem.marca} <span class="text-neon">/</span> ${currentItem.placa}</p>
+                    <div class="animate-in slide-in-from-bottom-4 duration-500">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="w-12 h-[1px] bg-neon"></span>
+                            <span class="text-neon text-[9px] font-bold uppercase tracking-[0.4em]">Expediente Motorizado</span>
+                        </div>
+                        <h2 class="text-4xl font-black italic uppercase leading-none mb-2 tracking-tighter">${item.nombre}</h2>
+                        <div class="flex gap-2 mb-8">
+                            <span class="bg-neon/10 text-neon text-[10px] px-2 py-1 rounded font-bold">${item.placa}</span>
+                            <span class="bg-white/5 text-zinc-500 text-[10px] px-2 py-1 rounded font-bold uppercase">${item.marca}</span>
+                        </div>
                         
-                        <div class="grid gap-3">
-                            <button class="btn-doc" onclick="window.open('${currentItem.urlVideo}')">
-                                <span class="material-symbols-outlined text-neon">videocam</span>
-                                <div class="flex flex-col">
-                                    <span class="font-black uppercase italic">Video Biométrico</span>
-                                    <span class="text-[8px] text-zinc-600 uppercase">Ver validación de identidad</span>
+                        <div class="space-y-3">
+                            <button class="btn-doc w-full flex items-center justify-between group" onclick="window.open('${item.urlVideo}')">
+                                <div class="flex items-center gap-4">
+                                    <span class="material-symbols-outlined text-neon">videocam</span>
+                                    <span class="text-[11px] font-black uppercase italic">Video de Seguridad</span>
                                 </div>
+                                <span class="material-symbols-outlined text-zinc-700 group-hover:text-neon transition-colors">open_in_new</span>
                             </button>
-                            <button class="btn-doc" onclick="window.open('${currentItem.urlCedFront}')">
-                                <span class="material-symbols-outlined text-neon">contact_page</span>
-                                <div class="flex flex-col">
-                                    <span class="font-black uppercase italic">Cédula Frontal</span>
-                                    <span class="text-[8px] text-zinc-600 uppercase">Ver anverso del documento</span>
+                            <button class="btn-doc w-full flex items-center justify-between group" onclick="window.open('${item.urlCedFront}')">
+                                <div class="flex items-center gap-4">
+                                    <span class="material-symbols-outlined text-neon">badge</span>
+                                    <span class="text-[11px] font-black uppercase italic">Cédula Frontal</span>
                                 </div>
+                                <span class="material-symbols-outlined text-zinc-700 group-hover:text-neon transition-colors">open_in_new</span>
                             </button>
-                            <button class="btn-doc" onclick="window.open('${currentItem.urlCedPost}')">
-                                <span class="material-symbols-outlined text-neon">contact_page</span>
-                                <div class="flex flex-col">
-                                    <span class="font-black uppercase italic">Cédula Posterior</span>
-                                    <span class="text-[8px] text-zinc-600 uppercase">Ver reverso del documento</span>
+                            <button class="btn-doc w-full flex items-center justify-between group" onclick="window.open('${item.urlCedPost}')">
+                                <div class="flex items-center gap-4">
+                                    <span class="material-symbols-outlined text-neon">badge</span>
+                                    <span class="text-[11px] font-black uppercase italic">Cédula Posterior</span>
                                 </div>
+                                <span class="material-symbols-outlined text-zinc-700 group-hover:text-neon transition-colors">open_in_new</span>
                             </button>
                         </div>
-                    </div>
-                `;
+                    </div>`;
             } else {
                 container.innerHTML = `
-                    <div class="animate-in fade-in duration-500">
-                        <p class="text-neon font-black text-[9px] uppercase tracking-[0.3em] mb-2">Nueva Tienda</p>
-                        <h2 class="text-3xl font-black italic uppercase leading-none mb-1 text-white">${currentItem.nombreTienda}</h2>
-                        <p class="text-zinc-500 text-[11px] font-bold mb-8 uppercase tracking-tighter">Responsable: ${currentItem.representante}</p>
+                    <div class="animate-in slide-in-from-bottom-4 duration-500">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="w-12 h-[1px] bg-neon"></span>
+                            <span class="text-neon text-[9px] font-bold uppercase tracking-[0.4em]">Solicitud Comercial</span>
+                        </div>
+                        <h2 class="text-4xl font-black italic uppercase leading-none mb-2 tracking-tighter">${item.nombreTienda}</h2>
+                        <p class="text-zinc-500 text-xs font-bold mb-8 italic">Representante: ${item.representante}</p>
                         
-                        <div class="bg-zinc-950 border border-zinc-900 p-6 rounded-3xl space-y-4">
-                            <div class="flex justify-between items-center border-b border-zinc-900 pb-3">
-                                <span class="text-[9px] font-black uppercase text-zinc-500 italic">Identificación</span>
-                                <span class="text-xs font-bold">${currentItem.cedula}</span>
+                        <div class="glass-card p-6 space-y-4 border-neon/20">
+                            <div class="flex flex-col">
+                                <span class="text-[8px] font-black text-zinc-600 uppercase">Número de Identificación</span>
+                                <span class="text-lg font-bold tracking-widest text-white">${item.cedula}</span>
                             </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-[9px] font-black uppercase text-zinc-500 italic">Ciudad</span>
-                                <span class="text-xs font-bold text-neon">${currentItem.ciudad}</span>
+                            <div class="flex flex-col">
+                                <span class="text-[8px] font-black text-zinc-600 uppercase">Ubicación</span>
+                                <span class="text-lg font-bold text-neon uppercase">${item.ciudad}</span>
                             </div>
                         </div>
-                    </div>
-                `;
+                    </div>`;
             }
         }
 
         async function procesar(aprobado) {
-            const btn = event.target;
-            const originalText = btn.innerText;
-            btn.innerText = "PROCESANDO...";
-            btn.disabled = true;
-
-            const nota = document.getElementById('notas').value;
+            // Guardamos referencia al item actual antes de limpiar
+            const cedulaProcesar = currentTab === 'motorizados' ? db.motorizados[0].cedula : db.tiendas[0].cedula;
+            
             const payload = {
                 accion: "ACTUALIZAR_ESTADO",
-                cedula: currentItem.cedula,
+                cedula: cedulaProcesar,
                 tipoRegistro: currentTab === 'motorizados' ? 'motorizado' : 'tienda',
                 nuevoEstado: aprobado ? "APROBADO" : "RECHAZADO",
-                observaciones: nota
+                observaciones: document.getElementById('notas').value
             };
 
+            // Animación de carga en el botón
+            const btn = event.currentTarget;
+            btn.innerHTML = `<span class="animate-spin material-symbols-outlined text-sm">progress_activity</span>`;
+            
             try {
                 await fetch(URL_SCRIPT, { method: "POST", body: JSON.stringify(payload) });
-                init(); // Recargar datos
+                init(); // Refrescar todo
                 document.getElementById('notas').value = "";
             } catch (e) {
-                alert("Error al procesar");
-                btn.innerText = originalText;
-                btn.disabled = false;
+                alert("Error de red");
+                init();
             }
         }
 
