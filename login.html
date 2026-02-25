@@ -4,136 +4,141 @@
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>Acceso Oficial - Kilómetro Cero</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#ff6a00",
-                        "background-dark": "#050505",
+                        "primary": "#f20d0d",
+                        "background-light": "#f8f5f5",
+                        "background-dark": "#0a0505",
                     },
                     fontFamily: {
-                        "sans": ["Inter", "sans-serif"]
-                    }
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
                 },
             },
         }
     </script>
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #050505; color: white; }
-        /* Forzar que el cursor no toque el icono */
-        input { padding-left: 3.2rem !important; }
-        input:focus {
-            outline: none !important;
-            border-color: #ff6a00 !important;
-            box-shadow: 0 0 0 1px #ff6a00 !important;
-        }
+        body { font-family: 'Inter', sans-serif; min-height: max(884px, 100dvh); }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
     </style>
 </head>
-<body class="bg-background-dark min-h-screen flex flex-col">
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
 
 <nav class="flex items-center px-4 py-6 justify-between">
-    <button onclick="window.location.href='index.html'" class="text-white p-2 hover:bg-primary/10 rounded-full transition-colors">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+    <button onclick="window.location.href='index.html'" class="text-slate-900 dark:text-slate-100 p-2 hover:bg-primary/10 rounded-full transition-colors">
+        <span class="material-symbols-outlined text-2xl">arrow_back</span>
     </button>
-    <h1 class="text-xs font-bold tracking-widest uppercase text-zinc-500">Acceso Oficial</h1>
+    <h1 class="text-sm font-semibold tracking-wider uppercase text-slate-500 dark:text-slate-400">Acceso Oficial</h1>
     <div class="w-10"></div>
 </nav>
 
 <main class="flex-1 flex flex-col px-6 max-w-md mx-auto w-full">
     <div class="flex flex-col items-center mt-8 mb-12">
-        <div class="w-28 h-28 mb-6 bg-primary/10 rounded-full flex items-center justify-center border border-primary/20">
+        <div class="w-32 h-32 mb-6 bg-gradient-to-br from-primary/20 to-transparent rounded-full flex items-center justify-center border border-primary/30 relative">
             <svg class="w-20 h-20" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <path d="M20 25C15 15 25 5 40 15C42 16 45 20 45 20" fill="none" stroke="#ff6a00" stroke-linecap="round" stroke-width="5"></path>
-                <path d="M80 25C85 15 75 5 60 15C58 16 55 20 55 20" fill="none" stroke="#ff6a00" stroke-linecap="round" stroke-width="5"></path>
-                <path d="M30 35L50 25L70 35L75 60L50 85L25 60L30 35Z" fill="#ff6a00"></path>
+                <path d="M20 25C15 15 25 5 40 15C42 16 45 20 45 20" fill="none" stroke="#f20d0d" stroke-linecap="round" stroke-width="4"></path>
+                <path d="M80 25C85 15 75 5 60 15C58 16 55 20 55 20" fill="none" stroke="#f20d0d" stroke-linecap="round" stroke-width="4"></path>
+                <path d="M30 35L50 25L70 35L75 60L50 85L25 60L30 35Z" fill="#f20d0d"></path>
+                <path d="M50 85L25 60L30 35L50 45L70 35L75 60L50 85Z" fill="#8E8E8E" opacity="0.4"></path>
                 <circle cx="40" cy="45" fill="white" r="2"></circle>
                 <circle cx="60" cy="45" fill="white" r="2"></circle>
             </svg>
         </div>
-        <h2 class="text-3xl font-black italic uppercase tracking-tighter text-white text-center leading-none">Kilómetro</h2>
-        <h2 class="text-xl font-bold tracking-[0.3em] uppercase text-primary mt-1">Cero</h2>
+        <h2 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100 text-center">Kilómetro <span class="text-primary">Cero</span></h2>
+        <p class="text-slate-500 dark:text-slate-400 mt-2 text-sm text-center">Mensajería y Entregas Profesionales</p>
     </div>
 
-    <div class="space-y-6">
+    <div class="space-y-5">
         <div class="space-y-2">
-            <label class="text-[10px] font-black uppercase tracking-widest text-zinc-500 ml-1">Usuario</label>
+            <label class="text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 ml-1">Usuario</label>
             <div class="relative group">
-                <div class="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-600 group-focus-within:text-primary transition-colors">
-                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                </div>
-                <input id="userId" class="w-full bg-zinc-900 border border-zinc-800 focus:border-primary rounded-2xl py-4 pr-4 text-white placeholder:text-zinc-700 transition-all outline-none" placeholder="ID de usuario" type="text"/>
+                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors">person</span>
+                <input id="userId" class="w-full bg-slate-100 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 focus:border-primary dark:focus:border-primary focus:ring-1 focus:ring-primary rounded-xl py-4 pl-12 pr-4 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 transition-all outline-none" placeholder="Ingresa tu ID de usuario" type="text"/>
             </div>
         </div>
 
         <div class="space-y-2">
-            <label class="text-[10px] font-black uppercase tracking-widest text-zinc-500 ml-1">Clave</label>
+            <label class="text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 ml-1">Clave</label>
             <div class="relative group">
-                <div class="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-600 group-focus-within:text-primary transition-colors">
-                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6z"/></svg>
-                </div>
-                <input id="password" class="w-full bg-zinc-900 border border-zinc-800 focus:border-primary rounded-2xl py-4 pr-12 text-white placeholder:text-zinc-700 transition-all outline-none" placeholder="••••••••" type="password"/>
-                <button type="button" onclick="togglePass()" class="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-600 hover:text-primary transition-colors">
-                    <svg id="eyeIcon" width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
-                    </svg>
+                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors">lock</span>
+                <input id="password" class="w-full bg-slate-100 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 focus:border-primary dark:focus:border-primary focus:ring-1 focus:ring-primary rounded-xl py-4 pl-12 pr-12 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 transition-all outline-none" placeholder="Introduce tu clave secreta" type="password"/>
+                <button type="button" onclick="togglePass()" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary transition-colors">
+                    <span id="eyeIcon" class="material-symbols-outlined">visibility</span>
                 </button>
             </div>
         </div>
 
         <div class="flex justify-end pt-1">
-            <a class="text-[10px] font-bold text-primary uppercase tracking-tighter hover:underline" href="#">¿Olvidaste tu contraseña?</a>
+            <a class="text-xs font-semibold text-primary hover:underline" href="#">¿Olvidaste tu contraseña?</a>
         </div>
 
-        <button onclick="ejecutarLogin()" class="w-full bg-primary hover:bg-[#e65c00] text-white font-black py-4 rounded-2xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98] mt-4 tracking-[0.2em] uppercase">
+        <button onclick="ejecutarLogin()" class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98] mt-4 tracking-widest uppercase">
             Entrar
         </button>
         
-        <p id="errorMsg" class="hidden text-center text-primary text-[10px] font-black uppercase mt-2 tracking-widest">Credenciales Incorrectas</p>
+        <p id="errorMsg" class="hidden text-center text-primary text-[10px] font-bold uppercase mt-2 tracking-widest">Credenciales Incorrectas</p>
     </div>
 
     <div class="mt-auto py-8 flex flex-col items-center gap-4">
-        <button onclick="window.location.href='index.html'" class="flex items-center gap-2 text-zinc-500 hover:text-white transition-colors font-bold text-[10px] tracking-widest">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+        <button onclick="window.location.href='index.html'" class="flex items-center gap-2 text-slate-500 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors font-medium text-sm">
+            <span class="material-symbols-outlined text-lg">home</span>
             VOLVER AL INICIO
         </button>
-        <p class="text-[9px] text-zinc-700 tracking-[0.3em] uppercase">Versión 2.4.0 • Kilómetro Cero S.A.</p>
+        <p class="text-[10px] text-slate-600 dark:text-slate-500 tracking-[0.2em] uppercase">Versión 2.4.0 • Kilómetro Cero S.A.</p>
     </div>
 </main>
 
-<div class="h-8 w-full bg-background-dark"></div>
+<div class="h-8 w-full bg-background-light dark:bg-background-dark"></div>
 
 <script>
+    // Mostrar/Ocultar Clave
     function togglePass() {
         const input = document.getElementById('password');
         const icon = document.getElementById('eyeIcon');
         if (input.type === "password") {
             input.type = "text";
-            icon.innerHTML = '<path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.82l2.92 2.92c1.51-1.26 2.7-2.89 3.44-4.74-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>';
+            icon.innerText = "visibility_off";
         } else {
             input.type = "password";
-            icon.innerHTML = '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>';
+            icon.innerText = "visibility";
         }
     }
 
+    // Lógica de acceso para los 4 usuarios
     function ejecutarLogin() {
         const u = document.getElementById('userId').value.trim();
         const p = document.getElementById('password').value.trim();
         const err = document.getElementById('errorMsg');
 
-        if (u === "12345" && p === "12345") window.location.href = 'panel-operativo-tienda.html';
-        else if (u === "54321" && p === "54321") window.location.href = 'panel-operativo-motorizado.html';
-        else if (u === "1716001431" && p === "1716001431") window.location.href = 'admin.html';
-        else if (u === "1722140207" && p === "1722140207") window.location.href = 'finanzas-km0.html';
-        else {
+        if (u === "12345" && p === "12345") {
+            window.location.href = 'panel-operativo-tienda.html';
+        } else if (u === "54321" && p === "54321") {
+            window.location.href = 'panel-operativo-motorizado.html';
+        } else if (u === "1716001431" && p === "1716001431") {
+            window.location.href = 'admin.html';
+        } else if (u === "1722140207" && p === "1722140207") {
+            window.location.href = 'finanzas-km0.html';
+        } else {
             err.classList.remove('hidden');
             setTimeout(() => err.classList.add('hidden'), 3000);
         }
     }
 
+    // Soporte para tecla Enter
     document.addEventListener('keypress', (e) => { if(e.key === 'Enter') ejecutarLogin(); });
 </script>
 </body>
