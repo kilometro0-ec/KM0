@@ -1,178 +1,162 @@
 <!DOCTYPE html>
-
-<html class="dark" lang="es"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Tienda: Resolución de Novedades en Línea</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
+<html class="dark" lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>KM0 - Panel Operativo</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#a413ec",
-                        "background-light": "#f7f6f8",
-                        "background-dark": "#1c1022",
-                    },
-                    fontFamily: {
-                        "display": ["Inter"]
-                    },
-                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                        "primary": "#137fec",
+                        "background-dark": "#0a0f16",
+                        "neutral-dark": "#121923",
+                        "status-green": "#22c55e",
+                        "status-fuchsia": "#ff00ff",
+                    }
                 },
             },
         }
     </script>
-<style>
-        body { font-family: 'Inter', sans-serif; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    <style>
+        body { font-family: 'Inter'; background-color: #0a0f16; color: white; -webkit-tap-highlight-color: transparent; }
+        @keyframes slideDown { from { transform: translateY(-120%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .notif-mobile { animation: slideDown 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        .nav-center-btn { filter: drop-shadow(0 0 15px rgba(19, 127, 236, 0.6)); }
     </style>
-<style>
-    body {
-      min-height: max(884px, 100dvh);
-    }
-  </style>
-  </head>
-<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display">
-<div class="relative flex h-screen w-full flex-col overflow-hidden max-w-[430px] mx-auto shadow-2xl border-x border-primary/10">
-<!-- Header -->
-<header class="flex items-center bg-background-light dark:bg-background-dark p-4 pb-2 justify-between sticky top-0 z-10 border-b border-primary/10">
-<button class="text-slate-900 dark:text-slate-100 flex size-10 items-center justify-center rounded-full hover:bg-primary/10 transition-colors">
-<span class="material-symbols-outlined">arrow_back</span>
-</button>
-<h2 class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-tight flex-1 px-2 text-center">Centro de Novedades</h2>
-<button class="text-slate-900 dark:text-slate-100 flex size-10 items-center justify-center rounded-full hover:bg-primary/10 transition-colors">
-<span class="material-symbols-outlined">tune</span>
-</button>
-</header>
-<!-- Main Content -->
-<main class="flex-1 overflow-y-auto no-scrollbar pb-24">
-<!-- Date Filter Section -->
-<div class="p-4">
-<div class="bg-primary/5 dark:bg-primary/10 rounded-xl p-4 border border-primary/20">
-<div class="flex items-center justify-between mb-2">
-<span class="text-xs font-semibold uppercase tracking-wider text-primary">Rango de Fechas</span>
-<span class="material-symbols-outlined text-primary text-sm">calendar_month</span>
-</div>
-<div class="flex items-center justify-between gap-2">
-<div class="flex-1">
-<p class="text-[10px] text-slate-500 dark:text-slate-400">Desde</p>
-<p class="text-sm font-medium">15 Oct 2023</p>
-</div>
-<div class="h-6 w-px bg-primary/30"></div>
-<div class="flex-1 pl-2">
-<p class="text-[10px] text-slate-500 dark:text-slate-400">Hasta</p>
-<p class="text-sm font-medium">22 Oct 2023</p>
-</div>
-</div>
-</div>
-</div>
-<!-- Stats & Chips -->
-<div class="flex gap-3 px-4 py-2 overflow-x-auto no-scrollbar">
-<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-primary px-4 shadow-lg shadow-primary/20">
-<p class="text-white text-sm font-semibold">Novedades (12)</p>
-</button>
-<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-background-light dark:bg-slate-800 border border-primary/20 px-4">
-<p class="text-slate-600 dark:text-slate-300 text-sm font-medium">En Revisión</p>
-</button>
-<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-background-light dark:bg-slate-800 border border-primary/20 px-4">
-<p class="text-slate-600 dark:text-slate-300 text-sm font-medium">Resueltas</p>
-</button>
-</div>
-<!-- Incidences List -->
-<div class="px-4 py-4 space-y-4">
-<h3 class="text-slate-900 dark:text-slate-100 text-base font-bold flex items-center gap-2">
-<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-                    Pedidos Críticos
-                </h3>
-<!-- Incident Card 1 -->
-<div class="bg-white dark:bg-slate-900 rounded-xl border border-primary/20 overflow-hidden shadow-sm">
-<div class="p-4">
-<div class="flex justify-between items-start mb-4">
-<div>
-<h4 class="font-bold text-slate-900 dark:text-slate-100">Orden #KC-8921</h4>
-<p class="text-xs text-slate-500 dark:text-slate-400">Motorizado: Carlos Mendoza</p>
-</div>
-<span class="px-2 py-1 rounded-full bg-primary/20 text-primary text-[10px] font-bold uppercase">Novedad</span>
-</div>
-<!-- Driver Evidence -->
-<div class="flex gap-4 mb-4 bg-slate-50 dark:bg-slate-800/50 p-3 rounded-lg border border-slate-100 dark:border-slate-800">
-<div class="size-20 shrink-0 rounded-lg overflow-hidden bg-slate-200 dark:bg-slate-700">
-<img class="w-full h-full object-cover" data-alt="Closed door or gate of a residential house" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKhfVtk-1fqcoWsYbRhM74BGyJ-aOcD9tLEaitZEO7OTofZBEH04jSeu7qk8szwb7spS6L5aGiU21oPK6VdsP5YK3kjyxjQqQGm7SEi8UuQD6Og4i-dSjkZLLmvPxoQjp3VDfb8KA3yKRrw6qWDd2Bm7D79txt6fCivD_LgNJkNjHsHxsuo-cX9c9OR-QVZUcC0JhQXnk6o3QAop9PV6eOzX6eoESDhyLRBzlFXofss26uq2k5C-QYNIUlZ2gU2cldvz3QLmCv6ptH"/>
-</div>
-<div class="flex-1">
-<p class="text-xs font-semibold text-primary mb-1">Nota del motorizado:</p>
-<p class="text-sm italic text-slate-600 dark:text-slate-300">"El cliente no responde el timbre ni las llamadas. Vigilancia dice que no hay nadie en el apartamento 402."</p>
-</div>
-</div>
-<!-- Action Form -->
-<div class="space-y-3">
-<label class="block">
-<span class="text-xs font-medium text-slate-500 dark:text-slate-400 px-1">Tu solución para el Administrador:</span>
-<textarea class="mt-1 block w-full rounded-lg bg-slate-50 dark:bg-slate-800 border-primary/20 focus:border-primary focus:ring focus:ring-primary/20 text-sm" placeholder="Ej. Reintentar mañana por la tarde..." rows="2"></textarea>
-</label>
-<button class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 transition-transform active:scale-[0.98]">
-<span class="material-symbols-outlined text-lg">bolt</span>
-                                RESOLVER EN LÍNEA
-                            </button>
-</div>
-</div>
-</div>
-<!-- Incident Card 2 (In Review/Confirmed state) -->
-<div class="bg-white dark:bg-slate-900 rounded-xl border border-primary/10 overflow-hidden shadow-sm opacity-90">
-<div class="p-4">
-<div class="flex justify-between items-start mb-4">
-<div>
-<h4 class="font-bold text-slate-400 dark:text-slate-500">Orden #KC-8915</h4>
-<p class="text-xs text-slate-400">Motorizado: Elena Rivas</p>
-</div>
-<span class="px-2 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 text-[10px] font-bold uppercase">En Revisión</span>
-</div>
-<div class="bg-green-500/10 border border-green-500/20 rounded-lg p-3 flex items-center gap-3">
-<span class="material-symbols-outlined text-green-500">check_circle</span>
-<div>
-<p class="text-xs font-bold text-green-600 dark:text-green-400">Resolución enviada</p>
-<p class="text-[11px] text-slate-600 dark:text-slate-400 line-clamp-1">"Dejar en portería a cargo de Sr. Juan"</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</main>
-<!-- Bottom Navigation Bar -->
-<nav class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[430px] border-t border-primary/10 bg-white/80 dark:bg-background-dark/80 backdrop-blur-xl px-4 pb-6 pt-2 z-20">
-<div class="flex gap-2">
-<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-400" href="#">
-<span class="material-symbols-outlined">shopping_bag</span>
-<p class="text-[10px] font-medium leading-normal">Pedidos</p>
-</a>
-<a class="flex flex-1 flex-col items-center justify-center gap-1 text-primary" href="#">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">report</span>
-<p class="text-[10px] font-bold leading-normal">Novedades</p>
-</a>
-<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-400" href="#">
-<span class="material-symbols-outlined">history</span>
-<p class="text-[10px] font-medium leading-normal">Historial</p>
-</a>
-<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-400" href="#">
-<span class="material-symbols-outlined">settings</span>
-<p class="text-[10px] font-medium leading-normal">Ajustes</p>
-</a>
-</div>
-</nav>
-<!-- Dynamic Success Toast (Hidden by default, used for context) -->
-<!-- 
-        <div class="absolute bottom-28 left-4 right-4 bg-slate-900 text-white p-4 rounded-xl shadow-2xl flex items-center justify-between border-l-4 border-primary">
-            <div class="flex items-center gap-3">
-                <span class="material-symbols-outlined text-primary">send</span>
-                <p class="text-sm font-medium">Resolución enviada al Administrador</p>
-            </div>
-            <span class="material-symbols-outlined text-slate-400 text-sm">close</span>
+</head>
+<body class="min-h-screen flex flex-col">
+
+<div id="notif-root" class="fixed top-4 left-0 right-0 z-[100] px-4 pointer-events-none flex flex-col gap-3"></div>
+
+<header class="sticky top-0 z-50 bg-background-dark/80 backdrop-blur-md border-b border-primary/20 px-4 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+        <div class="size-10 rounded-full bg-primary/20 flex items-center justify-center border border-primary/30">
+            <span class="material-symbols-outlined text-primary font-variation-fill">two_wheeler</span>
         </div>
-        -->
-</div>
-</body></html>
+        <div>
+            <h1 class="text-sm font-black italic uppercase">KM0 TIENDA</h1>
+            <p class="text-[9px] text-primary font-black uppercase tracking-widest leading-none">Control de Flota</p>
+        </div>
+    </div>
+    <button onclick="enviarNotif('WhatsApp', 'Repartidor cerca del local')" class="size-10 flex items-center justify-center rounded-full bg-neutral-dark border border-white/5">
+        <span class="material-symbols-outlined text-primary">notifications_active</span>
+    </button>
+</header>
+
+<main class="flex-1 overflow-y-auto pb-32 p-4 space-y-6">
+    
+    <div class="grid grid-cols-2 gap-3">
+        <button onclick="location.href='nuevo-pedido-tienda.html'" class="flex flex-col items-center justify-center gap-2 bg-primary text-white p-6 rounded-2xl font-black shadow-lg shadow-primary/30 active:scale-95 transition-transform uppercase italic text-[10px]">
+            <span class="material-symbols-outlined text-4xl font-variation-fill">add_shopping_cart</span>
+            NUEVO PEDIDO
+        </button>
+        <button onclick="location.href='finanzas-tienda.html'" class="flex flex-col items-center justify-center gap-2 bg-neutral-dark text-white p-6 rounded-2xl font-black border border-primary/30 shadow-lg shadow-primary/5 active:scale-95 transition-transform uppercase italic text-[10px]">
+            <span class="material-symbols-outlined text-4xl text-primary font-variation-fill">account_balance_wallet</span>
+            PAGOS POR LIQUIDAR
+        </button>
+    </div>
+
+    <div class="space-y-3">
+        <h2 class="text-xs font-black uppercase tracking-widest text-slate-500 flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary text-sm">analytics</span> ESTADO EN VIVO
+        </h2>
+        
+        <div class="flex items-center justify-between p-5 rounded-2xl bg-neutral-dark border border-white/5 shadow-xl">
+            <div>
+                <p class="text-slate-400 text-[10px] font-black uppercase tracking-tighter">En curso (Moto)</p>
+                <p class="text-3xl font-black italic">12</p>
+            </div>
+            <div class="size-14 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                <span class="material-symbols-outlined text-4xl">two_wheeler</span>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+            <button onclick="location.href='historial-entregas-tienda.html'" class="text-left p-4 rounded-2xl bg-neutral-dark border border-white/5 active:bg-white/5 transition-colors">
+                <p class="text-slate-400 text-[10px] font-black uppercase mb-1">Entregados</p>
+                <div class="flex items-center justify-between">
+                    <p class="text-2xl font-black text-status-green italic">45</p>
+                    <span class="material-symbols-outlined text-status-green">check_circle</span>
+                </div>
+            </button>
+            
+            <button onclick="location.href='resolver-novedades-tienda.html'" class="text-left p-4 rounded-2xl bg-neutral-dark border border-status-fuchsia/30 active:bg-status-fuchsia/5 transition-colors">
+                <p class="text-status-fuchsia text-[10px] font-black uppercase mb-1 tracking-tighter">Con Novedad</p>
+                <div class="flex items-center justify-between">
+                    <p class="text-2xl font-black text-white italic">03</p>
+                    <span class="material-symbols-outlined text-status-fuchsia animate-pulse">error</span>
+                </div>
+            </button>
+        </div>
+    </div>
+
+    <div class="bg-neutral-dark/30 rounded-3xl p-4 border border-white/5">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-[10px] font-black uppercase text-slate-500 italic">Últimos Movimientos</h3>
+            <span class="size-2 bg-primary rounded-full animate-ping"></span>
+        </div>
+        <div class="space-y-3">
+            <div class="flex items-center justify-between text-xs">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-primary">local_shipping</span>
+                    <p class="font-bold uppercase tracking-tighter">#KC-9901 <span class="text-slate-500 font-normal ml-2">En camino</span></p>
+                </div>
+                <p class="font-black text-primary">$12.50</p>
+            </div>
+        </div>
+    </div>
+</main>
+
+<nav class="fixed bottom-0 left-0 right-0 border-t border-white/5 bg-background-dark/95 backdrop-blur-xl px-2 pb-8 pt-3 z-50">
+    <div class="flex justify-around items-center max-w-lg mx-auto relative">
+        <a class="flex flex-col items-center gap-1 text-slate-500" href="reporte-global-tienda.html">
+            <span class="material-symbols-outlined text-2xl">dashboard</span>
+            <span class="text-[8px] font-black uppercase">Dashboard</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-primary" href="panel-operativo-tienda.html">
+            <span class="material-symbols-outlined text-2xl font-variation-fill">grid_view</span>
+            <span class="text-[8px] font-black uppercase">Panel</span>
+        </a>
+        
+        <div class="relative -top-12">
+            <button onclick="location.href='nuevo-producto-tienda.html'" class="nav-center-btn size-20 bg-primary rounded-full flex flex-col items-center justify-center border-[6px] border-background-dark text-white shadow-2xl active:scale-90 transition-transform">
+                <span class="material-symbols-outlined text-4xl font-bold">add</span>
+            </button>
+        </div>
+
+        <a class="flex flex-col items-center gap-1 text-slate-500" href="finanzas-tienda.html">
+            <span class="material-symbols-outlined text-2xl">payments</span>
+            <span class="text-[8px] font-black uppercase">Finanzas</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-slate-500" href="perfil-tienda.html">
+            <span class="material-symbols-outlined text-2xl">person</span>
+            <span class="text-[8px] font-black uppercase">Tienda</span>
+        </a>
+    </div>
+</nav>
+
+<script>
+    function enviarNotif(titulo, msj) {
+        const root = document.getElementById('notif-root');
+        const card = document.createElement('div');
+        card.className = "notif-mobile pointer-events-auto w-full max-w-sm mx-auto bg-neutral-dark/95 backdrop-blur-md rounded-2xl shadow-2xl border-l-4 border-primary p-3 flex items-center gap-4 border border-white/10";
+        card.innerHTML = `
+            <div class="size-10 rounded-full bg-primary flex items-center justify-center text-white"><span class="material-symbols-outlined">sms</span></div>
+            <div class="flex-1">
+                <div class="flex justify-between items-center"><p class="text-[10px] font-black uppercase text-primary">${titulo}</p><p class="text-[9px] text-slate-400 font-bold">Ahora</p></div>
+                <p class="text-xs font-bold text-slate-100">${msj}</p>
+            </div>
+        `;
+        root.appendChild(card);
+        setTimeout(() => { card.style.opacity = "0"; card.style.transform = "translateY(-20px)"; setTimeout(() => card.remove(), 500); }, 4000);
+    }
+</script>
+
+</body>
+</html>
