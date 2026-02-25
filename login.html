@@ -3,140 +3,92 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Kilómetro Cero - Acceso Oficial</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&display=swap" rel="stylesheet"/>
-    <script id="tailwind-config">
+    <title>Acceso - Kilómetro Cero</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script>
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#135bec", // Azul solicitado
-                        "brand-red": "#e63946",
-                        "background-light": "#f6f6f8",
-                        "background-dark": "#0a0c10", // Tu color de fondo exacto
-                    },
-                    fontFamily: {
-                        "display": ["Inter", "sans-serif"]
-                    },
-                    borderRadius: {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
+                        "primary": "#137fec",
+                        "background-dark": "#0a0f16",
                     },
                 },
             },
         }
     </script>
-    <style>
-        body { font-family: 'Inter', sans-serif; min-height: max(884px, 100dvh); }
-        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
-    </style>
 </head>
-<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
+<body class="bg-background-dark text-white font-['Inter'] flex items-center justify-center min-h-screen p-6">
 
-<nav class="flex items-center px-4 py-6 justify-between">
-    <button onclick="window.location.href='index.html'" class="text-slate-900 dark:text-slate-100 p-2 hover:bg-primary/10 rounded-full transition-colors">
-        <span class="material-symbols-outlined text-2xl">arrow_back</span>
-    </button>
-    <h1 class="text-sm font-semibold tracking-wider uppercase text-slate-500 dark:text-slate-400">Acceso Oficial</h1>
-    <div class="w-10"></div>
-</nav>
-
-<main class="flex-1 flex flex-col px-6 max-w-md mx-auto w-full">
-    <div class="flex flex-col items-center mt-8 mb-12">
-        <div class="w-32 h-32 mb-6 bg-gradient-to-br from-primary/20 to-transparent rounded-full flex items-center justify-center border border-primary/30 relative">
-            <svg class="w-20 h-20" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <path d="M20 25C15 15 25 5 40 15C42 16 45 20 45 20" fill="none" stroke="#135bec" stroke-linecap="round" stroke-width="4"></path>
-                <path d="M80 25C85 15 75 5 60 15C58 16 55 20 55 20" fill="none" stroke="#135bec" stroke-linecap="round" stroke-width="4"></path>
-                <path d="M30 35L50 25L70 35L75 60L50 85L25 60L30 35Z" fill="#135bec"></path>
-                <path d="M50 85L25 60L30 35L50 45L70 35L75 60L50 85Z" fill="#8E8E8E" opacity="0.4"></path>
-                <circle cx="40" cy="45" fill="white" r="2"></circle>
-                <circle cx="60" cy="45" fill="white" r="2"></circle>
-            </svg>
-        </div>
-        <h2 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100">Kilómetro <span class="text-primary">Cero</span></h2>
-        <p class="text-slate-500 dark:text-slate-400 mt-2 text-sm">Mensajería y Entregas Profesionales</p>
-    </div>
-
-    <div class="space-y-5">
-        <div class="space-y-2">
-            <label class="text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 ml-1">Usuario</label>
-            <div class="relative group">
-                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors">person</span>
-                <input id="userId" class="w-full bg-slate-100 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 focus:border-primary focus:ring-1 focus:ring-primary rounded-xl py-4 pl-12 pr-4 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 transition-all outline-none" placeholder="Ingresa tu ID de usuario" type="text"/>
+    <div class="w-full max-w-sm space-y-8">
+        <div class="text-center">
+            <div class="size-20 bg-primary/20 rounded-full flex items-center justify-center border border-primary/30 mx-auto mb-4">
+                <span class="material-symbols-outlined text-primary text-5xl">pest_control_rodent</span>
             </div>
+            <h1 class="text-3xl font-black italic tracking-tighter">KILÓMETRO CERO</h1>
+            <p class="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] mt-2">Gestión Logística 360</p>
         </div>
 
-        <div class="space-y-2">
-            <label class="text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 ml-1">Clave</label>
-            <div class="relative group">
-                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors">lock</span>
-                <input id="password" class="w-full bg-slate-100 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 focus:border-primary focus:ring-1 focus:ring-primary rounded-xl py-4 pl-12 pr-12 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 transition-all outline-none" placeholder="Introduce tu clave secreta" type="password"/>
-                <button type="button" onclick="toggleView()" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary">
-                    <span id="eyeIcon" class="material-symbols-outlined">visibility</span>
-                </button>
+        <div class="space-y-4">
+            <div>
+                <label class="text-[10px] font-black text-slate-500 uppercase ml-1">Usuario / Cédula</label>
+                <input type="text" id="user" placeholder="Ingrese su credencial" class="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-4 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all">
             </div>
+            <div>
+                <label class="text-[10px] font-black text-slate-500 uppercase ml-1">Contraseña</label>
+                <input type="password" id="pass" placeholder="••••••••" class="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-4 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all">
+            </div>
+            
+            <button onclick="validarYRedirigir()" class="w-full bg-primary hover:bg-primary/90 text-white font-black py-4 rounded-xl shadow-xl shadow-primary/30 transition-all active:scale-95">
+                INICIAR SESIÓN
+            </button>
         </div>
 
-        <div class="flex justify-end pt-1">
-            <a class="text-xs font-semibold text-primary hover:underline" href="#">¿Olvidaste tu contraseña?</a>
+        <p id="error-msg" class="text-center text-red-500 text-[10px] font-black hidden uppercase bg-red-500/10 py-3 rounded-lg border border-red-500/20">
+            Error: Credenciales no válidas
+        </p>
+
+        <div class="text-center">
+            <button onclick="history.back()" class="text-slate-500 text-[10px] font-bold uppercase hover:text-white">← Volver al inicio</button>
         </div>
-
-        <button onclick="login()" class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98] mt-4 tracking-widest uppercase">
-            Entrar
-        </button>
-
-        <p id="error" class="hidden text-center text-brand-red text-[10px] font-bold uppercase bg-brand-red/10 py-2 rounded-lg border border-brand-red/20">Credenciales Incorrectas</p>
     </div>
 
-    <div class="mt-auto py-8 flex flex-col items-center gap-4">
-        <button onclick="window.location.href='index.html'" class="flex items-center gap-2 text-slate-500 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors font-medium text-sm">
-            <span class="material-symbols-outlined text-lg">home</span>
-            VOLVER AL INICIO
-        </button>
-        <p class="text-[10px] text-slate-600 dark:text-slate-500 tracking-[0.2em] uppercase">Versión 2.4.0 • Kilómetro Cero S.A.</p>
-    </div>
-</main>
+    <script>
+        function validarYRedirigir() {
+            const user = document.getElementById('user').value.trim();
+            const pass = document.getElementById('pass').value.trim();
+            const error = document.getElementById('error-msg');
 
-<div class="h-8 w-full bg-background-light dark:bg-background-dark"></div>
-
-<script>
-    function toggleView() {
-        const pass = document.getElementById('password');
-        const eye = document.getElementById('eyeIcon');
-        if (pass.type === "password") {
-            pass.type = "text";
-            eye.innerText = "visibility_off";
-        } else {
-            pass.type = "password";
-            eye.innerText = "visibility";
+            // --- MATRIZ DE ACCESOS ---
+            
+            // 1. TIENDA
+            if (user === "12345" && pass === "12345") {
+                window.location.href = 'panel-operativo-tienda.html';
+            }
+            // 2. MOTORIZADO
+            else if (user === "54321" && pass === "54321") {
+                window.location.href = 'panel-operativo-motorizado.html';
+            }
+            // 3. ADMINISTRADOR
+            else if (user === "1716001431" && pass === "1716001431") {
+                window.location.href = 'admin.html';
+            }
+            // 4. FINANZAS KM0
+            else if (user === "1722140207" && pass === "1722140207") {
+                window.location.href = 'finanzas-km0.html';
+            }
+            // ERROR DE ACCESO
+            else {
+                error.classList.remove('hidden');
+                setTimeout(() => error.classList.add('hidden'), 3000);
+            }
         }
-    }
 
-    function login() {
-        const u = document.getElementById('userId').value.trim();
-        const p = document.getElementById('password').value.trim();
-        const err = document.getElementById('error');
-
-        if (u === "12345" && p === "12345") {
-            window.location.href = 'panel-operativo-tienda.html';
-        } else if (u === "54321" && p === "54321") {
-            window.location.href = 'panel-operativo-motorizado.html';
-        } else if (u === "1716001431" && p === "1716001431") {
-            window.location.href = 'admin.html';
-        } else if (u === "1722140207" && p === "1722140207") {
-            window.location.href = 'finanzas-km0.html';
-        } else {
-            err.classList.remove('hidden');
-            setTimeout(() => err.classList.add('hidden'), 3000);
-        }
-    }
-
-    document.addEventListener('keypress', (e) => { if(e.key === 'Enter') login(); });
-</script>
+        // Acceso con tecla Enter
+        document.addEventListener('keypress', (e) => { if(e.key === 'Enter') validarYRedirigir(); });
+    </script>
 </body>
 </html>
