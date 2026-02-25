@@ -3,131 +3,152 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Tienda - Kilómetro Cero</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet"/>
+    <title>Tienda: Panel Operativo 360</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-    <script>
+    <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#0066FF", // Azul Eléctrico solicitado
+                        "primary": "#137fec", // AZUL ELÉCTRICO CORREGIDO
+                        "background-light": "#f8f5f8",
                         "background-dark": "#0a0f16",
+                        "neutral-dark": "#121923",
+                        "status-green": "#22c55e",
+                        "status-purple": "#a855f7",
+                        "status-gray": "#94a3b8"
                     },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
                 },
             },
         }
     </script>
     <style>
-        body { font-family: 'Inter'; }
-        .nav-active { color: #0066FF !important; border-bottom: 2px solid #0066FF; }
+        body {
+            min-height: max(884px, 100dvh);
+        }
     </style>
 </head>
-<body class="bg-background-dark text-white min-h-screen flex flex-col">
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
 
-    <div id="notif-container" class="fixed top-6 right-6 z-50 flex flex-col gap-2"></div>
+<header class="sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-primary/20 px-4 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+        <div class="size-10 rounded-full bg-primary/20 flex items-center justify-center border border-primary/40 overflow-hidden">
+            <img alt="Logo" class="size-8 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBF8F021zRfOnOEooYcUQznS-fnfpBMFtih2COy228Ha8pPktBFDO0ATk544gEhY1le4GPdp8SATrocx3RJLlmuu5b6MGfdInWcoWI__PaD-raC3OjeuiS19mwr4hG-GL96p1yEsNkq0ALgaBcX-3zv-fWOwaaiLfokr2mCSpY1oana7o9a1m27z5f6HWGTgux66Uh_HLz-H-t-DLRBgUQjaEUuu3bO5fzdPhVC1HRG_KQrS4HoJ843gxQAti8LNclcEjO_yTOa-bgR"/>
+        </div>
+        <div>
+            <h1 class="text-sm font-bold leading-tight">Kilómetro Cero</h1>
+            <p class="text-[10px] text-primary uppercase tracking-widest font-bold">Tienda Oficial</p>
+        </div>
+    </div>
+    <div class="flex gap-2">
+        <button class="size-10 flex items-center justify-center rounded-full bg-neutral-dark text-slate-100 border border-white/5">
+            <span class="material-symbols-outlined text-2xl">notifications</span>
+        </button>
+    </div>
+</header>
 
-    <header class="border-b border-white/5 p-6">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-            <div class="flex items-center gap-4">
-                <div class="size-12 bg-primary/20 rounded-full flex items-center justify-center border border-primary/30">
-                    <span class="material-symbols-outlined text-primary text-3xl">storefront</span>
-                </div>
+<main class="flex-1 overflow-y-auto pb-24">
+    <div class="p-4 grid grid-cols-2 gap-3">
+        <button onclick="location.href='nuevo-pedido-tienda.html'" class="flex flex-col items-center justify-center gap-2 bg-primary text-white p-4 rounded-xl font-bold shadow-lg shadow-primary/30 active:scale-95 transition-transform">
+            <span class="material-symbols-outlined text-2xl">add_shopping_cart</span>
+            <span class="text-xs">NUEVO PEDIDO</span>
+        </button>
+        <button class="flex flex-col items-center justify-center gap-2 bg-primary text-white p-4 rounded-xl font-bold shadow-lg shadow-primary/30 active:scale-95 transition-transform">
+            <span class="material-symbols-outlined text-2xl">report_problem</span>
+            <span class="text-xs">INCIDENCIA</span>
+        </button>
+    </div>
+
+    <div class="px-4 mb-6">
+        <h2 class="text-lg font-bold mb-3 flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary">analytics</span>
+            Resumen Operativo
+        </h2>
+        <div class="grid grid-cols-1 gap-3">
+            <div class="flex items-center justify-between p-4 rounded-xl bg-neutral-dark border border-white/5">
                 <div>
-                    <h1 class="text-2xl font-black italic tracking-tighter text-white uppercase">KM0 TIENDA</h1>
-                    <p class="text-slate-500 text-[9px] font-black uppercase tracking-widest">Azul Eléctrico Edition</p>
+                    <p class="text-slate-400 text-sm">Pedidos en Curso</p>
+                    <p class="text-2xl font-bold">12</p>
+                </div>
+                <div class="size-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+                    <span class="material-symbols-outlined text-3xl">local_shipping</span>
                 </div>
             </div>
-
-            <nav class="flex flex-wrap justify-center gap-6">
-                <button onclick="nav(this)" class="nav-active text-[10px] font-black uppercase tracking-widest pb-1">Dashboard</button>
-                <button onclick="nav(this)" class="text-slate-500 hover:text-white text-[10px] font-black uppercase tracking-widest pb-1">Panel</button>
-                <button onclick="nav(this)" class="text-slate-500 hover:text-white text-[10px] font-black uppercase tracking-widest pb-1">Pedidos</button>
-                <button onclick="nav(this)" class="text-slate-500 hover:text-white text-[10px] font-black uppercase tracking-widest pb-1">Finanzas</button>
-                <button onclick="nav(this)" class="text-slate-500 hover:text-white text-[10px] font-black uppercase tracking-widest pb-1">Tienda</button>
-            </nav>
-
-            <button onclick="window.location.href='login.html'" class="text-slate-500 hover:text-primary transition-colors">
-                <span class="material-symbols-outlined">logout</span>
-            </button>
-        </div>
-    </header>
-
-    <main class="flex-1 p-6 max-w-7xl mx-auto w-full">
-        
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-white/5 border border-white/10 rounded-2xl p-6 space-y-4">
-                <div class="flex justify-between items-start">
-                    <p class="text-[10px] font-black text-slate-500 uppercase">Estado Operativo</p>
-                    <span class="bg-primary/20 text-primary text-[10px] font-black px-2 py-1 rounded">ACTIVO</span>
+            <div class="grid grid-cols-2 gap-3">
+                <div class="p-4 rounded-xl bg-neutral-dark border border-white/5">
+                    <p class="text-slate-400 text-xs mb-1">Entregados hoy</p>
+                    <p class="text-xl font-bold text-status-green">45</p>
                 </div>
-                <h2 class="text-4xl font-black italic">100%</h2>
-                <button onclick="showNotif('Panel Actualizado', 'Los datos operativos están al día.')" class="w-full bg-primary text-white font-black py-3 rounded-xl text-xs uppercase hover:bg-primary/80 transition-all">Actualizar</button>
-            </div>
-
-            <div class="bg-white/5 border border-white/10 rounded-2xl p-6 space-y-4">
-                <p class="text-[10px] font-black text-slate-500 uppercase">Notificaciones</p>
-                <div class="space-y-3">
-                    <div class="flex items-center gap-3 bg-white/5 p-3 rounded-lg border border-white/5">
-                        <span class="material-symbols-outlined text-primary text-sm">notifications_active</span>
-                        <p class="text-[10px] font-bold">Nuevo pedido en zona norte</p>
-                    </div>
-                    <div class="flex items-center gap-3 bg-white/5 p-3 rounded-lg border border-white/5">
-                        <span class="material-symbols-outlined text-primary text-sm">check_circle</span>
-                        <p class="text-[10px] font-bold">Corte de caja completado</p>
-                    </div>
+                <div onclick="location.href='finanzas-tienda.html'" class="p-4 rounded-xl bg-neutral-dark border border-white/5 cursor-pointer active:bg-primary/5 transition-colors">
+                    <p class="text-slate-400 text-xs mb-1">Pagos por Liquidar</p>
+                    <p class="text-xl font-bold text-primary">$1,250</p>
                 </div>
-            </div>
-
-            <div class="bg-white/5 border border-white/10 rounded-2xl p-6 space-y-4">
-                <p class="text-[10px] font-black text-slate-500 uppercase">Rendimiento</p>
-                <div class="h-24 flex items-end gap-2">
-                    <div class="flex-1 bg-primary h-[40%] rounded-t-sm"></div>
-                    <div class="flex-1 bg-primary h-[70%] rounded-t-sm"></div>
-                    <div class="flex-1 bg-primary h-[100%] rounded-t-sm shadow-[0_0_15px_#0066FF]"></div>
-                    <div class="flex-1 bg-primary h-[60%] rounded-t-sm"></div>
-                </div>
-                <p class="text-center text-[9px] font-black uppercase text-slate-500">Actividad de la última hora</p>
             </div>
         </div>
+    </div>
 
-    </main>
+    <div class="px-4">
+        <div class="flex items-center justify-between mb-4">
+            <h2 class="text-lg font-bold">Estado de Pedidos</h2>
+            <button onclick="location.href='reporte-global-tienda.html'" class="text-primary text-sm font-medium hover:underline">Ver todos</button>
+        </div>
+        <div class="space-y-3">
+            <div class="p-4 rounded-xl bg-neutral-dark/40 border border-white/5">
+                <div class="flex justify-between items-start mb-3">
+                    <div>
+                        <p class="font-bold">#KC-8842</p>
+                        <p class="text-xs text-slate-400">Hace 15 min • Av. Principal 123</p>
+                    </div>
+                    <span class="px-2 py-1 rounded-md bg-status-green/20 text-status-green text-[10px] font-bold uppercase tracking-wider">Entregado</span>
+                </div>
+                <div class="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
+                    <div class="h-full bg-status-green w-full"></div>
+                </div>
+            </div>
+            <div class="p-4 rounded-xl bg-neutral-dark/40 border border-white/5">
+                <div class="flex justify-between items-start mb-3">
+                    <div>
+                        <p class="font-bold">#KC-8845</p>
+                        <p class="text-xs text-slate-400">Hace 42 min • Calle Luna 45</p>
+                    </div>
+                    <span class="px-2 py-1 rounded-md bg-status-purple/20 text-status-purple text-[10px] font-bold uppercase tracking-wider">Novedad</span>
+                </div>
+                <div class="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
+                    <div class="h-full bg-status-purple w-2/3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
 
-    <script>
-        // Lógica de navegación simple
-        function nav(el) {
-            document.querySelectorAll('nav button').forEach(b => {
-                b.classList.remove('nav-active', 'text-primary');
-                b.classList.add('text-slate-500');
-            });
-            el.classList.add('nav-active');
-            el.classList.remove('text-slate-500');
-            showNotif('Sección: ' + el.innerText, 'Cambiando de panel...');
-        }
+<nav class="fixed bottom-0 left-0 right-0 border-t border-white/5 bg-background-dark/95 backdrop-blur-lg px-4 pb-6 pt-2 z-50">
+    <div class="flex justify-around items-center max-w-md mx-auto">
+        <a class="flex flex-col items-center gap-1 text-primary" href="panel-operativo-tienda.html">
+            <span class="material-symbols-outlined text-2xl">grid_view</span>
+            <span class="text-[10px] font-medium uppercase">Panel</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-slate-400" href="reporte-global-tienda.html">
+            <span class="material-symbols-outlined text-2xl">receipt_long</span>
+            <span class="text-[10px] font-medium uppercase">Pedidos</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-slate-400" href="finanzas-tienda.html">
+            <span class="material-symbols-outlined text-2xl">payments</span>
+            <span class="text-[10px] font-medium uppercase">Finanzas</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-slate-400" href="perfil-tienda.html">
+            <span class="material-symbols-outlined text-2xl">storefront</span>
+            <span class="text-[10px] font-medium uppercase">Tienda</span>
+        </a>
+    </div>
+</nav>
 
-        // Sistema de Notificaciones Flotantes
-        function showNotif(titulo, texto) {
-            const container = document.getElementById('notif-container');
-            const toast = document.createElement('div');
-            toast.className = "bg-primary border border-white/20 p-4 rounded-xl shadow-2xl min-w-[240px] transition-all duration-300 transform translate-x-0";
-            toast.innerHTML = `
-                <h4 class="text-[10px] font-black uppercase italic">${titulo}</h4>
-                <p class="text-[9px] font-bold opacity-80">${texto}</p>
-            `;
-            container.appendChild(toast);
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                toast.style.transform = 'translateX(20px)';
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
-        }
-
-        // Notificación de bienvenida automática
-        window.onload = () => {
-            setTimeout(() => showNotif('Acceso Correcto', 'Bienvenido Tienda 12345'), 500);
-        };
-    </script>
 </body>
 </html>
