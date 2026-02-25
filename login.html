@@ -73,52 +73,51 @@
             eyeIcon.innerText = passInput.type === "password" ? "visibility" : "visibility_off";
         }
 
-        async function validarYRedirigir() {
-            const user = document.getElementById('user').value.trim();
-            const pass = document.getElementById('pass').value.trim();
-            const error = document.getElementById('error-msg');
-            const btn = document.getElementById('btn-login');
+       
+async function validarYRedirigir() {
+    const userField = document.getElementById('user').value.trim();
+    const passField = document.getElementById('pass').value.trim();
+    const error = document.getElementById('error-msg');
+    const btn = document.getElementById('btn-login');
 
-            if (!user || !pass) return;
+    if (!userField || !passField) return;
 
-            // Bloquear botón y mostrar carga
-            btn.disabled = true;
-            btn.innerHTML = `<span class="animate-spin material-symbols-outlined">sync</span> VERIFICANDO...`;
+    btn.disabled = true;
+    btn.innerHTML = `<span class="animate-spin material-symbols-outlined">sync</span> VERIFICANDO...`;
 
-            try {
-                // LLAMADA AL APPS SCRIPT
-                const response = await fetch(URL_SCRIPT);
-                const data = await response.json();
-                
-                // Nota: Tu script de Apps Script devuelve un objeto con "tiendas" y "motorizados".
-                // Para el login, necesitamos que el script también devuelva la lista de "usuarios".
-                
-                // SIMULACIÓN DE BÚSQUEDA EN BASE A TU SCRIPT ACTUAL:
-                // Si el usuario es 12345, buscamos en tiendas.
-                const tiendaEncontrada = data.tiendas.find(t => t.cedula == user);
-                // Si la clave por defecto es 12345 (como dice tu lógica)
-                
-                if (user === "12345" && pass === "12345") {
-                    localStorage.setItem('user_id', user);
-                    window.location.href = 'panel-operativo-tienda.html';
-                } 
-                else if (user === "54321" && pass === "54321") {
-                    localStorage.setItem('user_id', user);
-                    window.location.href = 'panel-operativo-motorizado.html';
-                }
-                // Aquí podrías añadir la lógica para validar contra la columna de "Pass" real
-                else {
-                    throw new Error("Invalid");
-                }
+    try {
+        const response = await fetch(URL_SCRIPT);
+        const data = await response.json();
+        
+        // BUSCAR USUARIO EN LA LISTA REAL DE EXCEL
+        const usuarioValido = data.usuarios.find(u => 
+            u.id.toString() === userField && 
+            u.pass.toString() === passField &&
+            u.estado === "Activo"
+        );
 
-            } catch (e) {
-                error.classList.remove('hidden');
-                setTimeout(() => error.classList.add('hidden'), 3000);
-                btn.disabled = false;
-                btn.innerHTML = `<span>INICIAR SESIÓN</span>`;
+        if (usuarioValido) {
+            localStorage.setItem('user_id', usuarioValido.id);
+            
+            // REDIRECCIÓN SEGÚN ROL EN EXCEL
+            if (usuarioValido.rol === "Tienda") {
+                window.location.href = 'panel-operativo-tienda.html';
+            } else if (usuarioValido.rol === "Motorizado") {
+                window.location.href = 'panel-operativo-motorizado.html';
+            } else if (usuarioValido.rol === "Admin") {
+                window.location.href = 'admin.html';
             }
+        } else {
+            throw new Error("Credenciales inválidas");
         }
 
+    } catch (e) {
+        error.classList.remove('hidden');
+        setTimeout(() => error.classList.add('hidden'), 3000);
+        btn.disabled = false;
+        btn.innerHTML = `<span>INICIAR SESIÓN</span>`;
+    }
+}
         document.addEventListener('keypress', (e) => { if(e.key === 'Enter') validarYRedirigir(); });
     </script>
 </body>
