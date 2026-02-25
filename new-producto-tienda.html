@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f425af",
+                        "background-light": "#f8f5f7",
+                        "background-dark": "#22101c",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for a cleaner look */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #f425af44;
+            border-radius: 10px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<!-- Top Navigation Bar -->
+<div class="sticky top-0 z-50 flex items-center bg-background-light dark:bg-background-dark p-4 border-b border-primary/10">
+<div class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-primary/10 cursor-pointer">
+<span class="material-symbols-outlined text-slate-900 dark:text-slate-100">arrow_back_ios_new</span>
+</div>
+<div class="flex-1 flex justify-center items-center gap-2">
+<div class="w-8 h-8 flex items-center justify-center bg-primary/20 rounded-lg">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">pets</span>
+</div>
+<h1 class="text-lg font-bold tracking-tight">Nuevo Producto</h1>
+</div>
+<div class="w-10"></div> <!-- Spacer for symmetry -->
+</div>
+<main class="max-w-md mx-auto p-4 space-y-6 pb-24">
+<!-- Image Upload Section -->
+<section class="space-y-3">
+<h2 class="text-sm font-semibold uppercase tracking-wider text-primary">Imagen del Producto</h2>
+<div class="relative group">
+<div class="flex flex-col items-center justify-center gap-4 rounded-xl border-2 border-dashed border-primary shadow-[0_0_15px_rgba(244,37,175,0.2)] bg-primary/5 px-6 py-12 transition-all hover:bg-primary/10">
+<div class="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-4xl">add_a_photo</span>
+</div>
+<div class="text-center">
+<p class="text-base font-bold text-slate-900 dark:text-slate-100">Subir Foto</p>
+<p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Formatos sugeridos: JPG, PNG (Max. 5MB)</p>
+</div>
+<button class="mt-2 bg-primary text-white text-sm font-bold py-2 px-6 rounded-lg shadow-lg shadow-primary/30 active:scale-95 transition-transform">
+                        Seleccionar Archivo
+                    </button>
+</div>
+</div>
+</section>
+<!-- Product Details Form -->
+<div class="space-y-4">
+<!-- Name -->
+<div class="flex flex-col gap-1.5">
+<label class="text-sm font-medium text-slate-700 dark:text-slate-300 ml-1">Nombre del Producto</label>
+<input class="w-full h-12 bg-white dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-lg px-4 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-600" placeholder="Ej. Queso de Cabra Curado" type="text"/>
+</div>
+<!-- Category -->
+<div class="flex flex-col gap-1.5">
+<label class="text-sm font-medium text-slate-700 dark:text-slate-300 ml-1">Categoría</label>
+<div class="relative">
+<select class="appearance-none w-full h-12 bg-white dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-lg px-4 pr-10 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all">
+<option disabled="" selected="" value="">Seleccionar categoría</option>
+<option value="lacteos">Lácteos y Quesos</option>
+<option value="carnes">Carnes y Embutidos</option>
+<option value="vegetales">Frutas y Verduras</option>
+<option value="panaderia">Panadería Artesanal</option>
+</select>
+<div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-primary">
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Description -->
+<div class="flex flex-col gap-1.5">
+<label class="text-sm font-medium text-slate-700 dark:text-slate-300 ml-1">Descripción Breve</label>
+<textarea class="w-full bg-white dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-lg p-4 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all resize-none placeholder:text-slate-400 dark:placeholder:text-slate-600" placeholder="Cuéntanos un poco sobre el origen o sabor..." rows="3"></textarea>
+</div>
+<!-- Weight and Price Grid -->
+<div class="grid grid-cols-2 gap-4">
+<div class="flex flex-col gap-1.5">
+<label class="text-sm font-medium text-slate-700 dark:text-slate-300 ml-1">Peso estimado</label>
+<div class="relative">
+<input class="w-full h-12 bg-white dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-lg px-4 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all" placeholder="500g" type="text"/>
+<div class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">
+<span class="material-symbols-outlined text-sm">scale</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="text-sm font-medium text-slate-700 dark:text-slate-300 ml-1">Precio</label>
+<div class="relative">
+<input class="w-full h-12 bg-white dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-lg px-4 pl-8 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all" placeholder="0.00" type="number"/>
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-primary font-bold">€</span>
+</div>
+</div>
+</div>
+<!-- Toggle Switch Active/Inactive -->
+<div class="flex items-center justify-between p-4 bg-primary/5 border border-primary/20 rounded-xl mt-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">visibility</span>
+</div>
+<div>
+<p class="text-sm font-bold">Producto Activo</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">Visible en el catálogo</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-slate-400 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</main>
+<!-- Floating Action Button -->
+<div class="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-background-dark via-background-dark/95 to-transparent">
+<div class="max-w-md mx-auto">
+<button class="w-full h-14 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl flex items-center justify-center gap-2 shadow-[0_4px_20px_rgba(244,37,175,0.4)] active:scale-95 transition-all">
+<span class="material-symbols-outlined">save</span>
+                GUARDAR PRODUCTO
+            </button>
+</div>
+</div>
+</body></html>
