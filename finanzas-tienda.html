@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>KM0 - Gestión de Finanzas</title>
+    <title>KM0 - Finanzas</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <script id="tailwind-config">
@@ -15,192 +15,134 @@
                 extend: {
                     colors: {
                         "primary": "#137fec",
-                        "background-dark": "#221022",
+                        "background-dark": "#0a0f16",
                     },
-                    fontFamily: { "display": ["Inter"] },
+                    fontFamily: { "display": ["Inter"] }
                 },
             },
         }
     </script>
     <style>
-        body { font-family: 'Inter', sans-serif; }
+        body { font-family: 'Inter', sans-serif; background-color: #0a0f16; color: white; -webkit-tap-highlight-color: transparent; }
         .font-fill { font-variation-settings: 'FILL' 1; }
+        .nav-center-btn { filter: drop-shadow(0 0 15px rgba(19, 127, 236, 0.6)); }
         .hide-scroll::-webkit-scrollbar { display: none; }
     </style>
 </head>
-<body class="bg-[#221022] text-slate-100 font-display antialiased">
-<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+<body class="bg-[#0a0f16] text-slate-100 font-display">
 
-    <div class="flex items-center bg-[#221022]/80 p-4 pb-2 justify-between sticky top-0 z-30 border-b border-primary/10 backdrop-blur-md">
-        <div onclick="location.href='catalogo-tienda.html'" class="text-primary flex size-10 shrink-0 items-center justify-center rounded-full bg-primary/10 cursor-pointer">
+<div class="relative flex min-h-screen flex-col overflow-x-hidden pb-40">
+
+    <header class="flex items-center justify-between p-4 bg-[#0a0f16]/80 backdrop-blur-md sticky top-0 z-50 border-b border-primary/20">
+        <div onclick="location.href='catalogo-tienda.html'" class="flex size-10 items-center justify-center rounded-full bg-primary/10 text-primary border border-primary/20 cursor-pointer">
             <span class="material-symbols-outlined">inventory</span>
         </div>
-        <div class="flex flex-col items-center">
-            <h2 class="text-slate-100 text-lg font-bold leading-tight uppercase italic">Finanzas</h2>
-            <p id="range-label" class="text-[9px] text-primary font-black uppercase tracking-widest">Periodo Actual</p>
+        <div class="text-center">
+            <h1 class="text-lg font-black italic uppercase leading-none">FINANZAS</h1>
+            <p id="range-display" class="text-[9px] text-primary font-bold uppercase tracking-widest mt-1">Gestión de Cobros</p>
         </div>
         <div class="flex gap-2">
-            <button onclick="toggleDateModal()" class="flex size-10 items-center justify-center rounded-full bg-primary/10 text-primary">
+            <button onclick="toggleDateModal()" class="flex size-10 items-center justify-center rounded-full bg-slate-900 border border-slate-800 text-primary">
                 <span class="material-symbols-outlined">calendar_month</span>
             </button>
-            <button class="flex size-10 items-center justify-center rounded-full bg-primary/10 text-primary">
+            <button class="flex size-10 items-center justify-center rounded-full bg-slate-900 border border-slate-800 text-primary">
                 <span class="material-symbols-outlined font-fill text-yellow-500">notifications_active</span>
             </button>
         </div>
-    </div>
+    </header>
 
-    <div class="p-4">
-        <div onclick="openAuditModal('Saldo Acumulado', 'Entregas pendientes de pago')" class="flex flex-col gap-2 rounded-2xl p-6 bg-gradient-to-br from-primary to-primary/60 text-white shadow-xl shadow-primary/10 cursor-pointer active:scale-95 transition-all">
-            <div class="flex items-center justify-between">
-                <p class="text-[10px] font-black uppercase tracking-widest opacity-80 italic">Por cobrar a KM0</p>
-                <span class="material-symbols-outlined text-sm">visibility</span>
+    <section class="p-4">
+        <div onclick="openAuditModal('Saldo Pendiente', 'Pendiente de liquidación')" class="flex flex-col gap-2 rounded-2xl p-6 bg-primary/10 border border-primary/20 shadow-lg shadow-primary/5 cursor-pointer active:scale-95 transition-all">
+            <p class="text-slate-400 text-[10px] font-black uppercase tracking-widest italic">Saldo por cobrar KM0</p>
+            <div class="flex items-end justify-between">
+                <p class="text-3xl font-black italic text-white leading-none">$1,152.00</p>
+                <span class="text-[9px] font-black text-primary uppercase italic underline">Ver Auditoría</span>
             </div>
-            <p class="text-3xl font-black italic">$1,452.00</p>
-            <p class="text-[9px] font-bold uppercase mt-2">* Incluye cobro de $4 por intento logístico</p>
+            <p class="text-[8px] text-slate-500 font-bold uppercase mt-2 italic">* Cobro fijo de $4.00 x intento de entrega</p>
         </div>
-    </div>
+    </section>
 
-    <div class="px-4 pb-36">
-        <div class="flex items-center justify-between mb-4">
-            <h2 class="text-slate-100 text-sm font-black uppercase italic tracking-widest">Historial de Liquidaciones</h2>
-            <span class="text-[10px] text-primary font-bold uppercase italic">Últimos 5 pagos</span>
-        </div>
+    <section class="px-4 space-y-4">
+        <h2 class="text-xs font-black uppercase tracking-widest text-slate-400 italic mb-2">Historial de Pagos</h2>
         
         <div class="space-y-4">
-            <div class="flex flex-col gap-3 p-4 rounded-xl bg-white/5 border border-white/10">
-                <div class="flex items-center justify-between">
+            <div class="p-4 rounded-2xl bg-slate-900/50 border border-slate-800">
+                <div class="flex items-center justify-between mb-3">
                     <div class="flex items-center gap-3">
-                        <div class="size-10 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-500 font-fill">
-                            <span class="material-symbols-outlined">verified</span>
-                        </div>
-                        <div>
-                            <p class="text-xs font-black uppercase italic text-white">Liquidación #990</p>
-                            <p class="text-[9px] text-slate-400 font-bold" onclick="openAuditModal('Detalle #990', 'Resumen de 8 entregas')">24 Feb 2026 • 15:30</p>
+                        <div class="size-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-500"><span class="material-symbols-outlined font-fill">verified</span></div>
+                        <div onclick="openAuditModal('Detalle Pago #772', 'Resumen de 12 pedidos')">
+                            <p class="text-[11px] font-black uppercase italic text-white leading-none">Pago #772</p>
+                            <p class="text-[9px] text-slate-500 font-bold mt-1 underline italic">24 Feb • 10:45 AM</p>
                         </div>
                     </div>
                     <button onclick="openReceipt('https://i.pinimg.com/736x/88/2c/83/882c83c27057da589b2759a229a4358a.jpg')" class="text-right">
-                        <p class="text-sm font-black italic text-primary leading-none">$480.00</p>
-                        <span class="text-[8px] font-black text-primary uppercase underline italic">Foto</span>
+                        <p class="text-sm font-black italic text-primary leading-none">$485.00</p>
+                        <span class="text-[8px] font-black text-primary uppercase italic underline">Comprobante</span>
                     </button>
                 </div>
-                <div class="grid grid-cols-3 gap-2 pt-2 border-t border-white/5 text-center">
-                    <div><p class="text-[8px] text-slate-500 uppercase font-black">Recaudado</p><p class="text-xs font-bold">$512.00</p></div>
-                    <div><p class="text-[8px] text-red-500 uppercase font-black italic">Comisión</p><p class="text-xs font-bold text-red-500">-$32.00</p></div>
-                    <div><p class="text-[8px] text-primary uppercase font-black">A Recibir</p><p class="text-xs font-bold text-primary">$480.00</p></div>
+                <div class="grid grid-cols-3 gap-2 pt-3 border-t border-white/5 text-center">
+                    <div><p class="text-[8px] text-slate-500 uppercase font-black">Recaudado</p><p class="text-xs font-black italic text-white">$533.00</p></div>
+                    <div><p class="text-[8px] text-red-500 uppercase font-black italic">Comisión</p><p class="text-xs font-black italic text-red-500">-$48.00</p></div>
+                    <div><p class="text-[8px] text-primary uppercase font-black">Neto</p><p class="text-xs font-black italic text-primary">$485.00</p></div>
                 </div>
             </div>
 
-            <div class="flex flex-col gap-3 p-4 rounded-xl bg-white/5 border border-white/10">
-                <div class="flex items-center justify-between">
+            <div class="p-4 rounded-2xl bg-slate-900/50 border border-slate-800 opacity-90">
+                <div class="flex items-center justify-between mb-3">
                     <div class="flex items-center gap-3">
-                        <div class="size-10 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-500 font-fill">
-                            <span class="material-symbols-outlined">verified</span>
-                        </div>
-                        <div>
-                            <p class="text-xs font-black uppercase italic text-white">Liquidación #982</p>
-                            <p class="text-[9px] text-slate-400 font-bold">17 Feb 2026 • 11:20</p>
-                        </div>
+                        <div class="size-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-500"><span class="material-symbols-outlined font-fill">verified</span></div>
+                        <div><p class="text-[11px] font-black uppercase italic text-white leading-none">Pago #771</p><p class="text-[9px] text-slate-500 font-bold mt-1">17 Feb • 09:15 AM</p></div>
                     </div>
-                    <button onclick="openReceipt('https://i.pinimg.com/736x/88/2c/83/882c83c27057da589b2759a229a4358a.jpg')" class="text-right text-primary">
-                        <p class="text-sm font-black italic">$215.00</p>
-                        <span class="text-[8px] font-black uppercase underline italic">Foto</span>
-                    </button>
+                    <p class="text-sm font-black italic text-primary">$320.00</p>
                 </div>
-                <div class="grid grid-cols-3 gap-2 pt-2 border-t border-white/5 text-center">
-                    <div><p class="text-[8px] text-slate-500 uppercase font-black">Recaudado</p><p class="text-xs font-bold">$231.00</p></div>
-                    <div><p class="text-[8px] text-red-500 uppercase font-black italic">Comisión</p><p class="text-xs font-bold text-red-500">-$16.00</p></div>
-                    <div><p class="text-[8px] text-primary uppercase font-black">A Recibir</p><p class="text-xs font-bold text-primary">$215.00</p></div>
+                <div class="grid grid-cols-3 gap-2 pt-3 border-t border-white/5 text-center">
+                    <div><p class="text-[8px] text-slate-500 uppercase font-black">Recaudado</p><p class="text-xs font-black italic text-white">$352.00</p></div>
+                    <div><p class="text-[8px] text-red-500 uppercase font-black italic">Comisión</p><p class="text-xs font-black italic text-red-500">-$32.00</p></div>
+                    <div><p class="text-[8px] text-primary uppercase font-black">Neto</p><p class="text-xs font-black italic text-primary">$320.00</p></div>
                 </div>
             </div>
 
-            <div class="flex flex-col gap-3 p-4 rounded-xl bg-white/5 border border-white/10 opacity-80">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <div class="size-10 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-500 font-fill">
-                            <span class="material-symbols-outlined">verified</span>
-                        </div>
-                        <div>
-                            <p class="text-xs font-black uppercase italic text-white">Liquidación #975</p>
-                            <p class="text-[9px] text-slate-400 font-bold">10 Feb 2026</p>
-                        </div>
-                    </div>
-                    <p class="text-sm font-black italic text-primary">$310.00</p>
-                </div>
-                <div class="grid grid-cols-3 gap-2 pt-2 border-t border-white/5 text-center">
-                    <div><p class="text-[8px] text-slate-500 uppercase font-black">Recaudado</p><p class="text-xs font-bold">$330.00</p></div>
-                    <div><p class="text-[8px] text-red-500 uppercase font-black italic">Comisión</p><p class="text-xs font-bold text-red-500">-$20.00</p></div>
-                    <div><p class="text-[8px] text-primary uppercase font-black">A Recibir</p><p class="text-xs font-bold text-primary">$310.00</p></div>
-                </div>
+            <div class="p-4 rounded-2xl bg-slate-900/50 border border-slate-800 opacity-80">
+                <div class="flex items-center justify-between"><div class="flex items-center gap-3"><div class="size-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-500"><span class="material-symbols-outlined font-fill">verified</span></div><div><p class="text-[11px] font-black uppercase italic text-white">Pago #770</p><p class="text-[9px] text-slate-500 font-bold mt-1">10 Feb</p></div></div><p class="text-sm font-black italic text-primary">$150.00</p></div>
             </div>
-
-            <div class="flex flex-col gap-3 p-4 rounded-xl bg-white/5 border border-white/10 opacity-70">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <div class="size-10 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-500 font-fill">
-                            <span class="material-symbols-outlined">verified</span>
-                        </div>
-                        <div><p class="text-xs font-black uppercase italic text-white">Liquidación #960</p><p class="text-[9px] text-slate-400 font-bold">03 Feb 2026</p></div>
-                    </div>
-                    <p class="text-sm font-black italic text-primary">$150.00</p>
-                </div>
-                <div class="grid grid-cols-3 gap-2 pt-2 border-t border-white/5 text-center">
-                    <div><p class="text-[8px] text-slate-500 uppercase font-black">Recaudado</p><p class="text-xs font-bold">$162.00</p></div>
-                    <div><p class="text-[8px] text-red-500 uppercase font-black italic">Comisión</p><p class="text-xs font-bold text-red-500">-$12.00</p></div>
-                    <div><p class="text-[8px] text-primary uppercase font-black">A Recibir</p><p class="text-xs font-bold text-primary">$150.00</p></div>
-                </div>
+            <div class="p-4 rounded-2xl bg-slate-900/50 border border-slate-800 opacity-70">
+                <div class="flex items-center justify-between"><div class="flex items-center gap-3"><div class="size-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-500"><span class="material-symbols-outlined font-fill">verified</span></div><div><p class="text-[11px] font-black uppercase italic text-white">Pago #769</p><p class="text-[9px] text-slate-500 font-bold mt-1">03 Feb</p></div></div><p class="text-sm font-black italic text-primary">$90.00</p></div>
             </div>
-
-            <div class="flex flex-col gap-3 p-4 rounded-xl bg-white/5 border border-white/10 opacity-60">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <div class="size-10 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-500 font-fill">
-                            <span class="material-symbols-outlined">verified</span>
-                        </div>
-                        <div><p class="text-xs font-black uppercase italic text-white">Liquidación #950</p><p class="text-[9px] text-slate-400 font-bold">27 Ene 2026</p></div>
-                    </div>
-                    <p class="text-sm font-black italic text-primary">$90.00</p>
-                </div>
-                <div class="grid grid-cols-3 gap-2 pt-2 border-t border-white/5 text-center">
-                    <div><p class="text-[8px] text-slate-500 uppercase font-black">Recaudado</p><p class="text-xs font-bold">$102.00</p></div>
-                    <div><p class="text-[8px] text-red-500 uppercase font-black italic">Comisión</p><p class="text-xs font-bold text-red-500">-$12.00</p></div>
-                    <div><p class="text-[8px] text-primary uppercase font-black">A Recibir</p><p class="text-xs font-bold text-primary">$90.00</p></div>
-                </div>
+            <div class="p-4 rounded-2xl bg-slate-900/50 border border-slate-800 opacity-60">
+                <div class="flex items-center justify-between"><div class="flex items-center gap-3"><div class="size-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-500"><span class="material-symbols-outlined font-fill">verified</span></div><div><p class="text-[11px] font-black uppercase italic text-white">Pago #768</p><p class="text-[9px] text-slate-500 font-bold mt-1">27 Ene</p></div></div><p class="text-sm font-black italic text-primary">$410.00</p></div>
             </div>
         </div>
-    </div>
+    </section>
 
-    <div class="fixed bottom-0 left-0 right-0 z-40 border-t border-primary/20 bg-[#221022]/95 backdrop-blur-lg px-4 pb-6 pt-2">
-        <div class="flex items-center justify-between">
-            <a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-500" href="reporte-global-tienda.html">
-                <span class="material-symbols-outlined">dashboard</span>
-                <p class="text-[10px] font-bold uppercase">Dashboard</p>
-            </a>
-            <a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-500" href="panel-operativo-tienda.html">
-                <span class="material-symbols-outlined">grid_view</span>
-                <p class="text-[10px] font-bold uppercase">Panel</p>
-            </a>
-            <div class="flex-1 flex justify-center -mt-10">
-                <button onclick="location.href='nuevo-producto-tienda.html'" class="size-14 bg-primary rounded-full flex items-center justify-center shadow-lg shadow-primary/40 border-4 border-[#221022] text-white active:scale-90 transition-transform">
-                    <span class="material-symbols-outlined text-3xl font-bold">add</span>
-                </button>
-            </div>
-            <a class="flex flex-1 flex-col items-center justify-center gap-1 text-primary" href="finanzas-tienda.html">
-                <span class="material-symbols-outlined font-fill">account_balance_wallet</span>
-                <p class="text-[10px] font-bold uppercase">Finanzas</p>
-            </a>
-            <a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-500" href="perfil-tienda.html">
-                <span class="material-symbols-outlined">storefront</span>
-                <p class="text-[10px] font-bold uppercase">Tienda</p>
-            </a>
+    <nav class="fixed bottom-0 left-0 right-0 bg-slate-900/95 backdrop-blur-xl border-t border-slate-800 px-4 py-2 pb-8 flex justify-between items-center z-[100]">
+        <a class="flex flex-col items-center gap-1 text-slate-500" href="reporte-global-tienda.html">
+            <span class="material-symbols-outlined text-2xl">dashboard</span>
+            <span class="text-[8px] font-black uppercase italic">Dashboard</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-slate-500" href="panel-operativo-tienda.html">
+            <span class="material-symbols-outlined text-2xl font-fill">grid_view</span>
+            <span class="text-[8px] font-black uppercase italic">Panel</span>
+        </a>
+        <div class="relative -top-8">
+            <button onclick="location.href='nuevo-producto-tienda.html'" class="nav-center-btn size-16 bg-primary rounded-full flex items-center justify-center border-[4px] border-[#0a0f16] text-white shadow-2xl active:scale-90 transition-transform">
+                <span class="material-symbols-outlined text-3xl font-bold">add</span>
+            </button>
         </div>
-    </div>
+        <a class="flex flex-col items-center gap-1 text-primary" href="finanzas-tienda.html">
+            <span class="material-symbols-outlined text-2xl font-fill">payments</span>
+            <span class="text-[8px] font-black uppercase italic">Finanzas</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-slate-500" href="perfil-tienda.html">
+            <span class="material-symbols-outlined text-2xl">person</span>
+            <span class="text-[8px] font-black uppercase italic">Tienda</span>
+        </a>
+    </nav>
 
-    <div id="audit-modal" class="fixed inset-0 z-50 flex items-end justify-center opacity-0 pointer-events-none transition-all duration-300">
+    <div id="audit-modal" class="fixed inset-0 z-[110] flex items-end justify-center opacity-0 pointer-events-none transition-all duration-300">
         <div class="absolute inset-0 bg-black/90 backdrop-blur-sm" onclick="closeAuditModal()"></div>
-        <div class="relative w-full max-w-lg bg-[#221022] border-t border-primary/30 rounded-t-[32px] p-6 shadow-2xl translate-y-20 transition-all duration-300">
-            <div class="w-12 h-1 bg-white/10 rounded-full mx-auto mb-6"></div>
+        <div class="relative w-full max-w-lg bg-slate-900 border-t border-primary/30 rounded-t-[32px] p-6 translate-y-20 transition-all duration-300">
             <h3 id="audit-title" class="text-sm font-black uppercase italic text-primary">Detalle de Envíos</h3>
-            <p id="audit-desc" class="text-[9px] text-slate-500 font-bold uppercase mb-4 italic">Se descuentan $4.00 por pedido (Entregado o No)</p>
+            <p id="audit-desc" class="text-[9px] text-slate-500 font-bold uppercase mb-4">-$4.00 de comisión por pedido</p>
             <div class="space-y-2 max-h-[300px] overflow-y-auto pr-2 hide-scroll">
                 <div class="flex justify-between p-3 bg-white/5 rounded-xl border border-white/5">
                     <div><span class="text-[10px] font-black italic block">ID #BK-9021</span><span class="text-[8px] font-bold text-green-500 uppercase italic">Entregado</span></div>
@@ -215,48 +157,10 @@
         </div>
     </div>
 
-    <div id="date-modal" class="fixed inset-0 z-50 flex items-end justify-center opacity-0 pointer-events-none transition-all duration-300">
-        <div class="absolute inset-0 bg-black/90 backdrop-blur-sm" onclick="toggleDateModal()"></div>
-        <div class="relative w-full max-w-sm bg-[#221022] border-t border-primary/30 rounded-t-[32px] p-6 shadow-2xl translate-y-20 transition-all duration-300">
-            <h3 class="text-xs font-black uppercase italic text-primary mb-6">Filtrar Liquidaciones</h3>
-            <div class="space-y-4">
-                <div class="grid grid-cols-2 gap-3">
-                    <input type="date" id="date-from" class="bg-white/5 border-white/10 rounded-xl text-xs text-white p-3 focus:outline-none focus:border-primary">
-                    <input type="date" id="date-to" class="bg-white/5 border-white/10 rounded-xl text-xs text-white p-3 focus:outline-none focus:border-primary">
-                </div>
-                <button onclick="applyDateFilter()" class="w-full py-4 bg-primary text-[10px] font-black uppercase italic rounded-xl shadow-lg">Aplicar Rango</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="receipt-modal" class="fixed inset-0 z-[60] flex items-center justify-center p-6 opacity-0 pointer-events-none transition-all duration-300">
-        <div class="absolute inset-0 bg-black/95 backdrop-blur-md" onclick="closeReceipt()"></div>
-        <div class="relative w-full max-w-sm bg-[#221022] border border-primary/30 rounded-3xl overflow-hidden shadow-2xl">
-            <div class="p-3 border-b border-white/5 text-center font-black text-[9px] uppercase italic text-primary">Comprobante Bancario</div>
-            <img id="receipt-img" src="" class="w-full h-auto bg-white" alt="Transferencia">
-            <button onclick="closeReceipt()" class="w-full py-4 bg-primary text-[10px] font-black uppercase italic">Cerrar Visor</button>
-        </div>
-    </div>
-
 </div>
 
 <script>
-    function toggleDateModal() {
-        const modal = document.getElementById('date-modal');
-        modal.classList.toggle('opacity-0');
-        modal.classList.toggle('pointer-events-none');
-        modal.querySelector('div:nth-child(2)').classList.toggle('translate-y-20');
-    }
-
-    function applyDateFilter() {
-        const from = document.getElementById('date-from').value;
-        const to = document.getElementById('date-to').value;
-        if (from && to) {
-            document.getElementById('range-label').innerText = `${from} AL ${to}`;
-            toggleDateModal();
-        }
-    }
-
+    function toggleDateModal() { alert("Calendario activado para filtrar"); }
     function openAuditModal(title, desc) {
         document.getElementById('audit-title').innerText = title;
         document.getElementById('audit-desc').innerText = desc;
@@ -264,21 +168,12 @@
         modal.classList.remove('opacity-0', 'pointer-events-none');
         modal.querySelector('div:nth-child(2)').classList.remove('translate-y-20');
     }
-
     function closeAuditModal() {
         const modal = document.getElementById('audit-modal');
         modal.classList.add('opacity-0', 'pointer-events-none');
         modal.querySelector('div:nth-child(2)').classList.add('translate-y-20');
     }
-
-    function openReceipt(url) {
-        document.getElementById('receipt-img').src = url;
-        document.getElementById('receipt-modal').classList.remove('opacity-0', 'pointer-events-none');
-    }
-
-    function closeReceipt() {
-        document.getElementById('receipt-modal').classList.add('opacity-0', 'pointer-events-none');
-    }
+    function openReceipt(url) { window.open(url, '_blank'); }
 </script>
 
 </body>
