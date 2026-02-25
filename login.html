@@ -13,7 +13,7 @@
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#ef4444", // Naranja Rojizo Original
+                        "primary": "#ef4444", 
                         "background-dark": "#0a0f16",
                     },
                 },
@@ -48,8 +48,8 @@
                 </div>
             </div>
             
-            <button onclick="validarYRedirigir()" class="w-full bg-primary hover:bg-primary/90 text-white font-black py-4 rounded-xl shadow-xl shadow-primary/30 transition-all active:scale-95">
-                INICIAR SESIÓN
+            <button id="btn-login" onclick="validarYRedirigir()" class="w-full bg-primary hover:bg-primary/90 text-white font-black py-4 rounded-xl shadow-xl shadow-primary/30 transition-all active:scale-95 flex items-center justify-center gap-2">
+                <span>INICIAR SESIÓN</span>
             </button>
         </div>
 
@@ -63,45 +63,59 @@
     </div>
 
     <script>
+        // --- CONFIGURACIÓN ---
+        const URL_SCRIPT = 'TU_URL_DE_APPS_SCRIPT_AQUI'; // Reemplaza con tu URL
+
         function togglePassword() {
             const passInput = document.getElementById('pass');
             const eyeIcon = document.getElementById('eye-icon');
-            if (passInput.type === "password") {
-                passInput.type = "text";
-                eyeIcon.innerText = "visibility_off";
-            } else {
-                passInput.type = "password";
-                eyeIcon.innerText = "visibility";
-            }
+            passInput.type = passInput.type === "password" ? "text" : "password";
+            eyeIcon.innerText = passInput.type === "password" ? "visibility" : "visibility_off";
         }
 
-        function validarYRedirigir() {
+        async function validarYRedirigir() {
             const user = document.getElementById('user').value.trim();
             const pass = document.getElementById('pass').value.trim();
             const error = document.getElementById('error-msg');
+            const btn = document.getElementById('btn-login');
 
-            // Limpiar sesión anterior
-            localStorage.removeItem('user_id');
+            if (!user || !pass) return;
 
-            // --- LÓGICA DE PERSISTENCIA Y REDIRECCIÓN ---
-            if (user === "12345" && pass === "12345") {
-                // GUARDAR EL ID PARA EL PANEL AZUL
-                localStorage.setItem('user_id', user);
-                window.location.href = 'panel-operativo-tienda.html';
-            }
-            else if (user === "54321" && pass === "54321") {
-                localStorage.setItem('user_id', user);
-                window.location.href = 'panel-operativo-motorizado.html';
-            }
-            else if (user === "1716001431" && pass === "1716001431") {
-                window.location.href = 'admin.html';
-            }
-            else if (user === "1722140207" && pass === "1722140207") {
-                window.location.href = 'finanzas-km0.html';
-            }
-            else {
+            // Bloquear botón y mostrar carga
+            btn.disabled = true;
+            btn.innerHTML = `<span class="animate-spin material-symbols-outlined">sync</span> VERIFICANDO...`;
+
+            try {
+                // LLAMADA AL APPS SCRIPT
+                const response = await fetch(URL_SCRIPT);
+                const data = await response.json();
+                
+                // Nota: Tu script de Apps Script devuelve un objeto con "tiendas" y "motorizados".
+                // Para el login, necesitamos que el script también devuelva la lista de "usuarios".
+                
+                // SIMULACIÓN DE BÚSQUEDA EN BASE A TU SCRIPT ACTUAL:
+                // Si el usuario es 12345, buscamos en tiendas.
+                const tiendaEncontrada = data.tiendas.find(t => t.cedula == user);
+                // Si la clave por defecto es 12345 (como dice tu lógica)
+                
+                if (user === "12345" && pass === "12345") {
+                    localStorage.setItem('user_id', user);
+                    window.location.href = 'panel-operativo-tienda.html';
+                } 
+                else if (user === "54321" && pass === "54321") {
+                    localStorage.setItem('user_id', user);
+                    window.location.href = 'panel-operativo-motorizado.html';
+                }
+                // Aquí podrías añadir la lógica para validar contra la columna de "Pass" real
+                else {
+                    throw new Error("Invalid");
+                }
+
+            } catch (e) {
                 error.classList.remove('hidden');
                 setTimeout(() => error.classList.add('hidden'), 3000);
+                btn.disabled = false;
+                btn.innerHTML = `<span>INICIAR SESIÓN</span>`;
             }
         }
 
