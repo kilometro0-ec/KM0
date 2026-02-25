@@ -1,21 +1,192 @@
-<header class="sticky top-0 z-50 bg-background-dark/80 backdrop-blur-md border-b border-primary/20 px-4 py-3 flex items-center justify-between">
-    <div class="flex items-center gap-3">
-        <div class="size-10 rounded-full bg-primary/20 flex items-center justify-center border border-primary/30">
-            <span class="material-symbols-outlined text-primary font-variation-fill">two_wheeler</span>
-        </div>
-        <div>
-            <h1 class="text-sm font-black italic uppercase italic">KM0 TIENDA</h1>
-            <p class="text-[9px] text-primary font-black uppercase tracking-widest leading-none">Gestión e Inventario</p>
-        </div>
-    </div>
-    
-    <div class="flex items-center gap-2">
-        <button onclick="location.href='catalogo-tienda.html'" class="size-10 flex items-center justify-center rounded-full bg-neutral-dark border border-white/10 active:bg-primary/20 transition-colors">
-            <span class="material-symbols-outlined text-primary font-variation-fill">auto_stories</span>
-        </button>
-        
-        <button onclick="enviarNotif('Stock Bajo', 'Kit de Arrastre (Solo 2 unidades)')" class="size-10 flex items-center justify-center rounded-full bg-neutral-dark border border-white/10">
-            <span class="material-symbols-outlined text-primary font-variation-fill">notifications_active</span>
-        </button>
-    </div>
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tienda: Gestión de Catálogo</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f425af",
+                        "background-light": "#f8f5f7",
+                        "background-dark": "#120810",
+                        "surface-dark": "#22101c",
+                        "border-dark": "#392833",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: "Plus Jakarta Sans", sans-serif;
+        }
+        .ios-blur {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
+<!-- Header / Top Bar (iOS Style) -->
+<header class="sticky top-0 z-30 bg-background-light/80 dark:bg-background-dark/80 ios-blur border-b border-border-dark px-4 py-4">
+<div class="flex items-center justify-between max-w-md mx-auto">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-slate-900 dark:text-slate-100">arrow_back_ios</span>
+</button>
+<h1 class="text-lg font-bold tracking-tight">Mi Catálogo</h1>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-slate-900 dark:text-slate-100">settings</span>
+</button>
+</div>
 </header>
+<!-- Tabs Navigation -->
+<nav class="bg-background-light dark:bg-background-dark px-4 pt-2">
+<div class="flex border-b border-border-dark max-w-md mx-auto">
+<button class="flex-1 flex flex-col items-center justify-center border-b-2 border-primary py-3">
+<span class="text-sm font-bold text-primary">Todos</span>
+</button>
+<button class="flex-1 flex flex-col items-center justify-center border-b-2 border-transparent py-3">
+<span class="text-sm font-bold text-slate-500 dark:text-slate-400">Activos</span>
+</button>
+<button class="flex-1 flex flex-col items-center justify-center border-b-2 border-transparent py-3">
+<span class="text-sm font-bold text-slate-500 dark:text-slate-400">Sin Stock</span>
+</button>
+</div>
+</nav>
+<!-- Search Bar -->
+<div class="px-4 py-4 max-w-md mx-auto w-full">
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-slate-500">search</span>
+<input class="w-full pl-10 pr-4 py-2.5 bg-slate-200 dark:bg-surface-dark border-none rounded-xl text-sm focus:ring-2 focus:ring-primary/50 transition-all outline-none" placeholder="Buscar productos..." type="text"/>
+</div>
+</div>
+<!-- Product Grid -->
+<main class="flex-1 px-4 pb-32 max-w-md mx-auto w-full">
+<div class="grid grid-cols-2 gap-4">
+<!-- Product Item 1 -->
+<div class="flex flex-col gap-2 group">
+<div class="relative aspect-square rounded-xl overflow-hidden bg-surface-dark border border-border-dark">
+<img alt="Producto" class="w-full h-full object-cover" data-alt="Ensalada fresca de temporada orgánica" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDA6nEjbjhajsqh5Fd2FdNN_g9accT_CFKBswdqpPEhhDzpROZwujCw08IpocceES37VIDlMq0kajDELy9epiQOGn1NQs8lcJY7hAuxSiNurb8l0SzYnEYq3vBQC6B3ffzW8theuvIXOkCTlSgDd2L81IrTWky6MwmI-LXxAPkAZ3kd-9VBqjBwItUI0-vvvdDunQsfIK443W6YkKPMTYhbqR8ecMl7kJo5TQc_GGwE5rV4LcfPaVccPpsCYsDJcEpMVh3V54cdlOco"/>
+<div class="absolute top-2 right-2 flex flex-col gap-1">
+<button class="p-1.5 bg-background-dark/80 rounded-full text-white ios-blur">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+</div>
+</div>
+<div>
+<h3 class="font-semibold text-sm leading-tight line-clamp-1">Poke Bowl Atún</h3>
+<p class="text-primary font-bold text-base mt-0.5">$12.50</p>
+<div class="flex items-center gap-1 mt-1">
+<span class="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 bg-green-500/20 text-green-500 rounded">Stock: 15</span>
+</div>
+</div>
+</div>
+<!-- Product Item 2 -->
+<div class="flex flex-col gap-2 group">
+<div class="relative aspect-square rounded-xl overflow-hidden bg-surface-dark border border-border-dark">
+<img alt="Producto" class="w-full h-full object-cover" data-alt="Pancakes con miel y frutas locales" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPdoa4gN7EY5GF4sHgRfyxJK9439lzEmIEG6XCtOtEFLPs5pSomEXyTuTAAb2X3MIzS2VF9y7ebalYRnS75xR_Vh0bDGTKQ0Fuq9Oamq8DGpoijleQZ8DrZEHclrPSePiYqwDvW1bP3dr-CJx8FbzG9TejxQJvo6AMyhCA7HnA-WJKuu5c124jFQ1yonBPdXvRzIqimmopNPJjPAJb11Mtu6Pqb71b6_vJ-AdfjH61Mu9fh7jVEcQdZcfGqa3sxc7kRRaCaw2aPst5"/>
+<div class="absolute top-2 right-2 flex flex-col gap-1">
+<button class="p-1.5 bg-background-dark/80 rounded-full text-white ios-blur">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+</div>
+</div>
+<div>
+<h3 class="font-semibold text-sm leading-tight line-clamp-1">Panqueques Artesanales</h3>
+<p class="text-primary font-bold text-base mt-0.5">$8.00</p>
+<div class="flex items-center gap-1 mt-1">
+<span class="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 bg-green-500/20 text-green-500 rounded">Stock: 24</span>
+</div>
+</div>
+</div>
+<!-- Product Item 3 -->
+<div class="flex flex-col gap-2 group">
+<div class="relative aspect-square rounded-xl overflow-hidden bg-surface-dark border border-border-dark opacity-80">
+<img alt="Producto" class="w-full h-full object-cover" data-alt="Brochetas de carne a la parrilla" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_7aogGxL8VtsWhUEH7HYiTOKmNX_EREzFJygegsHoSPlwntRSuAPPOY64FwMXvz16hY6pErfYwKieQojMpv_lD-x5jbTPy7Q50ezcFTwTyGpeOrC3SFJNM_D8YjAFOXyt_04toJYP_HYXkbVY_x4cNr7oUspOJ4wTjb-DgPP37vjxOq60E1QRx8SIMpFFjGjCHNIHgPB0tsebhbvtSlObv06CUsfE88jcJ24m26qDvJ7ZdXIc3_s8AkI3xWKZ3Ux4oO5bRMMthXRE"/>
+<div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+<span class="text-xs font-bold text-white uppercase tracking-widest">Sin Stock</span>
+</div>
+<div class="absolute top-2 right-2 flex flex-col gap-1">
+<button class="p-1.5 bg-background-dark/80 rounded-full text-white ios-blur">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+</div>
+</div>
+<div>
+<h3 class="font-semibold text-sm leading-tight line-clamp-1">Grill de Vegetales</h3>
+<p class="text-primary font-bold text-base mt-0.5">$15.00</p>
+<div class="flex items-center gap-1 mt-1">
+<span class="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 bg-red-500/20 text-red-500 rounded">Agotado</span>
+</div>
+</div>
+</div>
+<!-- Product Item 4 -->
+<div class="flex flex-col gap-2 group">
+<div class="relative aspect-square rounded-xl overflow-hidden bg-surface-dark border border-border-dark">
+<img alt="Producto" class="w-full h-full object-cover" data-alt="Ensalada mediterránea gourmet" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlUqrG--ePS9hODaSmiTJG0R8ElwCk4HWM5QfAZtVkQKQEx92W2qj4Ezxn-uAWxEtQwkdekd1wZah06Bq4hZkddZTdSh3Niut6mIdvh2HHI1csMs8gOOHlY0jWrNYDbiwtGFKNqX2kI9RsbdZiJD71LJ7aUKMA0xg9OIGRhb8FuVLWnCJ3s3HJeZbtXCIniK-VT4bz_zVJMDakPsZU5Y_D5oGt2jH90lkCEpuGMHRjfEGCbqGJ6Nks7cfRPWPuVS_D78MjdQjfA0jr"/>
+<div class="absolute top-2 right-2 flex flex-col gap-1">
+<button class="p-1.5 bg-background-dark/80 rounded-full text-white ios-blur">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+</div>
+</div>
+<div>
+<h3 class="font-semibold text-sm leading-tight line-clamp-1">Salmón Teriyaki</h3>
+<p class="text-primary font-bold text-base mt-0.5">$18.20</p>
+<div class="flex items-center gap-1 mt-1">
+<span class="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 bg-green-500/20 text-green-500 rounded">Stock: 8</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Action Button -->
+<div class="fixed bottom-24 right-6 z-40">
+<button class="w-16 h-16 bg-primary rounded-full shadow-lg shadow-primary/40 flex items-center justify-center text-white active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-3xl">add</span>
+</button>
+</div>
+<!-- Bottom Navigation Bar -->
+<footer class="fixed bottom-0 left-0 right-0 z-50 bg-background-light/95 dark:bg-surface-dark/95 border-t border-border-dark ios-blur pb-6">
+<div class="flex justify-around items-center h-16 max-w-md mx-auto">
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined fill-1">grid_view</span>
+<span class="text-[10px] font-medium">Catálogo</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-500 dark:text-slate-400" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="text-[10px] font-medium">Pedidos</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-500 dark:text-slate-400" href="#">
+<span class="material-symbols-outlined">chat</span>
+<span class="text-[10px] font-medium">Mensajes</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-500 dark:text-slate-400" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-medium">Perfil</span>
+</a>
+</div>
+</footer>
+</body></html>
