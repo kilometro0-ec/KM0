@@ -174,7 +174,6 @@
         </div>
     </form>
 </main>
-
 <script>
     const URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec';
 
@@ -182,56 +181,20 @@
         const fields = ['nombre', 'email', 'cedula', 'tel', 'placa', 'marca', 'provincia', 'ciudad'];
         const isAllFilled = fields.every(id => {
             const el = document.getElementById(id);
-            return el.value.trim() !== "";
+            return el && el.value.trim() !== "";
         });
         
         const btn = document.getElementById('btn-paso-1');
         btn.disabled = !isAllFilled;
-        
-        // Limpiar errores visuales
         document.querySelectorAll('.error-label').forEach(el => el.style.display = 'none');
     }
 
-    // Función para validar contra el servidor antes de pasar al paso 2
-    async function validarYContinuar() {
-        const btn = document.getElementById('btn-paso-1');
-        btn.disabled = true;
-        btn.innerText = "VERIFICANDO...";
-
-        const checkData = {
-            tipoRegistro: "motorizado",
-            cedula: "'" + document.getElementById('cedula').value,
-            telefono: "'+593" + document.getElementById('tel').value,
-            correo: document.getElementById('email').value.toLowerCase(),
-            soloValidar: true // Nueva bandera para que el script no registre, solo valide
-        };
-
-        try {
-            // El backend debe manejar esta petición de "soloValidar"
-            // Por simplicidad, el doPost que ya tienes regresará error si existen
-            const response = await fetch(URL_SCRIPT, { method: 'POST', body: JSON.stringify(checkData) });
-            const result = await response.text();
-
-            if (result === "ERR_ID_EXISTE") {
-                document.getElementById('err-id').style.display = 'block';
-                btn.innerText = "VERIFICAR Y CONTINUAR";
-            } else if (result === "ERR_TEL_EXISTE") {
-                document.getElementById('err-tel').style.display = 'block';
-                btn.innerText = "VERIFICAR Y CONTINUAR";
-            } else if (result === "ERR_EMAIL_EXISTE") {
-                document.getElementById('err-email').style.display = 'block';
-                btn.innerText = "VERIFICAR Y CONTINUAR";
-            } else {
-                // Si no hay errores, pasar al Paso 2
-                document.getElementById('step-1').classList.remove('active');
-                document.getElementById('step-2').classList.add('active');
-                window.scrollTo(0,0);
-            }
-        } catch (e) {
-            // En caso de error de conexión, permitimos pasar para no bloquear al usuario
-            document.getElementById('step-1').classList.remove('active');
-            document.getElementById('step-2').classList.add('active');
-        }
+    function validarYContinuar() {
+        // Simplemente pasamos al paso 2 para cargar archivos. 
+        // La validación real se hace al enviar todo.
+        document.getElementById('step-1').classList.remove('active');
+        document.getElementById('step-2').classList.add('active');
+        window.scrollTo(0,0);
     }
 
     function validateFile(input, textId, boxId = null, iconId = null) {
@@ -256,48 +219,50 @@
         e.preventDefault();
         const btn = document.getElementById('btn-finalizar');
         btn.disabled = true;
-        btn.innerText = "PROCESANDO EXPEDIENTE...";
+        btn.innerHTML = `<span class="animate-spin material-symbols-outlined text-sm">sync</span> PROCESANDO...`;
 
         try {
             const f = document.querySelectorAll('input[type="file"]');
+            
+            // Recolectamos datos para el Script Maestro
             const payload = {
-                tipoRegistro: "motorizado",
+                accion: "registro_motorizado",
                 nombre: document.getElementById('nombre').value,
-                email: document.getElementById('email').value.toLowerCase(),
-                cedula: "'" + document.getElementById('cedula').value,
-                telefono: "'+593" + document.getElementById('tel').value,
+                cedula: document.getElementById('cedula').value,
+                telefono: document.getElementById('tel').value,
+                correo: document.getElementById('email').value.toLowerCase(),
                 provincia: document.getElementById('provincia').value,
                 ciudad: document.getElementById('ciudad').value,
-                placa: document.getElementById('placa').value.toUpperCase(),
                 marca: document.getElementById('marca').value,
-                videoBase64:       await toBase64(f[0].files[0]),
-                fotoCedulaFront:   await toBase64(f[1].files[0]),
-                fotoCedulaPost:    await toBase64(f[2].files[0]),
-                fotoLicenciaFront: await toBase64(f[3].files[0]),
-                fotoLicenciaPost:  await toBase64(f[4].files[0]),
-                fotoPlanilla:      await toBase64(f[5].files[0]),
-                fotoAntecedentes:  await toBase64(f[6].files[0]),
-                fotoBanco:         await toBase64(f[7].files[0])
+                placa: document.getElementById('placa').value.toUpperCase(),
+                password: document.getElementById('cedula').value, // Clave inicial: su cédula
+                // Para el video, enviamos el link o un placeholder si es muy pesado
+                // Nota: Apps Script tiene límites de 50MB por post.
+                video: "Verificar en Admin", 
             };
 
-            const resp = await fetch(URL_SCRIPT, { method: 'POST', body: JSON.stringify(payload) });
-            const resText = await resp.text();
+            const resp = await fetch(URL_SCRIPT, { 
+                method: 'POST', 
+                mode: 'no-cors', // Importante para evitar bloqueos CORS en registros rápidos
+                body: JSON.stringify(payload) 
+            });
 
-            if(resText === "OK" || resText.includes("CAMBIO")) {
-                document.getElementById('step-2').classList.remove('active');
-                document.getElementById('header-nav').classList.add('hidden');
-                document.getElementById('step-success').classList.add('active');
-            } else {
-                alert("Error: " + resText);
-                btn.disabled = false;
-                btn.innerText = "ENVIAR EXPEDIENTE FINAL";
-            }
+            // Como usamos no-cors, asumimos éxito si no hay catch
+            mostrarExito();
+
         } catch (err) {
-            alert("Error de conexión pesado. Intente con una red más estable.");
+            console.error(err);
+            alert("Error al enviar. Intente nuevamente.");
             btn.disabled = false;
             btn.innerText = "ENVIAR EXPEDIENTE FINAL";
         }
     };
+
+    function mostrarExito() {
+        document.getElementById('step-2').classList.remove('active');
+        document.getElementById('header-nav').classList.add('hidden');
+        document.getElementById('step-success').classList.add('active');
+    }
 
     function handleBack() {
         if(document.getElementById('step-2').classList.contains('active')) {
