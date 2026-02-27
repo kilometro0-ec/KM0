@@ -134,51 +134,47 @@
         document.querySelectorAll('.error-msg').forEach(el => el.style.display = 'none');
     });
 
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        btn.disabled = true;
-        btn.innerText = 'PROCESANDO REGISTRO...';
+  form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            btn.disabled = true;
+            btn.innerText = 'CONECTANDO CON KM0...';
 
-        // Mapeo de datos para que coincida con la función registrarTienda del Script Maestro
-        const datos = {
-            accion: "registro_tienda", // IMPORTANTE: Define la acción para el switch del Script
-            tienda: document.getElementById('nombreTienda').value.trim(),
-            representante: document.getElementById('representante').value.trim(),
-            ruc: document.getElementById('identificacion').value.trim(), // Se mapea a 'ruc'
-            provincia: document.getElementById('provincia').value,
-            ciudad: document.getElementById('ciudad').value.trim(),
-            telefono: document.getElementById('telefono').value.trim(),
-            correo: document.getElementById('correo').value.trim().toLowerCase(),
-            password: "KM0-" + document.getElementById('identificacion').value.trim().substring(0,4) // Password inicial por defecto
-        };
+            const datos = {
+                accion: "registro_tienda",
+                tienda: document.getElementById('nombreTienda').value,
+                representante: document.getElementById('representante').value,
+                ruc: document.getElementById('identificacion').value,
+                provincia: document.getElementById('provincia').value,
+                ciudad: document.getElementById('ciudad').value,
+                telefono: document.getElementById('telefono').value,
+                correo: document.getElementById('correo').value,
+                password: "KM0-" + document.getElementById('identificacion').value.substring(0,4)
+            };
 
-        try {
-            const response = await fetch(URL_SCRIPT, {
-                method: 'POST',
-                body: JSON.stringify(datos)
-            });
+            try {
+                // Usamos mode: 'no-cors' NO es recomendable aquí porque necesitamos la respuesta
+                const response = await fetch(URL_SCRIPT, {
+                    method: 'POST',
+                    body: JSON.stringify(datos)
+                });
 
-            const result = await response.json(); // Cambiado a .json()
+                const result = await response.json(); // ESTA LÍNEA ES CLAVE
 
-            if (result.success) {
-                document.getElementById('contenedorForm').classList.add('hidden');
-                document.getElementById('pantallaExito').classList.remove('hidden');
-                console.log("ID Generado:", result.id);
-            } else {
-                // Manejo de errores basado en el mensaje del script
-                alert('Error: ' + result.mensaje);
+                if (result.success) {
+                    document.getElementById('contenedorForm').classList.add('hidden');
+                    document.getElementById('pantallaExito').classList.remove('hidden');
+                } else {
+                    alert("ERROR: " + result.mensaje);
+                    btn.disabled = false;
+                    btn.innerText = 'REINTENTAR REGISTRO';
+                }
+            } catch (error) {
+                console.error("Error detallado:", error);
+                alert("SISTEMA OCUPADO: La tienda se registró pero Google tardó en responder. Verifica tu Excel.");
                 btn.disabled = false;
-                btn.innerText = 'REGISTRAR COMERCIO';
+                btn.innerText = 'REINTENTAR REGISTRO';
             }
-
-        } catch (error) {
-            console.error(error);
-            alert('Error crítico de conexión. Verifique la consola.');
-            btn.disabled = false;
-            btn.innerText = 'REGISTRAR COMERCIO';
-        }
-    });
+        }); 
 </script>  
 </body>
 </html>
