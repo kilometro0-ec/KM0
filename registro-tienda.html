@@ -118,67 +118,67 @@
         </button>
     </div>
 
-    <script>
-        const URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec';
+ <script>
+    const URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec';
 
-        const form = document.getElementById('formTienda');
-        const btn = document.getElementById('btnEnviar');
+    const form = document.getElementById('formTienda');
+    const btn = document.getElementById('btnEnviar');
 
-        // SEGURIDAD: Habilitar botón solo si todo es válido
-        form.addEventListener('input', () => {
-            const allValid = form.checkValidity();
-            btn.disabled = !allValid;
-            btn.style.opacity = allValid ? "1" : "0.5";
-            
-            // Limpiar errores visuales al modificar campos
-            document.querySelectorAll('.error-msg').forEach(el => el.style.display = 'none');
-        });
+    // SEGURIDAD: Habilitar botón solo si todo es válido
+    form.addEventListener('input', () => {
+        const allValid = form.checkValidity();
+        btn.disabled = !allValid;
+        btn.style.opacity = allValid ? "1" : "0.5";
+        
+        // Limpiar errores visuales al modificar campos
+        document.querySelectorAll('.error-msg').forEach(el => el.style.display = 'none');
+    });
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            btn.disabled = true;
-            btn.innerText = 'VALIDANDO DATOS...';
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        btn.disabled = true;
+        btn.innerText = 'PROCESANDO REGISTRO...';
 
-            const datos = {
-                tipoRegistro: "tienda",
-                nombreTienda: document.getElementById('nombreTienda').value.trim(),
-                representante: document.getElementById('representante').value.trim(),
-                identificacion: document.getElementById('identificacion').value.trim(),
-                provincia: document.getElementById('provincia').value,
-                ciudad: document.getElementById('ciudad').value.trim(),
-                telefono: "'" + document.getElementById('telefono').value.trim(), 
-                correo: document.getElementById('correo').value.trim().toLowerCase()
-            };
+        // Mapeo de datos para que coincida con la función registrarTienda del Script Maestro
+        const datos = {
+            accion: "registro_tienda", // IMPORTANTE: Define la acción para el switch del Script
+            tienda: document.getElementById('nombreTienda').value.trim(),
+            representante: document.getElementById('representante').value.trim(),
+            ruc: document.getElementById('identificacion').value.trim(), // Se mapea a 'ruc'
+            provincia: document.getElementById('provincia').value,
+            ciudad: document.getElementById('ciudad').value.trim(),
+            telefono: document.getElementById('telefono').value.trim(),
+            correo: document.getElementById('correo').value.trim().toLowerCase(),
+            password: "KM0-" + document.getElementById('identificacion').value.trim().substring(0,4) // Password inicial por defecto
+        };
 
-            try {
-                const response = await fetch(URL_SCRIPT, {
-                    method: 'POST',
-                    body: JSON.stringify(datos)
-                });
+        try {
+            const response = await fetch(URL_SCRIPT, {
+                method: 'POST',
+                body: JSON.stringify(datos)
+            });
 
-                const result = await response.text();
+            const result = await response.json(); // Cambiado a .json()
 
-                if (result === "OK") {
-                    document.getElementById('contenedorForm').classList.add('hidden');
-                    document.getElementById('pantallaExito').classList.remove('hidden');
-                } else if (result === "ERR_ID_EXISTE") {
-                    document.getElementById('err-id').style.display = 'block';
-                    btn.disabled = false; btn.innerText = 'REGISTRAR COMERCIO';
-                } else if (result === "ERR_TEL_EXISTE") {
-                    document.getElementById('err-tel').style.display = 'block';
-                    btn.disabled = false; btn.innerText = 'REGISTRAR COMERCIO';
-                } else if (result === "ERR_EMAIL_EXISTE") {
-                    document.getElementById('err-email').style.display = 'block';
-                    btn.disabled = false; btn.innerText = 'REGISTRAR COMERCIO';
-                }
-
-            } catch (error) {
-                alert('Error de conexión. Intente nuevamente.');
+            if (result.success) {
+                document.getElementById('contenedorForm').classList.add('hidden');
+                document.getElementById('pantallaExito').classList.remove('hidden');
+                console.log("ID Generado:", result.id);
+            } else {
+                // Manejo de errores basado en el mensaje del script
+                alert('Error: ' + result.mensaje);
                 btn.disabled = false;
                 btn.innerText = 'REGISTRAR COMERCIO';
             }
-        });
-    </script>
+
+        } catch (error) {
+            console.error(error);
+            alert('Error crítico de conexión. Verifique la consola.');
+            btn.disabled = false;
+            btn.innerText = 'REGISTRAR COMERCIO';
+        }
+    });
+</script>  
 </body>
 </html>
