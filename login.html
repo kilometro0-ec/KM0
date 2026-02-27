@@ -28,14 +28,14 @@
             <div class="size-20 bg-primary/20 rounded-full flex items-center justify-center border border-primary/30 mx-auto mb-4">
                 <span class="material-symbols-outlined text-primary text-5xl">pest_control_rodent</span>
             </div>
-            <h1 class="text-3xl font-black italic tracking-tighter text-white">KILÓMETRO CERO</h1>
-            <p class="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] mt-2">Gestión Logística 360</p>
+            <h1 class="text-3xl font-black italic tracking-tighter text-white uppercase">Kilómetro Cero</h1>
+            <p class="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] mt-2">Terminal de Acceso Seguro</p>
         </div>
 
         <div class="space-y-4">
             <div>
                 <label class="text-[10px] font-black text-slate-500 uppercase ml-1">Usuario / Cédula</label>
-                <input type="text" id="user" placeholder="Ingrese su credencial" class="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-4 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-white">
+                <input type="text" id="user" placeholder="Ej: 17XXXXXX" class="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-4 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-white">
             </div>
             
             <div class="relative">
@@ -57,14 +57,16 @@
             Error: Credenciales no válidas
         </p>
 
-        <div class="text-center">
-            <button onclick="window.location.href='index.html'" class="text-slate-500 text-[10px] font-bold uppercase hover:text-white">← Volver al inicio</button>
+        <div class="text-center space-y-4">
+            <button onclick="window.location.href='registro-tienda.html'" class="text-slate-400 text-[10px] font-bold uppercase hover:text-white transition-all underline decoration-primary/50">¿Eres un comercio nuevo? Regístrate aquí</button>
+            <br>
+            <button onclick="window.location.href='index.html'" class="text-slate-600 text-[10px] font-bold uppercase hover:text-white transition-all">← Volver al inicio</button>
         </div>
     </div>
 
     <script>
-        // --- CONFIGURACIÓN ---
-        const URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec'; // Reemplaza con tu URL
+        // --- CONFIGURACIÓN INTEGRADA CON SCRIPT MAESTRO ---
+        const URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec'; 
 
         function togglePassword() {
             const passInput = document.getElementById('pass');
@@ -73,52 +75,69 @@
             eyeIcon.innerText = passInput.type === "password" ? "visibility" : "visibility_off";
         }
 
-       
-async function validarYRedirigir() {
-    const userField = document.getElementById('user').value.trim();
-    const passField = document.getElementById('pass').value.trim();
-    const error = document.getElementById('error-msg');
-    const btn = document.getElementById('btn-login');
+        async function validarYRedirigir() {
+            const userField = document.getElementById('user').value.trim();
+            const passField = document.getElementById('pass').value.trim();
+            const error = document.getElementById('error-msg');
+            const btn = document.getElementById('btn-login');
 
-    if (!userField || !passField) return;
-
-    btn.disabled = true;
-    btn.innerHTML = `<span class="animate-spin material-symbols-outlined">sync</span> VERIFICANDO...`;
-
-    try {
-        const response = await fetch(URL_SCRIPT);
-        const data = await response.json();
-        
-        // BUSCAR USUARIO EN LA LISTA REAL DE EXCEL
-        const usuarioValido = data.usuarios.find(u => 
-            u.id.toString() === userField && 
-            u.pass.toString() === passField &&
-            u.estado === "Activo"
-        );
-
-        if (usuarioValido) {
-            localStorage.setItem('user_id', usuarioValido.id);
-            
-            // REDIRECCIÓN SEGÚN ROL EN EXCEL
-            if (usuarioValido.rol === "Tienda") {
-                window.location.href = 'panel-operativo-tienda.html';
-            } else if (usuarioValido.rol === "Motorizado") {
-                window.location.href = 'panel-operativo-motorizado.html';
-            } else if (usuarioValido.rol === "Admin") {
-                window.location.href = 'admin.html';
+            if (!userField || !passField) {
+                error.innerText = "Complete todos los campos";
+                error.classList.remove('hidden');
+                return;
             }
-        } else {
-            throw new Error("Credenciales inválidas");
+
+            // UI State: Cargando
+            btn.disabled = true;
+            btn.innerHTML = `<span class="animate-spin material-symbols-outlined text-sm">sync</span> VERIFICANDO...`;
+            error.classList.add('hidden');
+
+            const payload = {
+                accion: "login",
+                usuario: userField,
+                password: passField
+            };
+
+            try {
+                // Enviar datos al Google Apps Script
+                const response = await fetch(URL_SCRIPT, {
+                    method: 'POST',
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    // Guardar sesión localmente
+                    localStorage.setItem('km0_user_id', result.id);
+                    localStorage.setItem('km0_user_rol', result.rol);
+                    
+                    // Redirección dictada por el servidor
+                    window.location.href = result.redirect;
+                } else {
+                    // Error manejado por el script (ej: "Usuario Pendiente" o "Clave incorrecta")
+                    error.innerText = result.mensaje;
+                    error.classList.remove('hidden');
+                    resetBtn(btn);
+                }
+
+            } catch (e) {
+                console.error("Error de Login:", e);
+                error.innerText = "Error de red. Verifique su conexión.";
+                error.classList.remove('hidden');
+                resetBtn(btn);
+            }
         }
 
-    } catch (e) {
-        error.classList.remove('hidden');
-        setTimeout(() => error.classList.add('hidden'), 3000);
-        btn.disabled = false;
-        btn.innerHTML = `<span>INICIAR SESIÓN</span>`;
-    }
-}
-        document.addEventListener('keypress', (e) => { if(e.key === 'Enter') validarYRedirigir(); });
+        function resetBtn(btn) {
+            btn.disabled = false;
+            btn.innerHTML = `<span>INICIAR SESIÓN</span>`;
+        }
+
+        // Enter Key Support
+        document.addEventListener('keypress', (e) => { 
+            if(e.key === 'Enter') validarYRedirigir(); 
+        });
     </script>
 </body>
 </html>
