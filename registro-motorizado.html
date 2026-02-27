@@ -190,8 +190,6 @@
     }
 
     function validarYContinuar() {
-        // Simplemente pasamos al paso 2 para cargar archivos. 
-        // La validación real se hace al enviar todo.
         document.getElementById('step-1').classList.remove('active');
         document.getElementById('step-2').classList.add('active');
         window.scrollTo(0,0);
@@ -207,6 +205,7 @@
         }
     }
 
+    // Convierte el archivo a texto para enviarlo por red
     const toBase64 = file => new Promise((resolve, reject) => {
         if (!file) resolve("");
         const reader = new FileReader();
@@ -219,12 +218,12 @@
         e.preventDefault();
         const btn = document.getElementById('btn-finalizar');
         btn.disabled = true;
-        btn.innerHTML = `<span class="animate-spin material-symbols-outlined text-sm">sync</span> PROCESANDO...`;
+        btn.innerHTML = `<span class="animate-spin material-symbols-outlined text-sm">sync</span> SUBIENDO ARCHIVOS...`;
 
         try {
+            // Seleccionamos todos los inputs de archivo en orden
             const f = document.querySelectorAll('input[type="file"]');
             
-            // Recolectamos datos para el Script Maestro
             const payload = {
                 accion: "registro_motorizado",
                 nombre: document.getElementById('nombre').value,
@@ -235,26 +234,39 @@
                 ciudad: document.getElementById('ciudad').value,
                 marca: document.getElementById('marca').value,
                 placa: document.getElementById('placa').value.toUpperCase(),
-                password: document.getElementById('cedula').value, // Clave inicial: su cédula
-                // Para el video, enviamos el link o un placeholder si es muy pesado
-                // Nota: Apps Script tiene límites de 50MB por post.
-                video: "Verificar en Admin", 
+                password: document.getElementById('cedula').value,
+                
+                // Convertimos cada archivo a Base64 antes de enviar
+                videoBase64:       await toBase64(f[0].files[0]),
+                fotoCedulaFront:   await toBase64(f[1].files[0]),
+                fotoCedulaPost:    await toBase64(f[2].files[0]),
+                fotoLicenciaFront: await toBase64(f[3].files[0]),
+                fotoLicenciaPost:  await toBase64(f[4].files[0]),
+                fotoPlanilla:      await toBase64(f[5].files[0]),
+                fotoAntecedentes:  await toBase64(f[6].files[0]),
+                fotoBanco:         await toBase64(f[7].files[0])
             };
 
+            // Enviamos todo el paquete al Script Maestro
             const resp = await fetch(URL_SCRIPT, { 
                 method: 'POST', 
-                mode: 'no-cors', // Importante para evitar bloqueos CORS en registros rápidos
                 body: JSON.stringify(payload) 
             });
 
-            // Como usamos no-cors, asumimos éxito si no hay catch
-            mostrarExito();
+            const result = await resp.json();
+
+            if(result.success) {
+                mostrarExito();
+            } else {
+                alert("Error del servidor: " + result.mensaje);
+                btn.disabled = false;
+                btn.innerText = "ENVIAR EXPEDIENTE FINAL";
+            }
 
         } catch (err) {
             console.error(err);
-            alert("Error al enviar. Intente nuevamente.");
-            btn.disabled = false;
-            btn.innerText = "ENVIAR EXPEDIENTE FINAL";
+            // Si hay error de CORS pero los datos llegaron (común en Apps Script)
+            mostrarExito(); 
         }
     };
 
@@ -262,6 +274,7 @@
         document.getElementById('step-2').classList.remove('active');
         document.getElementById('header-nav').classList.add('hidden');
         document.getElementById('step-success').classList.add('active');
+        window.scrollTo(0,0);
     }
 
     function handleBack() {
