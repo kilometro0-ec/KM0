@@ -75,111 +75,124 @@
     </footer>
 
     <script>
-        // REEMPLAZA CON TU URL REAL
-        const URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec'; 
-        let db = { motorizados: [], tiendas: [] };
-        let currentTab = 'motorizados';
+    // URL DE TU SCRIPT ACTUALIZADA
+    const URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec'; 
+    
+    let db = { motorizados: [], tiendas: [] };
+    let currentTab = 'motorizados';
 
-        async function init() {
-            const icon = document.getElementById('icon-refresh');
-            icon.classList.add('refresh-spinning');
-            try {
-                const resp = await fetch(URL_SCRIPT);
-                db = await resp.json();
-                actualizarContadores();
-                render();
-            } catch (e) {
-                document.getElementById('content').innerHTML = "<p class='text-center py-10 text-red-500 text-[10px] font-black uppercase'>Error de Conexión</p>";
-            } finally {
-                icon.classList.remove('refresh-spinning');
-            }
-        }
-
-        function actualizarContadores() {
-            const m = db.motorizados?.length || 0;
-            const t = db.tiendas?.length || 0;
-            document.getElementById('count-m').innerText = m;
-            document.getElementById('count-t').innerText = t;
-            document.getElementById('card-m').style.borderColor = currentTab === 'motorizados' ? '#39FF14' : 'rgba(255,255,255,0.05)';
-            document.getElementById('card-t').style.borderColor = currentTab === 'tiendas' ? '#39FF14' : 'rgba(255,255,255,0.05)';
-        }
-
-        function cambiarTab(t) {
-            currentTab = t;
+    async function init() {
+        const icon = document.getElementById('icon-refresh');
+        icon.classList.add('refresh-spinning');
+        try {
+            // El doGet del script ya devuelve el JSON con motorizados y tiendas
+            const resp = await fetch(URL_SCRIPT);
+            db = await resp.json();
             actualizarContadores();
             render();
+        } catch (e) {
+            console.error(e);
+            document.getElementById('content').innerHTML = "<p class='text-center py-10 text-red-500 text-[10px] font-black uppercase'>Error de Conexión con la Base de Datos</p>";
+        } finally {
+            icon.classList.remove('refresh-spinning');
+        }
+    }
+
+    function actualizarContadores() {
+        const m = db.motorizados?.length || 0;
+        const t = db.tiendas?.length || 0;
+        document.getElementById('count-m').innerText = m;
+        document.getElementById('count-t').innerText = t;
+        
+        // Estilo visual de pestañas
+        document.getElementById('card-m').style.borderLeftColor = currentTab === 'motorizados' ? '#39FF14' : 'rgba(255,255,255,0.1)';
+        document.getElementById('card-t').style.borderLeftColor = currentTab === 'tiendas' ? '#39FF14' : 'rgba(255,255,255,0.1)';
+    }
+
+    function cambiarTab(t) {
+        currentTab = t;
+        actualizarContadores();
+        render();
+    }
+
+    function render() {
+        const list = currentTab === 'motorizados' ? db.motorizados : db.tiendas;
+        const container = document.getElementById('content');
+        const footer = document.getElementById('footer');
+
+        if (!list || list.length === 0) {
+            container.innerHTML = `<div class="text-center py-24 opacity-20"><p class='text-[10px] font-black uppercase tracking-widest'>Bandeja Vacía</p></div>`;
+            footer.classList.add('hidden');
+            return;
         }
 
-        function render() {
-            const list = currentTab === 'motorizados' ? db.motorizados : db.tiendas;
-            const container = document.getElementById('content');
-            const footer = document.getElementById('footer');
+        const item = list[0];
+        footer.classList.remove('hidden');
 
-            if (!list || list.length === 0) {
-                container.innerHTML = `<div class="text-center py-24 opacity-20"><p class='text-[10px] font-black uppercase tracking-widest'>Bandeja Vacía</p></div>`;
-                footer.classList.add('hidden');
-                return;
+        if (currentTab === 'motorizados') {
+            container.innerHTML = `
+                <div class="animate-in fade-in slide-in-from-bottom-4 duration-500">
+                    <p class="text-neon text-[9px] font-bold uppercase tracking-[0.4em] mb-2 italic">Expediente Motorizado</p>
+                    <h2 class="text-4xl font-black uppercase leading-none mb-2 tracking-tighter">${item.nombre}</h2>
+                    <div class="flex gap-2 mb-8"><span class="bg-neon/10 text-neon text-[10px] px-2 py-1 rounded font-bold">${item.placa}</span><span class="bg-white/5 text-zinc-500 text-[10px] px-2 py-1 rounded font-bold">${item.id}</span></div>
+                    <div class="space-y-3">
+                        <button class="btn-doc w-full flex items-center justify-between" onclick="window.open('${item.urlVideo}')">
+                            <span class="text-[11px] font-black uppercase">Video de Seguridad</span>
+                            <span class="material-symbols-outlined text-neon">videocam</span>
+                        </button>
+                    </div>
+                </div>`;
+        } else {
+            container.innerHTML = `
+                <div class="animate-in fade-in slide-in-from-bottom-4 duration-500">
+                    <p class="text-neon text-[9px] font-bold uppercase tracking-[0.4em] mb-2 italic">Solicitud Comercial</p>
+                    <h2 class="text-4xl font-black uppercase leading-none mb-2 tracking-tighter text-white">${item.nombreTienda}</h2>
+                    <p class="text-zinc-500 text-xs font-bold mb-8 italic">ID: ${item.id} | Responsable: ${item.representante}</p>
+                    <div class="glass-card p-6 space-y-4 border-neon/20 cursor-default">
+                        <div class="flex flex-col"><span class="text-[8px] font-black text-zinc-600 uppercase">RUC / Identificación</span><span class="text-xl font-bold tracking-widest">${item.cedula}</span></div>
+                        <div class="flex flex-col"><span class="text-[8px] font-black text-zinc-600 uppercase">Ubicación</span><span class="text-lg font-bold text-neon uppercase italic">${item.ciudad}</span></div>
+                    </div>
+                </div>`;
+        }
+    }
+
+    async function procesar(aprobado) {
+        const listaActual = currentTab === 'motorizados' ? db.motorizados : db.tiendas;
+        const item = listaActual[0];
+        if (!item) return;
+
+        // UI Optimista
+        const visual = document.querySelector('.animate-in');
+        if (visual) { visual.style.opacity = '0'; visual.style.transform = 'translateY(-20px)'; visual.style.transition = '0.3s all'; }
+
+        const payload = {
+            accion: "gestionar_solicitud", // Coincide con el case del Script Maestro
+            id: item.id,
+            nuevoEstado: aprobado ? "ACTIVO" : "RECHAZADO",
+            motivo: document.getElementById('notas').value || "No se especificó motivo"
+        };
+
+        try {
+            const response = await fetch(URL_SCRIPT, { method: "POST", body: JSON.stringify(payload) });
+            const result = await response.json();
+            
+            // Si fue rechazo y el script devolvió un link de WhatsApp, abrirlo
+            if (!aprobado && result.whatsapp) {
+                window.open(result.whatsapp, '_blank');
             }
-
-            const item = list[0];
-            footer.classList.remove('hidden');
-
-            if (currentTab === 'motorizados') {
-                container.innerHTML = `
-                    <div class="animate-in fade-in slide-in-from-bottom-4 duration-500">
-                        <p class="text-neon text-[9px] font-bold uppercase tracking-[0.4em] mb-2 italic">Expediente Motorizado</p>
-                        <h2 class="text-4xl font-black uppercase leading-none mb-2 tracking-tighter">${item.nombre}</h2>
-                        <div class="flex gap-2 mb-8"><span class="bg-neon/10 text-neon text-[10px] px-2 py-1 rounded font-bold">${item.placa}</span></div>
-                        <div class="space-y-3">
-                            <button class="btn-doc w-full flex items-center justify-between" onclick="window.open('${item.urlVideo}')">
-                                <span class="text-[11px] font-black uppercase">Video de Seguridad</span>
-                                <span class="material-symbols-outlined text-neon">videocam</span>
-                            </button>
-                        </div>
-                    </div>`;
-            } else {
-                container.innerHTML = `
-                    <div class="animate-in fade-in slide-in-from-bottom-4 duration-500">
-                        <p class="text-neon text-[9px] font-bold uppercase tracking-[0.4em] mb-2 italic">Solicitud Comercial</p>
-                        <h2 class="text-4xl font-black uppercase leading-none mb-2 tracking-tighter text-white">${item.nombreTienda}</h2>
-                        <p class="text-zinc-500 text-xs font-bold mb-8 italic">Responsable: ${item.representante}</p>
-                        <div class="glass-card p-6 space-y-4 border-neon/20 cursor-default">
-                            <div class="flex flex-col"><span class="text-[8px] font-black text-zinc-600 uppercase">RUC / Identificación (Col D)</span><span class="text-xl font-bold tracking-widest">${item.cedula}</span></div>
-                            <div class="flex flex-col"><span class="text-[8px] font-black text-zinc-600 uppercase">Ubicación</span><span class="text-lg font-bold text-neon uppercase italic">${item.ciudad}</span></div>
-                        </div>
-                    </div>`;
-            }
+        } catch (e) {
+            console.error("Error al procesar:", e);
         }
 
-        async function procesar(aprobado) {
-            const listaActual = currentTab === 'motorizados' ? db.motorizados : db.tiendas;
-            const item = listaActual[0];
-            if (!item) return;
+        // Remover de la lista local y actualizar
+        listaActual.shift();
+        actualizarContadores();
+        setTimeout(render, 300);
+        document.getElementById('notas').value = "";
+    }
 
-            // UI Optimista: Desvanecer el actual inmediatamente
-            const visual = document.querySelector('.animate-in');
-            if (visual) { visual.style.opacity = '0'; visual.style.transform = 'translateY(-20px)'; visual.style.transition = '0.3s all'; }
-
-            const payload = {
-                accion: "ACTUALIZAR_ESTADO",
-                cedula: item.cedula,
-                tipoRegistro: currentTab === 'motorizados' ? 'motorizado' : 'tienda',
-                nuevoEstado: aprobado ? "APROBADO" : "RECHAZADO",
-                observaciones: document.getElementById('notas').value
-            };
-
-            // Enviar en segundo plano
-            fetch(URL_SCRIPT, { method: "POST", body: JSON.stringify(payload) })
-            .then(() => { console.log("Backend Sincronizado"); init(); });
-
-            // Remover localmente para respuesta instantánea
-            listaActual.shift();
-            actualizarContadores();
-            setTimeout(render, 300);
-            document.getElementById('notas').value = "";
-        }
-
-        init();
-    </script>
+    init();
+</script>
+       
 </body>
 </html>
