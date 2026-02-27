@@ -1,135 +1,177 @@
 <!DOCTYPE html>
-
-<html class="dark" lang="es"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
+<html class="dark" lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Nuevo Pedido - Kilómetro Cero</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#f906f9",
-                        "background-light": "#f8f5f8",
-                        "background-dark": "#1a0b1a",
+                        "primary": "#137fec", // Azul Eléctrico
+                        "background-light": "#f8faff",
+                        "background-dark": "#0a0f16",
                     },
                     fontFamily: {
                         "display": ["Inter"]
-                    },
-                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                    }
                 },
             },
         }
     </script>
-<style>
-        body {
-            font-family: 'Inter', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-        .ios-blur {
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-        }
+    <style>
+        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        .ios-blur { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+        select { -webkit-appearance: none; appearance: none; }
     </style>
-<style>
-    body {
-      min-height: max(884px, 100dvh);
-    }
-  </style>
-  </head>
+</head>
 <body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen font-display">
-<!-- Top Navigation Bar -->
+
 <header class="sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 ios-blur border-b border-primary/10">
-<div class="flex items-center p-4 justify-between max-w-md mx-auto">
-<button class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-primary/10 transition-colors">
-<span class="material-symbols-outlined text-slate-900 dark:text-slate-100">arrow_back_ios_new</span>
-</button>
-<h1 class="text-lg font-bold tracking-tight text-center flex-1">Nuevo Pedido</h1>
-<div class="w-10"></div> <!-- Spacer for symmetry -->
-</div>
+    <div class="flex items-center p-4 justify-between max-w-md mx-auto">
+        <button onclick="window.location.href='panel-operativo-tienda.html'" class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-primary/10 transition-colors">
+            <span class="material-symbols-outlined text-slate-900 dark:text-slate-100">arrow_back_ios_new</span>
+        </button>
+        <h1 class="text-lg font-black italic uppercase tracking-tight text-center flex-1">Nuevo Pedido</h1>
+        <div class="w-10"></div>
+    </div>
 </header>
-<main class="max-w-md mx-auto px-4 py-6 pb-32">
-<div class="mb-6">
-<h2 class="text-xs font-bold uppercase tracking-widest text-primary mb-4">Kilómetro Cero - Tienda</h2>
-<p class="text-sm text-slate-500 dark:text-slate-400">Complete los datos para generar la guía de envío inmediata.</p>
-</div>
-<form class="space-y-5">
-<!-- Customer Section -->
-<section class="space-y-4">
-<div class="flex items-center gap-2 mb-2">
-<span class="material-symbols-outlined text-primary text-sm">person</span>
-<h3 class="text-sm font-semibold text-slate-700 dark:text-slate-300">Datos del Cliente</h3>
-</div>
-<div class="space-y-1">
-<label class="block text-xs font-medium text-slate-500 dark:text-slate-400 ml-1">Nombre del Cliente</label>
-<input class="w-full bg-slate-100 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-xl px-4 py-3.5 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-600" placeholder="Ej. Juan Pérez" type="text"/>
-</div>
-<div class="space-y-1">
-<label class="block text-xs font-medium text-slate-500 dark:text-slate-400 ml-1">Teléfono</label>
-<div class="relative">
-<span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm font-medium">+593</span>
-<input class="w-full bg-slate-100 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-xl pl-16 pr-4 py-3.5 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-600" placeholder="0987654321" type="tel"/>
-</div>
-</div>
-</section>
-<!-- Delivery Section -->
-<hr class="border-primary/10 my-6"/>
-<section class="space-y-4">
-<div class="flex items-center gap-2 mb-2">
-<span class="material-symbols-outlined text-primary text-sm">location_on</span>
-<h3 class="text-sm font-semibold text-slate-700 dark:text-slate-300">Detalles de Entrega</h3>
-</div>
-<div class="space-y-1">
-<label class="block text-xs font-medium text-slate-500 dark:text-slate-400 ml-1">Sector de Entrega</label>
-<div class="relative">
-<select class="w-full appearance-none bg-slate-100 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-xl px-4 py-3.5 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all text-slate-700 dark:text-slate-200">
-<option disabled="" selected="" value="">Seleccione un sector</option>
-<option value="norte">Norte</option>
-<option value="centro">Centro</option>
-<option value="sur">Sur</option>
-<option value="valles">Valles</option>
-</select>
-<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">expand_more</span>
-</div>
-</div>
-<div class="space-y-1">
-<label class="block text-xs font-medium text-slate-500 dark:text-slate-400 ml-1">Dirección Exacta</label>
-<input class="w-full bg-slate-100 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-xl px-4 py-3.5 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-600" placeholder="Calle, número y referencia de casa" type="text"/>
-</div>
-</section>
-<!-- Product Section -->
-<hr class="border-primary/10 my-6"/>
-<section class="space-y-4">
-<div class="flex items-center gap-2 mb-2">
-<span class="material-symbols-outlined text-primary text-sm">inventory_2</span>
-<h3 class="text-sm font-semibold text-slate-700 dark:text-slate-300">Información del Producto</h3>
-</div>
-<div class="space-y-1">
-<label class="block text-xs font-medium text-slate-500 dark:text-slate-400 ml-1">Descripción del Producto</label>
-<textarea class="w-full bg-slate-100 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-xl px-4 py-3.5 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-600 resize-none" placeholder="Ej. Zapatos deportivos talla 40, color negro..." rows="3"></textarea>
-</div>
-<div class="space-y-1">
-<label class="block text-xs font-medium text-slate-500 dark:text-slate-400 ml-1">Valor a Recaudar</label>
-<div class="relative">
-<span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-semibold">$</span>
-<input class="w-full bg-slate-100 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-xl pl-8 pr-4 py-3.5 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-600 font-mono text-lg text-primary" placeholder="0.00" step="0.01" type="number"/>
-</div>
-<p class="text-[10px] text-slate-400 mt-1 italic">* Cobro en efectivo al momento de la entrega.</p>
-</div>
-</section>
-</form>
+
+<main class="max-w-md mx-auto px-4 py-6 pb-40">
+    <div class="mb-6">
+        <h2 class="text-[10px] font-black uppercase tracking-[0.2em] text-primary mb-1">Kilómetro Cero - Logística</h2>
+        <p class="text-xs text-slate-500 dark:text-slate-400">Genera guías de envío en tiempo real.</p>
+    </div>
+
+    <form id="orderForm" class="space-y-6">
+        <section class="space-y-4">
+            <div class="flex items-center gap-2 mb-2">
+                <span class="material-symbols-outlined text-primary text-sm font-variation-fill">person</span>
+                <h3 class="text-xs font-black uppercase tracking-widest text-slate-400">Datos del Cliente</h3>
+            </div>
+            
+            <div class="space-y-1">
+                <label class="block text-[10px] font-black text-slate-500 uppercase ml-1">Nombre Completo</label>
+                <input required class="w-full bg-slate-100 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-xl px-4 py-3.5 focus:ring-2 focus:ring-primary outline-none text-sm transition-all" placeholder="Juan Pérez" type="text"/>
+            </div>
+
+            <div class="space-y-1">
+                <label class="block text-[10px] font-black text-slate-500 uppercase ml-1">Teléfono (Sin el 0 inicial)</label>
+                <div class="relative">
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm font-bold border-r border-slate-300 dark:border-slate-700 pr-2">+593</span>
+                    <input required id="telefono" maxlength="9" class="w-full bg-slate-100 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-xl pl-20 pr-4 py-3.5 focus:ring-2 focus:ring-primary outline-none text-sm transition-all" placeholder="987654321" type="tel"/>
+                </div>
+                <p class="text-[9px] text-primary italic mt-1 font-bold">* Ejemplo: 987654321</p>
+            </div>
+        </section>
+
+        <hr class="border-white/5 my-6"/>
+
+        <section class="space-y-4">
+            <div class="flex items-center gap-2 mb-2">
+                <span class="material-symbols-outlined text-primary text-sm font-variation-fill">location_on</span>
+                <h3 class="text-xs font-black uppercase tracking-widest text-slate-400">Detalles de Entrega</h3>
+            </div>
+            
+            <div class="space-y-1">
+                <label class="block text-[10px] font-black text-slate-500 uppercase ml-1">Sector</label>
+                <div class="relative">
+                    <select required class="w-full bg-slate-100 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-xl px-4 py-3.5 focus:ring-2 focus:ring-primary outline-none text-sm text-slate-300">
+                        <option value="" disabled selected>Seleccione sector...</option>
+                        <option value="norte">Norte de Quito</option>
+                        <option value="centro">Centro de Quito</option>
+                        <option value="sur">Sur de Quito</option>
+                        <option value="valles">Valles</option>
+                    </select>
+                    <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-primary">unfold_more</span>
+                </div>
+            </div>
+
+            <div class="space-y-1">
+                <label class="block text-[10px] font-black text-slate-500 uppercase ml-1">Dirección Exacta</label>
+                <input required class="w-full bg-slate-100 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-xl px-4 py-3.5 focus:ring-2 focus:ring-primary outline-none text-sm transition-all" placeholder="Calle, Nro de casa y referencia" type="text"/>
+            </div>
+        </section>
+
+        <hr class="border-white/5 my-6"/>
+
+        <section class="space-y-4">
+            <div class="flex items-center gap-2 mb-2">
+                <span class="material-symbols-outlined text-primary text-sm font-variation-fill">inventory_2</span>
+                <h3 class="text-xs font-black uppercase tracking-widest text-slate-400">Selección de Producto</h3>
+            </div>
+            
+            <div class="space-y-1">
+                <label class="block text-[10px] font-black text-slate-500 uppercase ml-1">Producto</label>
+                <div class="relative">
+                    <select id="producto-select" required class="w-full bg-slate-100 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-xl px-4 py-3.5 focus:ring-2 focus:ring-primary outline-none text-sm">
+                        <option value="" disabled selected>Buscando inventario...</option>
+                        </select>
+                    <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-primary">local_mall</span>
+                </div>
+            </div>
+
+            <div class="space-y-1">
+                <label class="block text-[10px] font-black text-slate-500 uppercase ml-1">Valor a Cobrar (Efectivo)</label>
+                <div class="relative">
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-primary font-black">$</span>
+                    <input required class="w-full bg-slate-100 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-xl pl-8 pr-4 py-4 focus:ring-2 focus:ring-primary outline-none font-black text-xl text-white" placeholder="0.00" step="0.01" type="number"/>
+                </div>
+            </div>
+        </section>
+    </form>
 </main>
-<!-- Bottom Action Bar -->
-<div class="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-background-light via-background-light/95 to-transparent dark:from-background-dark dark:via-background-dark/95 dark:to-transparent">
-<div class="max-w-md mx-auto">
-<button class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-2xl shadow-[0_0_20px_rgba(249,6,249,0.4)] active:scale-[0.98] transition-all flex items-center justify-center gap-2 text-lg">
-<span class="material-symbols-outlined">rocket_launch</span>
-                CONFIRMAR Y ENVIAR
-            </button>
+
+<div class="fixed bottom-0 left-0 right-0 p-4 bg-background-dark/80 backdrop-blur-xl border-t border-white/5">
+    <div class="max-w-md mx-auto">
+        <button type="submit" form="orderForm" class="w-full bg-primary hover:brightness-110 text-white font-black py-4 rounded-2xl shadow-[0_0_25px_rgba(19,127,236,0.3)] active:scale-[0.98] transition-all flex items-center justify-center gap-3 text-sm italic uppercase tracking-widest">
+            <span class="material-symbols-outlined">send_and_archive</span>
+            Confirmar Pedido
+        </button>
+    </div>
 </div>
-</div>
-</body></html>
+
+<script>
+    const URL_SCRIPT = 'TU_URL_DE_APPS_SCRIPT_AQUI';
+
+    async function cargarInventario() {
+        try {
+            const resp = await fetch(URL_SCRIPT);
+            const data = await resp.json();
+            const select = document.getElementById('producto-select');
+            
+            // Limpiar el select
+            select.innerHTML = '<option value="" disabled selected>Seleccione un producto...</option>';
+            
+            // Simulación de carga (esto debería venir de una hoja de "Inventario" en tu Excel)
+            // Si no tienes hoja de inventario aún, podemos usar los productos activos.
+            const productosEjemplo = ["Casco Integral", "Aceite 4T 20W50", "Kit de Arrastre", "Guantes Pro"];
+            
+            productosEjemplo.forEach(prod => {
+                const opt = document.createElement('option');
+                opt.value = prod.toLowerCase();
+                opt.innerText = prod;
+                select.appendChild(opt);
+            });
+        } catch (e) {
+            console.error("Error al cargar productos");
+        }
+    }
+
+    // Validación para no permitir el '0' al inicio en teléfono
+    document.getElementById('telefono').addEventListener('input', function(e) {
+        if (this.value.startsWith('0')) {
+            this.value = this.value.substring(1);
+        }
+    });
+
+    window.onload = cargarInventario;
+</script>
+
+</body>
+</html>
