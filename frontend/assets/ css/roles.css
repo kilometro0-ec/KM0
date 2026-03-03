@@ -1,1 +1,41 @@
+/* Variables de Identidad KM0 */
+:root {
+    --km0-red: #EC1313;
+    --km0-electric-blue: #0070FF;
+    --km0-fuchsia: #FF00FF;
+    --km0-dark-bg: #000000;
+    --km0-zinc-card: rgba(24, 24, 27, 0.5); /* Zinc-900 con transparencia */
+}
 
+/* Clases para el Rol TIENDA */
+.theme-shop-text {
+    background: linear-gradient(90deg, var(--km0-electric-blue), var(--km0-fuchsia));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.theme-shop-btn {
+    background: linear-gradient(90deg, var(--km0-electric-blue) 0%, var(--km0-fuchsia) 100%);
+    box-shadow: 0 0 20px rgba(0, 112, 255, 0.3);
+}
+
+.theme-shop-border {
+    border: 1.5px solid transparent;
+    background: linear-gradient(var(--km0-dark-bg), var(--km0-dark-bg)) padding-box,
+                linear-gradient(90deg, var(--km0-electric-blue), var(--km0-fuchsia)) border-box;
+}
+
+/* Clases para el Rol MOTORIZADO */
+.theme-rider-border {
+    border: 1.5px solid rgba(236, 19, 19, 0.4);
+}
+
+.theme-rider-btn {
+    border: 1px solid rgba(236, 19, 19, 0.6);
+    color: var(--km0-red);
+}
+
+/* Animaciones compartidas */
+.glow-blue-fuchsia {
+    background: radial-gradient(circle, rgba(0, 112, 255, 0.1) 0%, rgba(255, 0, 255, 0.05) 50%, transparent 70%);
+}
