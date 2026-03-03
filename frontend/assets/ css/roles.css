@@ -1,59 +1,69 @@
-/* FORZAR ESTADO OSCURO TOTAL */
+/* ==========================================
+   KM0 BRAND IDENTITY - OFFICIAL COLORS
+   ========================================== */
 :root {
-    --km0-blue: #0070FF;
-    --km0-fuchsia: #FF00FF;
+    --km0-deep-navy: #020D1F;
+    --km0-electric-blue: #0070FF;
+    --km0-neon-fuchsia: #FF00FF;
+    --km0-input-bg: #0A192F;
 }
 
-/* 1. Mata el fondo blanco del navegador y de Tailwind */
-html, body {
-    background-color: #000000 !important;
-    color: #ffffff !important;
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
-}
-
-/* 2. Mata el fondo blanco de los INPUTS y SELECTS */
-input, select, textarea, button {
-    background-color: transparent !important;
-    border: none !important;
+/* Base Body para Tiendas */
+.theme-shop-body {
+    background-color: var(--km0-deep-navy) !important;
     color: white !important;
-    appearance: none !important; /* Quita flechas feas de los select */
-    outline: none !important;
+    font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
-/* 3. Estilo de los grupos de KM0 (Las cajitas oscuras) */
-.km0-input-group {
-    background: rgba(24, 24, 27, 0.8) !important; /* Zinc-900 */
+/* Estilo de Inputs Premium */
+.km0-input-container {
+    background-color: var(--km0-input-bg) !important;
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    border-radius: 16px !important;
+    border-radius: 1rem; /* 16px */
+    height: 4rem; /* h-16 */
     display: flex;
     align-items: center;
-    padding: 0 16px;
-    height: 60px;
-    margin-bottom: 15px;
+    padding: 0 1rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
 }
 
-.km0-input-group:focus-within {
-    border-color: var(--km0-blue) !important;
-    box-shadow: 0 0 20px rgba(0, 112, 255, 0.2);
+.km0-input-container:focus-within {
+    border-color: var(--km0-electric-blue) !important;
+    box-shadow: 0 0 15px rgba(0, 112, 255, 0.2);
 }
 
-/* 4. Gradientes de Identidad */
+.km0-input-field {
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    color: white !important;
+    width: 100%;
+    font-size: 1rem;
+}
+
+.km0-input-field::placeholder {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+/* Tipografía y Botones */
 .shop-text-gradient {
-    background: linear-gradient(90deg, var(--km0-blue), var(--km0-fuchsia));
+    background: linear-gradient(90deg, var(--km0-electric-blue), var(--km0-neon-fuchsia));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    font-weight: 900;
 }
 
-.shop-btn-gradient {
-    background: linear-gradient(90deg, var(--km0-blue), var(--km0-fuchsia)) !important;
-    border-radius: 20px !important;
-    font-weight: 800;
+.shop-btn-fusion {
+    background: linear-gradient(90deg, var(--km0-electric-blue) 0%, var(--km0-neon-fuchsia) 100%) !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    border: none !important;
+    border-radius: 1.5rem !important;
     color: white !important;
-    cursor: pointer;
-    transition: transform 0.2s;
+    font-weight: 800;
+    transition: all 0.3s ease;
 }
 
-.shop-btn-gradient:active { transform: scale(0.98); }
+.shop-btn-fusion:disabled {
+    opacity: 0.4;
+    filter: grayscale(1);
+}
