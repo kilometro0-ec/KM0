@@ -118,63 +118,60 @@
         </button>
     </div>
 
- <script>
+<script>
     const URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec';
 
     const form = document.getElementById('formTienda');
     const btn = document.getElementById('btnEnviar');
 
-    // SEGURIDAD: Habilitar botón solo si todo es válido
+    // Validación visual del botón
     form.addEventListener('input', () => {
         const allValid = form.checkValidity();
         btn.disabled = !allValid;
         btn.style.opacity = allValid ? "1" : "0.5";
-        
-        // Limpiar errores visuales al modificar campos
         document.querySelectorAll('.error-msg').forEach(el => el.style.display = 'none');
     });
 
-  form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            btn.disabled = true;
-            btn.innerText = 'CONECTANDO CON KM0...';
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        btn.disabled = true;
+        btn.innerText = 'CONECTANDO CON KM0...';
 
-            const datos = {
-                accion: "registro_tienda",
-                tienda: document.getElementById('nombreTienda').value,
-                representante: document.getElementById('representante').value,
-                ruc: document.getElementById('identificacion').value,
-                provincia: document.getElementById('provincia').value,
-                ciudad: document.getElementById('ciudad').value,
-                telefono: document.getElementById('telefono').value,
-                correo: document.getElementById('correo').value,
-                password: "KM0-" + document.getElementById('identificacion').value.substring(0,4)
-            };
+        // Sincronizado exactamente con Script v11.0
+        const datos = {
+            accion: "registro_tienda",
+            nombre: document.getElementById('nombreTienda').value, // Cambiado de 'tienda' a 'nombre'
+            representante: document.getElementById('representante').value,
+            ruc: document.getElementById('identificacion').value,
+            provincia: document.getElementById('provincia').value,
+            ciudad: document.getElementById('ciudad').value,
+            telefono: document.getElementById('telefono').value,
+            correo: document.getElementById('correo').value
+        };
 
-            try {
-                // Usamos mode: 'no-cors' NO es recomendable aquí porque necesitamos la respuesta
-                const response = await fetch(URL_SCRIPT, {
-                    method: 'POST',
-                    body: JSON.stringify(datos)
-                });
+        try {
+            // Usamos 'no-cors' para asegurar que la petición llegue a Google sin bloqueos
+            // Nota: Con no-cors no podemos leer la respuesta JSON, pero si no hay error en el catch, se envió.
+            await fetch(URL_SCRIPT, {
+                method: 'POST',
+                mode: 'no-cors', 
+                cache: 'no-cache',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(datos)
+            });
 
-                const result = await response.json(); // ESTA LÍNEA ES CLAVE
+            // Si llegamos aquí, mostramos éxito
+            document.getElementById('contenedorForm').classList.add('hidden');
+            document.getElementById('pantallaExito').classList.remove('hidden');
+            window.scrollTo(0,0);
 
-                if (result.success) {
-                    document.getElementById('contenedorForm').classList.add('hidden');
-                    document.getElementById('pantallaExito').classList.remove('hidden');
-                } else {
-                    alert("ERROR: " + result.mensaje);
-                    btn.disabled = false;
-                    btn.innerText = 'REINTENTAR REGISTRO';
-                }
-            } catch (error) {
-                console.error("Error detallado:", error);
-                alert("SISTEMA OCUPADO: La tienda se registró pero Google tardó en responder. Verifica tu Excel.");
-                btn.disabled = false;
-                btn.innerText = 'REINTENTAR REGISTRO';
-            }
-        }); 
-</script>  
+        } catch (error) {
+            console.error("Error:", error);
+            alert("SISTEMA OCUPADO: Revisa tu conexión o el Excel de Kilómetro 0.");
+            btn.disabled = false;
+            btn.innerText = 'REINTENTAR REGISTRO';
+        }
+    });
+</script>
 </body>
 </html>
