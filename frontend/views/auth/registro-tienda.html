@@ -1,31 +1,25 @@
 <!DOCTYPE html>
-<html class="dark" lang="es">
+<html lang="es">
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>KM0 - Registro de Tienda</title>
     
-    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     
     <link rel="stylesheet" href="../../assets/css/roles.css">
-
-    <style>
-        body { background-color: var(--km0-dark-bg); font-family: 'Inter', sans-serif; }
-        .input-container { @apply relative w-full h-14 bg-zinc-900/30 border border-zinc-800 rounded-2xl mb-4 flex items-center px-4 transition-all focus-within:border-[#0070FF]/50; }
-        .input-field { @apply bg-transparent border-none w-full text-white placeholder:text-zinc-600 focus:ring-0 text-sm font-semibold; }
-    </style>
 </head>
 
-<body class="p-6">
+<body class="p-6 overflow-x-hidden">
     <div class="fixed top-0 left-1/2 -translate-x-1/2 w-[500px] h-[500px] glow-blue-fuchsia -z-10"></div>
 
-    <div id="contenedorForm" class="w-full max-w-[400px] mx-auto flex flex-col">
+    <div id="contenedorForm" class="w-full max-w-[400px] mx-auto flex flex-col min-h-screen">
         
-        <header class="flex items-center justify-between mb-10">
-            <button onclick="window.history.back()" class="size-11 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center active:scale-90 transition-all">
-                <span class="material-symbols-outlined !text-white !mr-0 !text-lg">arrow_back_ios_new</span>
+        <header class="flex items-center justify-between mb-10 mt-4">
+            <button onclick="window.history.back()" class="w-11 h-11 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center active:scale-90 transition-all text-white">
+                <span class="material-symbols-outlined !mr-0">arrow_back_ios_new</span>
             </button>
             <div class="text-right">
                 <p class="text-[12px] font-black text-[#FF00FF] tracking-[0.2em] uppercase italic">KM0</p>
@@ -33,7 +27,7 @@
             </div>
         </header>
 
-        <main>
+        <main class="flex-1">
             <div class="mb-8">
                 <h1 class="text-2xl font-black italic tracking-tighter uppercase leading-none text-white">
                     REGISTRA TU <br/>
@@ -42,21 +36,63 @@
                 <div class="h-1 w-14 theme-shop-btn mt-3 rounded-full"></div>
             </div>
     
-            <form id="formTienda" class="space-y-1">
+            <form id="formTienda" class="space-y-1" autocomplete="off">
                 <div class="input-container">
-                    <span class="material-symbols-outlined !text-[#0070FF]">store</span>
+                    <span class="material-symbols-outlined !text-[#0070FF] !mr-3">store</span>
                     <input id="nombreTienda" required class="input-field" placeholder="Nombre Comercial" type="text">
                 </div>
-                </form>
+                
+                <div class="input-container">
+                    <span class="material-symbols-outlined !text-[#0070FF] !mr-3">person</span>
+                    <input id="representante" required class="input-field" placeholder="Representante Legal" type="text">
+                </div>
+
+                <div class="input-container">
+                    <span class="material-symbols-outlined !text-[#0070FF] !mr-3">badge</span>
+                    <input id="identificacion" minlength="10" maxlength="13" required class="input-field" placeholder="Cédula o RUC" type="text">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="input-container">
+                        <select id="provincia" required class="input-field !text-[13px] appearance-none">
+                            <option value="" disabled selected>Provincia</option>
+                            <option value="Azuay">Azuay</option>
+                            <option value="Guayas">Guayas</option>
+                            <option value="Pichincha">Pichincha</option>
+                        </select>
+                    </div>
+                    <div class="input-container">
+                        <input id="ciudad" required class="input-field" placeholder="Ciudad" type="text">
+                    </div>
+                </div>
+
+                <div class="input-container">
+                    <span class="material-symbols-outlined !text-[#0070FF] !mr-3">chat</span>
+                    <input id="telefono" required pattern="^\+593[0-9]{9}$" class="input-field" placeholder="WhatsApp (+593...)" type="tel">
+                </div>
+
+                <div class="input-container">
+                    <span class="material-symbols-outlined !text-[#0070FF] !mr-3">mail</span>
+                    <input id="correo" required class="input-field" placeholder="Email Corporativo" type="email">
+                </div>
+            </form>
         </main>
 
         <footer class="mt-10 pb-10">
             <button type="submit" form="formTienda" id="btnEnviar" disabled 
-                    class="theme-shop-btn w-full h-16 rounded-[2rem] text-white font-black tracking-[0.2em] uppercase flex items-center justify-center gap-4 transition-all">
+                    class="theme-shop-btn w-full h-16 rounded-[2rem] text-white font-black tracking-[0.2em] uppercase flex items-center justify-center gap-4 transition-all active:scale-95">
                 <span id="btnText">Finalizar Registro</span>
                 <span id="btnIcon" class="material-symbols-outlined !mr-0 !text-white">rocket_launch</span>
             </button>
         </footer>
     </div>
+
+    <script>
+        const form = document.getElementById('formTienda');
+        const btn = document.getElementById('btnEnviar');
+        form.addEventListener('input', () => {
+            btn.disabled = !form.checkValidity();
+        });
+    </script>
 </body>
 </html>
