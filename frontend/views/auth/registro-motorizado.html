@@ -57,34 +57,36 @@
                 </div>
                 <div class="grid grid-cols-2 gap-3">
                     <select id="provincia" required onchange="checkFase1()" class="bg-slate-900 border-none rounded-2xl p-4 text-xs font-bold uppercase w-full">
-    <option value="" disabled selected>SELECCIONA TU PROVINCIA</option>
-    <option value="AZUAY">AZUAY</option>
-    <option value="BOLIVAR">BOLÍVAR</option>
-    <option value="CANAR">CAÑAR</option>
-    <option value="CARCHI">CARCHI</option>
-    <option value="CHIMBORAZO">CHIMBORAZO</option>
-    <option value="COTOPAXI">COTOPAXI</option>
-    <option value="EL ORO">EL ORO</option>
-    <option value="ESMERALDAS">ESMERALDAS</option>
-    <option value="GALAPAGOS">GALÁPAGOS</option>
-    <option value="GUAYAS">GUAYAS</option>
-    <option value="IMBABURA">IMBABURA</option>
-    <option value="LOJA">LOJA</option>
-    <option value="LOS RIOS">LOS RÍOS</option>
-    <option value="MANABI">MANABÍ</option>
-    <option value="MORONA SANTIAGO">MORONA SANTIAGO</option>
-    <option value="NAPO">NAPO</option>
-    <option value="ORELLANA">ORELLANA</option>
-    <option value="PASTAZA">PASTAZA</option>
-    <option value="PICHINCHA">PICHINCHA</option>
-    <option value="SANTA ELENA">SANTA ELENA</option>
-    <option value="SANTO DOMINGO">SANTO DOMINGO</option>
-    <option value="SUCUMBIOS">SUCUMBÍOS</option>
-    <option value="TUNGURAHUA">TUNGURAHUA</option>
+                        <option value="" disabled selected>PROVINCIA</option>
+                        <option value="AZUAY">AZUAY</option>
+                        <option value="BOLIVAR">BOLÍVAR</option>
+                        <option value="CANAR">CAÑAR</option>
+                        <option value="CARCHI">CARCHI</option>
+                        <option value="CHIMBORAZO">CHIMBORAZO</option>
+                        <option value="COTOPAXI">COTOPAXI</option>
+                        <option value="EL ORO">EL ORO</option>
+                        <option value="ESMERALDAS">ESMERALDAS</option>
+                        <option value="GALAPAGOS">GALÁPAGOS</option>
+                        <option value="GUAYAS">GUAYAS</option>
+                        <option value="IMBABURA">IMBABURA</option>
+                        <option value="LOJA">LOJA</option>
+                        <option value="LOS RIOS">LOS RÍOS</option>
+                        <option value="MANABI">MANABÍ</option>
+                        <option value="MORONA SANTIAGO">MORONA SANTIAGO</option>
+                        <option value="NAPO">NAPO</option>
+                        <option value="ORELLANA">ORELLANA</option>
+                        <option value="PASTAZA">PASTAZA</option>
+                        <option value="PICHINCHA">PICHINCHA</option>
+                        <option value="SANTA ELENA">SANTA ELENA</option>
+                        <option value="SANTO DOMINGO">SANTO DOMINGO</option>
+                        <option value="SUCUMBIOS">SUCUMBÍOS</option>
+                        <option value="TUNGURAHUA">TUNGURAHUA</option>
+                        <option value="ZAMORA CHINCHIPE">ZAMORA CHINCHIPE</option>
+                    </select>
                     <input id="ciudad" required type="text" oninput="checkFase1()" class="bg-slate-900 border-none rounded-2xl p-4 text-sm font-bold" placeholder="CIUDAD">
                 </div>
                 <div class="grid grid-cols-2 gap-3">
-                    <input id="marca" required type="text" oninput="checkFase1()" class="bg-slate-900 border-none rounded-2xl p-4 text-sm font-bold" placeholder="MARCA MOTO">
+                    <input id="marca" required type="text" oninput="checkFase1()" class="bg-slate-900 border-none rounded-2xl p-4 text-sm font-bold" placeholder="MARCA DE MOTO">
                     <input id="placa" required maxlength="8" type="text" oninput="this.value = this.value.toUpperCase(); formatPlaca(this); checkFase1();" class="bg-slate-900 border-none rounded-2xl p-4 text-sm font-bold" placeholder="IU-595T">
                 </div>
             </div>
@@ -163,7 +165,9 @@
             <span class="material-symbols-outlined text-8xl text-green-500">verified</span>
             <h2 class="text-3xl font-black italic uppercase">Registro Exitoso</h2>
             <p class="text-slate-400 text-sm">Tu expediente ha sido enviado a revisión.</p>
-            <button type="button" onclick="window.close()" class="w-full bg-slate-800 p-5 rounded-2xl font-black uppercase italic mt-10 border border-slate-700">Cerrar Aplicación</button>
+            <button type="button" onclick="cerrarAplicacion()" class="w-full bg-slate-800 p-5 rounded-2xl font-black uppercase italic mt-10 border border-slate-700 hover:bg-slate-700 active:scale-95 transition-all">
+                Cerrar Aplicación
+            </button>
         </div>
     </form>
 </main>
@@ -181,7 +185,10 @@
 
     function checkFase1() {
         const ids = ['nombre', 'email', 'cedula', 'tel', 'provincia', 'ciudad', 'marca', 'placa'];
-        const valid = ids.every(id => document.getElementById(id).value.trim() !== "");
+        const valid = ids.every(id => {
+            const el = document.getElementById(id);
+            return el && el.value.trim() !== "";
+        });
         document.getElementById('btn-next').disabled = !valid;
     }
 
@@ -197,6 +204,13 @@
             el.innerText = "LISTO ✅";
             el.style.color = "#22c55e";
         }
+    }
+
+    function cerrarAplicacion() {
+        // Opción 1: Redirigir al Login (Más seguro para PWAs o Web)
+        window.location.href = "index.html"; 
+        // Opción 2: Intentar cerrar ventana (Solo funciona si fue abierta por script)
+        window.close();
     }
 
     async function validarDuplicados() {
@@ -226,7 +240,10 @@
                 err.classList.remove('hidden');
                 btn.innerText = "Verificar y Continuar";
             }
-        } catch(e) { alert("Error de conexión"); btn.innerText = "Verificar y Continuar"; }
+        } catch(e) { 
+            alert("Error de conexión"); 
+            btn.innerText = "Verificar y Continuar"; 
+        }
     }
 
     const toB64 = f => new Promise((res) => {
@@ -238,31 +255,36 @@
     document.getElementById('main-form').onsubmit = async (e) => {
         e.preventDefault();
         document.getElementById('loader-modal').classList.remove('hidden');
-        const payload = {
-            token: API_KEY, accion: "registro_motorizado",
-            nombre: document.getElementById('nombre').value,
-            cedula: document.getElementById('cedula').value,
-            telefono: "+593" + document.getElementById('tel').value,
-            correo: document.getElementById('email').value.toLowerCase(),
-            provincia: document.getElementById('provincia').value,
-            ciudad: document.getElementById('ciudad').value,
-            marca: document.getElementById('marca').value,
-            placa: document.getElementById('placa').value,
-            fVideo: await toB64(document.getElementById('fVideo').files[0]),
-            fCedF: await toB64(document.getElementById('fCedF').files[0]),
-            fCedP: await toB64(document.getElementById('fCedP').files[0]),
-            fLicF: await toB64(document.getElementById('fLicF').files[0]),
-            fLicP: await toB64(document.getElementById('fLicP').files[0]),
-            fMatF: await toB64(document.getElementById('fMatF').files[0]),
-            fMatP: await toB64(document.getElementById('fMatP').files[0]),
-            fPlanilla: await toB64(document.getElementById('fPlanilla').files[0]),
-            fAnt: await toB64(document.getElementById('fAnt').files[0]),
-            fBanco: await toB64(document.getElementById('fBanco').files[0])
-        };
-        await fetch(API_URL, { method: 'POST', body: JSON.stringify(payload) });
-        document.getElementById('loader-modal').classList.add('hidden');
-        document.getElementById('step-2').classList.remove('active');
-        document.getElementById('step-success').classList.add('active');
+        try {
+            const payload = {
+                token: API_KEY, accion: "registro_motorizado",
+                nombre: document.getElementById('nombre').value,
+                cedula: document.getElementById('cedula').value,
+                telefono: "+593" + document.getElementById('tel').value,
+                correo: document.getElementById('email').value.toLowerCase(),
+                provincia: document.getElementById('provincia').value,
+                ciudad: document.getElementById('ciudad').value,
+                marca: document.getElementById('marca').value,
+                placa: document.getElementById('placa').value,
+                fVideo: await toB64(document.getElementById('fVideo').files[0]),
+                fCedF: await toB64(document.getElementById('fCedF').files[0]),
+                fCedP: await toB64(document.getElementById('fCedP').files[0]),
+                fLicF: await toB64(document.getElementById('fLicF').files[0]),
+                fLicP: await toB64(document.getElementById('fLicP').files[0]),
+                fMatF: await toB64(document.getElementById('fMatF').files[0]),
+                fMatP: await toB64(document.getElementById('fMatP').files[0]),
+                fPlanilla: await toB64(document.getElementById('fPlanilla').files[0]),
+                fAnt: await toB64(document.getElementById('fAnt').files[0]),
+                fBanco: await toB64(document.getElementById('fBanco').files[0])
+            };
+            await fetch(API_URL, { method: 'POST', body: JSON.stringify(payload) });
+            document.getElementById('loader-modal').classList.add('hidden');
+            document.getElementById('step-2').classList.remove('active');
+            document.getElementById('step-success').classList.add('active');
+        } catch(err) {
+            alert("Error al enviar: " + err);
+            document.getElementById('loader-modal').classList.add('hidden');
+        }
     };
 </script>
 </body>
