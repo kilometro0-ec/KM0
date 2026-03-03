@@ -22,13 +22,14 @@
             overflow-x: hidden;
         }
 
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Animación exclusiva para el Logo */
+        @keyframes logoEntrance {
+            from { opacity: 0; transform: scale(0.8) translateY(-20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
-        .animate-main {
-            animation: fadeInUp 0.8s ease-out forwards;
+        .animate-logo {
+            animation: logoEntrance 1s ease-out forwards;
         }
 
         .bg-glow {
@@ -38,31 +39,36 @@
             transform: translate(-50%, -50%);
             width: 500px;
             height: 500px;
-            background: radial-gradient(circle, rgba(0, 71, 171, 0.1) 0%, rgba(255, 0, 255, 0.05) 50%, rgba(0, 0, 0, 0) 70%);
+            background: radial-gradient(circle, rgba(236, 19, 19, 0.05) 0%, rgba(0, 0, 0, 0) 70%);
             z-index: -1;
         }
 
-        /* Estilo específico para el icono de Material Symbols */
         .material-symbols-outlined {
             font-display: block;
         }
 
-        /* Gradiente personalizado para la sección de comercio */
+        /* Borde degradado para Comercio */
         .border-gradient-shop {
             border: 1.5px solid transparent;
             background: linear-gradient(#000, #000) padding-box,
                         linear-gradient(90deg, #0047AB, #FF00FF) border-box;
+        }
+
+        /* Borde reforzado para Motorizado */
+        .border-motorizado {
+            border: 1.5px solid rgba(236, 19, 19, 0.4);
+            box-shadow: inset 0 0 10px rgba(236, 19, 19, 0.05);
         }
     </style>
 </head>
 <body class="p-6">
     <div class="bg-glow"></div>
 
-    <div class="w-full max-w-[360px] flex flex-col items-center animate-main">
+    <div class="w-full max-w-[360px] flex flex-col items-center">
         
-        <div class="mb-10 flex justify-center w-full">
+        <div class="mb-10 flex justify-center w-full animate-logo">
             <img src="assets/images/logo-trans.png" alt="Logo KM0" 
-                 class="w-56 h-56 object-contain drop-shadow-[0_0_15px_rgba(236,19,19,0.3)] transition-transform duration-700 hover:scale-110">
+                 class="w-56 h-56 object-contain drop-shadow-[0_0_20px_rgba(236,19,19,0.4)] transition-transform duration-700 hover:scale-105">
         </div>
 
         <div class="w-full mb-10 text-center">
@@ -73,7 +79,7 @@
         </div>
 
         <div class="w-full mb-6">
-            <div class="border-gradient-shop p-6 rounded-[2.5rem] flex flex-col items-center text-center space-y-4 shadow-[0_0_30px_rgba(0,71,171,0.15)]">
+            <div class="border-gradient-shop p-6 rounded-[2.5rem] flex flex-col items-center text-center space-y-4 shadow-[0_0_30px_rgba(0,71,171,0.1)]">
                 <div class="flex items-center justify-center space-x-2">
                     <span class="material-symbols-outlined text-[#0047AB] !text-3xl">storefront</span>
                     <h3 class="text-[11px] font-black uppercase tracking-[0.2em] bg-gradient-to-r from-[#0047AB] to-[#FF00FF] bg-clip-text text-transparent">
@@ -81,34 +87,34 @@
                     </h3>
                 </div>
                 <button onclick="window.location.href='views/auth/registro-tienda.html'" 
-                        class="w-full py-4 bg-gradient-to-r from-[#0047AB] to-[#FF00FF] text-white font-black text-xs tracking-[0.15em] uppercase rounded-xl shadow-[0_4px_20px_rgba(0,71,171,0.3)] active:scale-95 transition-all">
+                        class="w-full py-4 bg-gradient-to-r from-[#0047AB] to-[#FF00FF] text-white font-black text-xs tracking-[0.15em] uppercase rounded-xl active:scale-95 transition-all shadow-[0_4px_15px_rgba(255,0,255,0.2)]">
                     Registra tu Tienda aquí
                 </button>
             </div>
         </div>
 
         <div class="w-full mb-10">
-            <div class="bg-zinc-900/10 border border-zinc-800/50 p-6 rounded-[2.5rem] flex flex-col items-center text-center space-y-4">
+            <div class="border-motorizado bg-zinc-900/20 p-6 rounded-[2.5rem] flex flex-col items-center text-center space-y-4">
                 <div class="flex flex-col items-center">
-                    <h3 class="text-[11px] font-bold uppercase tracking-widest text-zinc-300 mb-1">
+                    <h3 class="text-[11px] font-bold uppercase tracking-widest text-zinc-200 mb-1">
                         ¿Quieres ser parte del equipo?
                     </h3>
-                    <p class="text-[9px] text-zinc-600 uppercase tracking-widest italic">
+                    <p class="text-[9px] text-zinc-500 uppercase tracking-widest italic">
                         Verificación requerida
                     </p>
                 </div>
                 <button onclick="window.location.href='views/auth/registro-motorizado.html'" 
-                        class="w-full py-4 border border-[#EC1313]/40 text-[#EC1313] font-bold text-[11px] tracking-[0.2em] uppercase rounded-xl hover:bg-[#EC1313]/10 active:scale-95 transition-all">
+                        class="w-full py-4 border border-[#EC1313]/60 text-[#EC1313] font-bold text-[11px] tracking-[0.2em] uppercase rounded-xl hover:bg-[#EC1313]/10 active:scale-95 transition-all">
                     Regístrate como Motorizado
                 </button>
             </div>
         </div>
 
-        <div class="text-center opacity-50">
+        <div class="text-center opacity-60">
             <p class="text-[9px] font-bold uppercase tracking-[0.1em] text-zinc-400">
                 2025 KM0® by CORPORACIÓN 360 <span class="ml-2 text-zinc-600">V1.0.1</span>
             </p>
-            <p class="text-[7px] uppercase tracking-[0.4em] mt-2 text-zinc-500 italic">Logistics & Identity</p>
+            <p class="text-[7px] uppercase tracking-[0.5em] mt-2 text-zinc-500 italic">Logistics & Identity</p>
         </div>
     </div>
 </body>
