@@ -20,6 +20,25 @@
             }
         }
 
+        /* --- ANIMACIÓN DE PRODUCTOS --- */
+        .loader-icon::after {
+            content: 'shopping_bag';
+            font-family: 'Material Symbols Outlined';
+            animation: shop-items 2.5s infinite;
+            font-size: 5rem;
+            background: linear-gradient(90deg, #0070FF, #FF00FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        @keyframes shop-items {
+            0% { content: 'shopping_bag'; opacity: 1; transform: scale(1); }
+            25% { content: 'inventory_2'; opacity: 0.8; transform: scale(1.1); }
+            50% { content: 'sell'; opacity: 1; transform: scale(1); }
+            75% { content: 'shopping_cart'; opacity: 0.8; transform: scale(1.1); }
+            100% { content: 'shopping_bag'; opacity: 1; transform: scale(1); }
+        }
+
         input:-webkit-autofill,
         input:-webkit-autofill:hover, 
         input:-webkit-autofill:focus {
@@ -51,10 +70,6 @@
             @apply text-[#0070FF] text-2xl mr-4 opacity-80 select-none;
         }
 
-        .spinner {
-            @apply w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin;
-        }
-
         .hidden { display: none; }
 
         @keyframes fadeInError {
@@ -66,6 +81,13 @@
 </head>
 
 <body>
+
+    <div id="loader-modal" class="hidden fixed inset-0 z-[200] bg-[#020D1F]/95 backdrop-blur-md flex flex-col items-center justify-center">
+        <div class="loader-icon mb-6 h-20 flex items-center justify-center"></div>
+        <h3 class="text-xl font-black italic uppercase tracking-widest shop-gradient-text">Enviando Expediente...</h3>
+        <p class="text-[10px] text-white/40 mt-2 font-bold uppercase tracking-[0.3em]">Procesando tu Tienda</p>
+    </div>
+
     <div id="contenedorForm" class="max-w-[480px] mx-auto flex flex-col min-h-screen relative">
         
         <header class="p-6 flex items-center justify-between">
@@ -127,7 +149,7 @@
                             <option value="Pastaza">Pastaza</option>
                             <option value="Pichincha">Pichincha</option>
                             <option value="Santa Elena">Santa Elena</option>
-                            <option value="Santo Domingo de los Tsáchilas">Santo Domingo</option>
+                            <option value="Santo Domingo">Santo Domingo</option>
                             <option value="Sucumbíos">Sucumbíos</option>
                             <option value="Tungurahua">Tungurahua</option>
                             <option value="Zamora Chinchipe">Zamora Chinchipe</option>
@@ -152,7 +174,6 @@
 
         <div class="fixed bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-[#020D1F] via-[#020D1F]/95 to-transparent z-50">
             <div class="max-w-[480px] mx-auto">
-                
                 <div id="errorBox" class="hidden mb-4 p-4 rounded-2xl bg-red-500/10 border border-red-500/50 flex items-center gap-3 error-animation">
                     <span class="material-symbols-outlined !text-red-500 !mr-0 !text-xl">warning</span>
                     <p id="errorMsg" class="text-red-500 text-[11px] font-bold uppercase tracking-wider leading-tight"></p>
@@ -160,7 +181,6 @@
 
                 <button type="submit" form="formTienda" id="btnEnviar" disabled 
                         class="btn-fusion w-full h-16 rounded-[24px] text-white font-black tracking-widest uppercase flex items-center justify-center gap-4 group">
-                    <div id="loading" class="hidden"><div class="spinner"></div></div>
                     <span id="btnText">FINALIZAR REGISTRO</span>
                     <span id="btnIcon" class="material-symbols-outlined !mr-0 !text-white group-hover:translate-x-1 transition-transform">rocket_launch</span>
                 </button>
@@ -182,12 +202,11 @@
     const form = document.getElementById('formTienda');
     const btn = document.getElementById('btnEnviar');
     const btnText = document.getElementById('btnText');
-    const loader = document.getElementById('loading');
     const icon = document.getElementById('btnIcon');
     const errorBox = document.getElementById('errorBox');
     const errorMsg = document.getElementById('errorMsg');
+    const loaderModal = document.getElementById('loader-modal');
 
-    // Habilitar botón y ocultar errores al escribir
     form.addEventListener('input', () => {
         btn.disabled = !form.checkValidity();
         errorBox.classList.add('hidden');
@@ -196,14 +215,10 @@
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        // Estado de carga visual
+        // MOSTRAR ANIMACIÓN DE PRODUCTOS
+        loaderModal.classList.remove('hidden');
         btn.disabled = true;
-        btnText.innerText = 'CONECTANDO KM0...';
-        loader.classList.remove('hidden');
-        icon.classList.add('hidden');
-        errorBox.classList.add('hidden');
 
-        // NORMALIZACIÓN DE TELÉFONO: Elimina espacios y asegura el +593
         let telRaw = document.getElementById('telefono').value.replace(/\s+/g, '');
         if (!telRaw.startsWith('+')) telRaw = '+' + telRaw;
 
@@ -229,32 +244,25 @@
             });
 
             const result = await response.json();
+            loaderModal.classList.add('hidden'); // Ocultar animación al recibir respuesta
 
             if (result.success) {
                 document.getElementById('contenedorForm').classList.add('hidden');
                 document.getElementById('successScreen').classList.remove('hidden');
                 document.getElementById('successScreen').classList.add('flex');
             } else {
-                // MOSTRAR ADVERTENCIA SOBRE EL BOTÓN
                 errorMsg.innerText = result.mensaje;
                 errorBox.classList.remove('hidden');
-                restablecerBoton();
+                btn.disabled = false;
             }
 
         } catch (err) {
-            console.error("Error:", err);
-            errorMsg.innerText = "Error de red. Verifica tu internet e intenta de nuevo.";
+            loaderModal.classList.add('hidden');
+            errorMsg.innerText = "Error de red. Intenta de nuevo.";
             errorBox.classList.remove('hidden');
-            restablecerBoton();
+            btn.disabled = false;
         }
     });
-
-    function restablecerBoton() {
-        btn.disabled = false;
-        btnText.innerText = 'FINALIZAR REGISTRO';
-        loader.classList.add('hidden');
-        icon.classList.remove('hidden');
-    }
 </script>
 </body>
 </html>
