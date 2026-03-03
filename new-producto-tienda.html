@@ -23,8 +23,8 @@
 <body class="bg-dark-bg text-white font-['Inter'] min-h-screen pb-20">
 
     <header class="p-6 flex items-center gap-4 bg-slate-900/50 border-b border-white/5">
-        <button onclick="window.history.back()" class="text-electric-blue">
-            <span class="material-symbols-outlined">arrow_back_ios</span>
+        <button onclick="window.location.href='panel-operativo-tienda.html'" class="text-electric-blue hover:scale-110 transition-transform">
+            <span class="material-symbols-outlined text-3xl">arrow_back</span>
         </button>
         <h1 class="text-xl font-black italic uppercase tracking-tighter">Añadir Producto</h1>
     </header>
@@ -49,30 +49,19 @@
                     <input type="text" id="nombre" placeholder="Ej: Hamburguesa Doble" class="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-4 outline-none focus:border-electric-blue text-white">
                 </div>
 
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="space-y-1">
-                        <label class="text-[10px] font-black text-slate-500 uppercase ml-1">Precio ($)</label>
-                        <input type="number" id="precio" step="0.01" placeholder="0.00" class="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-4 outline-none focus:border-electric-blue text-white">
-                    </div>
-                    <div class="space-y-1">
-                        <label class="text-[10px] font-black text-slate-500 uppercase ml-1">Stock Inicial</label>
-                        <input type="number" id="stock" placeholder="10" class="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-4 outline-none focus:border-electric-blue text-white">
-                    </div>
+                <div class="space-y-1">
+                    <label class="text-[10px] font-black text-slate-500 uppercase ml-1">Stock Inicial</label>
+                    <input type="number" id="stock" placeholder="Cantidad disponible" class="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-4 outline-none focus:border-electric-blue text-white">
                 </div>
 
                 <div class="space-y-1">
                     <label class="text-[10px] font-black text-slate-500 uppercase ml-1">Categoría</label>
-                    <select id="categoria" class="w-full bg-slate-800 border border-white/10 rounded-xl py-4 px-4 outline-none focus:border-electric-blue text-white">
-                        <option value="Comida">Comida</option>
-                        <option value="Bebidas">Bebidas</option>
-                        <option value="Tecnología">Tecnología</option>
-                        <option value="Otros">Otros</option>
-                    </select>
+                    <input type="text" id="categoria" placeholder="Escriba la categoría (Ej: Snaks, Ropa, etc.)" class="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-4 outline-none focus:border-electric-blue text-white">
                 </div>
 
                 <div class="space-y-1">
                     <label class="text-[10px] font-black text-slate-500 uppercase ml-1">Descripción corta</label>
-                    <textarea id="descripcion" rows="3" class="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-4 outline-none focus:border-electric-blue text-white"></textarea>
+                    <textarea id="descripcion" rows="3" placeholder="Detalles del producto..." class="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-4 outline-none focus:border-electric-blue text-white"></textarea>
                 </div>
 
                 <button id="btn-guardar" onclick="subirProducto()" class="w-full bg-electric-blue py-5 rounded-2xl font-black uppercase tracking-widest shadow-lg shadow-blue-500/20 active:scale-95 transition-all flex items-center justify-center gap-2">
@@ -113,20 +102,20 @@
                 accion: "agregar_producto",
                 idTienda: idTienda,
                 nombre: document.getElementById('nombre').value,
-                precio: document.getElementById('precio').value,
+                precio: "0", // Se envía 0 ya que se quitó del formulario
                 stock: document.getElementById('stock').value,
                 categoria: document.getElementById('categoria').value,
                 descripcion: document.getElementById('descripcion').value,
                 imagenBase64: base64Image
             };
 
-            if(!payload.nombre || !payload.precio || !idTienda) {
-                alert("Faltan campos obligatorios");
+            if(!payload.nombre || !idTienda) {
+                alert("El nombre del producto es obligatorio");
                 return;
             }
 
             btn.disabled = true;
-            btn.innerText = "SUBIENDO A DRIVE...";
+            btn.innerText = "SUBIENDO...";
             
             try {
                 const res = await fetch(URL_SCRIPT, {
@@ -138,12 +127,12 @@
                 if(data.success) {
                     msg.innerText = "¡PRODUCTO CREADO EXITOSAMENTE!";
                     msg.className = "text-center text-[10px] font-black uppercase p-3 rounded-lg bg-green-500/20 text-green-500 block";
-                    setTimeout(() => window.location.href = 'panel-operativo-tienda.html', 2000);
+                    setTimeout(() => window.location.href = 'panel-operativo-tienda.html', 1500);
                 }
             } catch (e) {
                 btn.disabled = false;
-                btn.innerText = "REINTENTAR";
-                alert("Error al conectar con el servidor");
+                btn.innerText = "GUARDAR PRODUCTO";
+                alert("Error al conectar con el servidor maestro.");
             }
         }
     </script>
