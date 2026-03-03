@@ -3,12 +3,14 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
-    <title>KM0 - Registro de Tienda</title>
+    <title>KM0 - Registro Oficial de Tienda</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     
+    <script src="../../assets/js/config.js"></script>
+
     <style type="text/tailwindcss">
         @layer base {
             body {
@@ -18,7 +20,7 @@
             }
         }
 
-        /* Bloqueo de cuadros blancos en Inputs y Autocompletado */
+        /* Corrección de parches blancos en navegadores */
         input:-webkit-autofill,
         input:-webkit-autofill:hover, 
         input:-webkit-autofill:focus {
@@ -32,7 +34,7 @@
         }
 
         .input-field {
-            @apply bg-transparent border-none outline-none w-full text-white placeholder:text-white/20 focus:ring-0 text-base;
+            @apply bg-transparent border-none outline-none w-full text-white placeholder:text-white/20 focus:ring-0 text-base p-0;
         }
 
         .shop-gradient-text {
@@ -50,15 +52,16 @@
             @apply text-[#0070FF] text-2xl mr-4 opacity-80 select-none;
         }
 
-        /* Spinner para carga */
         .spinner {
             @apply w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin;
         }
+
+        .hidden { display: none; }
     </style>
 </head>
 
 <body>
-    <div id="app-container" class="max-w-[480px] mx-auto flex flex-col min-h-screen relative">
+    <div id="contenedorForm" class="max-w-[480px] mx-auto flex flex-col min-h-screen relative">
         
         <header class="p-6 flex items-center justify-between">
             <button onclick="window.history.back()" class="size-11 rounded-2xl bg-white/5 flex items-center justify-center border border-white/10 active:scale-90 transition-all">
@@ -66,17 +69,17 @@
             </button>
             <div class="text-right">
                 <p class="text-[15px] font-black text-[#FF00FF] tracking-widest uppercase italic leading-none">KM0</p>
-                <p class="text-[8px] text-white/30 font-bold uppercase tracking-tighter mt-1">Store Network</p>
+                <p class="text-[8px] text-white/30 font-bold uppercase tracking-tighter mt-1">Aliados Estratégicos</p>
             </div>
         </header>
 
-        <main class="flex-1 px-8 pt-4 pb-40">
-            <div class="mb-10 animate-fade-in">
+        <main class="flex-1 px-8 pt-4 pb-44">
+            <div class="mb-10">
                 <h1 class="text-2xl font-extrabold italic tracking-tighter leading-tight uppercase text-white">
                     REGISTRA TU <br/>
                     <span class="shop-gradient-text text-4xl font-black">TIENDA</span>
                 </h1>
-                <div class="h-1 w-12 bg-gradient-to-r from-[#0070FF] to-[#FF00FF] mt-3 rounded-full shadow-[0_0_10px_rgba(0,112,255,0.5)]"></div>
+                <div class="h-1 w-12 bg-gradient-to-r from-[#0070FF] to-[#FF00FF] mt-3 rounded-full"></div>
             </div>
 
             <form id="formTienda" autocomplete="off">
@@ -87,7 +90,7 @@
 
                 <div class="input-group">
                     <span class="material-symbols-outlined">person</span>
-                    <input id="representante" required class="input-field" placeholder="Representante Legal" type="text">
+                    <input id="representante" required class="input-field" placeholder="Dueño o Representante" type="text">
                 </div>
 
                 <div class="input-group">
@@ -95,13 +98,12 @@
                     <input id="identificacion" minlength="10" maxlength="13" required class="input-field" placeholder="RUC o Cédula" type="text">
                 </div>
 
-                <div class="grid grid-cols-2 gap-3 mb-0">
+                <div class="grid grid-cols-2 gap-3">
                     <div class="input-group">
-                        <span class="material-symbols-outlined !mr-2 !text-xl">map</span>
-                        <select id="provincia" required class="input-field !text-[13px] appearance-none cursor-pointer">
+                        <select id="provincia" required class="input-field !text-[13px] cursor-pointer">
                             <option value="" disabled selected>Provincia</option>
-                            <option value="Azuay">Azuay</option><option value="Bolívar">Bolívar</option><option value="Cañar">Cañar</option><option value="Carchi">Carchi</option><option value="Chimborazo">Chimborazo</option><option value="Cotopaxi">Cotopaxi</option><option value="El Oro">El Oro</option><option value="Esmeraldas">Esmeraldas</option><option value="Galápagos">Galápagos</option><option value="Guayas">Guayas</option><option value="Imbabura">Imbabura</option><option value="Loja">Loja</option><option value="Los Ríos">Los Ríos</option><option value="Manabí">Manabí</option><option value="Morona Santiago">Morona Santiago</option><option value="Napo">Napo</option><option value="Orellana">Orellana</option><option value="Pastaza">Pastaza</option><option value="Pichincha">Pichincha</option><option value="Santa Elena">Santa Elena</option><option value="Santo Domingo">Santo Domingo</option><option value="Sucumbíos">Sucumbíos</option><option value="Tungurahua">Tungurahua</option><option value="Zamora Chinchipe">Zamora Chinchipe</option>
-                        </select>
+                            <option value="Azuay">Azuay</option><option value="Guayas">Guayas</option><option value="Pichincha">Pichincha</option><option value="Manabí">Manabí</option>
+                            </select>
                     </div>
                     <div class="input-group">
                         <input id="ciudad" required class="input-field" placeholder="Ciudad" type="text">
@@ -115,12 +117,12 @@
 
                 <div class="input-group">
                     <span class="material-symbols-outlined">mail</span>
-                    <input id="correo" required class="input-field" placeholder="Email Corporativo" type="email">
+                    <input id="correo" required class="input-field" placeholder="Email de la Tienda" type="email">
                 </div>
             </form>
         </main>
 
-        <div class="fixed bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-[#020D1F] via-[#020D1F]/90 to-transparent">
+        <div class="fixed bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-[#020D1F] via-[#020D1F]/90 to-transparent z-50">
             <div class="max-w-[480px] mx-auto">
                 <button type="submit" form="formTienda" id="btnEnviar" disabled 
                         class="btn-fusion w-full h-16 rounded-[24px] text-white font-black tracking-widest uppercase flex items-center justify-center gap-4 group">
@@ -128,12 +130,18 @@
                     <span id="btnText">FINALIZAR REGISTRO</span>
                     <span id="btnIcon" class="material-symbols-outlined !mr-0 !text-white group-hover:translate-x-1 transition-transform">rocket_launch</span>
                 </button>
-                
-                <p class="text-[10px] text-center text-white/20 mt-6 uppercase tracking-[0.4em] font-bold">
-                    KM0 BY <span class="text-[#0070FF]">CORPORACIÓN</span> <span class="text-[#FF00FF]">360</span>
-                </p>
+                <p class="text-[9px] text-center text-white/20 mt-6 uppercase tracking-[0.4em]">KM0 BY CORPORACIÓN 360</p>
             </div>
         </div>
+    </div>
+
+    <div id="successScreen" class="fixed inset-0 bg-[#020D1F] z-[100] hidden flex-col items-center justify-center p-10 text-center">
+        <div class="size-24 rounded-full bg-green-500/10 border-2 border-green-500 flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(34,197,94,0.3)]">
+            <span class="material-symbols-outlined !text-green-500 !text-5xl !mr-0">verified</span>
+        </div>
+        <h2 class="text-3xl font-black italic mb-2 uppercase">SOLICITUD ENVIADA</h2>
+        <p class="text-white/50 text-sm mb-10 leading-relaxed">Tu tienda entrará en proceso de verificación. Recibirás una notificación en WhatsApp pronto.</p>
+        <button onclick="window.location.href='../../index.html'" class="w-full h-14 bg-white/5 border border-white/10 rounded-2xl text-[11px] font-bold uppercase tracking-widest">Cerrar</button>
     </div>
 
     <script>
@@ -143,7 +151,7 @@
         const loader = document.getElementById('loading');
         const icon = document.getElementById('btnIcon');
 
-        // Habilitar botón solo si el formulario es válido
+        // Habilitar botón al validar
         form.addEventListener('input', () => {
             btn.disabled = !form.checkValidity();
         });
@@ -153,16 +161,46 @@
             
             // Estado de carga
             btn.disabled = true;
-            btnText.innerText = 'PROCESANDO...';
+            btnText.innerText = 'CONECTANDO KM0 CLOUD...';
             loader.classList.remove('hidden');
             icon.classList.add('hidden');
 
-            // Aquí iría tu integración con Google Sheets
-            // Por ahora simulamos éxito
-            setTimeout(() => {
-                alert('¡Registro enviado con éxito! KM0 se contactará pronto.');
-                window.location.href = '../../index.html';
-            }, 2000);
+            // Captura de Datos
+            const payload = {
+                token: API_KEY, // Viene de config.js
+                accion: "registro_tienda",
+                nombre: document.getElementById('nombreTienda').value,
+                representante: document.getElementById('representante').value,
+                ruc: document.getElementById('identificacion').value,
+                provincia: document.getElementById('provincia').value,
+                ciudad: document.getElementById('ciudad').value,
+                telefono: document.getElementById('telefono').value,
+                correo: document.getElementById('correo').value,
+                timestamp: new Date().toLocaleString()
+            };
+
+            try {
+                // Envío Real a la URL de config.js
+                await fetch(API_URL, {
+                    method: 'POST',
+                    mode: 'no-cors', // Para evitar bloqueos de CORS en Google Script
+                    cache: 'no-cache',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                // Mostrar pantalla de éxito
+                document.getElementById('contenedorForm').classList.add('hidden');
+                document.getElementById('successScreen').classList.remove('hidden');
+                document.getElementById('successScreen').classList.add('flex');
+
+            } catch (err) {
+                alert("Error de conexión. Verifica tu internet e intenta nuevamente.");
+                btn.disabled = false;
+                btnText.innerText = 'FINALIZAR REGISTRO';
+                loader.classList.add('hidden');
+                icon.classList.remove('hidden');
+            }
         });
     </script>
 </body>
