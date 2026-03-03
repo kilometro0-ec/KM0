@@ -29,7 +29,7 @@
             min-height: 100dvh;
         }
 
-        /* 🛡️ PARCHE PARA ELIMINAR EL RESALTADO BLANCO (AUTOCOMPLETE) */
+        /* Parche Autocompletado */
         input:-webkit-autofill,
         input:-webkit-autofill:hover, 
         input:-webkit-autofill:focus, 
@@ -40,7 +40,7 @@
         }
 
         .input-container {
-            @apply relative w-full h-16 bg-[#0A192F] border border-white/10 rounded-2xl mb-4 flex items-center px-4 transition-all focus-within:border-electric-blue focus-within:ring-1 focus-within:ring-electric-blue/30;
+            @apply relative w-full h-16 bg-[#0A192F] border border-white/10 rounded-2xl mb-4 flex items-center px-4 transition-all focus-within:border-electric-blue;
         }
 
         .material-symbols-outlined {
@@ -54,7 +54,7 @@
 
         .btn-fusion {
             background: linear-gradient(90deg, #0070FF 0%, #FF00FF 100%);
-            @apply shadow-[0_0_15px_rgba(0,112,255,0.2)] active:scale-95 disabled:opacity-40 disabled:grayscale transition-all;
+            @apply shadow-lg active:scale-95 disabled:opacity-40 disabled:grayscale transition-all;
         }
 
         .spinner {
@@ -67,34 +67,28 @@
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        select.input-field {
-            @apply appearance-none cursor-pointer;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='white'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 0.5rem center;
-            background-size: 1.2em;
-        }
+        .hidden { display: none; }
     </style>
 </head>
 
-<body class="text-white selection:bg-electric-blue">
+<body class="text-white">
 
     <div id="contenedorForm" class="max-w-[480px] mx-auto flex flex-col min-h-screen">
         
         <header class="p-6 flex items-center justify-between">
             <div class="flex items-center gap-4">
-                <button onclick="window.history.back()" class="size-10 rounded-full bg-white/5 flex items-center justify-center border border-white/10 active:bg-white/10">
+                <button onclick="window.history.back()" class="size-10 rounded-full bg-white/5 flex items-center justify-center border border-white/10">
                     <span class="material-symbols-outlined !text-white !mr-0 !text-xl">arrow_back_ios_new</span>
                 </button>
                 <span class="material-symbols-outlined !text-electric-blue !mr-0 !text-3xl">storefront</span>
             </div>
             <div class="text-right">
                 <p class="text-[11px] font-black text-neon-fuchsia tracking-widest uppercase italic">KILÓMETRO CERO</p>
-                <p class="text-[9px] text-white/30 font-bold uppercase">Registro de Aliados</p>
+                <p class="text-[9px] text-white/30 font-bold uppercase tracking-tighter">Registro de Aliados</p>
             </div>
         </header>
 
-        <main class="flex-1 px-8 pt-4 pb-40">
+        <main class="flex-1 px-8 pt-4 pb-48">
             <div class="mb-10">
                 <h1 class="text-4xl font-black italic tracking-tighter leading-none uppercase">
                     REGISTRA TU <br/>
@@ -104,44 +98,23 @@
             </div>
 
             <form id="formTienda" autocomplete="off">
-                <div class="input-container">
-                    <span class="material-symbols-outlined">store</span>
-                    <input id="nombreTienda" required class="input-field" placeholder="Nombre Comercial" type="text" autocomplete="none">
-                </div>
-
-                <div class="input-container">
-                    <span class="material-symbols-outlined">person</span>
-                    <input id="representante" required class="input-field" placeholder="Representante Legal" type="text" autocomplete="none">
-                </div>
-
-                <div class="input-container">
-                    <span class="material-symbols-outlined">badge</span>
-                    <input id="identificacion" minlength="10" maxlength="13" pattern="[0-9]{10,13}" required class="input-field" placeholder="Cédula o RUC (10-13 dígitos)" type="text">
-                </div>
+                <div class="input-container"><span class="material-symbols-outlined">store</span><input id="nombreTienda" required class="input-field" placeholder="Nombre Comercial" type="text"></div>
+                <div class="input-container"><span class="material-symbols-outlined">person</span><input id="representante" required class="input-field" placeholder="Representante Legal" type="text"></div>
+                <div class="input-container"><span class="material-symbols-outlined">badge</span><input id="identificacion" minlength="10" maxlength="13" pattern="[0-9]{10,13}" required class="input-field" placeholder="Cédula o RUC (10-13 dígitos)" type="text"></div>
 
                 <div class="grid grid-cols-2 gap-3 mb-4">
                     <div class="input-container !mb-0">
                         <span class="material-symbols-outlined">map</span>
-                        <select id="provincia" required class="input-field !text-[13px]">
+                        <select id="provincia" required class="input-field !text-[13px] appearance-none">
                             <option value="" disabled selected>Provincia</option>
                             <option value="Azuay">Azuay</option><option value="Bolívar">Bolívar</option><option value="Cañar">Cañar</option><option value="Carchi">Carchi</option><option value="Chimborazo">Chimborazo</option><option value="Cotopaxi">Cotopaxi</option><option value="El Oro">El Oro</option><option value="Esmeraldas">Esmeraldas</option><option value="Galápagos">Galápagos</option><option value="Guayas">Guayas</option><option value="Imbabura">Imbabura</option><option value="Loja">Loja</option><option value="Los Ríos">Los Ríos</option><option value="Manabí">Manabí</option><option value="Morona Santiago">Morona Santiago</option><option value="Napo">Napo</option><option value="Orellana">Orellana</option><option value="Pastaza">Pastaza</option><option value="Pichincha">Pichincha</option><option value="Santa Elena">Santa Elena</option><option value="Santo Domingo">Santo Domingo</option><option value="Sucumbíos">Sucumbíos</option><option value="Tungurahua">Tungurahua</option><option value="Zamora Chinchipe">Zamora Chinchipe</option>
                         </select>
                     </div>
-                    <div class="input-container !mb-0">
-                        <span class="material-symbols-outlined">location_city</span>
-                        <input id="ciudad" required class="input-field" placeholder="Ciudad" type="text">
-                    </div>
+                    <div class="input-container !mb-0"><span class="material-symbols-outlined">location_city</span><input id="ciudad" required class="input-field" placeholder="Ciudad" type="text"></div>
                 </div>
 
-                <div class="input-container">
-                    <span class="material-symbols-outlined">chat</span>
-                    <input id="telefono" required pattern="^\+593[0-9]{9}$" class="input-field" placeholder="WhatsApp (+593...)" type="tel">
-                </div>
-
-                <div class="input-container">
-                    <span class="material-symbols-outlined">mail</span>
-                    <input id="correo" required class="input-field" placeholder="Email Corporativo" type="email">
-                </div>
+                <div class="input-container"><span class="material-symbols-outlined">chat</span><input id="telefono" required pattern="^\+593[0-9]{9}$" class="input-field" placeholder="WhatsApp (+593...)" type="tel"></div>
+                <div class="input-container"><span class="material-symbols-outlined">mail</span><input id="correo" required class="input-field" placeholder="Email Corporativo" type="email"></div>
             </form>
         </main>
 
@@ -153,8 +126,24 @@
                     <span id="btnIcon" class="material-symbols-outlined !mr-0 !text-white">rocket_launch</span>
                 </button>
                 <p id="errorMsg" class="text-center text-[11px] text-neon-fuchsia font-bold mt-4 uppercase hidden bg-neon-fuchsia/10 py-2 rounded-lg"></p>
+                
+                <p class="text-[10px] text-center text-white/30 mt-6 uppercase tracking-widest">
+                    KM0 by <span class="text-electric-blue font-bold">CORPORACIÓN</span> <span class="text-neon-fuchsia font-bold">360</span> &nbsp;&nbsp;&nbsp; V.1.0.1
+                </p>
             </div>
         </div>
+    </div>
+
+    <div id="successView" class="fixed inset-0 bg-[#020D1F] z-[100] hidden flex-col items-center justify-center p-10 text-center">
+        <div class="size-24 rounded-full bg-electric-blue/10 border-2 border-electric-blue flex items-center justify-center mb-8 shadow-[0_0_30px_rgba(0,112,255,0.3)]">
+            <span class="material-symbols-outlined text-5xl text-electric-blue !mr-0">task_alt</span>
+        </div>
+        <h2 class="text-3xl font-black italic mb-4 uppercase text-white">¡REGISTRO CON ÉXITO!</h2>
+        <p class="text-white/60 text-sm mb-12 leading-relaxed">KM0 REVISARÁ TU SOLICITUD Y SE PONDRÁ EN CONTACTO CONTIGO.</p>
+        
+        <button onclick="window.location.href='index.html'" class="w-full max-w-[280px] h-14 border border-white/10 rounded-2xl text-[11px] font-bold uppercase tracking-widest text-white/80 hover:bg-white/5 active:scale-95 transition-all">
+            VOLVER AL INICIO
+        </button>
     </div>
 
     <script>
@@ -173,7 +162,7 @@
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             btn.disabled = true;
-            btnText.innerText = 'VERIFICANDO...';
+            btnText.innerText = 'PROCESANDO...';
             loader.classList.remove('hidden');
             icon.classList.add('hidden');
             errorMsg.classList.add('hidden');
@@ -190,20 +179,16 @@
             };
 
             try {
-                const response = await fetch(URL_SCRIPT, {
-                    method: 'POST',
-                    body: JSON.stringify(datos)
-                });
-
+                const response = await fetch(URL_SCRIPT, { method: 'POST', body: JSON.stringify(datos) });
                 const res = await response.json();
 
                 if (res.success) {
-                    alert("✅ Registro enviado con éxito. ID: " + res.id);
-                    window.location.reload();
+                    document.getElementById('contenedorForm').classList.add('hidden');
+                    document.getElementById('successView').classList.remove('hidden');
+                    document.getElementById('successView').classList.add('flex');
                 } else {
                     throw new Error(res.mensaje);
                 }
-
             } catch (err) {
                 btn.disabled = false;
                 btnText.innerText = 'FINALIZAR REGISTRO';
