@@ -1,53 +1,59 @@
-/* RESET TOTAL PARA EVITAR EL BLANCO */
-* { box-sizing: border-box; }
+/* FORZAR ESTADO OSCURO TOTAL */
+:root {
+    --km0-blue: #0070FF;
+    --km0-fuchsia: #FF00FF;
+}
+
+/* 1. Mata el fondo blanco del navegador y de Tailwind */
 html, body {
     background-color: #000000 !important;
     color: #ffffff !important;
     margin: 0;
-    font-family: 'Inter', sans-serif;
+    padding: 0;
+    min-height: 100vh;
 }
 
-/* CONTENEDOR DE INPUTS ESTILO KM0 */
+/* 2. Mata el fondo blanco de los INPUTS y SELECTS */
+input, select, textarea, button {
+    background-color: transparent !important;
+    border: none !important;
+    color: white !important;
+    appearance: none !important; /* Quita flechas feas de los select */
+    outline: none !important;
+}
+
+/* 3. Estilo de los grupos de KM0 (Las cajitas oscuras) */
 .km0-input-group {
-    background: rgba(24, 24, 27, 0.8) !important; /* Zinc oscuro */
+    background: rgba(24, 24, 27, 0.8) !important; /* Zinc-900 */
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    border-radius: 12px !important;
+    border-radius: 16px !important;
     display: flex;
     align-items: center;
-    padding: 0 12px;
-    height: 52px;
-    margin-bottom: 12px;
+    padding: 0 16px;
+    height: 60px;
+    margin-bottom: 15px;
 }
 
 .km0-input-group:focus-within {
-    border-color: #0070FF !important; /* Azul Eléctrico */
-    box-shadow: 0 0 10px rgba(0, 112, 255, 0.2);
+    border-color: var(--km0-blue) !important;
+    box-shadow: 0 0 20px rgba(0, 112, 255, 0.2);
 }
 
-/* INPUTS REALES (PARA QUE NO SE VEAN CUADRADOS BLANCOS) */
-.km0-input-field {
-    background: transparent !important;
-    border: none !important;
-    outline: none !important;
-    color: white !important;
-    width: 100%;
-    font-size: 14px;
-    padding-left: 8px;
-}
-
-/* GRADIENTES */
+/* 4. Gradientes de Identidad */
 .shop-text-gradient {
-    background: linear-gradient(90deg, #0070FF, #FF00FF);
+    background: linear-gradient(90deg, var(--km0-blue), var(--km0-fuchsia));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-weight: 900;
 }
 
 .shop-btn-gradient {
-    background: linear-gradient(90deg, #0070FF, #FF00FF) !important;
-    border: none !important;
-    border-radius: 50px !important;
-    color: white !important;
+    background: linear-gradient(90deg, var(--km0-blue), var(--km0-fuchsia)) !important;
+    border-radius: 20px !important;
     font-weight: 800;
+    color: white !important;
     cursor: pointer;
+    transition: transform 0.2s;
 }
+
+.shop-btn-gradient:active { transform: scale(0.98); }
