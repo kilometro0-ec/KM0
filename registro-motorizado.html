@@ -175,9 +175,7 @@
     </form>
 </main>
 <script>
-    const URL_SCRIPT = ''https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec
-
-    function checkFields() {
+    const URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec'
         const fields = ['nombre', 'email', 'cedula', 'tel', 'placa', 'marca', 'provincia', 'ciudad'];
         const isAllFilled = fields.every(id => {
             const el = document.getElementById(id);
