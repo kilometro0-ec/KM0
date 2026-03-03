@@ -4,57 +4,111 @@
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>Acceso - KM0</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-    <script>
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: { "primary": "#ef4444", "background-dark": "#0a0f16" },
-                },
-            },
-        }
-    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+    
     <style>
-        .btn-loading { pointer-events: none; opacity: 0.7; background: linear-gradient(90deg, #ef4444, #b91c1c, #ef4444); background-size: 200% 100%; animation: move-bg 1.5s linear infinite; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #000000; 
+            color: white; 
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+
+        /* Animación exclusiva para el Logo */
+        @keyframes logoEntrance {
+            from { opacity: 0; transform: scale(0.9) translateY(-20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .animate-logo { animation: logoEntrance 1s ease-out forwards; }
+
+        .bg-glow {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(236, 19, 19, 0.07) 0%, rgba(0, 0, 0, 0) 70%);
+            z-index: -1;
+        }
+
+        .btn-loading { 
+            pointer-events: none; 
+            opacity: 0.7; 
+            background: linear-gradient(90deg, #EC1313, #7f0a0a, #EC1313); 
+            background-size: 200% 100%; 
+            animation: move-bg 1.5s linear infinite; 
+        }
         @keyframes move-bg { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+        /* Ajuste para inputs */
+        input:-webkit-autofill {
+            -webkit-text-fill-color: white !important;
+            -webkit-box-shadow: 0 0 0px 1000px #0a0a0a inset !important;
+        }
     </style>
 </head>
-<body class="bg-background-dark text-white font-['Inter'] flex items-center justify-center min-h-screen p-6">
+<body class="p-6">
+    <div class="bg-glow"></div>
 
-    <div class="w-full max-w-sm space-y-8">
-        <div class="text-center">
-            <div class="size-20 bg-primary/20 rounded-full flex items-center justify-center border border-primary/30 mx-auto mb-4 shadow-[0_0_30px_rgba(239,68,68,0.2)]">
-                <span class="material-symbols-outlined text-primary text-5xl">pest_control_rodent</span>
-            </div>
-            <h1 class="text-3xl font-black italic tracking-tighter text-white uppercase leading-none">Kilómetro Cero</h1>
-            <p class="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] mt-2">v4.0 Motor Integral</p>
+    <div class="w-full max-w-[360px] flex flex-col items-center">
+        
+        <div class="mb-8 flex justify-center w-full animate-logo">
+            <img src="../../assets/images/logo-trans.png" alt="Logo KM0" 
+                 class="w-56 h-56 object-contain drop-shadow-[0_0_20px_rgba(236,19,19,0.3)]">
         </div>
 
-        <div class="space-y-4">
-            <div class="space-y-1">
-                <label class="text-[10px] font-black text-slate-500 uppercase ml-1">Usuario</label>
-                <input type="text" id="user" placeholder="Ingrese su usuario" class="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-4 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-white">
-            </div>
-            
-            <div class="space-y-1">
-                <label class="text-[10px] font-black text-slate-500 uppercase ml-1">Contraseña</label>
-                <div class="relative">
-                    <input type="password" id="pass" placeholder="••••••••" class="w-full bg-white/5 border border-white/10 rounded-xl py-4 pl-4 pr-12 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-white">
-                    <button type="button" onclick="togglePassword()" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-primary">
-                        <span id="eye-icon" class="material-symbols-outlined text-xl">visibility</span>
-                    </button>
+        <div class="w-full space-y-6">
+            <div class="text-center space-y-2">
+                <div class="flex justify-center">
+                    <span class="material-symbols-outlined text-[#EC1313] text-4xl mb-2">account_circle</span>
                 </div>
+                <h1 class="text-xl font-black uppercase tracking-widest italic">Acceso Privado</h1>
+                <p class="text-zinc-500 text-[10px] font-bold uppercase tracking-[0.3em]">V1.0.1 Motor Integral</p>
             </div>
+
+            <div class="space-y-4">
+                <div class="space-y-1">
+                    <label class="text-[10px] font-black text-zinc-500 uppercase ml-1 tracking-widest">Identificador</label>
+                    <input type="text" id="user" placeholder="USUARIO" 
+                           class="w-full bg-zinc-900/50 border border-zinc-800 rounded-2xl py-4 px-5 focus:border-[#EC1313] focus:ring-1 focus:ring-[#EC1313] outline-none transition-all text-white font-bold placeholder:text-zinc-700">
+                </div>
+                
+                <div class="space-y-1">
+                    <label class="text-[10px] font-black text-zinc-500 uppercase ml-1 tracking-widest">Clave de Seguridad</label>
+                    <div class="relative">
+                        <input type="password" id="pass" placeholder="••••••••" 
+                               class="w-full bg-zinc-900/50 border border-zinc-800 rounded-2xl py-4 pl-5 pr-14 focus:border-[#EC1313] focus:ring-1 focus:ring-[#EC1313] outline-none transition-all text-white font-bold placeholder:text-zinc-700">
+                        <button type="button" onclick="togglePassword()" class="absolute right-5 top-1/2 -translate-y-1/2 text-zinc-600 hover:text-[#EC1313]">
+                            <span id="eye-icon" class="material-symbols-outlined text-xl">visibility</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <button id="btn-login" onclick="validarYRedirigir()" 
+                        class="w-full bg-[#EC1313] hover:bg-red-700 text-white font-black py-5 rounded-2xl shadow-lg shadow-red-900/20 transition-all active:scale-95 flex items-center justify-center gap-2 uppercase text-sm tracking-[0.2em]">
+                    <span id="btn-text">Iniciar Sesión</span>
+                </button>
+            </div>
+
+            <div id="error-msg" class="hidden text-center text-[#EC1313] text-[10px] font-black uppercase bg-red-950/20 py-4 rounded-xl border border-red-900/30 tracking-tighter"></div>
             
-            <button id="btn-login" onclick="validarYRedirigir()" class="w-full bg-primary hover:bg-red-500 text-white font-black py-4 rounded-xl shadow-xl shadow-primary/20 transition-all active:scale-95 flex items-center justify-center gap-2 mt-4">
-                <span id="btn-text">INICIAR SESIÓN</span>
-            </button>
+            <p class="text-center">
+                <a href="../../index.html" class="text-[10px] text-zinc-600 uppercase tracking-widest hover:text-white transition-colors">← Volver al inicio</a>
+            </p>
         </div>
 
-        <div id="error-msg" class="hidden text-center text-primary text-[10px] font-black uppercase bg-primary/10 py-3 rounded-lg border border-primary/20"></div>
+        <div class="mt-12 text-center opacity-40">
+            <p class="text-[9px] font-bold uppercase tracking-[0.1em] text-zinc-400">
+                2025 KM0® by CORPORACIÓN 360 <span class="ml-1">V1.0.1</span>
+            </p>
+        </div>
     </div>
 
     <script>
@@ -74,8 +128,7 @@
             const btn = document.getElementById('btn-login');
 
             if (!userField || !passField) {
-                error.innerText = "Complete todos los campos";
-                error.classList.remove('hidden');
+                showError("Complete todos los campos");
                 return;
             }
 
@@ -96,40 +149,43 @@
                     localStorage.setItem('km0_user_id', result.id);
                     localStorage.setItem('km0_user_rol', result.rol);
                     
-                    // LÓGICA DE REDIRECCIÓN BASADA EN ROL DE LA HOJA
+                    // REDIRECCIÓN SEGÚN TU ESTRUCTURA
                     switch(result.rol) {
                         case 'TIENDAS': 
-                            window.location.href = "panel-operativo-tienda.html"; 
+                            window.location.href = "../tienda/panel-operativo-tienda.html"; 
                             break;
                         case 'MOTORIZADO': 
-                            window.location.href = "panel-operativo-motorizado.html"; 
+                            window.location.href = "../motorizado/panel-operativo-motorizado.html"; 
                             break;
                         case 'ADMINISTRADOR': 
-                            window.location.href = "admin.html"; 
+                            window.location.href = "../admin/admin.html"; 
                             break;
                         case 'FINANZAS': 
-                            window.location.href = "gestion-finanzas.html"; 
+                            window.location.href = "../finanzas/gestion-finanzas.html"; 
                             break;
                         default: 
-                            error.innerText = "Rol no asignado. Contacte soporte.";
-                            error.classList.remove('hidden');
+                            showError("Rol no asignado. Contacte soporte.");
                             resetBtn(btn);
                     }
                 } else {
-                    error.innerText = result.mensaje;
-                    error.classList.remove('hidden');
+                    showError(result.mensaje);
                     resetBtn(btn);
                 }
             } catch (e) {
-                error.innerText = "Error de conexión con el servidor.";
-                error.classList.remove('hidden');
+                showError("Error de conexión con el servidor");
                 resetBtn(btn);
             }
         }
 
+        function showError(msg) {
+            const error = document.getElementById('error-msg');
+            error.innerText = msg;
+            error.classList.remove('hidden');
+        }
+
         function resetBtn(btn) {
             btn.disabled = false;
-            btn.innerHTML = "INICIAR SESIÓN";
+            btn.innerHTML = "Iniciar Sesión";
             btn.classList.remove('btn-loading');
         }
 
