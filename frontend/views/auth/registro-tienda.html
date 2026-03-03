@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
-    <title>KM0 - Registro de Tienda v12.0</title>
+    <title>KM0 - Registro Oficial de Tienda</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet"/>
@@ -13,51 +13,71 @@
 
     <style type="text/tailwindcss">
         @layer base {
-            body { @apply bg-[#020D1F] text-white overflow-x-hidden font-['Plus_Jakarta_Sans']; min-height: 100dvh; }
+            body {
+                @apply bg-[#020D1F] text-white overflow-x-hidden;
+                font-family: 'Plus Jakarta Sans', sans-serif;
+                min-height: 100dvh;
+            }
         }
 
-        /* Animación KM0 Logo */
-        @keyframes flyIn {
-            0% { opacity: 0; transform: translateX(-80px) translateY(15px) rotate(-5deg); }
-            100% { opacity: 1; transform: translateX(0) translateY(0) rotate(0deg); }
+        /* Corrección de parches blancos en navegadores */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover, 
+        input:-webkit-autofill:focus {
+            -webkit-text-fill-color: white !important;
+            -webkit-box-shadow: 0 0 0px 1000px #0A192F inset !important;
+            transition: background-color 5000s ease-in-out 0s;
         }
-        .km0-logo-anim { animation: flyIn 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) both; }
 
         .input-group {
-            @apply flex items-center bg-[#0A192F] border border-white/10 rounded-2xl px-4 h-16 mb-4 focus-within:border-[#0070FF] transition-all;
+            @apply flex items-center bg-[#0A192F] border border-white/10 rounded-2xl px-4 h-16 mb-4 transition-all duration-300 focus-within:border-[#0070FF] focus-within:shadow-[0_0_15px_rgba(0,112,255,0.2)];
         }
 
-        .input-field { @apply bg-transparent border-none outline-none w-full text-white placeholder:text-white/20 focus:ring-0 text-base p-0; }
-        
+        .input-field {
+            @apply bg-transparent border-none outline-none w-full text-white placeholder:text-white/20 focus:ring-0 text-base p-0;
+        }
+
+        .shop-gradient-text {
+            background: linear-gradient(90deg, #0070FF, #FF00FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
         .btn-fusion {
             background: linear-gradient(90deg, #0070FF 0%, #FF00FF 100%);
-            @apply shadow-lg active:scale-95 disabled:opacity-30 transition-all font-black tracking-widest text-white;
+            @apply shadow-lg active:scale-95 disabled:opacity-40 disabled:grayscale transition-all duration-300;
         }
 
-        .material-symbols-outlined { @apply text-[#0070FF] text-2xl mr-4 opacity-80; }
-        
-        select.input-field option { background: #0A192F; color: white; }
+        .material-symbols-outlined {
+            @apply text-[#0070FF] text-2xl mr-4 opacity-80 select-none;
+        }
+
+        .spinner {
+            @apply w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin;
+        }
+
+        .hidden { display: none; }
     </style>
 </head>
 
 <body>
-    <div id="contenedorForm" class="max-w-[480px] mx-auto flex flex-col min-h-screen">
+    <div id="contenedorForm" class="max-w-[480px] mx-auto flex flex-col min-h-screen relative">
         
         <header class="p-6 flex items-center justify-between">
-            <button onclick="window.history.back()" class="size-11 rounded-2xl bg-white/5 flex items-center justify-center border border-white/10">
+            <button onclick="window.history.back()" class="size-11 rounded-2xl bg-white/5 flex items-center justify-center border border-white/10 active:scale-90 transition-all">
                 <span class="material-symbols-outlined !text-white !mr-0 !text-xl">arrow_back_ios_new</span>
             </button>
-            <div class="text-right km0-logo-anim">
-                <p class="text-[18px] font-extrabold text-[#FF00FF] tracking-[0.3em] uppercase italic leading-none">KM0</p>
-                <p class="text-[8px] text-white/30 font-bold uppercase tracking-tighter mt-1">Air Logistics</p>
+            <div class="text-right">
+                <p class="text-[15px] font-black text-[#FF00FF] tracking-widest uppercase italic leading-none">KM0</p>
+                <p class="text-[8px] text-white/30 font-bold uppercase tracking-tighter mt-1">Aliados Estratégicos</p>
             </div>
         </header>
 
         <main class="flex-1 px-8 pt-4 pb-44">
             <div class="mb-10">
-                <h1 class="text-2xl font-extrabold italic tracking-tighter uppercase text-white">
+                <h1 class="text-2xl font-extrabold italic tracking-tighter leading-tight uppercase text-white">
                     REGISTRA TU <br/>
-                    <span style="background: linear-gradient(90deg, #0070FF, #FF00FF); -webkit-background-clip: text; -webkit-text-fill-color: transparent;" class="text-4xl font-black">TIENDA</span>
+                    <span class="shop-gradient-text text-4xl font-black">TIENDA</span>
                 </h1>
                 <div class="h-1 w-12 bg-gradient-to-r from-[#0070FF] to-[#FF00FF] mt-3 rounded-full"></div>
             </div>
@@ -65,109 +85,123 @@
             <form id="formTienda" autocomplete="off">
                 <div class="input-group">
                     <span class="material-symbols-outlined">store</span>
-                    <input id="nombre" required class="input-field" placeholder="Nombre Comercial de la Tienda">
+                    <input id="nombreTienda" required class="input-field" placeholder="Nombre Comercial" type="text">
                 </div>
 
                 <div class="input-group">
                     <span class="material-symbols-outlined">person</span>
-                    <input id="representante" required class="input-field" placeholder="Nombre del Propietario">
+                    <input id="representante" required class="input-field" placeholder="Dueño o Representante" type="text">
                 </div>
 
                 <div class="input-group">
                     <span class="material-symbols-outlined">badge</span>
-                    <input id="ruc" minlength="10" maxlength="13" required class="input-field" placeholder="RUC o Cédula">
+                    <input id="identificacion" minlength="10" maxlength="13" required class="input-field" placeholder="RUC o Cédula" type="text">
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
                     <div class="input-group">
-                        <select id="provincia" required class="input-field !text-[12px] cursor-pointer">
+                        <select id="provincia" required class="input-field !text-[13px] cursor-pointer">
                             <option value="" disabled selected>Provincia</option>
-                            <option value="Azuay">Azuay</option><option value="Bolívar">Bolívar</option><option value="Cañar">Cañar</option><option value="Carchi">Carchi</option><option value="Chimborazo">Chimborazo</option><option value="Cotopaxi">Cotopaxi</option><option value="El Oro">El Oro</option><option value="Esmeraldas">Esmeraldas</option><option value="Galápagos">Galápagos</option><option value="Guayas">Guayas</option><option value="Imbabura">Imbabura</option><option value="Loja">Loja</option><option value="Los Ríos">Los Ríos</option><option value="Manabí">Manabí</option><option value="Morona Santiago">Morona Santiago</option><option value="Napo">Napo</option><option value="Orellana">Orellana</option><option value="Pastaza">Pastaza</option><option value="Pichincha">Pichincha</option><option value="Santa Elena">Santa Elena</option><option value="Santo Domingo">Santo Domingo</option><option value="Sucumbíos">Sucumbíos</option><option value="Tungurahua">Tungurahua</option><option value="Zamora Chinchipe">Zamora Chinchipe</option>
-                        </select>
+                            <option value="Azuay">Azuay</option><option value="Guayas">Guayas</option><option value="Pichincha">Pichincha</option><option value="Manabí">Manabí</option>
+                            </select>
                     </div>
                     <div class="input-group">
-                        <input id="ciudad" required class="input-field" placeholder="Ciudad">
+                        <input id="ciudad" required class="input-field" placeholder="Ciudad" type="text">
                     </div>
                 </div>
 
                 <div class="input-group">
                     <span class="material-symbols-outlined">chat</span>
-                    <span class="text-[#0070FF] font-bold mr-2 text-sm">+593</span>
-                    <input id="telefono" required pattern="[0-9]{9}" maxlength="9" class="input-field" placeholder="98401XXXX">
+                    <input id="telefono" required pattern="^\+593[0-9]{9}$" class="input-field" placeholder="WhatsApp (+593...)" type="tel">
                 </div>
 
                 <div class="input-group">
                     <span class="material-symbols-outlined">mail</span>
-                    <input id="correo" required class="input-field" placeholder="Correo Electrónico" type="email">
+                    <input id="correo" required class="input-field" placeholder="Email de la Tienda" type="email">
                 </div>
             </form>
         </main>
 
-        <div class="fixed bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-[#020D1F] to-transparent">
-            <button type="submit" form="formTienda" id="btnEnviar" disabled 
-                    class="btn-fusion w-full h-16 rounded-[24px] flex items-center justify-center gap-4 transition-all">
-                <span id="btnText">FINALIZAR REGISTRO</span>
-                <span id="btnIcon" class="material-symbols-outlined !mr-0 !text-white">rocket_launch</span>
-            </button>
+        <div class="fixed bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-[#020D1F] via-[#020D1F]/90 to-transparent z-50">
+            <div class="max-w-[480px] mx-auto">
+                <button type="submit" form="formTienda" id="btnEnviar" disabled 
+                        class="btn-fusion w-full h-16 rounded-[24px] text-white font-black tracking-widest uppercase flex items-center justify-center gap-4 group">
+                    <div id="loading" class="hidden"><div class="spinner"></div></div>
+                    <span id="btnText">FINALIZAR REGISTRO</span>
+                    <span id="btnIcon" class="material-symbols-outlined !mr-0 !text-white group-hover:translate-x-1 transition-transform">rocket_launch</span>
+                </button>
+                <p class="text-[9px] text-center text-white/20 mt-6 uppercase tracking-[0.4em]">KM0 BY CORPORACIÓN 360</p>
+            </div>
         </div>
     </div>
 
     <div id="successScreen" class="fixed inset-0 bg-[#020D1F] z-[100] hidden flex-col items-center justify-center p-10 text-center">
-        <span class="material-symbols-outlined !text-green-500 !text-7xl mb-6">verified</span>
-        <h2 class="text-3xl font-black italic mb-2">¡SOLICITUD ENVIADA!</h2>
-        <p class="text-white/60 mb-8">Tu tienda está en proceso de verificación. Recibirás tu clave por correo.</p>
-        <button onclick="location.href='../../index.html'" class="px-10 h-14 bg-white/5 border border-white/10 rounded-2xl font-bold uppercase tracking-widest text-xs">Volver al Inicio</button>
+        <div class="size-24 rounded-full bg-green-500/10 border-2 border-green-500 flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(34,197,94,0.3)]">
+            <span class="material-symbols-outlined !text-green-500 !text-5xl !mr-0">verified</span>
+        </div>
+        <h2 class="text-3xl font-black italic mb-2 uppercase">SOLICITUD ENVIADA</h2>
+        <p class="text-white/50 text-sm mb-10 leading-relaxed">Tu tienda entrará en proceso de verificación. Recibirás una notificación en WhatsApp pronto.</p>
+        <button onclick="window.location.href='../../index.html'" class="w-full h-14 bg-white/5 border border-white/10 rounded-2xl text-[11px] font-bold uppercase tracking-widest">Cerrar</button>
     </div>
 
     <script>
-    const form = document.getElementById('formTienda');
-    const btn = document.getElementById('btnEnviar');
-    const btnText = document.getElementById('btnText');
+        const form = document.getElementById('formTienda');
+        const btn = document.getElementById('btnEnviar');
+        const btnText = document.getElementById('btnText');
+        const loader = document.getElementById('loading');
+        const icon = document.getElementById('btnIcon');
 
-    // Validación visual
-    form.addEventListener('input', () => {
-        btn.disabled = !form.checkValidity();
-    });
+        // Habilitar botón al validar
+        form.addEventListener('input', () => {
+            btn.disabled = !form.checkValidity();
+        });
 
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        btn.disabled = true;
-        btnText.innerText = 'CONECTANDO...';
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Estado de carga
+            btn.disabled = true;
+            btnText.innerText = 'CONECTANDO KM0 CLOUD...';
+            loader.classList.remove('hidden');
+            icon.classList.add('hidden');
 
-        const payload = {
-            accion: 'registro_tienda',
-            token: typeof API_KEY_SECRET !== 'undefined' ? API_KEY_SECRET : "KM0_SECURE_TOKEN_2026_XYZ",
-            nombre: document.getElementById('nombre').value,
-            representante: document.getElementById('representante').value,
-            ruc: document.getElementById('ruc').value,
-            provincia: document.getElementById('provincia').value,
-            ciudad: document.getElementById('ciudad').value,
-            telefono: "+593" + document.getElementById('telefono').value,
-            correo: document.getElementById('correo').value
-        };
+            // Captura de Datos
+            const payload = {
+                token: API_KEY, // Viene de config.js
+                accion: "registro_tienda",
+                nombre: document.getElementById('nombreTienda').value,
+                representante: document.getElementById('representante').value,
+                ruc: document.getElementById('identificacion').value,
+                provincia: document.getElementById('provincia').value,
+                ciudad: document.getElementById('ciudad').value,
+                telefono: document.getElementById('telefono').value,
+                correo: document.getElementById('correo').value,
+                timestamp: new Date().toLocaleString()
+            };
 
-        try {
-            // Nota: Usamos la API_URL definida en assets/js/config.js
-            const response = await fetch(API_URL, {
-                method: 'POST',
-                mode: 'no-cors', // Necesario para Google Apps Script
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
+            try {
+                // Envío Real a la URL de config.js
+                await fetch(API_URL, {
+                    method: 'POST',
+                    mode: 'no-cors', // Para evitar bloqueos de CORS en Google Script
+                    cache: 'no-cache',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
 
-            // Mostramos éxito (no-cors no permite leer respuesta, pero el envío se procesa)
-            document.getElementById('contenedorForm').classList.add('hidden');
-            document.getElementById('successScreen').classList.remove('hidden');
-            document.getElementById('successScreen').classList.add('flex');
+                // Mostrar pantalla de éxito
+                document.getElementById('contenedorForm').classList.add('hidden');
+                document.getElementById('successScreen').classList.remove('hidden');
+                document.getElementById('successScreen').classList.add('flex');
 
-        } catch (err) {
-            console.error(err);
-            alert("Error de conexión. Revisa tu internet.");
-            btn.disabled = false;
-            btnText.innerText = 'REINTENTAR REGISTRO';
-        }
-    });
+            } catch (err) {
+                alert("Error de conexión. Verifica tu internet e intenta nuevamente.");
+                btn.disabled = false;
+                btnText.innerText = 'FINALIZAR REGISTRO';
+                loader.classList.add('hidden');
+                icon.classList.remove('hidden');
+            }
+        });
     </script>
 </body>
 </html>
