@@ -1,56 +1,53 @@
-:root {
-    --km0-blue: #0070FF;
-    --km0-fuchsia: #FF00FF;
-    --km0-dark: #000000;
-}
-
-/* Forzar fondo negro en toda la página */
+/* RESET TOTAL PARA EVITAR EL BLANCO */
+* { box-sizing: border-box; }
 html, body {
-    background-color: var(--km0-dark) !important;
-    color: white !important;
+    background-color: #000000 !important;
+    color: #ffffff !important;
     margin: 0;
     font-family: 'Inter', sans-serif;
 }
 
-/* Contenedor de Inputs Estilo Index */
+/* CONTENEDOR DE INPUTS ESTILO KM0 */
 .km0-input-group {
-    background: rgba(24, 24, 27, 0.6) !important;
-    border: 1px solid rgba(63, 63, 70, 0.5) !important;
-    border-radius: 16px !important;
+    background: rgba(24, 24, 27, 0.8) !important; /* Zinc oscuro */
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 12px !important;
     display: flex;
     align-items: center;
-    padding: 0 16px;
-    height: 58px;
-    transition: all 0.3s ease;
+    padding: 0 12px;
+    height: 52px;
+    margin-bottom: 12px;
 }
 
 .km0-input-group:focus-within {
-    border-color: var(--km0-blue) !important;
-    background: rgba(39, 39, 42, 0.8) !important;
-    box-shadow: 0 0 15px rgba(0, 112, 255, 0.1);
+    border-color: #0070FF !important; /* Azul Eléctrico */
+    box-shadow: 0 0 10px rgba(0, 112, 255, 0.2);
 }
 
+/* INPUTS REALES (PARA QUE NO SE VEAN CUADRADOS BLANCOS) */
 .km0-input-field {
     background: transparent !important;
     border: none !important;
-    width: 100%;
-    color: white !important;
     outline: none !important;
+    color: white !important;
+    width: 100%;
     font-size: 14px;
-    font-weight: 500;
+    padding-left: 8px;
 }
 
-/* Gradientes de Tienda */
+/* GRADIENTES */
 .shop-text-gradient {
-    background: linear-gradient(90deg, var(--km0-blue), var(--km0-fuchsia));
+    background: linear-gradient(90deg, #0070FF, #FF00FF);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    font-weight: 900;
 }
 
-.shop-bg-gradient {
-    background: linear-gradient(90deg, var(--km0-blue), var(--km0-fuchsia)) !important;
-}
-
-.shop-glow {
-    background: radial-gradient(circle at 50% 0%, rgba(0, 112, 255, 0.15) 0%, transparent 75%);
+.shop-btn-gradient {
+    background: linear-gradient(90deg, #0070FF, #FF00FF) !important;
+    border: none !important;
+    border-radius: 50px !important;
+    color: white !important;
+    font-weight: 800;
+    cursor: pointer;
 }
