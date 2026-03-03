@@ -168,63 +168,78 @@
     </div>
 
     <script>
-        const form = document.getElementById('formTienda');
-        const btn = document.getElementById('btnEnviar');
-        const btnText = document.getElementById('btnText');
-        const loader = document.getElementById('loading');
-        const icon = document.getElementById('btnIcon');
+    const form = document.getElementById('formTienda');
+    const btn = document.getElementById('btnEnviar');
+    const btnText = document.getElementById('btnText');
+    const loader = document.getElementById('loading');
+    const icon = document.getElementById('btnIcon');
 
-        // Habilitar botón al validar
-        form.addEventListener('input', () => {
-            btn.disabled = !form.checkValidity();
-        });
+    // Habilitar botón solo cuando el formulario sea válido
+    form.addEventListener('input', () => {
+        btn.disabled = !form.checkValidity();
+    });
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            // Estado de carga
-            btn.disabled = true;
-            btnText.innerText = 'CONECTANDO KM0 CLOUD...';
-            loader.classList.remove('hidden');
-            icon.classList.add('hidden');
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        // Estado de carga visual
+        btn.disabled = true;
+        btnText.innerText = 'VERIFICANDO DATOS...';
+        loader.classList.remove('hidden');
+        icon.classList.add('hidden');
 
-            // Captura de Datos
-            const payload = {
-                token: API_KEY, // Viene de config.js
-                accion: "registro_tienda",
-                nombre: document.getElementById('nombreTienda').value,
-                representante: document.getElementById('representante').value,
-                ruc: document.getElementById('identificacion').value,
-                provincia: document.getElementById('provincia').value,
-                ciudad: document.getElementById('ciudad').value,
-                telefono: document.getElementById('telefono').value,
-                correo: document.getElementById('correo').value,
-                timestamp: new Date().toLocaleString()
-            };
+        const payload = {
+            token: API_KEY, // Viene de config.js
+            accion: "registro_tienda",
+            nombre: document.getElementById('nombreTienda').value,
+            representante: document.getElementById('representante').value,
+            ruc: document.getElementById('identificacion').value,
+            provincia: document.getElementById('provincia').value,
+            ciudad: document.getElementById('ciudad').value,
+            telefono: document.getElementById('telefono').value,
+            correo: document.getElementById('correo').value,
+            timestamp: new Date().toLocaleString()
+        };
 
-            try {
-                // Envío Real a la URL de config.js
-                await fetch(API_URL, {
-                    method: 'POST',
-                    mode: 'no-cors', // Para evitar bloqueos de CORS en Google Script
-                    cache: 'no-cache',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
+        try {
+            /** * CAMBIO CRÍTICO:
+             * Usamos mode: 'cors' y Content-Type: 'text/plain'.
+             * Esto permite que Google Apps Script nos devuelva el JSON 
+             * y que nosotros podamos LEER el mensaje de "RUC Duplicado".
+             */
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                mode: 'cors', 
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(payload)
+            });
 
-                // Mostrar pantalla de éxito
+            const result = await response.json();
+
+            if (result.success) {
+                // Éxito: Mostrar pantalla de confirmación
                 document.getElementById('contenedorForm').classList.add('hidden');
                 document.getElementById('successScreen').classList.remove('hidden');
                 document.getElementById('successScreen').classList.add('flex');
-
-            } catch (err) {
-                alert("Error de conexión. Verifica tu internet e intenta nuevamente.");
-                btn.disabled = false;
-                btnText.innerText = 'FINALIZAR REGISTRO';
-                loader.classList.add('hidden');
-                icon.classList.remove('hidden');
+            } else {
+                // ERROR DE NEGOCIO: RUC, Teléfono o Correo repetido
+                alert("⚠️ ATENCIÓN KM0:\n" + result.mensaje);
+                restablecerBoton();
             }
-        });
-    </script>
+
+        } catch (err) {
+            console.error("Error en Fetch:", err);
+            alert("Error de conexión con KM0 Cloud. Verifica tu internet.");
+            restablecerBoton();
+        }
+    });
+
+    function restablecerBoton() {
+        btn.disabled = false;
+        btnText.innerText = 'FINALIZAR REGISTRO';
+        loader.classList.add('hidden');
+        icon.classList.remove('hidden');
+    }
+</script>
 </body>
 </html>
