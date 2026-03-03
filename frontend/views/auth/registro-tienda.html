@@ -1,91 +1,90 @@
 <!DOCTYPE html>
-<html lang="es" style="background-color: #000000;">
+<html class="dark" lang="es">
 <head>
     <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-    <title>KM0 - Registro</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>KM0 - Registro de Tienda</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet"/>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://fonts.materialsoft.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     
     <link rel="stylesheet" href="../../assets/css/roles.css">
-
-    <style>
-        /* Ajuste extra para asegurar visibilidad de iconos */
-        .material-symbols-outlined { color: #0070FF; font-size: 22px; margin-right: 12px; }
-        ::placeholder { color: #52525b !important; opacity: 1; }
-    </style>
 </head>
 
-<body style="background-color: #000000; padding: 20px;">
+<body class="theme-shop-body">
 
-    <div style="max-width: 400px; margin: 0 auto; display: flex; flex-direction: column; min-height: 90vh;">
+    <div id="contenedorForm" class="max-w-[480px] mx-auto flex flex-col min-h-screen">
         
-        <header style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; margin-bottom: 40px;">
-            <button onclick="window.history.back()" style="background: #18181b; border: 1px solid #27272a; border-radius: 14px; width: 48px; height: 48px; color: white; display: flex; align-items: center; justify-content: center;">
-                <span class="material-symbols-outlined" style="color: white; margin-right: 0;">arrow_back_ios_new</span>
+        <header class="p-6 flex items-center justify-between">
+            <button onclick="window.history.back()" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center border border-white/10 active:scale-90 transition-all">
+                <span class="material-symbols-outlined !text-white">arrow_back_ios_new</span>
             </button>
-            <div style="text-align: right;">
-                <span style="color: #FF00FF; font-weight: 900; font-style: italic;">KM0</span><br>
-                <span style="color: #52525b; font-size: 9px; font-weight: 800; letter-spacing: 1px;">ESTABLECIMIENTOS</span>
+            <div class="text-right">
+                <p class="text-[15px] font-black text-[#FF00FF] tracking-widest uppercase italic">KILÓMETRO CERO</p>
+                <p class="text-[9px] text-white/30 font-bold uppercase tracking-tighter">Store Registry</p>
             </div>
         </header>
 
-        <section style="margin-bottom: 35px;">
-            <h1 style="margin: 0; color: white; font-size: 26px; font-weight: 900; font-style: italic; line-height: 1;">REGISTRA TU</h1>
-            <h2 class="shop-text-gradient" style="margin: 0; font-size: 48px; line-height: 1;">TIENDA</h2>
-            <div style="height: 4px; width: 50px; background: #0070FF; margin-top: 15px; border-radius: 10px;"></div>
-        </section>
-
-        <form id="formTienda">
-            <div class="km0-input-group">
-                <span class="material-symbols-outlined">store</span>
-                <input type="text" placeholder="Nombre de la Tienda" required style="width: 100%;">
+        <main class="flex-1 px-8 pt-4 pb-48">
+            <div class="mb-8">
+                <h1 class="text-2xl font-extrabold italic tracking-tighter leading-tight uppercase text-white">
+                    REGISTRA TU <br/>
+                    <span class="shop-text-gradient text-4xl font-black">TIENDA</span>
+                </h1>
+                <div class="h-1 w-12 shop-btn-fusion mt-3 rounded-full"></div>
             </div>
 
-            <div class="km0-input-group">
-                <span class="material-symbols-outlined">person</span>
-                <input type="text" placeholder="Dueño o Representante" required style="width: 100%;">
-            </div>
+            <form id="formTienda" autocomplete="off">
+                <div class="km0-input-container">
+                    <span class="material-symbols-outlined !text-[#0070FF] mr-4">store</span>
+                    <input id="nombreTienda" required class="km0-input-field" placeholder="Nombre Comercial" type="text">
+                </div>
+                
+                <div class="km0-input-container">
+                    <span class="material-symbols-outlined !text-[#0070FF] mr-4">person</span>
+                    <input id="representante" required class="km0-input-field" placeholder="Representante Legal" type="text">
+                </div>
 
-            <div class="km0-input-group">
-                <span class="material-symbols-outlined">badge</span>
-                <input type="text" placeholder="RUC / Cédula" required style="width: 100%;">
-            </div>
+                <div class="km0-input-container">
+                    <span class="material-symbols-outlined !text-[#0070FF] mr-4">badge</span>
+                    <input id="identificacion" minlength="10" maxlength="13" required class="km0-input-field" placeholder="RUC o Cédula" type="text">
+                </div>
 
-            <div style="display: flex; gap: 10px;">
-                <div class="km0-input-group" style="flex: 1;">
-                    <select required style="width: 100%; cursor: pointer;">
-                        <option value="" disabled selected>Provincia</option>
-                        <option value="Azuay">Azuay</option>
-                        <option value="Guayas">Guayas</option>
-                        <option value="Pichincha">Pichincha</option>
-                        <option value="Manabí">Manabí</option>
+                <div class="grid grid-cols-2 gap-3 mb-4">
+                    <div class="km0-input-container !mb-0">
+                        <select id="provincia" required class="km0-input-field !text-[15px] appearance-none cursor-pointer">
+                            <option value="" disabled selected>Provincia</option>
+                            <option value="Pichincha">Pichincha</option>
+                            <option value="Guayas">Guayas</option>
                         </select>
+                    </div>
+                    <div class="km0-input-container !mb-0">
+                        <input id="ciudad" required class="km0-input-field" placeholder="Ciudad" type="text">
+                    </div>
                 </div>
-                <div class="km0-input-group" style="flex: 1;">
-                    <input type="text" placeholder="Ciudad" required style="width: 100%;">
+
+                <div class="km0-input-container">
+                    <span class="material-symbols-outlined !text-[#0070FF] mr-4">chat</span>
+                    <input id="telefono" required pattern="^\+593[0-9]{9}$" class="km0-input-field" placeholder="WhatsApp (+593...)" type="tel">
                 </div>
-            </div>
 
-            <div class="km0-input-group">
-                <span class="material-symbols-outlined">chat</span>
-                <input type="tel" placeholder="WhatsApp (+593...)" required style="width: 100%;">
-            </div>
+                <div class="km0-input-container">
+                    <span class="material-symbols-outlined !text-[#0070FF] mr-4">mail</span>
+                    <input id="correo" required class="km0-input-field" placeholder="Email Corporativo" type="email">
+                </div>
+            </form>
+        </main>
 
-            <div class="km0-input-group">
-                <span class="material-symbols-outlined">mail</span>
-                <input type="email" placeholder="Correo Electrónico" required style="width: 100%;">
+        <div class="fixed bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-[#020D1F] via-[#020D1F]/90 to-transparent">
+            <div class="max-w-[480px] mx-auto">
+                <button type="submit" form="formTienda" id="btnEnviar" disabled 
+                        class="shop-btn-fusion w-full h-16 text-white font-black tracking-widest uppercase flex items-center justify-center gap-4">
+                    <span>FINALIZAR REGISTRO</span>
+                    <span class="material-symbols-outlined !text-white">rocket_launch</span>
+                </button>
             </div>
-        </form>
-
-        <div style="margin-top: 30px; padding-bottom: 50px;">
-            <button type="submit" form="formTienda" class="shop-btn-gradient" style="width: 100%; height: 65px; border: none; font-size: 16px; letter-spacing: 1px; display: flex; align-items: center; justify-content: center; gap: 12px;">
-                CREAR CUENTA <span class="material-symbols-outlined" style="color: white; margin: 0;">rocket_launch</span>
-            </button>
-            <p style="text-align: center; color: #18181b; font-size: 10px; margin-top: 25px; font-weight: 800;">KM0 BY CORPORACIÓN 360</p>
         </div>
     </div>
-
 </body>
 </html>
