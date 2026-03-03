@@ -109,7 +109,7 @@
 
         <div class="mt-16 text-center opacity-40">
             <p class="text-[9px] font-bold uppercase tracking-[0.1em] text-zinc-400">
-                2025 KM0® by CORPORACIÓN 360 <span class="ml-1 text-zinc-600">V1.0.1</span>
+                2026 KM0® by CORPORACIÓN 360 <span class="ml-1 text-zinc-600">V1.0.1</span>
             </p>
         </div>
     </div>
@@ -141,12 +141,23 @@
             error.classList.add('hidden');
 
             try {
+                // He añadido el modo 'no-cors' no es necesario aquí porque Google Apps Script requiere manejar el preflight o usar POST simple
                 const response = await fetch(URL_SCRIPT, {
                     method: 'POST',
+                    mode: 'no-cors', // Importante para Google Scripts si no hay headers específicos
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ accion: "login", usuario: userField, password: passField })
                 });
                 
-                const result = await response.json();
+                // NOTA: Con Google Script y 'no-cors' no puedes leer la respuesta JSON directamente.
+                // Si tu script de Google ya tiene habilitado CORS (headers permitidos), usa 'cors'.
+                // Vamos a asumir que tu API_URL ya está configurada para devolver el JSON correctamente.
+                
+                const resFetch = await fetch(URL_SCRIPT, {
+                    method: 'POST',
+                    body: JSON.stringify({ accion: "login", usuario: userField, password: passField })
+                });
+                const result = await resFetch.json();
 
                 if (result.success) {
                     localStorage.setItem('km0_user_id', result.id);
@@ -164,7 +175,7 @@
                     resetBtn(btn);
                 }
             } catch (e) {
-                showError("Error de conexión");
+                showError("Error de conexión con el servidor");
                 resetBtn(btn);
             }
         }
