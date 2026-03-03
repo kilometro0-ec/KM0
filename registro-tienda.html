@@ -7,26 +7,46 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #000; color: white; min-height: 100dvh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        input, select { background: #111 !important; border: 1px solid #333 !important; color: white !important; transition: all 0.3s ease; }
-        input:focus, select:focus { border-color: #FF00FF !important; outline: none; box-shadow: 0 0 15px rgba(255, 0, 255, 0.2); }
-        .text-magenta { color: #FF00FF; }
-        .bg-magenta { background-color: #FF00FF; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #000; 
+            color: white; 
+            min-height: 100dvh; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+        }
+        
+        /* Color Fucsia Eléctrico (Fusión Azul + Magenta) */
+        .text-fucsia-neon { color: #FF00FF; text-shadow: 0 0 10px #0066FF; }
+        .bg-fucsia-neon { background: linear-gradient(90deg, #FF00FF 0%, #0066FF 100%); }
+        .border-fucsia-neon { border-color: #FF00FF; box-shadow: 0 0 15px rgba(255, 0, 255, 0.4); }
+
+        input, select { 
+            background: #0a0a0a !important; 
+            border: 1px solid #222 !important; 
+            color: white !important; 
+            transition: all 0.3s ease; 
+        }
+        
+        input:focus, select:focus { 
+            border-color: #FF00FF !important; 
+            outline: none; 
+            box-shadow: 0 0 20px rgba(0, 102, 255, 0.3); 
+        }
+
         .hidden { display: none; }
-        
-        /* Botón deshabilitado */
         button:disabled { opacity: 0.3; cursor: not-allowed; filter: grayscale(1); }
-        
-        /* Mensajes de error en tiempo real */
-        .error-msg { color: #ef4444; font-size: 9px; font-weight: 800; text-transform: uppercase; margin-top: 4px; margin-left: 4px; display: none; }
+        .error-msg { color: #ef4444; font-size: 9px; font-weight: 800; text-transform: uppercase; margin-top: 4px; display: none; }
     </style>
 </head>
 <body class="p-6">
 
     <div id="contenedorForm" class="w-full max-w-[400px]">
         <header class="mb-10 text-center">
-            <h1 class="text-3xl font-black italic text-magenta uppercase tracking-tighter">Registro Tienda</h1>
-            <p class="text-zinc-500 text-[10px] uppercase tracking-[0.3em] mt-2">Seguridad y Validación Estricta</p>
+            <h1 class="text-3xl font-black italic text-fucsia-neon uppercase tracking-tighter">Registro Tienda</h1>
+            <p class="text-zinc-500 text-[10px] uppercase tracking-[0.3em] mt-2">Km0 Motor Integral</p>
         </header>
 
         <form id="formTienda" class="space-y-5">
@@ -43,7 +63,6 @@
             <div>
                 <label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1 ml-1">CI o RUC (Único)</label>
                 <input type="text" id="identificacion" minlength="10" maxlength="13" pattern="[0-9]{10,13}" required class="w-full p-4 rounded-2xl text-sm" placeholder="17XXXXXXXX001">
-                <p id="err-id" class="error-msg text-red-500">Este RUC/Cédula ya está registrado</p>
             </div>
 
             <div class="grid grid-cols-2 gap-4">
@@ -51,31 +70,12 @@
                     <label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1 ml-1">Provincia</label>
                     <select id="provincia" required class="w-full p-4 rounded-2xl text-sm appearance-none">
                         <option value="" disabled selected>Seleccione...</option>
-                        <option value="Azuay">Azuay</option>
-                        <option value="Bolívar">Bolívar</option>
-                        <option value="Cañar">Cañar</option>
-                        <option value="Carchi">Carchi</option>
-                        <option value="Chimborazo">Chimborazo</option>
-                        <option value="Cotopaxi">Cotopaxi</option>
-                        <option value="El Oro">El Oro</option>
-                        <option value="Esmeraldas">Esmeraldas</option>
-                        <option value="Galápagos">Galápagos</option>
-                        <option value="Guayas">Guayas</option>
-                        <option value="Imbabura">Imbabura</option>
-                        <option value="Loja">Loja</option>
-                        <option value="Los Ríos">Los Ríos</option>
-                        <option value="Manabí">Manabí</option>
-                        <option value="Morona Santiago">Morona Santiago</option>
-                        <option value="Napo">Napo</option>
-                        <option value="Orellana">Orellana</option>
-                        <option value="Pastaza">Pastaza</option>
                         <option value="Pichincha">Pichincha</option>
-                        <option value="Santa Elena">Santa Elena</option>
-                        <option value="Santo Domingo">Santo Domingo</option>
-                        <option value="Sucumbíos">Sucumbíos</option>
+                        <option value="Guayas">Guayas</option>
+                        <option value="Azuay">Azuay</option>
+                        <option value="Manabí">Manabí</option>
                         <option value="Tungurahua">Tungurahua</option>
-                        <option value="Zamora Chinchipe">Zamora Chinchipe</option>
-                    </select>
+                        </select>
                 </div>
                 <div>
                     <label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1 ml-1">Ciudad</label>
@@ -86,35 +86,34 @@
             <div>
                 <label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1 ml-1">WhatsApp (+593...)</label>
                 <input type="tel" id="telefono" pattern="^\+593[0-9]{9}$" required class="w-full p-4 rounded-2xl text-sm" placeholder="+593XXXXXXXXX">
-                <p id="err-tel" class="error-msg text-red-500">Este teléfono ya está en uso</p>
             </div>
 
             <div>
                 <label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1 ml-1">Correo Electrónico</label>
                 <input type="email" id="correo" required class="w-full p-4 rounded-2xl text-sm" placeholder="comercio@ejemplo.com">
-                <p id="err-email" class="error-msg text-red-500">Este correo ya está registrado</p>
             </div>
 
-            <button type="submit" id="btnEnviar" disabled class="w-full bg-magenta text-black font-black py-5 rounded-2xl uppercase text-xs tracking-widest active:scale-95 transition-all shadow-lg shadow-magenta/30">
-                Registrar Comercio
+            <button type="submit" id="btnEnviar" disabled class="w-full bg-fucsia-neon text-white font-black py-5 rounded-2xl uppercase text-xs tracking-widest active:scale-95 transition-all shadow-lg">
+                Finalizar Registro
             </button>
         </form>
     </div>
 
     <div id="pantallaExito" class="hidden text-center max-w-[400px]">
         <div class="mb-6 flex justify-center">
-            <div class="w-20 h-20 bg-magenta/10 border-2 border-magenta rounded-full flex items-center justify-center shadow-[0_0_30px_#FF00FF]">
-                <svg class="w-10 h-10 text-magenta" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="w-20 h-20 bg-magenta/10 border-2 border-fucsia-neon rounded-full flex items-center justify-center shadow-[0_0_40px_rgba(255,0,255,0.5)]">
+                <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
                 </svg>
             </div>
         </div>
-        <h2 class="text-3xl font-black uppercase text-white mb-4 italic">¡Registro Exitoso!</h2>
+        <h2 class="text-3xl font-black uppercase text-white mb-4 italic">Solicitud Enviada</h2>
         <p class="text-zinc-400 text-sm leading-relaxed mb-8 px-4">
-            La información fue enviada a <span class="text-magenta font-bold underline">Kilometro 0</span>. Nuestro equipo revisará los datos pronto.
+            Tu tienda ha sido registrada con éxito. Un administrador activará tu cuenta tras validar los datos.
         </p>
-        <button onclick="location.reload()" class="w-full border border-zinc-800 text-zinc-500 font-bold text-[10px] tracking-[0.3em] py-4 rounded-2xl uppercase hover:text-white hover:border-white transition-all">
-            Nuevo Registro
+        
+        <button onclick="window.location.href='index.html'" class="w-full bg-zinc-900 border border-zinc-700 text-white font-bold text-[10px] tracking-[0.3em] py-5 rounded-2xl uppercase hover:bg-white hover:text-black transition-all">
+            Regresar al Inicio
         </button>
     </div>
 
@@ -124,23 +123,20 @@
     const form = document.getElementById('formTienda');
     const btn = document.getElementById('btnEnviar');
 
-    // Validación visual del botón
     form.addEventListener('input', () => {
         const allValid = form.checkValidity();
         btn.disabled = !allValid;
         btn.style.opacity = allValid ? "1" : "0.5";
-        document.querySelectorAll('.error-msg').forEach(el => el.style.display = 'none');
     });
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         btn.disabled = true;
-        btn.innerText = 'CONECTANDO CON KM0...';
+        btn.innerText = 'ENVIANDO DATOS...';
 
-        // Sincronizado exactamente con Script v11.0
         const datos = {
             accion: "registro_tienda",
-            nombre: document.getElementById('nombreTienda').value, // Cambiado de 'tienda' a 'nombre'
+            nombre: document.getElementById('nombreTienda').value,
             representante: document.getElementById('representante').value,
             ruc: document.getElementById('identificacion').value,
             provincia: document.getElementById('provincia').value,
@@ -150,8 +146,6 @@
         };
 
         try {
-            // Usamos 'no-cors' para asegurar que la petición llegue a Google sin bloqueos
-            // Nota: Con no-cors no podemos leer la respuesta JSON, pero si no hay error en el catch, se envió.
             await fetch(URL_SCRIPT, {
                 method: 'POST',
                 mode: 'no-cors', 
@@ -160,16 +154,16 @@
                 body: JSON.stringify(datos)
             });
 
-            // Si llegamos aquí, mostramos éxito
+            // Mostrar pantalla de éxito
             document.getElementById('contenedorForm').classList.add('hidden');
             document.getElementById('pantallaExito').classList.remove('hidden');
             window.scrollTo(0,0);
 
         } catch (error) {
             console.error("Error:", error);
-            alert("SISTEMA OCUPADO: Revisa tu conexión o el Excel de Kilómetro 0.");
+            alert("Error de conexión. Intente nuevamente.");
             btn.disabled = false;
-            btn.innerText = 'REINTENTAR REGISTRO';
+            btn.innerText = 'Finalizar Registro';
         }
     });
 </script>
