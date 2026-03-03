@@ -18,7 +18,8 @@
                         "neutral-dark": "#121923",
                         "status-green": "#22c55e",
                         "status-fuchsia": "#ff00ff",
-                        "status-orange": "#f97316"
+                        "status-orange": "#f97316",
+                        "status-red": "#ef4444"
                     }
                 },
             },
@@ -43,16 +44,16 @@
         </div>
         <div>
             <h1 id="shop-name-display" class="text-sm font-black italic uppercase leading-none text-white">CARGANDO...</h1>
-            <p class="text-[9px] text-primary font-black uppercase tracking-widest leading-none mt-1">Panel Operativo</p>
+            <p class="text-[9px] text-primary font-black uppercase tracking-widest leading-none mt-1">ID: <span id="shop-id-display">--</span></p>
         </div>
     </div>
     
     <div class="flex items-center gap-2">
-        <button onclick="location.href='catalogo-tienda.html'" class="size-10 flex items-center justify-center rounded-full bg-neutral-dark border border-white/10 active:scale-90 transition-transform">
-            <span class="material-symbols-outlined text-primary font-variation-fill">inventory</span>
-        </button>
-        <button onclick="enviarNotif('Sistema KM0', 'Conexión Segura Activa')" class="size-10 flex items-center justify-center rounded-full bg-neutral-dark border border-white/10">
+        <button onclick="enviarNotif('KM0 Cloud', 'Sincronización activa')" class="size-10 flex items-center justify-center rounded-full bg-neutral-dark border border-white/10 active:scale-90">
             <span class="material-symbols-outlined text-primary font-variation-fill">notifications_active</span>
+        </button>
+        <button onclick="cerrarSesion()" class="size-10 flex items-center justify-center rounded-full bg-status-red/10 border border-status-red/30 active:scale-90 transition-all">
+            <span class="material-symbols-outlined text-status-red font-variation-fill">logout</span>
         </button>
     </div>
 </header>
@@ -82,21 +83,18 @@
             <h2 class="text-xs font-black uppercase tracking-widest text-slate-500 italic flex items-center gap-2">
                 <span class="material-symbols-outlined text-status-orange text-sm font-variation-fill">inventory_2</span> Control de Stock
             </h2>
-            <button onclick="location.href='inventario-tienda.html'" class="text-primary text-[9px] font-black uppercase tracking-widest">Gestionar</button>
+            <button onclick="location.href='catalogo-tienda.html'" class="text-primary text-[9px] font-black uppercase tracking-widest">Gestionar</button>
         </div>
 
         <div class="p-4 rounded-2xl bg-neutral-dark border border-white/5 flex items-center justify-between active:scale-[0.98] transition-all">
             <div class="flex items-center gap-4">
                 <div class="size-12 rounded-xl bg-status-orange/10 flex items-center justify-center text-status-orange border border-status-orange/20">
-                    <p id="total-stock-count" class="text-xl font-black">--</p>
+                    <p id="total-stock-count" class="text-xl font-black">0</p>
                 </div>
                 <div>
                     <p class="text-slate-400 text-[10px] font-black uppercase leading-none">Unidades en catálogo</p>
                     <p class="text-[11px] text-white font-bold italic uppercase mt-1">Inventario Activo</p>
                 </div>
-            </div>
-            <div id="badge-stock" class="hidden text-right">
-                <span class="px-2 py-0.5 rounded bg-status-orange text-black text-[10px] font-black italic uppercase">Bajo Stock</span>
             </div>
         </div>
     </div>
@@ -127,29 +125,24 @@
 
 <nav class="fixed bottom-0 left-0 right-0 border-t border-white/5 bg-background-dark/95 backdrop-blur-xl px-2 pb-8 pt-3 z-50">
     <div class="flex justify-around items-center max-w-lg mx-auto relative">
-        
         <a class="flex flex-col items-center gap-1 text-slate-500 hover:text-primary transition-colors" href="dashboard-tienda.html">
             <span class="material-symbols-outlined text-2xl">analytics</span>
             <span class="text-[8px] font-black uppercase">Dashboard</span>
         </a>
-
         <a class="flex flex-col items-center gap-1 text-primary" href="panel-operativo-tienda.html">
             <span class="material-symbols-outlined text-2xl font-variation-fill">grid_view</span>
             <span class="text-[8px] font-black uppercase">Panel</span>
         </a>
-        
         <div class="relative -top-12">
-            <button onclick="location.href='generar-orden-tienda.html'" class="nav-center-btn size-20 bg-primary rounded-full flex flex-col items-center justify-center border-[6px] border-background-dark text-white shadow-2xl active:scale-90 transition-transform">
+            <button onclick="location.href='nuevo-pedido-tienda.html'" class="nav-center-btn size-20 bg-primary rounded-full flex flex-col items-center justify-center border-[6px] border-background-dark text-white shadow-2xl active:scale-90 transition-transform">
                 <span class="material-symbols-outlined text-4xl font-black">add_shopping_cart</span>
                 <span class="text-[7px] font-black uppercase leading-none mt-1">VENDER</span>
             </button>
         </div>
-
         <a class="flex flex-col items-center gap-1 text-slate-500 hover:text-primary transition-colors" href="finanzas-tienda.html">
             <span class="material-symbols-outlined text-2xl">payments</span>
             <span class="text-[8px] font-black uppercase">Finanzas</span>
         </a>
-
         <a class="flex flex-col items-center gap-1 text-slate-500 hover:text-primary transition-colors" href="perfil-tienda.html">
             <span class="material-symbols-outlined text-2xl font-variation-fill">person</span>
             <span class="text-[8px] font-black uppercase">Tienda</span>
@@ -161,40 +154,41 @@
     const URL_MAESTRA = 'https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec';
 
     window.onload = async function() {
-        // 1. Mostrar nombre de la tienda
-        const nombreTienda = localStorage.getItem('tiendaNombre') || "TIENDA PARTNER";
-        document.getElementById('shop-name-display').innerText = nombreTienda;
+        // Cargar identidad desde el localStorage definido en el login
+        const idTienda = localStorage.getItem('km0_user_id');
+        const nombreTienda = localStorage.getItem('km0_user_nombre') || "TIENDA PARTNER";
+        
+        if (!idTienda) {
+            location.href = 'login.html';
+            return;
+        }
 
-        // 2. Cargar Datos reales del Excel
-        await sincronizarDatosPanel();
+        document.getElementById('shop-name-display').innerText = nombreTienda;
+        document.getElementById('shop-id-display').innerText = idTienda;
+
+        await sincronizarDatosPanel(idTienda);
     };
 
-    async function sincronizarDatosPanel() {
-        const idTienda = localStorage.getItem('usuarioId');
-        if (!idTienda) return;
-
+    async function sincronizarDatosPanel(idTienda) {
         try {
-            // Consultamos al script por el resumen del panel
             const resp = await fetch(`${URL_MAESTRA}?accion=obtener_resumen_panel&idTienda=${idTienda}`);
             const data = await resp.json();
 
             if (data.success) {
-                // Actualizar Saldo
                 document.getElementById('monto-finanzas').innerText = `$${data.saldo || '0.00'}`;
-                
-                // Actualizar Contadores
                 document.getElementById('total-stock-count').innerText = data.totalStock || '0';
                 document.getElementById('count-entregados').innerText = data.entregados || '0';
                 document.getElementById('count-novedades').innerText = data.novedades || '0';
-
-                // Mostrar alerta de stock si es necesario
-                if(data.alertasStock > 0) {
-                    document.getElementById('badge-stock').classList.remove('hidden');
-                }
             }
         } catch (e) {
-            console.error("Error al sincronizar datos:", e);
-            // Si falla la conexión, mantenemos los valores en 0 o cargamos los de caché
+            console.error("Error de sincronización:", e);
+        }
+    }
+
+    function cerrarSesion() {
+        if(confirm("¿Desea salir del sistema?")) {
+            localStorage.clear();
+            location.href = 'login.html';
         }
     }
 
