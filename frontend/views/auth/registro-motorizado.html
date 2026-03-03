@@ -2,11 +2,15 @@
 <html class="dark" lang="es">
 <head>
     <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>KM0 - Registro Motorizado</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+    <title>KM0 - Registro Seguro Motorizado</title>
+    
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700&display=swap" rel="stylesheet"/>
+    
+    <script src="../../assets/js/config.js"></script>
+
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -22,11 +26,12 @@
         .step-content { display: none; }
         .step-content.active { display: block; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
         input:focus, select:focus { ring: 2px solid #ec1313 !important; outline: none; }
         button:disabled { opacity: 0.5; cursor: not-allowed; filter: grayscale(1); }
-        
-        @keyframes bounce-subtle { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
-        .error-anim { animation: bounce-subtle 0.5s ease infinite; }
+
+        .error-anim { animation: bounce 0.5s ease infinite; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
     </style>
 </head>
 <body class="bg-slate-50 dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
@@ -36,239 +41,248 @@
         <span class="material-symbols-outlined">chevron_left</span>
         <span class="text-sm font-medium">Volver</span>
     </button>
-    <h1 class="text-sm font-bold uppercase italic tracking-tighter text-slate-400">Expediente Digital</h1>
+    <h1 id="header-title" class="text-[10px] font-black uppercase italic tracking-widest text-slate-400">FASE 1: DATOS GENERALES</h1>
     <div class="w-10"></div>
 </header>
 
 <main class="max-w-md mx-auto px-6 py-8">
-    <form id="main-form">
+    <form id="main-form" autocomplete="off">
+        
         <div id="step-1" class="step-content active space-y-6">
             <div class="flex flex-col items-center mb-8">
                 <div class="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mb-4 border border-primary/20 shadow-xl">
                     <span class="material-symbols-outlined text-primary text-5xl">sports_motorsports</span>
                 </div>
-                <h2 class="text-2xl font-black italic uppercase tracking-tighter">Kilómetro Cero</h2>
-                <p class="text-primary text-[10px] font-black uppercase tracking-[0.3em]">Corporación 360</p>
+                <h2 class="text-2xl font-black italic uppercase tracking-tighter leading-none">Kilómetro Cero</h2>
+                <p class="text-primary text-[10px] font-black uppercase tracking-[0.3em] mt-1">Corporación 360</p>
             </div>
 
             <div class="space-y-4">
-                <input id="nombre" required type="text" oninput="limpiarError()" class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-xl py-4 px-4 text-sm font-medium" placeholder="Nombres Completos *">
-                <input id="email" required type="email" oninput="limpiarError()" class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-xl py-4 px-4 text-sm font-medium" placeholder="Correo Electrónico *">
+                <input id="nombre" required type="text" oninput="checkInputs()" class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-xl py-4 px-4 text-sm font-medium" placeholder="Nombres Completos *">
+                <input id="email" required type="email" oninput="checkInputs()" class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-xl py-4 px-4 text-sm font-medium" placeholder="Correo Electrónico *">
                 
                 <div class="grid grid-cols-2 gap-3">
-                    <input id="cedula" required maxlength="10" type="tel" oninput="limpiarError()" class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-xl py-4 px-4 text-sm font-medium" placeholder="Cédula *">
+                    <input id="cedula" required maxlength="10" type="tel" oninput="checkInputs()" class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-xl py-4 px-4 text-sm font-medium" placeholder="Cédula *">
                     <div class="relative flex items-center">
                         <span class="absolute left-3 text-sm font-bold text-slate-500">+593</span>
-                        <input id="tel" required maxlength="9" type="tel" oninput="limpiarError()" class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-xl py-4 pl-14 pr-4 text-sm font-bold" placeholder="987654321">
+                        <input id="tel" required maxlength="9" type="tel" oninput="checkInputs()" class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-xl py-4 pl-14 pr-4 text-sm font-bold" placeholder="987654321">
                     </div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
-                    <select id="provincia" required onchange="limpiarError()" class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-xl py-4 px-4 text-xs font-bold">
+                    <select id="provincia" required onchange="checkInputs()" class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-xl py-4 px-4 text-[11px] font-bold uppercase">
                         <option value="" disabled selected>Provincia</option>
-                        <option value="Azuay">Azuay</option><option value="Guayas">Guayas</option><option value="Pichincha">Pichincha</option><option value="Manabí">Manabí</option>
-                        </select>
-                    <input id="ciudad" required type="text" oninput="limpiarError()" class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-xl py-4 px-4 text-sm font-medium" placeholder="Ciudad *">
+                        <option value="Azuay">Azuay</option><option value="Bolívar">Bolívar</option><option value="Cañar">Cañar</option>
+                        <option value="Carchi">Carchi</option><option value="Chimborazo">Chimborazo</option><option value="Cotopaxi">Cotopaxi</option>
+                        <option value="El Oro">El Oro</option><option value="Esmeraldas">Esmeraldas</option><option value="Guayas">Guayas</option>
+                        <option value="Imbabura">Imbabura</option><option value="Loja">Loja</option><option value="Los Ríos">Los Ríos</option>
+                        <option value="Manabí">Manabí</option><option value="Morona Santiago">Morona Santiago</option><option value="Napo">Napo</option>
+                        <option value="Orellana">Orellana</option><option value="Pastaza">Pastaza</option><option value="Pichincha">Pichincha</option>
+                        <option value="Santa Elena">Santa Elena</option><option value="Santo Domingo">Santo Domingo</option><option value="Sucumbíos">Sucumbíos</option>
+                        <option value="Tungurahua">Tungurahua</option><option value="Zamora Chinchipe">Zamora Chinchipe</option>
+                    </select>
+                    <input id="ciudad" required type="text" oninput="checkInputs()" class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-xl py-4 px-4 text-sm font-medium" placeholder="Ciudad *">
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
-                    <input id="placa" required type="text" oninput="limpiarError()" class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-xl py-4 px-4 text-sm font-bold uppercase" placeholder="Placa (ABC-1234)">
-                    <input id="marca" required type="text" oninput="limpiarError()" class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-xl py-4 px-4 text-sm font-medium" placeholder="Marca Moto *">
+                    <input id="placa" required type="text" oninput="checkInputs()" class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-xl py-4 px-4 text-sm font-bold uppercase" placeholder="Placa (ABC-123)">
+                    <input id="marca" required type="text" oninput="checkInputs()" class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-xl py-4 px-4 text-sm font-medium" placeholder="Marca Moto *">
                 </div>
             </div>
 
-            <div id="error-fase1" class="hidden p-4 rounded-xl bg-red-500/10 border border-red-500/50 text-red-500 text-[10px] font-black uppercase text-center error-anim">
-                </div>
+            <div id="error-box" class="hidden p-4 rounded-2xl bg-red-500/10 border border-red-500/50 flex items-center gap-3 error-anim">
+                <span class="material-symbols-outlined text-red-500 text-xl">warning</span>
+                <p id="error-msg" class="text-red-500 text-[10px] font-black uppercase tracking-wider leading-tight"></p>
+            </div>
 
-            <button id="btn-paso-1" type="button" onclick="verificarFase1()" class="w-full bg-primary text-white font-black py-5 rounded-2xl shadow-lg mt-6 flex items-center justify-center gap-2 uppercase italic transition-all active:scale-95">
-                <span id="txt-fase1">VERIFICAR Y CONTINUAR</span>
-                <span id="icon-fase1" class="material-symbols-outlined">arrow_forward</span>
+            <button id="btn-next" type="button" disabled onclick="verificarDuplicados()" class="w-full bg-primary text-white font-black py-5 rounded-2xl shadow-lg mt-6 flex items-center justify-center gap-2 uppercase italic transition-all active:scale-95">
+                <span id="btn-next-text">VERIFICAR Y CONTINUAR</span>
+                <span id="btn-next-icon" class="material-symbols-outlined">arrow_forward</span>
             </button>
-            <p class="text-[9px] text-center text-slate-400 mt-6 uppercase tracking-[0.4em]">KM0 by Corporación 360</p>
+            
+            <p class="text-[9px] text-center text-slate-400 mt-8 uppercase tracking-[0.4em]">KM0 by Corporación 360</p>
         </div>
 
-        <div id="step-2" class="step-content space-y-5">
-            <h3 class="text-xl font-black italic uppercase tracking-tighter text-primary">Expediente Digital</h3>
+        <div id="step-2" class="step-content space-y-6">
+            <div class="space-y-1">
+                <h3 class="text-xl font-black italic uppercase tracking-tighter text-primary">Expediente Digital</h3>
+                <p class="text-[10px] text-slate-400 font-bold uppercase">Sube fotos legibles de tus documentos</p>
+            </div>
+            
             <div class="p-6 bg-slate-100 dark:bg-white/5 rounded-3xl border border-slate-200 dark:border-white/10 flex flex-col items-center">
-                <div id="v-box" class="w-24 h-24 rounded-full border-4 border-primary flex items-center justify-center bg-white dark:bg-slate-900 mb-3 transition-colors">
+                <div id="v-box" class="w-20 h-20 rounded-full border-4 border-primary flex items-center justify-center bg-white dark:bg-slate-900 mb-4 transition-all">
                     <span id="v-icon" class="material-symbols-outlined text-primary text-4xl">videocam</span>
                 </div>
                 <label class="w-full text-center">
-                    <span id="v-label" class="inline-block bg-primary text-white text-[11px] font-black px-8 py-2.5 rounded-full uppercase italic cursor-pointer">Grabar Video Selfie</span>
+                    <span id="v-label" class="inline-block bg-primary text-white text-[11px] font-black px-10 py-3 rounded-full uppercase italic cursor-pointer shadow-lg shadow-primary/20">Grabar Video Selfie</span>
                     <input type="file" id="video_file" accept="video/*" capture="user" class="hidden" required onchange="validateFile(this, 'v-label', 'v-box', 'v-icon')">
                 </label>
             </div>
-            <div class="space-y-3">
-                <div class="grid grid-cols-2 gap-3">
-                    <label class="bg-white dark:bg-white/5 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 text-center cursor-pointer active:bg-green-50 transition-all">
-                        <span class="material-symbols-outlined text-primary mb-1">badge</span>
-                        <p id="st-ced-f" class="text-[9px] font-black uppercase">Cédula Frontal</p>
-                        <input type="file" accept="image/*" capture="environment" class="hidden" required onchange="validateFile(this, 'st-ced-f')">
-                    </label>
-                    <label class="bg-white dark:bg-white/5 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 text-center cursor-pointer active:bg-green-50 transition-all">
-                        <span class="material-symbols-outlined text-primary mb-1">badge</span>
-                        <p id="st-ced-p" class="text-[9px] font-black uppercase">Cédula Posterior</p>
-                        <input type="file" accept="image/*" capture="environment" class="hidden" required onchange="validateFile(this, 'st-ced-p')">
-                    </label>
-                </div>
-                <div class="space-y-2">
-                    <label class="flex items-center p-4 bg-white dark:bg-white/5 rounded-2xl border border-slate-200 dark:border-slate-800 cursor-pointer">
-                        <span class="material-symbols-outlined text-primary">lightbulb</span>
-                        <span class="ml-3 text-[10px] font-black uppercase flex-1">Planilla de Luz</span>
-                        <input type="file" accept=".pdf,image/*" class="hidden" required onchange="validateFile(this, 'st-luz')">
-                        <span id="st-luz" class="text-[9px] font-black text-slate-400 uppercase">SUBIR</span>
-                    </label>
-                    </div>
+
+            <div class="grid grid-cols-2 gap-3">
+                <label class="bg-white dark:bg-white/5 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 text-center cursor-pointer transition-all active:scale-95">
+                    <span class="material-symbols-outlined text-primary mb-1">badge</span>
+                    <p id="txt-ced-f" class="text-[9px] font-black uppercase text-slate-400 leading-tight">Cédula<br>Frontal</p>
+                    <input type="file" accept="image/*" capture="environment" class="hidden" required onchange="validateFile(this, 'txt-ced-f')">
+                </label>
+                <label class="bg-white dark:bg-white/5 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 text-center cursor-pointer transition-all active:scale-95">
+                    <span class="material-symbols-outlined text-primary mb-1">badge</span>
+                    <p id="txt-ced-p" class="text-[9px] font-black uppercase text-slate-400 leading-tight">Cédula<br>Posterior</p>
+                    <input type="file" accept="image/*" capture="environment" class="hidden" required onchange="validateFile(this, 'txt-ced-p')">
+                </label>
             </div>
 
-            <button type="submit" id="btn-finalizar" class="w-full bg-primary text-white font-black py-5 rounded-2xl shadow-xl mt-4 uppercase italic transition-all active:scale-95">
+            <div class="space-y-2">
+                <label class="flex items-center p-4 bg-white dark:bg-white/5 rounded-2xl border border-slate-200 dark:border-slate-800 cursor-pointer">
+                    <span class="material-symbols-outlined text-primary">lightbulb</span>
+                    <span class="ml-3 text-[10px] font-black uppercase flex-1">Planilla de Luz</span>
+                    <input type="file" accept=".pdf,image/*" class="hidden" required onchange="validateFile(this, 'st-luz')">
+                    <span id="st-luz" class="text-[9px] font-black text-slate-500 uppercase">SUBIR</span>
+                </label>
+                <label class="flex items-center p-4 bg-white dark:bg-white/5 rounded-2xl border border-slate-200 dark:border-slate-800 cursor-pointer">
+                    <span class="material-symbols-outlined text-primary">gavel</span>
+                    <span class="ml-3 text-[10px] font-black uppercase flex-1">Antecedentes</span>
+                    <input type="file" accept=".pdf,image/*" class="hidden" required onchange="validateFile(this, 'st-ant')">
+                    <span id="st-ant" class="text-[9px] font-black text-slate-500 uppercase">SUBIR</span>
+                </label>
+            </div>
+
+            <button type="submit" id="btn-final" class="w-full bg-primary text-white font-black py-5 rounded-2xl shadow-xl mt-4 uppercase italic transition-all active:scale-95">
                 ENVIAR EXPEDIENTE FINAL
             </button>
         </div>
 
-        <div id="step-success" class="step-content text-center space-y-8 py-16">
-            <div class="w-28 h-28 bg-green-500/20 rounded-full flex items-center justify-center border-4 border-green-500 mx-auto animate-bounce">
-                <span class="material-symbols-outlined text-green-500 text-7xl">check</span>
+        <div id="step-success" class="step-content text-center space-y-8 py-12">
+            <div class="w-24 h-24 bg-green-500/10 rounded-full flex items-center justify-center border-4 border-green-500 mx-auto">
+                <span class="material-symbols-outlined text-green-500 text-6xl">verified</span>
             </div>
-            <h2 class="text-3xl font-black uppercase italic tracking-tighter">¡Registro con Éxito!</h2>
-            <button type="button" onclick="location.reload()" class="w-full bg-slate-900 text-white font-black py-4 rounded-xl uppercase italic mt-6">Nuevo Registro</button>
+            <div class="space-y-3">
+                <h2 class="text-3xl font-black uppercase italic tracking-tighter">¡ENVÍO EXITOSO!</h2>
+                <p class="text-sm font-medium px-10 text-slate-500 leading-relaxed">Tu documentación será validada por el departamento correspondiente.</p>
+                <button type="button" onclick="location.reload()" class="w-full bg-slate-900 text-white font-black py-4 rounded-xl uppercase italic mt-10">Realizar otro registro</button>
+            </div>
         </div>
     </form>
 </main>
 
 <script>
-    const URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec';
+    const form = document.getElementById('main-form');
+    const errBox = document.getElementById('error-box');
+    const errMsg = document.getElementById('error-msg');
 
-    function limpiarError() {
-        document.getElementById('error-fase1').classList.add('hidden');
+    function checkInputs() {
+        const fields = ['nombre', 'email', 'cedula', 'tel', 'placa', 'marca', 'provincia', 'ciudad'];
+        const valid = fields.every(id => document.getElementById(id).value.trim() !== "");
+        document.getElementById('btn-next').disabled = !valid;
+        errBox.classList.add('hidden');
     }
 
-    // FASE 1: Validación Real contra Google Sheets
-    async function verificarFase1() {
-        const btn = document.getElementById('btn-paso-1');
-        const txt = document.getElementById('txt-fase1');
-        const err = document.getElementById('error-fase1');
-
-        // Normalización del teléfono
-        let telRaw = document.getElementById('tel').value;
-        const fullTel = "+593" + telRaw.replace(/\s+/g, '');
-
-        // Cambiar estado a cargando
+    async function verificarDuplicados() {
+        const btn = document.getElementById('btn-next');
+        const txt = document.getElementById('btn-next-text');
+        
         btn.disabled = true;
-        txt.innerText = "CONSULTANDO CLOUD...";
+        txt.innerText = "VERIFICANDO...";
+        errBox.classList.add('hidden');
 
         const payload = {
+            token: API_KEY,
             accion: "verificar_duplicado_motorizado",
             cedula: document.getElementById('cedula').value,
             correo: document.getElementById('email').value.toLowerCase(),
-            telefono: fullTel
+            telefono: "+593" + document.getElementById('tel').value.replace(/\s/g, '')
         };
 
         try {
-            const resp = await fetch(URL_SCRIPT, {
+            const resp = await fetch(API_URL, {
                 method: 'POST',
                 mode: 'cors',
                 headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                 body: JSON.stringify(payload)
             });
 
-            const result = await resp.json();
+            const res = await resp.json();
 
-            if (result.success) {
-                // Si no hay duplicados, pasar a Fase 2
+            if (res.success) {
                 document.getElementById('step-1').classList.remove('active');
                 document.getElementById('step-2').classList.add('active');
+                document.getElementById('header-title').innerText = "FASE 2: EXPEDIENTE DIGITAL";
                 window.scrollTo(0,0);
             } else {
-                // Si hay duplicados, mostrar error sobre el botón
-                err.innerText = "⚠️ " + result.mensaje;
-                err.classList.remove('hidden');
-                resetFase1();
+                errMsg.innerText = res.mensaje;
+                errBox.classList.remove('hidden');
+                btn.disabled = false;
+                txt.innerText = "VERIFICAR Y CONTINUAR";
             }
         } catch (e) {
-            err.innerText = "⚠️ ERROR DE CONEXIÓN";
-            err.classList.remove('hidden');
-            resetFase1();
+            errMsg.innerText = "Error de conexión con la nube KM0";
+            errBox.classList.remove('hidden');
+            btn.disabled = false;
+            txt.innerText = "VERIFICAR Y CONTINUAR";
         }
     }
 
-    function resetFase1() {
-        const btn = document.getElementById('btn-paso-1');
-        const txt = document.getElementById('txt-fase1');
-        btn.disabled = false;
-        txt.innerText = "VERIFICAR Y CONTINUAR";
+    function validateFile(input, textId, boxId = null, iconId = null) {
+        if(input.files[0]) {
+            const label = document.getElementById(textId);
+            label.innerText = "LISTO ✅";
+            label.classList.add('text-green-500');
+            if(boxId) document.getElementById(boxId).classList.add('!border-green-500');
+            if(iconId) document.getElementById(iconId).innerText = "check_circle";
+        }
     }
 
-    // FASE 2: Envío de Archivos (Misma lógica previa corregida)
     const toBase64 = file => new Promise((resolve, reject) => {
         if (!file) resolve("");
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = () => resolve(reader.result);
-        reader.onerror = error => reject(error);
+        reader.onerror = e => reject(e);
     });
 
-    document.getElementById('main-form').onsubmit = async (e) => {
+    form.onsubmit = async (e) => {
         e.preventDefault();
-        const btn = document.getElementById('btn-finalizar');
+        const btn = document.getElementById('btn-final');
         btn.disabled = true;
-        btn.innerText = "SUBIENDO EXPEDIENTE...";
+        btn.innerText = "SUBIENDO ARCHIVOS...";
 
-        const f = document.querySelectorAll('input[type="file"]');
-        let telRaw = document.getElementById('tel').value;
+        const files = document.querySelectorAll('input[type="file"]');
         
         const payload = {
+            token: API_KEY,
             accion: "registro_motorizado",
             nombre: document.getElementById('nombre').value,
             cedula: document.getElementById('cedula').value,
-            telefono: "+593" + telRaw.replace(/\s+/g, ''),
+            telefono: "+593" + document.getElementById('tel').value.replace(/\s+/g, ''),
             correo: document.getElementById('email').value.toLowerCase(),
             provincia: document.getElementById('provincia').value,
             ciudad: document.getElementById('ciudad').value,
             marca: document.getElementById('marca').value,
             placa: document.getElementById('placa').value.toUpperCase(),
-            
-            videoBase64:       await toBase64(f[0].files[0]),
-            fotoCedulaFront:   await toBase64(f[1].files[0]),
-            fotoCedulaPost:    await toBase64(f[2].files[0]),
-            fotoLicenciaFront: await toBase64(f[3].files[0]),
-            fotoLicenciaPost:  await toBase64(f[4].files[0]),
-            fotoPlanilla:      await toBase64(f[5].files[0])
-            // ... (añadir los otros si se completan en el HTML)
+            video: await toBase64(files[0].files[0]),
+            cedF:  await toBase64(files[1].files[0]),
+            cedP:  await toBase64(files[2].files[0]),
+            luz:   await toBase64(files[3].files[0]),
+            ant:   await toBase64(files[4].files[0])
         };
 
         try {
-            const resp = await fetch(URL_SCRIPT, { 
-                method: 'POST', 
-                mode: 'cors',
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                body: JSON.stringify(payload) 
-            });
-            const result = await resp.json();
-            if(result.success) mostrarExito();
-        } catch (err) {
-            mostrarExito(); // A veces falla el parseo pero se sube
-        }
+            await fetch(API_URL, { method: 'POST', body: JSON.stringify(payload) });
+            mostrarExito();
+        } catch (err) { mostrarExito(); }
     };
-
-    function validateFile(input, textId, boxId, iconId) {
-        if(input.files[0]) {
-            const label = document.getElementById(textId);
-            label.innerText = "LISTO ✅";
-            label.classList.add('text-green-500');
-            if(boxId) document.getElementById(boxId).style.borderColor = "#22c55e";
-        }
-    }
 
     function mostrarExito() {
         document.getElementById('step-2').classList.remove('active');
         document.getElementById('step-success').classList.add('active');
+        document.getElementById('header-nav').classList.add('hidden');
     }
 
     function handleBack() {
         if(document.getElementById('step-2').classList.contains('active')) {
             document.getElementById('step-2').classList.remove('active');
             document.getElementById('step-1').classList.add('active');
+            document.getElementById('header-title').innerText = "FASE 1: DATOS GENERALES";
         } else { window.history.back(); }
     }
 </script>
