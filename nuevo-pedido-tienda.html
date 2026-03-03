@@ -4,7 +4,7 @@
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>Nuevo Pedido - Kilómetro Cero</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <script id="tailwind-config">
@@ -13,125 +13,113 @@
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#137fec", // Azul Eléctrico
-                        "background-light": "#f8faff",
+                        "primary": "#137fec",
                         "background-dark": "#0a0f16",
-                    },
-                    fontFamily: {
-                        "display": ["Inter"]
+                        "neutral-dark": "#121923",
                     }
                 },
             },
         }
     </script>
     <style>
-        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Inter', sans-serif; background-color: #0a0f16; color: white; -webkit-tap-highlight-color: transparent; }
         .ios-blur { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
-        select { -webkit-appearance: none; appearance: none; }
+        input:focus, select:focus { border-color: #137fec !important; box-shadow: 0 0 0 2px rgba(19, 127, 236, 0.2); }
+        select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23137fec'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1rem center; background-size: 1.5em; }
     </style>
 </head>
-<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen font-display">
+<body class="min-h-screen flex flex-col">
 
-<header class="sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 ios-blur border-b border-primary/10">
+<header class="sticky top-0 z-50 bg-background-dark/80 ios-blur border-b border-white/5">
     <div class="flex items-center p-4 justify-between max-w-md mx-auto">
         <button onclick="window.location.href='panel-operativo-tienda.html'" class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-primary/10 transition-colors">
-            <span class="material-symbols-outlined text-slate-900 dark:text-slate-100">arrow_back_ios_new</span>
+            <span class="material-symbols-outlined text-white">arrow_back_ios_new</span>
         </button>
-        <h1 class="text-lg font-black italic uppercase tracking-tight text-center flex-1">Nuevo Pedido</h1>
+        <h1 class="text-lg font-black italic uppercase tracking-tight text-center flex-1">Generar Venta</h1>
         <div class="w-10"></div>
     </div>
 </header>
 
-<main class="max-w-md mx-auto px-4 py-6 pb-40">
-    <div class="mb-6">
-        <h2 class="text-[10px] font-black uppercase tracking-[0.2em] text-primary mb-1">Kilómetro Cero - Logística</h2>
-        <p class="text-xs text-slate-500 dark:text-slate-400">Genera guías de envío en tiempo real.</p>
+<main class="max-w-md mx-auto w-full px-4 py-6 pb-40">
+    <div class="mb-8">
+        <h2 class="text-[10px] font-black uppercase tracking-[0.2em] text-primary mb-1 italic">KM0 Logistic Engine</h2>
+        <p class="text-xs text-slate-400 font-medium">Completa los datos para despachar tu pedido.</p>
     </div>
 
-    <form id="orderForm" class="space-y-6">
+    <form id="orderForm" class="space-y-8">
         <section class="space-y-4">
-            <div class="flex items-center gap-2 mb-2">
+            <div class="flex items-center gap-2 mb-2 border-l-2 border-primary pl-3">
                 <span class="material-symbols-outlined text-primary text-sm font-variation-fill">person</span>
-                <h3 class="text-xs font-black uppercase tracking-widest text-slate-400">Datos del Cliente</h3>
+                <h3 class="text-[11px] font-black uppercase tracking-widest text-slate-400">Destinatario</h3>
             </div>
             
             <div class="space-y-1">
-                <label class="block text-[10px] font-black text-slate-500 uppercase ml-1">Nombre Completo</label>
-                <input required class="w-full bg-slate-100 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-xl px-4 py-3.5 focus:ring-2 focus:ring-primary outline-none text-sm transition-all" placeholder="Juan Pérez" type="text"/>
+                <label class="block text-[9px] font-black text-slate-500 uppercase ml-1">Nombre del Cliente</label>
+                <input id="cliente-nombre" required class="w-full bg-neutral-dark border border-white/10 rounded-xl px-4 py-3.5 outline-none text-sm text-white placeholder:text-slate-600 transition-all" placeholder="Ej: Maria García" type="text"/>
             </div>
 
             <div class="space-y-1">
-                <label class="block text-[10px] font-black text-slate-500 uppercase ml-1">Teléfono (Sin el 0 inicial)</label>
+                <label class="block text-[9px] font-black text-slate-500 uppercase ml-1">WhatsApp de contacto</label>
                 <div class="relative">
-                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm font-bold border-r border-slate-300 dark:border-slate-700 pr-2">+593</span>
-                    <input required id="telefono" maxlength="9" class="w-full bg-slate-100 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-xl pl-20 pr-4 py-3.5 focus:ring-2 focus:ring-primary outline-none text-sm transition-all" placeholder="987654321" type="tel"/>
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm font-bold border-r border-white/10 pr-2">+593</span>
+                    <input required id="telefono" maxlength="9" class="w-full bg-neutral-dark border border-white/10 rounded-xl pl-20 pr-4 py-3.5 outline-none text-sm text-white placeholder:text-slate-600 transition-all" placeholder="987654321" type="tel"/>
                 </div>
-                <p class="text-[9px] text-primary italic mt-1 font-bold">* Ejemplo: 987654321</p>
             </div>
         </section>
 
-        <hr class="border-white/5 my-6"/>
-
         <section class="space-y-4">
-            <div class="flex items-center gap-2 mb-2">
+            <div class="flex items-center gap-2 mb-2 border-l-2 border-primary pl-3">
                 <span class="material-symbols-outlined text-primary text-sm font-variation-fill">location_on</span>
-                <h3 class="text-xs font-black uppercase tracking-widest text-slate-400">Detalles de Entrega</h3>
+                <h3 class="text-[11px] font-black uppercase tracking-widest text-slate-400">Logística de Envío</h3>
             </div>
             
             <div class="space-y-1">
-                <label class="block text-[10px] font-black text-slate-500 uppercase ml-1">Sector</label>
-                <div class="relative">
-                    <select required class="w-full bg-slate-100 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-xl px-4 py-3.5 focus:ring-2 focus:ring-primary outline-none text-sm text-slate-300">
-                        <option value="" disabled selected>Seleccione sector...</option>
-                        <option value="norte">Norte de Quito</option>
-                        <option value="centro">Centro de Quito</option>
-                        <option value="sur">Sur de Quito</option>
-                        <option value="valles">Valles</option>
-                    </select>
-                    <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-primary">unfold_more</span>
-                </div>
+                <label class="block text-[9px] font-black text-slate-500 uppercase ml-1">Sector de entrega</label>
+                <select id="sector" required class="w-full bg-neutral-dark border border-white/10 rounded-xl px-4 py-3.5 outline-none text-sm text-white transition-all">
+                    <option value="" disabled selected>Seleccione zona...</option>
+                    <option value="NORTE">Norte de Quito</option>
+                    <option value="CENTRO">Centro de Quito</option>
+                    <option value="SUR">Sur de Quito</option>
+                    <option value="VALLES">Valles</option>
+                </select>
             </div>
 
             <div class="space-y-1">
-                <label class="block text-[10px] font-black text-slate-500 uppercase ml-1">Dirección Exacta</label>
-                <input required class="w-full bg-slate-100 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-xl px-4 py-3.5 focus:ring-2 focus:ring-primary outline-none text-sm transition-all" placeholder="Calle, Nro de casa y referencia" type="text"/>
+                <label class="block text-[9px] font-black text-slate-500 uppercase ml-1">Dirección Detallada</label>
+                <textarea id="direccion" required rows="2" class="w-full bg-neutral-dark border border-white/10 rounded-xl px-4 py-3.5 outline-none text-sm text-white placeholder:text-slate-600 transition-all" placeholder="Calle principal, número y referencia de casa..."></textarea>
             </div>
         </section>
 
-        <hr class="border-white/5 my-6"/>
-
         <section class="space-y-4">
-            <div class="flex items-center gap-2 mb-2">
-                <span class="material-symbols-outlined text-primary text-sm font-variation-fill">inventory_2</span>
-                <h3 class="text-xs font-black uppercase tracking-widest text-slate-400">Selección de Producto</h3>
+            <div class="flex items-center gap-2 mb-2 border-l-2 border-primary pl-3">
+                <span class="material-symbols-outlined text-primary text-sm font-variation-fill">shopping_bag</span>
+                <h3 class="text-[11px] font-black uppercase tracking-widest text-slate-400">Detalle del Producto</h3>
             </div>
             
             <div class="space-y-1">
-                <label class="block text-[10px] font-black text-slate-500 uppercase ml-1">Producto</label>
-                <div class="relative">
-                    <select id="producto-select" required class="w-full bg-slate-100 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-xl px-4 py-3.5 focus:ring-2 focus:ring-primary outline-none text-sm">
-                        <option value="" disabled selected>Buscando inventario...</option>
-                        </select>
-                    <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-primary">local_mall</span>
-                </div>
+                <label class="block text-[9px] font-black text-slate-500 uppercase ml-1">Seleccionar de Inventario</label>
+                <select id="producto-select" required class="w-full bg-neutral-dark border border-white/10 rounded-xl px-4 py-3.5 outline-none text-sm text-white transition-all">
+                    <option value="" disabled selected>Cargando productos...</option>
+                </select>
             </div>
 
             <div class="space-y-1">
-                <label class="block text-[10px] font-black text-slate-500 uppercase ml-1">Valor a Cobrar (Efectivo)</label>
+                <label class="block text-[9px] font-black text-slate-500 uppercase ml-1">Valor Total a Cobrar</label>
                 <div class="relative">
-                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-primary font-black">$</span>
-                    <input required class="w-full bg-slate-100 dark:bg-primary/5 border border-slate-200 dark:border-primary/20 rounded-xl pl-8 pr-4 py-4 focus:ring-2 focus:ring-primary outline-none font-black text-xl text-white" placeholder="0.00" step="0.01" type="number"/>
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-primary font-black text-xl">$</span>
+                    <input id="precio-final" required class="w-full bg-primary/10 border-2 border-primary/30 rounded-xl pl-10 pr-4 py-4 outline-none font-black text-2xl text-white transition-all" placeholder="0.00" step="0.01" type="number"/>
                 </div>
+                <p class="text-[10px] text-slate-500 mt-2 italic">* Este monto es el que el motorizado cobrará en efectivo.</p>
             </div>
         </section>
     </form>
 </main>
 
-<div class="fixed bottom-0 left-0 right-0 p-4 bg-background-dark/80 backdrop-blur-xl border-t border-white/5">
+<div class="fixed bottom-0 left-0 right-0 p-4 bg-background-dark/90 backdrop-blur-xl border-t border-white/5 z-50">
     <div class="max-w-md mx-auto">
-        <button type="submit" form="orderForm" class="w-full bg-primary hover:brightness-110 text-white font-black py-4 rounded-2xl shadow-[0_0_25px_rgba(19,127,236,0.3)] active:scale-[0.98] transition-all flex items-center justify-center gap-3 text-sm italic uppercase tracking-widest">
-            <span class="material-symbols-outlined">send_and_archive</span>
-            Confirmar Pedido
+        <button id="btnConfirmar" onclick="enviarPedido()" class="w-full bg-primary hover:brightness-110 text-white font-black py-4 rounded-2xl shadow-[0_10px_30px_rgba(19,127,236,0.3)] active:scale-[0.97] transition-all flex items-center justify-center gap-3 text-sm italic uppercase tracking-widest">
+            <span class="material-symbols-outlined font-bold">local_shipping</span>
+            Confirmar Despacho
         </button>
     </div>
 </div>
@@ -139,35 +127,88 @@
 <script>
     const URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec';
 
+    // 1. CARGA REAL DE PRODUCTOS
     async function cargarInventario() {
         try {
-            const resp = await fetch(URL_SCRIPT);
+            const idTienda = localStorage.getItem('usuarioId');
+            // Consultamos al script por la lista de productos
+            const resp = await fetch(`${URL_SCRIPT}?accion=obtener_productos&idTienda=${idTienda}`);
             const data = await resp.json();
             const select = document.getElementById('producto-select');
             
-            // Limpiar el select
-            select.innerHTML = '<option value="" disabled selected>Seleccione un producto...</option>';
+            select.innerHTML = '<option value="" disabled selected>Selecciona un producto...</option>';
             
-            // Simulación de carga (esto debería venir de una hoja de "Inventario" en tu Excel)
-            // Si no tienes hoja de inventario aún, podemos usar los productos activos.
-            const productosEjemplo = ["Casco Integral", "Aceite 4T 20W50", "Kit de Arrastre", "Guantes Pro"];
-            
-            productosEjemplo.forEach(prod => {
-                const opt = document.createElement('option');
-                opt.value = prod.toLowerCase();
-                opt.innerText = prod;
-                select.appendChild(opt);
+            if (data.productos && data.productos.length > 0) {
+                data.productos.forEach(prod => {
+                    const opt = document.createElement('option');
+                    opt.value = prod.nombre;
+                    opt.dataset.precio = prod.precio;
+                    opt.innerText = `${prod.nombre} - Stock: ${prod.stock}`;
+                    select.appendChild(opt);
+                });
+            } else {
+                select.innerHTML = '<option value="" disabled italic>Sin productos en stock</option>';
+            }
+
+            // Autocompletar precio al seleccionar
+            select.addEventListener('change', (e) => {
+                const selected = e.target.options[e.target.selectedIndex];
+                document.getElementById('precio-final').value = selected.dataset.precio || "";
             });
+
         } catch (e) {
-            console.error("Error al cargar productos");
+            console.error("Error cargando productos:", e);
         }
     }
 
-    // Validación para no permitir el '0' al inicio en teléfono
-    document.getElementById('telefono').addEventListener('input', function(e) {
-        if (this.value.startsWith('0')) {
-            this.value = this.value.substring(1);
+    // 2. ENVÍO DE LA ORDEN
+    async function enviarPedido() {
+        const btn = document.getElementById('btnConfirmar');
+        const idTienda = localStorage.getItem('usuarioId');
+        
+        // Captura de datos
+        const datos = {
+            accion: 'crear_pedido',
+            idTienda: idTienda,
+            cliente: document.getElementById('cliente-nombre').value,
+            telefono: document.getElementById('telefono').value,
+            sector: document.getElementById('sector').value,
+            direccion: document.getElementById('direccion').value,
+            producto: document.getElementById('producto-select').value,
+            monto: document.getElementById('precio-final').value
+        };
+
+        // Validación básica
+        if(!datos.cliente || !datos.producto || !datos.direccion || !datos.monto) {
+            alert("⚠️ Por favor, completa todos los campos.");
+            return;
         }
+
+        btn.disabled = true;
+        btn.innerHTML = `<span class="material-symbols-outlined animate-spin">sync</span> PROCESANDO...`;
+
+        try {
+            // Envío al Script Maestro
+            await fetch(URL_SCRIPT, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: JSON.stringify(datos)
+            });
+            
+            // Éxito
+            alert("✅ ¡PEDIDO GENERADO! El motorizado ha sido notificado.");
+            window.location.href = 'panel-operativo-tienda.html';
+            
+        } catch (e) {
+            alert("❌ Error de conexión. Intenta de nuevo.");
+            btn.disabled = false;
+            btn.innerHTML = `<span class="material-symbols-outlined">local_shipping</span> Confirmar Despacho`;
+        }
+    }
+
+    // Limitar teléfono
+    document.getElementById('telefono').addEventListener('input', function() {
+        if (this.value.startsWith('0')) this.value = this.value.substring(1);
     });
 
     window.onload = cargarInventario;
