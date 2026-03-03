@@ -11,111 +11,104 @@
             theme: {
                 extend: {
                     colors: {
-                        'electric-blue': '#0070FF',
-                        'neon-fuchsia': '#FF00E5',
-                        'deep-space': '#05070A'
+                        'neon-green': '#39FF14',
+                        'neon-orange': '#FF6B00',
+                        'dark-void': '#080808'
                     }
                 }
             }
         }
     </script>
     <style>
-        body { background: #05070A; color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        body { background: #080808; color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
         
-        /* Efectos de Gradiente y Texto */
-        .text-gradient {
-            background: linear-gradient(135deg, #0070FF 0%, #FF00E5 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+        .text-neon { color: #39FF14; text-shadow: 0 0 10px rgba(57, 255, 20, 0.5); }
+        .text-warning { color: #FF6B00; text-shadow: 0 0 10px rgba(255, 107, 0, 0.5); }
 
-        /* Tarjetas estilo Glassmorphism Pro */
+        /* Tarjetas con borde de doble color */
         .glass-card { 
-            background: rgba(255, 255, 255, 0.03); 
-            border: 1px solid rgba(255, 255, 255, 0.08); 
-            backdrop-filter: blur(12px); 
-            border-radius: 28px; 
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: rgba(15, 15, 15, 0.8); 
+            border: 1px solid rgba(255, 255, 255, 0.05); 
+            backdrop-filter: blur(10px); 
+            border-radius: 20px; 
+            transition: all 0.3s ease;
         }
-        .glass-card:hover { 
-            background: rgba(255, 255, 255, 0.05);
-            border-color: #0070FF;
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px rgba(0, 112, 255, 0.15);
-        }
+        .active-moto { border-left: 4px solid #39FF14; box-shadow: -10px 0 20px rgba(57, 255, 20, 0.1); }
+        .active-tienda { border-left: 4px solid #FF6B00; box-shadow: -10px 0 20px rgba(255, 107, 0, 0.1); }
 
-        /* Botones Vibrantes */
-        .btn-primary {
-            background: linear-gradient(135deg, #0070FF 0%, #00C2FF 100%);
-            box-shadow: 0 8px 20px rgba(0, 112, 255, 0.3);
+        /* Botones Especiales */
+        .btn-approve {
+            background: #39FF14; color: #000; font-weight: 900;
+            box-shadow: 0 0 20px rgba(57, 255, 20, 0.4);
         }
-
-        .btn-doc { 
-            background: rgba(0, 112, 255, 0.05); 
-            border: 1px solid rgba(0, 112, 255, 0.2); 
-            padding: 18px; border-radius: 20px; transition: all 0.3s;
+        .btn-reject {
+            background: transparent; border: 1px solid #FF6B00; color: #FF6B00;
         }
-        .btn-doc:hover { border-color: #0070FF; background: rgba(0, 112, 255, 0.15); }
+        .btn-reject:hover { background: rgba(255, 107, 0, 0.1); }
 
         /* Animaciones */
-        @keyframes spin-custom { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .refresh-spinning { animation: spin-custom 0.8s ease-in-out infinite; color: #0070FF !important; }
-        
-        .status-dot { 
-            width: 8px; height: 8px; background: #0070FF; border-radius: 50%;
-            box-shadow: 0 0 10px #0070FF;
+        @keyframes scan { 0% { top: 0%; } 100% { top: 100%; } }
+        .scanner {
+            position: absolute; width: 100%; height: 2px;
+            background: linear-gradient(to right, transparent, #39FF14, transparent);
+            animation: scan 3s linear infinite; opacity: 0.3;
         }
+
+        .refresh-spinning { animation: spin 1s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
-    <header class="p-6 flex justify-between items-center sticky top-0 bg-deep-space/80 backdrop-blur-2xl z-50 border-b border-white/5">
+
+    <header class="p-6 flex justify-between items-center sticky top-0 bg-dark-void/90 backdrop-blur-md z-50 border-b border-white/5">
         <div>
-            <h1 class="text-2xl font-black italic tracking-tighter uppercase">KM0 <span class="text-gradient">Control</span></h1>
-            <p class="text-[9px] text-zinc-500 font-bold uppercase tracking-[0.3em]">Admin Terminal v4.0</p>
+            <h1 class="text-xl font-black italic uppercase tracking-tighter">KM0 <span class="text-neon">ADMIN</span></h1>
+            <div class="flex items-center gap-2">
+                <span class="w-1.5 h-1.5 bg-neon-green rounded-full animate-pulse"></span>
+                <p class="text-[8px] text-zinc-500 font-bold uppercase tracking-[0.4em]">Terminal de Aprobaciones</p>
+            </div>
         </div>
-        <button id="btn-refresh" onclick="init()" class="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center border border-white/10 hover:bg-white/10 transition-all active:scale-90">
-            <span id="icon-refresh" class="material-symbols-outlined text-white text-xl">refresh</span>
+        <button id="btn-refresh" onclick="init()" class="w-10 h-10 rounded-full bg-zinc-900 border border-white/10 flex items-center justify-center">
+            <span id="icon-refresh" class="material-symbols-outlined text-neon-green text-sm">sync</span>
         </button>
     </header>
 
-    <div class="p-6 grid grid-cols-2 gap-4 max-w-xl mx-auto">
-        <div onclick="cambiarTab('motorizados')" id="card-m" class="glass-card p-5 relative overflow-hidden group">
-            <div id="indicator-m" class="absolute top-0 left-0 w-1 h-full bg-electric-blue transition-all"></div>
-            <div class="flex justify-between items-start mb-2">
-                <span class="material-symbols-outlined text-electric-blue text-2xl">two_wheeler</span>
-                <span id="count-m" class="text-3xl font-black tracking-tighter italic">0</span>
+    <div class="p-4 grid grid-cols-2 gap-4 max-w-lg mx-auto">
+        <div onclick="cambiarTab('motorizados')" id="tab-m" class="glass-card p-4 active-moto cursor-pointer">
+            <div class="flex justify-between items-center">
+                <span class="material-symbols-outlined text-neon-green">delivery_dining</span>
+                <span id="count-m" class="text-2xl font-black text-white">0</span>
             </div>
-            <p class="text-[10px] font-bold uppercase text-zinc-400 group-hover:text-white transition-colors">Motorizados</p>
+            <p class="text-[9px] font-black uppercase mt-2 text-zinc-500">Motos Pendientes</p>
         </div>
 
-        <div onclick="cambiarTab('tiendas')" id="card-t" class="glass-card p-5 relative overflow-hidden group">
-            <div id="indicator-t" class="absolute top-0 left-0 w-1 h-full bg-zinc-800 transition-all"></div>
-            <div class="flex justify-between items-start mb-2">
-                <span class="material-symbols-outlined text-zinc-500 text-2xl group-hover:text-neon-fuchsia">storefront</span>
-                <span id="count-t" class="text-3xl font-black tracking-tighter italic">0</span>
+        <div onclick="cambiarTab('tiendas')" id="tab-t" class="glass-card p-4 opacity-50 cursor-pointer transition-all">
+            <div class="flex justify-between items-center">
+                <span class="material-symbols-outlined text-neon-orange">store</span>
+                <span id="count-t" class="text-2xl font-black text-white">0</span>
             </div>
-            <p class="text-[10px] font-bold uppercase text-zinc-400 group-hover:text-white transition-colors">Tiendas</p>
+            <p class="text-[9px] font-black uppercase mt-2 text-zinc-500">Tiendas Pendientes</p>
         </div>
     </div>
 
-    <main id="content" class="px-6 max-w-xl mx-auto pb-72"></main>
+    <main id="content" class="p-4 max-w-lg mx-auto pb-64"></main>
 
-    <footer id="footer" class="fixed bottom-0 inset-x-0 p-8 bg-deep-space/90 backdrop-blur-3xl border-t border-white/10 hidden">
-        <div class="max-w-xl mx-auto">
-            <div class="flex items-center gap-3 mb-5">
-                <div class="status-dot animate-pulse"></div>
-                <p class="text-[10px] font-black uppercase tracking-widest text-zinc-400">Verificación de Identidad</p>
+    <footer id="footer" class="fixed bottom-0 inset-x-0 p-6 bg-dark-void border-t border-white/10 hidden">
+        <div class="max-w-lg mx-auto">
+            <div class="flex items-center gap-2 mb-4">
+                <span class="material-symbols-outlined text-[12px] text-neon-orange">gavel</span>
+                <p class="text-[9px] font-black uppercase text-zinc-500 tracking-widest">Dictamen de acceso</p>
             </div>
-            <textarea id="notas" class="w-full bg-white/5 border border-white/10 rounded-2xl p-5 text-sm mb-5 outline-none text-white focus:border-electric-blue/50 transition-all placeholder:text-zinc-600" placeholder="Escribe notas internas aquí..."></textarea>
+            <textarea id="notas" class="w-full bg-zinc-900/50 border border-white/5 rounded-xl p-4 text-xs mb-4 outline-none text-white focus:border-neon-green/30" placeholder="Añadir nota de revisión..."></textarea>
             <div class="flex gap-4">
-                <button onclick="procesar(false)" class="flex-1 py-5 bg-zinc-900 text-zinc-400 rounded-2xl font-black text-[11px] uppercase border border-white/5 hover:bg-red-500/10 hover:text-red-500 transition-all">Rechazar</button>
-                <button onclick="procesar(true)" class="flex-[2] py-5 btn-primary text-white rounded-2xl font-black text-[11px] uppercase tracking-wider active:scale-95 transition-all">Confirmar Acceso</button>
+                <button onclick="procesar(false)" class="btn-reject flex-1 py-4 rounded-xl font-black text-[10px] uppercase tracking-widest">Rechazar</button>
+                <button onclick="procesar(true)" class="btn-approve flex-[2] py-4 rounded-xl font-black text-[10px] uppercase tracking-widest">Aprobar Socio</button>
             </div>
         </div>
     </footer>
 
     <script>
-        const URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec'; 
+        const URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec';
         let db = { motorizados: [], tiendas: [] };
         let currentTab = 'motorizados';
 
@@ -125,36 +118,34 @@
             try {
                 const resp = await fetch(URL_SCRIPT);
                 db = await resp.json();
-                actualizarContadores();
-                render();
+                actualizarUI();
             } catch (e) {
-                console.error(e);
-                document.getElementById('content').innerHTML = `<div class="bg-red-500/10 border border-red-500/20 p-6 rounded-3xl text-center"><p class='text-red-500 text-xs font-bold uppercase'>Error de Sincronización</p></div>`;
+                document.getElementById('content').innerHTML = "<p class='text-center py-20 text-neon-orange font-black text-xs uppercase'>Fallo de enlace con base de datos</p>";
             } finally {
                 icon.classList.remove('refresh-spinning');
             }
         }
 
-        function actualizarContadores() {
-            document.getElementById('count-m').innerText = db.motorizados?.length || 0;
-            document.getElementById('count-t').innerText = db.tiendas?.length || 0;
+        function actualizarUI() {
+            document.getElementById('count-m').innerText = db.motorizados.length;
+            document.getElementById('count-t').innerText = db.tiendas.length;
             
-            // UI Switcher
-            const indM = document.getElementById('indicator-m');
-            const indT = document.getElementById('indicator-t');
-            if(currentTab === 'motorizados') {
-                indM.className = "absolute top-0 left-0 w-1 h-full bg-electric-blue shadow-[0_0_15px_#0070FF]";
-                indT.className = "absolute top-0 left-0 w-1 h-full bg-zinc-800";
+            // Estilos de Tab
+            const tabM = document.getElementById('tab-m');
+            const tabT = document.getElementById('tab-t');
+            if(currentTab === 'motorizados'){
+                tabM.classList.remove('opacity-50'); tabM.classList.add('active-moto');
+                tabT.classList.add('opacity-50'); tabT.classList.remove('active-tienda');
             } else {
-                indT.className = "absolute top-0 left-0 w-1 h-full bg-neon-fuchsia shadow-[0_0_15px_#FF00E5]";
-                indM.className = "absolute top-0 left-0 w-1 h-full bg-zinc-800";
+                tabT.classList.remove('opacity-50'); tabT.classList.add('active-tienda');
+                tabM.classList.add('opacity-50'); tabM.classList.remove('active-moto');
             }
+            render();
         }
 
-        function cambiarTab(t) {
-            currentTab = t;
-            actualizarContadores();
-            render();
+        function cambiarTab(tab) {
+            currentTab = tab;
+            actualizarUI();
         }
 
         function render() {
@@ -163,7 +154,7 @@
             const footer = document.getElementById('footer');
 
             if (!list || list.length === 0) {
-                container.innerHTML = `<div class="text-center py-32"><span class="material-symbols-outlined text-zinc-800 text-6xl mb-4">verified_user</span><p class='text-[11px] font-black uppercase tracking-[0.3em] text-zinc-700'>Todo el flujo está despejado</p></div>`;
+                container.innerHTML = `<div class='py-32 text-center opacity-30'><p class='text-[10px] font-black uppercase'>Sin solicitudes pendientes</p></div>`;
                 footer.classList.add('hidden');
                 return;
             }
@@ -173,64 +164,77 @@
 
             if (currentTab === 'motorizados') {
                 container.innerHTML = `
-                    <div class="animate-in fade-in slide-in-from-bottom-6 duration-700">
-                        <span class="bg-electric-blue/10 text-electric-blue text-[10px] px-3 py-1 rounded-full font-black uppercase mb-4 inline-block tracking-tighter">Nueva Solicitud Moto</span>
-                        <h2 class="text-5xl font-black uppercase leading-[0.9] mb-4 tracking-tighter">${item.nombre}</h2>
-                        <div class="flex gap-3 mb-10">
-                            <span class="bg-white/5 border border-white/10 text-white text-[11px] px-4 py-2 rounded-xl font-bold italic tracking-widest">${item.placa}</span>
-                            <span class="bg-white/5 border border-white/10 text-zinc-500 text-[11px] px-4 py-2 rounded-xl font-bold tracking-widest">ID: ${item.id}</span>
-                        </div>
-                        <button class="btn-doc w-full flex items-center justify-between group" onclick="window.open('${item.urlVideo}')">
-                            <div class="flex items-center gap-4">
-                                <div class="w-12 h-12 bg-electric-blue/20 rounded-2xl flex items-center justify-center text-electric-blue">
-                                    <span class="material-symbols-outlined">videocam</span>
-                                </div>
-                                <span class="text-sm font-black uppercase italic tracking-tight">Ver Video de Seguridad</span>
+                    <div class="glass-card p-6 relative overflow-hidden">
+                        <div class="scanner"></div>
+                        <p class="text-neon-green text-[9px] font-black uppercase mb-2 tracking-widest italic">Solicitud Motorizado</p>
+                        <h2 class="text-4xl font-black uppercase mb-4 tracking-tighter text-white">${item.nombre}</h2>
+                        <div class="space-y-4">
+                            <div class="flex justify-between border-b border-white/5 pb-2">
+                                <span class="text-zinc-500 text-[10px] font-black uppercase">Placa</span>
+                                <span class="text-white text-[10px] font-black">${item.placa}</span>
                             </div>
-                            <span class="material-symbols-outlined text-zinc-600 group-hover:translate-x-1 transition-transform">arrow_forward_ios</span>
-                        </button>
+                            <div class="flex justify-between border-b border-white/5 pb-2">
+                                <span class="text-zinc-500 text-[10px] font-black uppercase">Identificación</span>
+                                <span class="text-white text-[10px] font-black">${item.cedula}</span>
+                            </div>
+                            <button onclick="window.open('${item.urlVideo}')" class="w-full bg-white/5 py-4 rounded-xl flex items-center justify-center gap-2 border border-white/10 hover:border-neon-green/50 transition-all">
+                                <span class="material-symbols-outlined text-neon-green">play_circle</span>
+                                <span class="text-[10px] font-black uppercase tracking-widest">Validar Video de Seguridad</span>
+                            </button>
+                        </div>
                     </div>`;
             } else {
                 container.innerHTML = `
-                    <div class="animate-in fade-in slide-in-from-bottom-6 duration-700">
-                        <span class="bg-neon-fuchsia/10 text-neon-fuchsia text-[10px] px-3 py-1 rounded-full font-black uppercase mb-4 inline-block tracking-tighter">Nueva Solicitud Tienda</span>
-                        <h2 class="text-5xl font-black uppercase leading-[0.9] mb-4 tracking-tighter text-white italic">${item.nombreTienda}</h2>
-                        <p class="text-zinc-500 text-[11px] font-bold mb-10 tracking-[0.1em] uppercase">ID Registro: ${item.id} • ${item.representante}</p>
-                        <div class="glass-card p-8 space-y-6 border-white/5">
-                            <div class="flex flex-col"><span class="text-[9px] font-black text-zinc-500 uppercase tracking-widest mb-1">Cédula / RUC</span><span class="text-2xl font-black tracking-[0.2em]">${item.cedula}</span></div>
-                            <div class="flex flex-col"><span class="text-[9px] font-black text-zinc-500 uppercase tracking-widest mb-1">Ciudad</span><span class="text-xl font-black text-electric-blue uppercase italic">${item.ciudad}</span></div>
+                    <div class="glass-card p-6 relative overflow-hidden">
+                        <p class="text-neon-orange text-[9px] font-black uppercase mb-2 tracking-widest italic">Solicitud Comercial</p>
+                        <h2 class="text-4xl font-black uppercase mb-4 tracking-tighter text-white">${item.nombreTienda}</h2>
+                        <div class="space-y-4">
+                            <div class="flex flex-col gap-1">
+                                <span class="text-zinc-500 text-[9px] font-black uppercase">Responsable</span>
+                                <span class="text-white text-lg font-black italic tracking-tight">${item.representante}</span>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="bg-white/5 p-3 rounded-lg">
+                                    <span class="text-zinc-500 text-[8px] font-black uppercase block mb-1">RUC</span>
+                                    <span class="text-white text-[10px] font-black">${item.cedula}</span>
+                                </div>
+                                <div class="bg-white/5 p-3 rounded-lg border-l-2 border-neon-orange">
+                                    <span class="text-zinc-500 text-[8px] font-black uppercase block mb-1">Ubicación</span>
+                                    <span class="text-white text-[10px] font-black">${item.ciudad}</span>
+                                </div>
+                            </div>
                         </div>
                     </div>`;
             }
         }
 
         async function procesar(aprobado) {
-            const listaActual = currentTab === 'motorizados' ? db.motorizados : db.tiendas;
-            const item = listaActual[0];
-            if (!item) return;
-
-            const visual = document.querySelector('.animate-in');
-            if (visual) { 
-                visual.style.opacity = '0'; 
-                visual.style.transform = 'scale(0.95)'; 
-                visual.style.transition = '0.4s all ease-in-out'; 
-            }
+            const lista = currentTab === 'motorizados' ? db.motorizados : db.tiendas;
+            const item = lista[0];
+            if(!item) return;
 
             const payload = {
                 accion: "gestionar_solicitud",
                 id: item.id,
                 nuevoEstado: aprobado ? "ACTIVO" : "RECHAZADO",
-                motivo: document.getElementById('notas').value || "Procesado por Admin"
+                motivo: document.getElementById('notas').value || "Procesado por sistema"
             };
 
-            try {
-                fetch(URL_SCRIPT, { method: "POST", body: JSON.stringify(payload) });
-            } catch (e) { console.error(e); }
+            // Animación de salida
+            document.getElementById('content').style.opacity = "0.3";
+            document.getElementById('content').style.transform = "scale(0.98)";
 
-            listaActual.shift();
-            actualizarContadores();
-            setTimeout(render, 400);
-            document.getElementById('notas').value = "";
+            try {
+                await fetch(URL_SCRIPT, { method: 'POST', body: JSON.stringify(payload) });
+                lista.shift(); // Elimina el procesado
+                document.getElementById('notas').value = "";
+                actualizarUI();
+            } catch (e) {
+                alert("Error de red al procesar");
+            } finally {
+                document.getElementById('content').style.opacity = "1";
+                document.getElementById('content').style.transform = "scale(1)";
+            }
         }
 
         init();
