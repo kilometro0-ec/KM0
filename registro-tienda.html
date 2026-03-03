@@ -3,10 +3,10 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>KM0 - Registro Tiendas</title>
+    <title>KM0 - Registro Oficial</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@300;500;700" rel="stylesheet"/>
+    <link href="https://fonts.symbols.google.com/css2?family=Material+Symbols+Outlined:wght@300;500;700" rel="stylesheet"/>
     
     <script>
         tailwind.config = {
@@ -15,6 +15,9 @@
                     colors: {
                         'electric-blue': '#0070FF',
                         'neon-fuchsia': '#FF00FF',
+                    },
+                    animation: {
+                        'spin-slow': 'spin 3s linear infinite',
                     }
                 }
             }
@@ -32,33 +35,41 @@
         }
         .btn-fusion {
             background: linear-gradient(90deg, #0070FF 0%, #FF00FF 100%);
-            @apply shadow-[0_0_20px_rgba(0,112,255,0.3)] active:scale-95 disabled:opacity-30 disabled:grayscale transition-all;
+            @apply shadow-[0_0_20px_rgba(0,112,255,0.3)] active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed transition-all;
+        }
+        .loading-spinner {
+            @apply animate-spin h-5 w-5 border-2 border-white/30 border-t-white rounded-full;
         }
         .ios-blur {
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
         }
-        .hidden { display: none; }
     </style>
 </head>
 
-<body class="text-white">
+<body class="text-white selection:bg-neon-fuchsia selection:text-white">
 
     <div id="contenedorForm" class="max-w-[480px] mx-auto flex flex-col min-h-screen">
         
         <header class="sticky top-0 z-50 p-6 flex items-center justify-between bg-black/20 ios-blur">
-            <div class="size-12 rounded-2xl bg-electric-blue/20 border border-electric-blue/40 flex items-center justify-center">
-                <span class="material-symbols-outlined text-electric-blue text-3xl">storefront</span>
+            <div class="flex items-center gap-3">
+                <div class="size-11 rounded-xl bg-electric-blue/10 border border-electric-blue/30 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-electric-blue text-2xl">storefront</span>
+                </div>
+                <div class="h-8 w-[1px] bg-white/10"></div>
+                <button onclick="window.history.back()" class="text-white/40 hover:text-white transition-colors">
+                    <span class="material-symbols-outlined">arrow_back_ios</span>
+                </button>
             </div>
             <div class="text-right">
                 <p class="text-[10px] tracking-[0.3em] font-extrabold text-neon-fuchsia">KILÓMETRO CERO</p>
-                <p class="text-[9px] text-white/40 uppercase font-bold">Registro de Alianza</p>
+                <p class="text-[9px] text-white/40 uppercase font-bold tracking-tighter">Portal de Aliados</p>
             </div>
         </header>
 
-        <main class="flex-1 px-8 pt-8 pb-40">
+        <main class="flex-1 px-8 pt-8 pb-44">
             <div class="mb-10 text-center">
-                <h1 class="text-3xl font-extrabold tracking-tight italic uppercase">
+                <h1 class="text-4xl font-extrabold tracking-tight italic uppercase">
                     REGISTRA TU <br/>
                     <span class="text-transparent bg-clip-text bg-gradient-to-r from-electric-blue to-neon-fuchsia">TIENDA</span>
                 </h1>
@@ -78,7 +89,7 @@
 
                 <div class="relative">
                     <span class="material-symbols-outlined absolute left-4 top-4 text-electric-blue/50 text-xl">badge</span>
-                    <input id="identificacion" minlength="10" maxlength="13" pattern="[0-9]{10,13}" required title="Debe tener entre 10 y 13 dígitos" class="input-premium" placeholder="Cédula o RUC (10-13 dígitos)" type="text"/>
+                    <input id="identificacion" minlength="10" maxlength="13" pattern="[0-9]{10,13}" required title="Ingrese entre 10 y 13 números" class="input-premium" placeholder="Cédula o RUC" type="text"/>
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
@@ -117,30 +128,32 @@
         <div class="fixed bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-black via-black/90 to-transparent">
             <div class="max-w-[480px] mx-auto">
                 <button type="submit" form="formTienda" id="btnEnviar" disabled class="btn-fusion w-full h-16 rounded-2xl text-white font-black tracking-widest uppercase flex items-center justify-center gap-3">
+                    <div id="loader" class="hidden"><div class="loading-spinner"></div></div>
                     <span id="btnText">FINALIZAR REGISTRO</span>
                     <span id="btnIcon" class="material-symbols-outlined font-bold">rocket_launch</span>
                 </button>
-                <p id="msgError" class="text-[10px] text-center text-neon-fuchsia mt-4 uppercase font-bold hidden"></p>
+                <div id="msgError" class="mt-4 p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-500 text-[11px] text-center font-bold uppercase hidden"></div>
+                <p class="text-[9px] text-center text-white/20 mt-4 tracking-[0.2em]">KM0 BY CORPORACIÓN 360 • V 11.0</p>
             </div>
         </div>
     </div>
 
     <div id="successView" class="fixed inset-0 bg-black z-[100] hidden flex-col items-center justify-center p-10 text-center">
-        <div class="size-24 rounded-full bg-electric-blue/20 border-2 border-electric-blue flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(0,112,255,0.4)]">
+        <div class="size-24 rounded-full bg-electric-blue/20 border-2 border-electric-blue flex items-center justify-center mb-6">
             <span class="material-symbols-outlined text-5xl text-electric-blue">verified</span>
         </div>
-        <h2 class="text-3xl font-black italic mb-2 uppercase">¡Registro Exitoso!</h2>
-        <p class="text-white/50 text-sm mb-10 leading-relaxed">Tus datos han sido registrados. Validaremos la información y nos contactaremos contigo.</p>
-        <button onclick="window.location.reload()" class="px-10 h-14 border border-white/10 rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-white/5 transition-all">
-            REGISTRAR OTRA TIENDA
-        </button>
+        <h2 class="text-3xl font-black italic mb-2 uppercase">¡REGISTRO ENVIADO!</h2>
+        <p class="text-white/50 text-sm mb-10 leading-relaxed">Tus datos están en validación. Recibirás un mensaje de confirmación pronto.</p>
+        <button onclick="window.location.reload()" class="px-10 h-14 border border-white/10 rounded-2xl text-[10px] font-bold uppercase tracking-widest">REGISTRAR OTRA</button>
     </div>
 
     <script>
-        const URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec';
+        const URL_SCRIPT = 'TU_URL_DE_GOOGLE_APPS_SCRIPT'; // <--- PEGA AQUÍ TU URL ACTUALIZADA
         const form = document.getElementById('formTienda');
         const btn = document.getElementById('btnEnviar');
         const btnText = document.getElementById('btnText');
+        const btnIcon = document.getElementById('btnIcon');
+        const loader = document.getElementById('loader');
         const msgError = document.getElementById('msgError');
 
         form.addEventListener('input', () => {
@@ -150,8 +163,13 @@
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
+            
+            // Iniciar Animación
             btn.disabled = true;
-            btnText.innerText = 'VERIFICANDO DISPONIBILIDAD...';
+            btnText.innerText = 'PROCESANDO...';
+            btnIcon.classList.add('hidden');
+            loader.classList.remove('hidden');
+            msgError.classList.add('hidden');
 
             const datos = {
                 accion: "registro_tienda",
@@ -165,28 +183,31 @@
             };
 
             try {
-                // NOTA: Para validar duplicados en Google Sheets, tu Apps Script debe 
-                // devolver un error si detecta el RUC o Email. 
-                // Si usas 'no-cors', no podemos leer la respuesta. 
-                // Por ahora, procesaremos el envío:
-                
-                await fetch(URL_SCRIPT, {
+                // IMPORTANTE: Sin mode: 'no-cors' para poder leer duplicados
+                const response = await fetch(URL_SCRIPT, {
                     method: 'POST',
-                    mode: 'no-cors', 
-                    headers: { 'Content-Type': 'application/json' },
+                    mode: 'cors', 
                     body: JSON.stringify(datos)
                 });
 
-                // Simulación de éxito (ya que no-cors no permite leer respuesta real)
-                document.getElementById('contenedorForm').classList.add('hidden');
-                document.getElementById('successView').classList.remove('hidden');
-                document.getElementById('successView').classList.add('flex');
-                window.scrollTo(0,0);
+                const res = await response.json();
+
+                if (res.success) {
+                    document.getElementById('contenedorForm').classList.add('hidden');
+                    document.getElementById('successView').classList.remove('hidden');
+                    document.getElementById('successView').classList.add('flex');
+                } else {
+                    throw new Error(res.mensaje);
+                }
 
             } catch (error) {
+                // Detener Animación en caso de error
                 btn.disabled = false;
                 btnText.innerText = 'FINALIZAR REGISTRO';
-                msgError.innerText = "Error de conexión. Intente nuevamente.";
+                btnIcon.classList.remove('hidden');
+                loader.classList.add('hidden');
+                
+                msgError.innerText = "⚠️ " + error.message;
                 msgError.classList.remove('hidden');
             }
         });
