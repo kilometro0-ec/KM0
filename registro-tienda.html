@@ -18,10 +18,18 @@
             justify-content: center; 
         }
         
-        /* Color Fucsia Eléctrico (Fusión Azul + Magenta) */
-        .text-fucsia-neon { color: #FF00FF; text-shadow: 0 0 10px #0066FF; }
-        .bg-fucsia-neon { background: linear-gradient(90deg, #FF00FF 0%, #0066FF 100%); }
-        .border-fucsia-neon { border-color: #FF00FF; box-shadow: 0 0 15px rgba(255, 0, 255, 0.4); }
+        /* Fusión Fucsia Eléctrica (Azul + Magenta) */
+        .text-fucsia-neon { 
+            color: #FF00FF; 
+            text-shadow: 0 0 10px #0066FF; 
+        }
+        .bg-fucsia-neon { 
+            background: linear-gradient(90deg, #FF00FF 0%, #0066FF 100%); 
+        }
+        .border-fucsia-neon { 
+            border-color: #FF00FF; 
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.4); 
+        }
 
         input, select { 
             background: #0a0a0a !important; 
@@ -38,15 +46,18 @@
 
         .hidden { display: none; }
         button:disabled { opacity: 0.3; cursor: not-allowed; filter: grayscale(1); }
-        .error-msg { color: #ef4444; font-size: 9px; font-weight: 800; text-transform: uppercase; margin-top: 4px; display: none; }
+        
+        /* Animación suave para la transición */
+        #pantallaExito { animation: fadeIn 0.5s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body class="p-6">
 
     <div id="contenedorForm" class="w-full max-w-[400px]">
         <header class="mb-10 text-center">
-            <h1 class="text-3xl font-black italic text-fucsia-neon uppercase tracking-tighter">Registro Tienda</h1>
-            <p class="text-zinc-500 text-[10px] uppercase tracking-[0.3em] mt-2">Km0 Motor Integral</p>
+            <h1 class="text-4xl font-black italic text-fucsia-neon uppercase tracking-tighter">Registro Tienda</h1>
+            <p class="text-zinc-500 text-[10px] uppercase tracking-[0.3em] mt-2">Km0 Motor Integral v11.0</p>
         </header>
 
         <form id="formTienda" class="space-y-5">
@@ -61,7 +72,7 @@
             </div>
 
             <div>
-                <label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1 ml-1">CI o RUC (Único)</label>
+                <label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1 ml-1">CI o RUC (Identificación)</label>
                 <input type="text" id="identificacion" minlength="10" maxlength="13" pattern="[0-9]{10,13}" required class="w-full p-4 rounded-2xl text-sm" placeholder="17XXXXXXXX001">
             </div>
 
@@ -70,12 +81,31 @@
                     <label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1 ml-1">Provincia</label>
                     <select id="provincia" required class="w-full p-4 rounded-2xl text-sm appearance-none">
                         <option value="" disabled selected>Seleccione...</option>
-                        <option value="Pichincha">Pichincha</option>
-                        <option value="Guayas">Guayas</option>
                         <option value="Azuay">Azuay</option>
+                        <option value="Bolívar">Bolívar</option>
+                        <option value="Cañar">Cañar</option>
+                        <option value="Carchi">Carchi</option>
+                        <option value="Chimborazo">Chimborazo</option>
+                        <option value="Cotopaxi">Cotopaxi</option>
+                        <option value="El Oro">El Oro</option>
+                        <option value="Esmeraldas">Esmeraldas</option>
+                        <option value="Galápagos">Galápagos</option>
+                        <option value="Guayas">Guayas</option>
+                        <option value="Imbabura">Imbabura</option>
+                        <option value="Loja">Loja</option>
+                        <option value="Los Ríos">Los Ríos</option>
                         <option value="Manabí">Manabí</option>
+                        <option value="Morona Santiago">Morona Santiago</option>
+                        <option value="Napo">Napo</option>
+                        <option value="Orellana">Orellana</option>
+                        <option value="Pastaza">Pastaza</option>
+                        <option value="Pichincha">Pichincha</option>
+                        <option value="Santa Elena">Santa Elena</option>
+                        <option value="Santo Domingo">Santo Domingo</option>
+                        <option value="Sucumbíos">Sucumbíos</option>
                         <option value="Tungurahua">Tungurahua</option>
-                        </select>
+                        <option value="Zamora Chinchipe">Zamora Chinchipe</option>
+                    </select>
                 </div>
                 <div>
                     <label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1 ml-1">Ciudad</label>
@@ -93,7 +123,7 @@
                 <input type="email" id="correo" required class="w-full p-4 rounded-2xl text-sm" placeholder="comercio@ejemplo.com">
             </div>
 
-            <button type="submit" id="btnEnviar" disabled class="w-full bg-fucsia-neon text-white font-black py-5 rounded-2xl uppercase text-xs tracking-widest active:scale-95 transition-all shadow-lg">
+            <button type="submit" id="btnEnviar" disabled class="w-full bg-fucsia-neon text-white font-black py-5 rounded-2xl uppercase text-xs tracking-widest active:scale-95 transition-all shadow-lg shadow-blue-500/20">
                 Finalizar Registro
             </button>
         </form>
@@ -101,7 +131,7 @@
 
     <div id="pantallaExito" class="hidden text-center max-w-[400px]">
         <div class="mb-6 flex justify-center">
-            <div class="w-20 h-20 bg-magenta/10 border-2 border-fucsia-neon rounded-full flex items-center justify-center shadow-[0_0_40px_rgba(255,0,255,0.5)]">
+            <div class="w-20 h-20 bg-white/5 border-2 border-fucsia-neon rounded-full flex items-center justify-center shadow-[0_0_40px_rgba(255,0,255,0.4)]">
                 <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
                 </svg>
@@ -109,20 +139,22 @@
         </div>
         <h2 class="text-3xl font-black uppercase text-white mb-4 italic">Solicitud Enviada</h2>
         <p class="text-zinc-400 text-sm leading-relaxed mb-8 px-4">
-            Tu tienda ha sido registrada con éxito. Un administrador activará tu cuenta tras validar los datos.
+            Tu tienda ha sido registrada con éxito. Un administrador activará tu cuenta tras validar los datos. Podrás ingresar en breve.
         </p>
         
-        <button onclick="window.location.href='index.html'" class="w-full bg-zinc-900 border border-zinc-700 text-white font-bold text-[10px] tracking-[0.3em] py-5 rounded-2xl uppercase hover:bg-white hover:text-black transition-all">
+        <button onclick="window.location.href='index.html'" class="w-full bg-zinc-900 border border-zinc-700 text-white font-bold text-[10px] tracking-[0.3em] py-5 rounded-2xl uppercase hover:bg-white hover:text-black transition-all shadow-lg">
             Regresar al Inicio
         </button>
     </div>
 
 <script>
+    // URL de tu Apps Script implementado
     const URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec';
 
     const form = document.getElementById('formTienda');
     const btn = document.getElementById('btnEnviar');
 
+    // Validación del formulario en tiempo real
     form.addEventListener('input', () => {
         const allValid = form.checkValidity();
         btn.disabled = !allValid;
@@ -132,8 +164,9 @@
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         btn.disabled = true;
-        btn.innerText = 'ENVIANDO DATOS...';
+        btn.innerText = 'PROCESANDO REGISTRO...';
 
+        // Mapeo exacto para el Script v11.0
         const datos = {
             accion: "registro_tienda",
             nombre: document.getElementById('nombreTienda').value,
@@ -146,6 +179,7 @@
         };
 
         try {
+            // Envío de datos
             await fetch(URL_SCRIPT, {
                 method: 'POST',
                 mode: 'no-cors', 
@@ -154,14 +188,14 @@
                 body: JSON.stringify(datos)
             });
 
-            // Mostrar pantalla de éxito
+            // Ocultar formulario y mostrar éxito
             document.getElementById('contenedorForm').classList.add('hidden');
             document.getElementById('pantallaExito').classList.remove('hidden');
             window.scrollTo(0,0);
 
         } catch (error) {
-            console.error("Error:", error);
-            alert("Error de conexión. Intente nuevamente.");
+            console.error("Error en el registro:", error);
+            alert("Error de conexión con el servidor. Por favor, intente de nuevo.");
             btn.disabled = false;
             btn.innerText = 'Finalizar Registro';
         }
