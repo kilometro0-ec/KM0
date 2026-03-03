@@ -3,146 +3,161 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
-    <title>KM0 - Registro Seguro Motorizado</title>
-    
+    <title>KM0 - Registro Motorizado</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700&display=swap" rel="stylesheet"/>
-    
     <script src="../../assets/js/config.js"></script>
 
     <style>
-        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Inter', sans-serif; background-color: #020617; color: white; }
         .step-content { display: none; }
-        .step-content.active { display: block; animation: fadeIn 0.3s ease; }
+        .step-content.active { display: block; animation: fadeIn 0.4s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Estilo idéntico al Login */
-        input:focus, select:focus { ring: 2px solid #ec1313 !important; outline: none; border-color: transparent !important; }
-        button:disabled { opacity: 0.5; cursor: not-allowed; filter: grayscale(1); }
+        input:focus, select:focus { ring: 2px solid #ec1313 !important; outline: none; border: none !important; }
+        button:disabled { opacity: 0.3; cursor: not-allowed; filter: grayscale(1); }
 
         .loader-icon::after {
             content: 'sports_motorsports';
             font-family: 'Material Symbols Outlined';
             animation: spin-icons 2s infinite;
-            font-size: 5rem;
-            color: #ec1313;
+            font-size: 5rem; color: #ec1313;
         }
-        @keyframes spin-icons {
-            0% { content: 'sports_motorsports'; }
-            25% { content: 'two_wheeler'; }
-            50% { content: 'package_2'; }
-            75% { content: 'mail'; }
-            100% { content: 'sports_motorsports'; }
-        }
+        @keyframes spin-icons { 0% { content: 'sports_motorsports'; } 25% { content: 'two_wheeler'; } 50% { content: 'package_2'; } 75% { content: 'mail'; } 100% { content: 'sports_motorsports'; } }
     </style>
 </head>
-<body class="bg-slate-950 text-white min-h-screen">
+<body class="min-h-screen flex flex-col">
 
-<div id="loader-modal" class="hidden fixed inset-0 z-[100] bg-slate-900/95 backdrop-blur-md flex flex-col items-center justify-center">
+<div id="loader-modal" class="hidden fixed inset-0 z-[100] bg-black/95 backdrop-blur-md flex flex-col items-center justify-center">
     <div class="loader-icon mb-6"></div>
-    <h3 class="text-xl font-black italic uppercase">Procesando Expediente</h3>
+    <h3 class="text-xl font-black italic uppercase">Subiendo Expediente...</h3>
 </div>
 
-<main class="max-w-md mx-auto px-6 py-10">
+<main class="max-w-md mx-auto px-6 py-8 flex-1 w-full">
     <form id="main-form" autocomplete="off">
         
-        <div id="step-1" class="step-content active space-y-6">
-            <div class="flex flex-col items-center mb-8">
-                <div class="w-20 h-20 bg-red-600/10 rounded-full flex items-center justify-center border border-red-600/30 mb-4">
-                    <span class="material-symbols-outlined text-red-600 text-5xl">sports_motorsports</span>
+        <div id="step-1" class="step-content active space-y-6 text-center">
+            <div class="py-4">
+                <div class="w-40 h-40 bg-red-600/10 rounded-full flex items-center justify-center border-4 border-red-600 shadow-[0_0_40px_rgba(236,19,19,0.3)] mx-auto">
+                    <span class="material-symbols-outlined text-red-600 text-8xl">sports_motorsports</span>
                 </div>
-                <h2 class="text-2xl font-black italic uppercase tracking-tighter">Registro Motorizado</h2>
+                <h2 class="text-3xl font-black italic uppercase mt-6 tracking-tighter">Registro KM0</h2>
             </div>
 
-            <div class="space-y-4">
-                <input id="nombre" required type="text" oninput="checkFase1()" class="w-full bg-slate-900 border-none rounded-xl py-4 px-4 text-sm font-medium" placeholder="Nombres Completos *">
-                <input id="email" required type="email" oninput="checkFase1()" class="w-full bg-slate-900 border-none rounded-xl py-4 px-4 text-sm font-medium" placeholder="Correo Electrónico *">
-                
+            <div class="space-y-4 text-left">
+                <input id="nombre" required type="text" oninput="checkFase1()" class="w-full bg-slate-900 border-none rounded-2xl p-4 text-sm font-bold" placeholder="NOMBRES COMPLETOS">
+                <input id="email" required type="email" oninput="checkFase1()" class="w-full bg-slate-900 border-none rounded-2xl p-4 text-sm font-bold" placeholder="CORREO ELECTRÓNICO">
                 <div class="grid grid-cols-2 gap-3">
-                    <input id="cedula" required maxlength="10" type="tel" oninput="checkFase1()" class="w-full bg-slate-900 border-none rounded-xl py-4 px-4 text-sm font-bold" placeholder="Cédula *">
+                    <input id="cedula" required maxlength="10" type="tel" oninput="checkFase1()" class="bg-slate-900 border-none rounded-2xl p-4 text-sm font-bold" placeholder="CÉDULA">
                     <div class="relative flex items-center">
                         <span class="absolute left-3 text-xs font-bold text-slate-500">+593</span>
-                        <input id="tel" required maxlength="9" type="tel" oninput="checkFase1()" class="w-full bg-slate-900 border-none rounded-xl py-4 pl-12 pr-4 text-sm font-bold" placeholder="987654321">
+                        <input id="tel" required maxlength="9" type="tel" oninput="checkFase1()" class="w-full bg-slate-900 border-none rounded-2xl p-4 pl-12 text-sm font-bold" placeholder="987654321">
                     </div>
                 </div>
-
                 <div class="grid grid-cols-2 gap-3">
-                    <select id="provincia" required onchange="checkFase1()" class="w-full bg-slate-900 border-none rounded-xl py-4 px-4 text-xs font-bold uppercase">
+                    <select id="provincia" required onchange="checkFase1()" class="bg-slate-900 border-none rounded-2xl p-4 text-xs font-bold uppercase">
                         <option value="" disabled selected>PROVINCIA</option>
-                        <option value="AZUAY">AZUAY</option><option value="GUAYAS">GUAYAS</option><option value="PICHINCHA">PICHINCHA</option><option value="MANABI">MANABÍ</option><option value="AZUAY">AZUAY</option><option value="BOLIVAR">BOLÍVAR</option><option value="CANAR">CAÑAR</option><option value="CARCHI">CARCHI</option><option value="CHIMBORAZO">CHIMBORAZO</option><option value="COTOPAXI">COTOPAXI</option><option value="EL ORO">EL ORO</option><option value="ESMERALDAS">ESMERALDAS</option><option value="IMBABURA">IMBABURA</option><option value="LOJA">LOJA</option><option value="LOS RIOS">LOS RÍOS</option><option value="MORONA SANTIAGO">MORONA SANTIAGO</option><option value="NAPO">NAPO</option><option value="ORELLANA">ORELLANA</option><option value="PASTAZA">PASTAZA</option><option value="SANTA ELENA">SANTA ELENA</option><option value="SANTO DOMINGO">SANTO DOMINGO</option><option value="SUCUMBIOS">SUCUMBÍOS</option><option value="TUNGURAHUA">TUNGURAHUA</option><option value="ZAMORA CHINCHIPE">ZAMORA CHINCHIPE</option>
+                        <option value="AZUAY">AZUAY</option><option value="GUAYAS">GUAYAS</option><option value="PICHINCHA">PICHINCHA</option><option value="MANABI">MANABI</option><option value="LOS RIOS">LOS RIOS</option>
                     </select>
-                    <input id="ciudad" required type="text" oninput="checkFase1()" class="w-full bg-slate-900 border-none rounded-xl py-4 px-4 text-sm font-medium" placeholder="Ciudad *">
+                    <input id="ciudad" required type="text" oninput="checkFase1()" class="bg-slate-900 border-none rounded-2xl p-4 text-sm font-bold" placeholder="CIUDAD">
                 </div>
-
                 <div class="grid grid-cols-2 gap-3">
-                    <input id="marca" required type="text" oninput="checkFase1()" class="w-full bg-slate-900 border-none rounded-xl py-4 px-4 text-sm font-medium" placeholder="Marca Moto *">
-                    <input id="placa" required type="text" maxlength="8" oninput="formatearPlaca(this); checkFase1();" class="w-full bg-slate-900 border-none rounded-xl py-4 px-4 text-sm font-bold uppercase" placeholder="ABC-123X">
+                    <input id="marca" required type="text" oninput="checkFase1()" class="bg-slate-900 border-none rounded-2xl p-4 text-sm font-bold" placeholder="MARCA MOTO">
+                    <input id="placa" required maxlength="8" type="text" oninput="this.value = this.value.toUpperCase(); formatPlaca(this); checkFase1();" class="bg-slate-900 border-none rounded-2xl p-4 text-sm font-bold" placeholder="IU-595T">
                 </div>
             </div>
 
-            <button type="button" disabled id="btn-next" onclick="validarDuplicados()" class="w-full bg-red-600 text-white font-black py-5 rounded-2xl shadow-xl uppercase italic">
+            <p id="error-msg" class="hidden text-red-500 text-[10px] font-black uppercase bg-red-500/10 p-2 rounded-lg"></p>
+
+            <button type="button" disabled id="btn-next" onclick="validarDuplicados()" class="w-full bg-red-600 text-white font-black py-5 rounded-2xl shadow-xl uppercase italic text-lg">
                 Verificar y Continuar
             </button>
         </div>
 
-        <div id="step-2" class="step-content space-y-6">
-            <h3 class="text-xl font-black italic uppercase text-red-600 text-center">Documentación</h3>
+        <div id="step-2" class="step-content space-y-5">
+            <div class="text-center space-y-2">
+                <h3 class="text-xl font-black italic uppercase text-red-600">Expediente Digital</h3>
+                <p class="text-[9px] text-slate-400 font-bold uppercase">Usa la cámara frontal para el video y posterior para documentos</p>
+            </div>
             
+            <label class="block bg-slate-900 p-8 rounded-3xl border-2 border-dashed border-red-600 text-center cursor-pointer">
+                <span class="material-symbols-outlined text-red-600 text-5xl mb-2">videocam</span>
+                <p id="txt-video" class="text-xs font-black uppercase">Grabar Video Selfie</p>
+                <p class="text-[8px] text-red-400 mt-2 font-bold uppercase">Claro, sin gafas y mínimo 5 segundos</p>
+                <input type="file" id="fVideo" accept="video/*" capture="user" class="hidden" required onchange="vLabel(this, 'txt-video'); checkFase2();">
+            </label>
+
             <div class="grid grid-cols-2 gap-3">
-                <label class="col-span-2 bg-slate-900 p-4 rounded-xl border border-dashed border-red-600/40 text-center cursor-pointer">
-                    <span id="txt-video" class="text-[10px] font-black uppercase">Video Selfie</span>
-                    <input type="file" id="fVideo" accept="video/*" capture="user" class="hidden" required onchange="vLabel(this, 'txt-video'); checkFase2();">
-                </label>
                 <label class="bg-slate-900 p-4 rounded-xl border border-slate-800 text-center cursor-pointer">
                     <span id="txt-cf" class="text-[9px] font-black uppercase">Cédula Frontal</span>
-                    <input type="file" id="fCedF" accept="image/*" class="hidden" required onchange="vLabel(this, 'txt-cf'); checkFase2();">
+                    <input type="file" id="fCedF" accept="image/*" capture="environment" class="hidden" required onchange="vLabel(this, 'txt-cf'); checkFase2();">
                 </label>
                 <label class="bg-slate-900 p-4 rounded-xl border border-slate-800 text-center cursor-pointer">
                     <span id="txt-cp" class="text-[9px] font-black uppercase">Cédula Posterior</span>
-                    <input type="file" id="fCedP" accept="image/*" class="hidden" required onchange="vLabel(this, 'txt-cp'); checkFase2();">
+                    <input type="file" id="fCedP" accept="image/*" capture="environment" class="hidden" required onchange="vLabel(this, 'txt-cp'); checkFase2();">
                 </label>
                 <label class="bg-slate-900 p-4 rounded-xl border border-slate-800 text-center cursor-pointer">
                     <span id="txt-lf" class="text-[9px] font-black uppercase">Licencia Frontal</span>
-                    <input type="file" id="fLicF" accept="image/*" class="hidden" required onchange="vLabel(this, 'txt-lf'); checkFase2();">
+                    <input type="file" id="fLicF" accept="image/*" capture="environment" class="hidden" required onchange="vLabel(this, 'txt-lf'); checkFase2();">
                 </label>
                 <label class="bg-slate-900 p-4 rounded-xl border border-slate-800 text-center cursor-pointer">
                     <span id="txt-lp" class="text-[9px] font-black uppercase">Licencia Posterior</span>
-                    <input type="file" id="fLicP" accept="image/*" class="hidden" required onchange="vLabel(this, 'txt-lp'); checkFase2();">
+                    <input type="file" id="fLicP" accept="image/*" capture="environment" class="hidden" required onchange="vLabel(this, 'txt-lp'); checkFase2();">
+                </label>
+                <label class="bg-slate-900 p-4 rounded-xl border border-slate-800 text-center cursor-pointer">
+                    <span id="txt-mf" class="text-[9px] font-black uppercase text-red-500">Matrícula Frontal</span>
+                    <input type="file" id="fMatF" accept="image/*" capture="environment" class="hidden" required onchange="vLabel(this, 'txt-mf'); checkFase2();">
+                </label>
+                <label class="bg-slate-900 p-4 rounded-xl border border-slate-800 text-center cursor-pointer">
+                    <span id="txt-mp" class="text-[9px] font-black uppercase text-red-500">Matrícula Posterior</span>
+                    <input type="file" id="fMatP" accept="image/*" capture="environment" class="hidden" required onchange="vLabel(this, 'txt-mp'); checkFase2();">
                 </label>
             </div>
 
             <div class="space-y-2">
-                <label class="flex items-center justify-between p-4 bg-slate-900 rounded-xl">
-                    <span class="text-[10px] font-black uppercase">Planilla Luz</span>
+                <label class="flex items-center justify-between p-4 bg-slate-900 rounded-xl border border-slate-800">
+                    <span class="text-[9px] font-black uppercase">Planilla Luz (PDF)</span>
                     <input type="file" id="fPlanilla" accept=".pdf" class="hidden" required onchange="vLabel(this, 'st-luz'); checkFase2();">
-                    <span id="st-luz" class="bg-red-600 text-[9px] px-3 py-1 rounded-full font-black">SUBIR PDF</span>
+                    <span id="st-luz" class="bg-red-600 text-[8px] px-2 py-1 rounded-full font-black">SUBIR</span>
                 </label>
-                <label class="flex items-center justify-between p-4 bg-slate-900 rounded-xl">
-                    <span class="text-[10px] font-black uppercase">Antecedentes</span>
+                <label class="flex items-center justify-between p-4 bg-slate-900 rounded-xl border border-slate-800">
+                    <span class="text-[9px] font-black uppercase">Antecedentes (PDF)</span>
                     <input type="file" id="fAnt" accept=".pdf" class="hidden" required onchange="vLabel(this, 'st-ant'); checkFase2();">
-                    <span id="st-ant" class="bg-red-600 text-[9px] px-3 py-1 rounded-full font-black">SUBIR PDF</span>
+                    <span id="st-ant" class="bg-red-600 text-[8px] px-2 py-1 rounded-full font-black">SUBIR</span>
                 </label>
-                <label class="flex items-center justify-between p-4 bg-slate-900 rounded-xl">
-                    <span class="text-[10px] font-black uppercase">Cert. Banco</span>
+                <label class="flex items-center justify-between p-4 bg-slate-900 rounded-xl border border-slate-800">
+                    <span class="text-[9px] font-black uppercase">Cert. Bancario (PDF)</span>
                     <input type="file" id="fBanco" accept=".pdf" class="hidden" required onchange="vLabel(this, 'st-banco'); checkFase2();">
-                    <span id="st-banco" class="bg-red-600 text-[9px] px-3 py-1 rounded-full font-black">SUBIR PDF</span>
+                    <span id="st-banco" class="bg-red-600 text-[8px] px-2 py-1 rounded-full font-black">SUBIR</span>
                 </label>
             </div>
 
-            <button type="submit" disabled id="btn-final" class="w-full bg-green-600 text-white font-black py-5 rounded-2xl uppercase italic">
+            <button type="submit" disabled id="btn-final" class="w-full bg-green-600 text-white font-black py-5 rounded-2xl uppercase italic text-lg shadow-lg">
                 Finalizar Registro
             </button>
         </div>
 
-        <div id="step-success" class="step-content text-center py-20">
-            <h2 class="text-3xl font-black italic uppercase">¡ÉXITO!</h2>
-            <button type="button" onclick="window.close()" class="w-full bg-slate-800 p-4 rounded-xl mt-10 uppercase italic">Cerrar</button>
+        <div id="step-success" class="step-content text-center py-20 space-y-6">
+            <span class="material-symbols-outlined text-8xl text-green-500">verified</span>
+            <h2 class="text-3xl font-black italic uppercase">Registro Exitoso</h2>
+            <p class="text-slate-400 text-sm">Tu expediente ha sido enviado a revisión.</p>
+            <button type="button" onclick="window.close()" class="w-full bg-slate-800 p-5 rounded-2xl font-black uppercase italic mt-10 border border-slate-700">Cerrar Aplicación</button>
         </div>
     </form>
 </main>
 
+<footer class="p-6 text-center text-slate-600 border-t border-slate-900 bg-black/50">
+    <p class="text-[9px] font-black uppercase tracking-[0.3em]">2026 KM0 BY CORPORACIÓN 360</p>
+</footer>
+
 <script>
+    function formatPlaca(el) {
+        let v = el.value.replace(/[^A-Z0-9]/g, '');
+        if (v.length > 2) v = v.slice(0, 2) + '-' + v.slice(2);
+        el.value = v.slice(0, 7);
+    }
+
     function checkFase1() {
         const ids = ['nombre', 'email', 'cedula', 'tel', 'provincia', 'ciudad', 'marca', 'placa'];
         const valid = ids.every(id => document.getElementById(id).value.trim() !== "");
@@ -150,28 +165,25 @@
     }
 
     function checkFase2() {
-        const files = ['fVideo', 'fCedF', 'fCedP', 'fLicF', 'fLicP', 'fPlanilla', 'fAnt', 'fBanco'];
+        const files = ['fVideo', 'fCedF', 'fCedP', 'fLicF', 'fLicP', 'fMatF', 'fMatP', 'fPlanilla', 'fAnt', 'fBanco'];
         const valid = files.every(id => document.getElementById(id).files.length > 0);
         document.getElementById('btn-final').disabled = !valid;
-    }
-
-    function formatearPlaca(el) {
-        let val = el.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
-        if (val.length > 3) val = val.slice(0, 3) + '-' + val.slice(3);
-        el.value = val;
     }
 
     function vLabel(input, id) {
         if(input.files[0]) {
             const el = document.getElementById(id);
             el.innerText = "LISTO ✅";
-            el.classList.add('text-green-500');
+            el.style.color = "#22c55e";
         }
     }
 
     async function validarDuplicados() {
         const btn = document.getElementById('btn-next');
+        const err = document.getElementById('error-msg');
         btn.innerText = "VERIFICANDO...";
+        err.classList.add('hidden');
+
         try {
             const resp = await fetch(API_URL, {
                 method: 'POST',
@@ -187,8 +199,13 @@
             if(res.success) {
                 document.getElementById('step-1').classList.remove('active');
                 document.getElementById('step-2').classList.add('active');
-            } else { alert(res.mensaje); btn.innerText = "Verificar y Continuar"; }
-        } catch(e) { alert("Error de conexión"); }
+                window.scrollTo(0,0);
+            } else {
+                err.innerText = res.mensaje;
+                err.classList.remove('hidden');
+                btn.innerText = "Verificar y Continuar";
+            }
+        } catch(e) { alert("Error de conexión"); btn.innerText = "Verificar y Continuar"; }
     }
 
     const toB64 = f => new Promise((res) => {
@@ -215,6 +232,8 @@
             fCedP: await toB64(document.getElementById('fCedP').files[0]),
             fLicF: await toB64(document.getElementById('fLicF').files[0]),
             fLicP: await toB64(document.getElementById('fLicP').files[0]),
+            fMatF: await toB64(document.getElementById('fMatF').files[0]),
+            fMatP: await toB64(document.getElementById('fMatP').files[0]),
             fPlanilla: await toB64(document.getElementById('fPlanilla').files[0]),
             fAnt: await toB64(document.getElementById('fAnt').files[0]),
             fBanco: await toB64(document.getElementById('fBanco').files[0])
