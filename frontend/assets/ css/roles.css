@@ -1,72 +1,52 @@
-/* Variables de Identidad KM0 */
+/* ==========================================
+   CONFIGURACIÓN MAESTRA DE COLORES KM0
+   ========================================== */
 :root {
-    --km0-red: #EC1313;
-    --km0-electric-blue: #0070FF;
-    --km0-fuchsia: #FF00FF;
-    --km0-dark-bg: #000000;
-    --km0-zinc-card: rgba(24, 24, 27, 0.5);
+    /* Si cambias esto aquí, cambia en TODA la web */
+    --brand-shop-primary: #0070FF;   /* Azul Eléctrico */
+    --brand-shop-secondary: #FF00FF; /* Fucsia */
+    --brand-rider: #EC1313;          /* Rojo Motorizado */
+    --bg-dark: #000000;
 }
 
-/* Base */
-body { 
-    background-color: var(--km0-dark-bg); 
-    font-family: 'Inter', sans-serif; 
-    color: white;
-    margin: 0;
-}
-
-/* Estilos de Inputs (CSS Puro para evitar error de blanco) */
-.input-container {
-    position: relative;
-    width: 100%;
-    height: 56px;
-    background: rgba(39, 39, 42, 0.3); /* zinc-900/30 */
-    border: 1px solid rgba(63, 63, 70, 0.5); /* zinc-800 */
+/* Estilos Globales para Inputs (Para que no salgan blancos) */
+.km0-input-group {
+    background: rgba(24, 24, 27, 0.8) !important;
+    border: 1px solid rgba(63, 63, 70, 0.4) !important;
     border-radius: 16px;
-    margin-bottom: 16px;
     display: flex;
     align-items: center;
     padding: 0 16px;
-    transition: all 0.3s ease;
+    height: 60px;
+    margin-bottom: 12px;
+    transition: all 0.3s;
 }
 
-.input-container:focus-within {
-    border-color: var(--km0-electric-blue);
+.km0-input-group:focus-within {
+    border-color: var(--brand-shop-primary) !important;
+    box-shadow: 0 0 15px rgba(0, 112, 255, 0.1);
 }
 
-.input-field {
-    background: transparent;
-    border: none;
+.km0-input-field {
+    background: transparent !important;
+    border: none !important;
     width: 100%;
-    color: white;
-    outline: none;
-    font-size: 14px;
-    font-weight: 600;
+    color: white !important;
+    outline: none !important;
+    font-size: 15px;
 }
 
-.input-field::placeholder {
-    color: #52525b; /* zinc-600 */
-}
-
-/* Clases para el Rol TIENDA */
-.theme-shop-text {
-    background: linear-gradient(90deg, var(--km0-electric-blue), var(--km0-fuchsia));
+/* Clases de Identidad para TIENDAS */
+.shop-gradient-text {
+    background: linear-gradient(90deg, var(--brand-shop-primary), var(--brand-shop-secondary));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
-.theme-shop-btn {
-    background: linear-gradient(90deg, var(--km0-electric-blue) 0%, var(--km0-fuchsia) 100%);
-    box-shadow: 0 0 20px rgba(0, 112, 255, 0.3);
-    border: none;
-    cursor: pointer;
+.shop-gradient-bg {
+    background: linear-gradient(90deg, var(--brand-shop-primary), var(--brand-shop-secondary)) !important;
 }
 
-.theme-shop-btn:disabled {
-    opacity: 0.3;
-}
-
-/* Animaciones compartidas */
-.glow-blue-fuchsia {
-    background: radial-gradient(circle, rgba(0, 112, 255, 0.1) 0%, rgba(255, 0, 255, 0.05) 50%, transparent 70%);
+.shop-glow {
+    background: radial-gradient(circle at center, rgba(0, 112, 255, 0.15) 0%, transparent 70%);
 }
