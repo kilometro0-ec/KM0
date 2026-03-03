@@ -2,200 +2,148 @@
 <html class="dark" lang="es">
 <head>
     <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>KM0 - Nuevo Producto</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+    <title>KM0 - Panel Operativo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-    <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#137fec",
-                        "background-dark": "#0a0f16",
-                        "neutral-dark": "#121923",
-                    },
-                },
-            },
-        }
-    </script>
     <style>
-        body { font-family: 'Inter'; background-color: #0a0f16; color: white; }
-        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
-        input:focus, select:focus, textarea:focus { 
-            border-color: #137fec !important; 
-            box-shadow: 0 0 0 2px rgba(19, 127, 236, 0.2) !important; 
-            outline: none; 
+        body { font-family: 'Inter'; background-color: #0a0f16; color: white; -webkit-tap-highlight-color: transparent; }
+        .ios-blur { backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); }
+        
+        /* Efecto de Resplandor Eléctrico */
+        @keyframes electric-glow {
+            0% { box-shadow: 0 0 5px rgba(19, 127, 236, 0.1); border-color: rgba(19, 127, 236, 0.2); }
+            50% { box-shadow: 0 0 20px rgba(19, 127, 236, 0.4); border-color: #137fec; }
+            100% { box-shadow: 0 0 5px rgba(19, 127, 236, 0.1); border-color: rgba(19, 127, 236, 0.2); }
         }
-        #preview-img { display: none; width: 100%; height: 100%; object-fit: cover; border-radius: 1.5rem; }
+        .glow-alert { animation: electric-glow 2s infinite ease-in-out; border-width: 1px !important; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col pb-32">
+<body class="min-h-screen pb-24">
 
-    <header class="sticky top-0 z-50 bg-background-dark/80 backdrop-blur-md border-b border-primary/20 p-4 flex items-center">
-        <button onclick="location.href='panel-operativo-tienda.html'" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-primary/10 transition-colors">
-            <span class="material-symbols-outlined text-white">arrow_back_ios_new</span>
-        </button>
-        <div class="flex-1 text-center">
-            <h1 class="text-sm font-black italic uppercase tracking-widest">Añadir Producto</h1>
+    <header class="sticky top-0 z-50 bg-background-dark/80 ios-blur border-b border-white/5 px-4 py-3 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <div class="size-10 rounded-full bg-[#137fec]/20 flex items-center justify-center border border-[#137fec]/40">
+                <span class="material-symbols-outlined text-[#137fec] font-variation-fill">store</span>
+            </div>
+            <div>
+                <h1 id="shop-name-display" class="text-sm font-black italic uppercase leading-none text-white tracking-tight">Cargando...</h1>
+                <p class="text-[9px] text-[#137fec] font-black uppercase tracking-[0.2em] leading-none mt-1">KM0 Business</p>
+            </div>
         </div>
-        <div class="w-10"></div>
+        
+        <div class="flex items-center gap-2">
+            <button class="size-10 flex items-center justify-center rounded-full bg-[#121923] border border-white/10">
+                <span class="material-symbols-outlined text-[#137fec] font-variation-fill text-xl">notifications</span>
+            </button>
+            <button onclick="logout()" class="size-10 flex items-center justify-center rounded-full bg-[#121923] border border-red-500/30 active:scale-90 transition-all">
+                <span class="material-symbols-outlined text-red-500 font-variation-fill text-xl">logout</span>
+            </button>
+        </div>
     </header>
 
-    <main class="max-w-md mx-auto p-4 space-y-8 w-full">
-        
-        <section class="space-y-3">
-            <h2 class="text-[10px] font-black uppercase tracking-[0.2em] text-primary">Visual del Producto</h2>
-            <div class="relative group">
-                <div id="drop-zone" class="relative flex flex-col items-center justify-center gap-4 rounded-3xl border-2 border-dashed border-primary/40 bg-primary/5 px-6 py-10 transition-all hover:bg-primary/10 overflow-hidden">
-                    <img id="preview-img" src="#" alt="Vista previa">
-                    <div id="upload-placeholder" class="contents">
-                        <div class="size-16 rounded-full bg-primary/20 flex items-center justify-center text-primary">
-                            <span class="material-symbols-outlined text-4xl">add_a_photo</span>
-                        </div>
-                        <div class="text-center">
-                            <p class="text-sm font-black italic uppercase text-white">Subir Fotografía</p>
-                            <p class="text-[9px] text-slate-500 mt-1 uppercase font-bold">JPG o PNG (Alta Resolución)</p>
-                        </div>
-                    </div>
-                    <input type="file" id="fileInput" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" />
+    <main class="p-4 space-y-4 max-w-md mx-auto">
+        <div id="card-saldo" class="p-6 bg-[#121923] rounded-[2.5rem] border border-white/5 transition-all">
+            <div class="flex justify-between items-start mb-6">
+                <div class="size-12 rounded-2xl bg-[#137fec]/10 flex items-center justify-center text-[#137fec]">
+                    <span class="material-symbols-outlined text-3xl">payments</span>
+                </div>
+                <div class="text-right">
+                    <p class="text-[10px] font-black uppercase text-slate-500 tracking-widest">Saldo Finanzas</p>
+                    <p class="text-[9px] text-[#137fec] font-bold">DISPONIBLE</p>
                 </div>
             </div>
-        </section>
+            <h2 id="val-saldo" class="text-5xl font-black italic tracking-tighter">$0.00</h2>
+        </div>
 
-        <div class="space-y-5">
-            <div class="flex flex-col gap-2">
-                <label class="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Nombre del Producto</label>
-                <input id="prodNombre" class="w-full h-14 bg-neutral-dark border border-white/10 rounded-2xl px-5 text-white placeholder:text-slate-600 font-bold italic" placeholder="Ej. Casco Integral Nitro" type="text"/>
-            </div>
-
-            <div class="flex flex-col gap-2">
-                <label class="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Categoría</label>
-                <div class="relative">
-                    <select id="prodCategoria" class="appearance-none w-full h-14 bg-neutral-dark border border-white/10 rounded-2xl px-5 text-white font-bold italic">
-                        <option disabled selected>Seleccionar categoría</option>
-                        <option>Accesorios</option>
-                        <option>Repuestos Motor</option>
-                        <option>Llantas y Neumáticos</option>
-                        <option>Seguridad / Cascos</option>
-                    </select>
-                    <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-primary">expand_more</span>
+        <div class="grid grid-cols-2 gap-4">
+            <div id="card-entregados" class="p-5 bg-[#121923] rounded-[2.2rem] border border-white/5">
+                <p class="text-[10px] font-black uppercase text-slate-500 mb-2">Entregados</p>
+                <div class="flex items-end justify-between">
+                    <h3 id="val-entregados" class="text-3xl font-black italic">0</h3>
+                    <span class="material-symbols-outlined text-[#137fec]">task_alt</span>
                 </div>
             </div>
 
-            <div class="grid grid-cols-2 gap-4">
-                <div class="flex flex-col gap-2">
-                    <label class="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Stock Inicial</label>
-                    <div class="relative">
-                        <input id="prodStock" class="w-full h-14 bg-neutral-dark border border-white/10 rounded-2xl px-5 text-white font-black italic" placeholder="0" type="number"/>
-                        <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-primary text-xl">inventory_2</span>
-                    </div>
-                </div>
-                <div class="flex flex-col gap-2">
-                    <label class="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Precio Unit.</label>
-                    <div class="relative">
-                        <input id="prodPrecio" class="w-full h-14 bg-neutral-dark border border-white/10 rounded-2xl px-8 text-white font-black italic" placeholder="0.00" type="number" step="0.01"/>
-                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-primary font-black italic">$</span>
-                    </div>
+            <div id="card-novedades" class="p-5 bg-[#121923] rounded-[2.2rem] border border-white/5">
+                <p class="text-[10px] font-black uppercase text-red-500/80 mb-2 tracking-tighter">Novedades</p>
+                <div class="flex items-end justify-between">
+                    <h3 id="val-novedades" class="text-3xl font-black italic text-red-500">0</h3>
+                    <span class="material-symbols-outlined text-red-500">error</span>
                 </div>
             </div>
+        </div>
 
-            <div class="flex flex-col gap-2">
-                <label class="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Especificaciones Técnicas</label>
-                <textarea id="prodDesc" class="w-full bg-neutral-dark border border-white/10 rounded-2xl p-5 text-white placeholder:text-slate-600 font-bold italic resize-none" placeholder="Indica tallas, colores o compatibilidad..." rows="3"></textarea>
-            </div>
-
-            <div class="flex items-center justify-between p-5 bg-primary/5 border border-primary/20 rounded-2xl mt-4">
-                <div class="flex items-center gap-3">
-                    <div class="size-10 rounded-xl bg-primary/20 flex items-center justify-center text-primary">
-                        <span class="material-symbols-outlined font-variation-fill">visibility</span>
-                    </div>
-                    <div>
-                        <p class="text-xs font-black italic uppercase">Disponible</p>
-                        <p class="text-[9px] text-slate-500 font-bold uppercase">Visible en el catálogo KM0</p>
-                    </div>
+        <div id="card-stock" class="p-5 bg-[#121923] rounded-[2.2rem] border border-white/5 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <div class="size-10 rounded-xl bg-white/5 flex items-center justify-center text-slate-400">
+                    <span class="material-symbols-outlined">inventory_2</span>
                 </div>
-                <label class="relative inline-flex items-center cursor-pointer">
-                    <input id="prodEstado" checked class="sr-only peer" type="checkbox"/>
-                    <div class="w-11 h-6 bg-white/10 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
-                </label>
+                <div>
+                    <p class="text-[10px] font-black uppercase text-slate-500">Stock en Catálogo</p>
+                    <p class="text-xs font-bold text-white uppercase">Productos Activos</p>
+                </div>
             </div>
+            <h3 id="val-stock" class="text-2xl font-black italic text-[#137fec]">0</h3>
         </div>
     </main>
 
-    <div class="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-background-dark via-background-dark to-transparent">
-        <div class="max-w-md mx-auto">
-            <button onclick="enviarProducto()" id="btnGuardar" class="w-full h-16 bg-primary text-white font-black italic rounded-2xl flex items-center justify-center gap-3 shadow-[0_8px_30px_rgba(19,127,236,0.4)] active:scale-95 transition-all uppercase tracking-widest">
-                <span class="material-symbols-outlined font-bold">save</span>
-                Guardar en Catálogo
+    <nav class="fixed bottom-0 left-0 right-0 p-4 z-50">
+        <div class="max-w-md mx-auto bg-neutral-900/90 ios-blur border border-white/10 rounded-[2.5rem] h-20 flex items-center justify-around px-2 shadow-2xl">
+            <button class="flex flex-col items-center text-[#137fec]">
+                <span class="material-symbols-outlined font-variation-fill">grid_view</span>
+                <span class="text-[9px] font-black uppercase mt-1">Panel</span>
+            </button>
+            <button onclick="location.href='pedidos.html'" class="size-14 rounded-full bg-[#137fec] text-white shadow-[0_0_20px_rgba(19,127,236,0.5)] -translate-y-6 border-4 border-[#0a0f16] flex items-center justify-center active:scale-90 transition-all">
+                <span class="material-symbols-outlined text-3xl font-bold">add</span>
+            </button>
+            <button onclick="location.href='finanzas.html'" class="flex flex-col items-center text-slate-500">
+                <span class="material-symbols-outlined">account_balance</span>
+                <span class="text-[9px] font-black uppercase mt-1">Caja</span>
             </button>
         </div>
-    </div>
+    </nav>
 
     <script>
-        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec'; // <--- PEGA AQUÍ TU URL DE IMPLEMENTACIÓN
-        let imagenBase64 = "";
+        const API_URL = 'https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec'; // <--- PEGA AQUÍ TU URL
 
-        // Manejo de imagen y vista previa
-        document.getElementById('fileInput').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    imagenBase64 = event.target.result;
-                    document.getElementById('preview-img').src = imagenBase64;
-                    document.getElementById('preview-img').style.display = 'block';
-                    document.getElementById('upload-placeholder').style.display = 'none';
-                };
-                reader.readAsDataURL(file);
-            }
-        });
+        window.onload = function() {
+            // Mostrar nombre guardado en localStorage tras login
+            const nombre = localStorage.getItem('tiendaNombre');
+            if(nombre) document.getElementById('shop-name-display').innerText = nombre;
+            
+            sincronizar();
+        };
 
-        async function enviarProducto() {
-            const btn = document.getElementById('btnGuardar');
-            const idTienda = localStorage.getItem('usuarioId') || "KC-TEST";
-
-            // Datos del formulario
-            const datos = {
-                accion: 'agregar_producto',
-                idTienda: idTienda,
-                nombre: document.getElementById('prodNombre').value,
-                categoria: document.getElementById('prodCategoria').value,
-                stock: document.getElementById('prodStock').value,
-                precio: document.getElementById('prodPrecio').value,
-                descripcion: document.getElementById('prodDesc').value,
-                disponible: document.getElementById('prodEstado').checked,
-                imagenBase64: imagenBase64
-            };
-
-            // Validación simple
-            if (!datos.nombre || !datos.precio || !imagenBase64 || datos.categoria === "Seleccionar categoría") {
-                alert("⚠️ Por favor completa los campos obligatorios y sube una foto.");
-                return;
-            }
-
-            // Bloquear botón
-            btn.disabled = true;
-            btn.innerHTML = `<span class="material-symbols-outlined animate-spin">sync</span> PROCESANDO...`;
+        async function sincronizar() {
+            const idTienda = localStorage.getItem('usuarioId');
+            if(!idTienda) return;
 
             try {
-                // Usamos fetch con modo 'no-cors' para Google Scripts
-                await fetch(WEB_APP_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    body: JSON.stringify(datos)
-                });
+                const res = await fetch(`${API_URL}?accion=obtener_resumen_panel&idTienda=${idTienda}`);
+                const data = await res.json();
+                
+                if(data.success) {
+                    updateCard('val-saldo', `$${data.saldo}`, 'card-saldo', data.saldo > 0);
+                    updateCard('val-entregados', data.entregados, 'card-entregados', data.entregados > 0);
+                    updateCard('val-novedades', data.novedades, 'card-novedades', data.novedades > 0);
+                    updateCard('val-stock', data.totalStock, 'card-stock', false);
+                }
+            } catch(e) { console.error("Error de sincronización"); }
+        }
 
-                alert("✅ ¡Producto guardado exitosamente!");
-                location.href = 'panel-operativo-tienda.html';
+        function updateCard(valId, valor, cardId, glow) {
+            document.getElementById(valId).innerText = valor;
+            const card = document.getElementById(cardId);
+            if(glow) card.classList.add('glow-alert');
+            else card.classList.remove('glow-alert');
+        }
 
-            } catch (error) {
-                console.error("Error:", error);
-                alert("❌ Hubo un error al guardar. Revisa tu conexión.");
-                btn.disabled = false;
-                btn.innerHTML = `<span class="material-symbols-outlined font-bold">save</span> Guardar en Catálogo`;
+        function logout() {
+            if(confirm("¿Deseas cerrar sesión en KM0?")) {
+                localStorage.clear();
+                window.location.href = 'index.html';
             }
         }
     </script>
