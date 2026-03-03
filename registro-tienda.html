@@ -14,7 +14,7 @@
             theme: {
                 extend: {
                     colors: {
-                        "neon-blue": "#0070FF",
+                        "electric-blue": "#0070FF",
                         "neon-fuchsia": "#FF00FF",
                         "deep-black": "#050505",
                     },
@@ -26,24 +26,26 @@
 
     <style type="text/tailwindcss">
         :root {
-            --neon-blue: #0070FF;
+            --electric-blue: #0070FF;
             --neon-fuchsia: #FF00FF;
         }
         body {
             background-color: #050505;
-            /* El resplandor del fondo ahora es azulado */
-            background-image: radial-gradient(circle at 50% -20%, #002244 0%, #050505 70%);
+            /* Fondo con aura Azul pero destellos Fucsia en los bordes */
+            background-image: radial-gradient(circle at 50% -20%, #001133 0%, #050505 80%);
             min-height: 100dvh;
         }
-        .neon-blue-glow {
-            text-shadow: 0 0 15px rgba(0, 112, 255, 0.7), 0 0 5px rgba(0, 112, 255, 0.5);
+        .neon-fuchsia-glow {
+            text-shadow: 0 0 15px rgba(255, 0, 255, 0.8), 0 0 5px rgba(255, 0, 255, 0.5);
         }
-        .neon-border-blue:focus {
-            box-shadow: 0 0 15px rgba(0, 112, 255, 0.4);
-            border-color: var(--neon-blue) !important;
+        /* Borde de foco en AZUL pero con sombra FUCSIA */
+        .neon-border-fusion:focus {
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.3);
+            border-color: var(--electric-blue) !important;
         }
-        .neon-btn-blue {
-            box-shadow: 0 0 20px rgba(0, 112, 255, 0.4), 0 0 40px rgba(255, 0, 255, 0.1);
+        /* Botón con el glow más potente */
+        .neon-btn-fusion {
+            box-shadow: 0 0 20px rgba(0, 112, 255, 0.4), 0 0 40px rgba(255, 0, 255, 0.3);
         }
         .capsule-input {
             @apply bg-black/40 border border-white/10 rounded-full transition-all duration-300 text-white placeholder-white/20;
@@ -56,102 +58,96 @@
     </style>
 </head>
 
-<body class="text-slate-100 font-sans selection:bg-neon-blue selection:text-white">
+<body class="text-slate-100 font-sans selection:bg-neon-fuchsia selection:text-white">
 
     <div class="min-h-screen flex flex-col" id="contenedorForm">
-        <header class="sticky top-0 z-50 bg-deep-black/60 ios-blur px-4 h-20 flex items-center justify-between">
-            <button onclick="window.location.href='index.html'" class="flex items-center justify-center size-12 rounded-full bg-white/5 border border-white/10 active:scale-95 transition-transform">
+        <header class="sticky top-0 z-50 bg-deep-black/60 ios-blur px-4 h-20 flex items-center justify-between border-b border-electric-blue/10">
+            <button onclick="window.location.href='index.html'" class="flex items-center justify-center size-12 rounded-full bg-white/5 border border-white/10 active:scale-95">
                 <span class="material-symbols-outlined text-white text-2xl">arrow_back_ios_new</span>
             </button>
             <div class="flex flex-col items-center">
-                <span class="text-sm uppercase tracking-[0.3em] font-black text-neon-blue neon-blue-glow italic">KILÓMETRO CERO</span>
-                <span class="text-xs text-white/50 font-medium uppercase">El limite eres tú...</span>
+                <span class="text-sm uppercase tracking-[0.3em] font-black text-neon-fuchsia neon-fuchsia-glow italic">KILÓMETRO CERO</span>
+                <span class="text-xs text-electric-blue font-medium uppercase tracking-widest opacity-80">El limite eres tú...</span>
             </div>
-            <div class="size-12 flex items-center justify-center bg-neon-blue/10 rounded-full border border-neon-blue/20">
-                <span class="material-symbols-outlined text-neon-blue">storefront</span>
+            <div class="size-12 flex items-center justify-center bg-electric-blue/10 rounded-full border border-neon-fuchsia/30">
+                <span class="material-symbols-outlined text-neon-fuchsia">storefront</span>
             </div>
         </header>
 
         <main class="flex-1 px-6 pt-10 pb-40 max-w-[480px] mx-auto w-full">
             <div class="mb-10">
                 <h1 class="text-3xl font-black italic tracking-tighter text-white uppercase leading-tight">
-                    REGISTRA TU <br/><span class="text-neon-blue neon-blue-glow">TIENDA</span>
+                    REGISTRA TU <br/>
+                    <span class="text-neon-fuchsia neon-fuchsia-glow">TIENDA</span>
                 </h1>
-                <div class="h-1 w-12 bg-gradient-to-r from-neon-blue to-neon-fuchsia mt-4 rounded-full"></div>
+                <div class="h-1.5 w-16 bg-gradient-to-r from-electric-blue via-neon-fuchsia to-electric-blue mt-4 rounded-full"></div>
             </div>
 
             <form id="formTienda" class="space-y-4">
                 <div class="relative group">
-                    <span class="material-symbols-outlined absolute left-5 top-1/2 -translate-y-1/2 text-white/30 group-focus-within:text-neon-blue transition-colors text-xl">store</span>
-                    <input id="nombreTienda" required class="capsule-input w-full h-14 pl-14 pr-6 outline-none focus:ring-0 neon-border-blue" placeholder="Nombre Comercial" type="text"/>
+                    <span class="material-symbols-outlined absolute left-5 top-1/2 -translate-y-1/2 text-electric-blue/40 group-focus-within:text-neon-fuchsia transition-colors text-xl">store</span>
+                    <input id="nombreTienda" required class="capsule-input w-full h-14 pl-14 pr-6 outline-none focus:ring-0 neon-border-fusion" placeholder="Nombre Comercial" type="text"/>
                 </div>
 
                 <div class="relative group">
-                    <span class="material-symbols-outlined absolute left-5 top-1/2 -translate-y-1/2 text-white/30 group-focus-within:text-neon-blue transition-colors text-xl">person</span>
-                    <input id="representante" required class="capsule-input w-full h-14 pl-14 pr-6 outline-none focus:ring-0 neon-border-blue" placeholder="Representante Legal" type="text"/>
+                    <span class="material-symbols-outlined absolute left-5 top-1/2 -translate-y-1/2 text-electric-blue/40 group-focus-within:text-neon-fuchsia transition-colors text-xl">person</span>
+                    <input id="representante" required class="capsule-input w-full h-14 pl-14 pr-6 outline-none focus:ring-0 neon-border-fusion" placeholder="Representante Legal" type="text"/>
                 </div>
 
                 <div class="relative group">
-                    <span class="material-symbols-outlined absolute left-5 top-1/2 -translate-y-1/2 text-white/30 group-focus-within:text-neon-blue transition-colors text-xl">fingerprint</span>
-                    <input id="identificacion" minlength="10" maxlength="13" pattern="[0-9]{10,13}" required class="capsule-input w-full h-14 pl-14 pr-6 outline-none focus:ring-0 neon-border-blue" placeholder="Cédula o RUC (10-13 dígitos)" type="text"/>
+                    <span class="material-symbols-outlined absolute left-5 top-1/2 -translate-y-1/2 text-electric-blue/40 group-focus-within:text-neon-fuchsia transition-colors text-xl">fingerprint</span>
+                    <input id="identificacion" minlength="10" maxlength="13" pattern="[0-9]{10,13}" required class="capsule-input w-full h-14 pl-14 pr-6 outline-none focus:ring-0 neon-border-fusion" placeholder="Cédula o RUC (10-13 dígitos)" type="text"/>
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">
                     <div class="relative group">
-                        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-white/30 group-focus-within:text-neon-blue transition-colors text-lg">map</span>
-                        <select id="provincia" required class="capsule-input w-full h-14 pl-12 pr-4 text-xs outline-none focus:ring-0 neon-border-blue appearance-none">
+                        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-electric-blue/40 group-focus-within:text-neon-fuchsia transition-colors text-lg">map</span>
+                        <select id="provincia" required class="capsule-input w-full h-14 pl-12 pr-4 text-xs outline-none focus:ring-0 neon-border-fusion appearance-none">
                             <option value="" disabled selected>Provincia</option>
-                            <option value="Azuay">Azuay</option><option value="Bolívar">Bolívar</option><option value="Cañar">Cañar</option>
-                            <option value="Carchi">Carchi</option><option value="Chimborazo">Chimborazo</option><option value="Cotopaxi">Cotopaxi</option>
-                            <option value="El Oro">El Oro</option><option value="Esmeraldas">Esmeraldas</option><option value="Galápagos">Galápagos</option>
-                            <option value="Guayas">Guayas</option><option value="Imbabura">Imbabura</option><option value="Loja">Loja</option>
-                            <option value="Los Ríos">Los Ríos</option><option value="Manabí">Manabí</option><option value="Morona Santiago">Morona Santiago</option>
-                            <option value="Napo">Napo</option><option value="Orellana">Orellana</option><option value="Pastaza">Pastaza</option>
-                            <option value="Pichincha">Pichincha</option><option value="Santa Elena">Santa Elena</option><option value="Santo Domingo">Santo Domingo</option>
-                            <option value="Sucumbíos">Sucumbíos</option><option value="Tungurahua">Tungurahua</option><option value="Zamora Chinchipe">Zamora Chinchipe</option>
-                        </select>
+                            <option value="Pichincha">Pichincha</option><option value="Guayas">Guayas</option><option value="Azuay">Azuay</option>
+                            </select>
                     </div>
                     <div class="relative group">
-                        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-white/30 group-focus-within:text-neon-blue transition-colors text-lg">location_city</span>
-                        <input id="ciudad" required class="capsule-input w-full h-14 pl-12 pr-4 text-sm outline-none focus:ring-0 neon-border-blue" placeholder="Ciudad" type="text"/>
+                        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-electric-blue/40 group-focus-within:text-neon-fuchsia transition-colors text-lg">location_city</span>
+                        <input id="ciudad" required class="capsule-input w-full h-14 pl-12 pr-4 text-sm outline-none focus:ring-0 neon-border-fusion" placeholder="Ciudad" type="text"/>
                     </div>
                 </div>
 
                 <div class="relative group">
-                    <span class="material-symbols-outlined absolute left-5 top-1/2 -translate-y-1/2 text-white/30 group-focus-within:text-neon-blue transition-colors text-xl">chat</span>
-                    <input id="telefono" pattern="^\+593[0-9]{9}$" required class="capsule-input w-full h-14 pl-14 pr-6 outline-none focus:ring-0 neon-border-blue" placeholder="WhatsApp (+593...)" type="tel"/>
+                    <span class="material-symbols-outlined absolute left-5 top-1/2 -translate-y-1/2 text-electric-blue/40 group-focus-within:text-neon-fuchsia transition-colors text-xl">chat</span>
+                    <input id="telefono" pattern="^\+593[0-9]{9}$" required class="capsule-input w-full h-14 pl-14 pr-6 outline-none focus:ring-0 neon-border-fusion" placeholder="WhatsApp (+593...)" type="tel"/>
                 </div>
 
                 <div class="relative group">
-                    <span class="material-symbols-outlined absolute left-5 top-1/2 -translate-y-1/2 text-white/30 group-focus-within:text-neon-blue transition-colors text-xl">mail</span>
-                    <input id="correo" required class="capsule-input w-full h-14 pl-14 pr-6 outline-none focus:ring-0 neon-border-blue" placeholder="Email Corporativo" type="email"/>
+                    <span class="material-symbols-outlined absolute left-5 top-1/2 -translate-y-1/2 text-electric-blue/40 group-focus-within:text-neon-fuchsia transition-colors text-xl">mail</span>
+                    <input id="correo" required class="capsule-input w-full h-14 pl-14 pr-6 outline-none focus:ring-0 neon-border-fusion" placeholder="Email Corporativo" type="email"/>
                 </div>
             </form>
         </main>
 
         <div class="fixed bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-deep-black via-deep-black/90 to-transparent pt-12">
             <div class="max-w-[480px] mx-auto">
-                <button type="submit" form="formTienda" id="btnEnviar" disabled class="w-full h-16 bg-gradient-to-r from-neon-blue via-neon-blue to-neon-fuchsia text-white font-black text-lg rounded-full neon-btn-blue active:scale-95 disabled:opacity-30 disabled:grayscale transition-all flex items-center justify-center gap-3 uppercase tracking-tighter italic">
+                <button type="submit" form="formTienda" id="btnEnviar" disabled class="w-full h-16 bg-gradient-to-r from-electric-blue via-neon-fuchsia to-electric-blue text-white font-black text-lg rounded-full neon-btn-fusion active:scale-95 disabled:opacity-30 disabled:grayscale transition-all flex items-center justify-center gap-3 uppercase tracking-tighter italic border border-white/10">
                     <span id="btnText">FINALIZAR REGISTRO</span>
                     <span class="material-symbols-outlined font-bold">rocket_launch</span>
                 </button>
                 <p class="text-[10px] text-center text-white/30 mt-6 uppercase tracking-widest">
-                    KM0 by CORPORACÓN 360     V.1.0.1
+                    KM0 by <span class="text-electric-blue font-bold">CORPORACIÓN</span> <span class="text-neon-fuchsia font-bold">360</span>     V.1.0.1
                 </p>
             </div>
         </div>
     </div>
-
+    
     <div class="fixed inset-0 bg-deep-black z-[100] hidden flex-col items-center justify-center px-10 text-center" id="success-view">
         <div class="mb-8 relative">
-            <div class="size-32 rounded-full border-4 border-neon-blue flex items-center justify-center neon-btn-blue">
-                <span class="material-symbols-outlined text-6xl text-neon-blue font-bold">check</span>
+            <div class="size-32 rounded-full border-4 border-neon-fuchsia flex items-center justify-center neon-btn-fusion">
+                <span class="material-symbols-outlined text-6xl text-neon-fuchsia font-bold">check</span>
             </div>
-            <div class="absolute inset-0 rounded-full border border-neon-blue animate-ping opacity-20"></div>
+            <div class="absolute inset-0 rounded-full border border-electric-blue animate-ping opacity-20"></div>
         </div>
         <h2 class="text-4xl font-black italic text-white mb-2 uppercase tracking-tighter">¡SOLICITUD ENVIADA!</h2>
-        <p class="text-white/60 text-sm leading-relaxed mb-12">Tu tienda está siendo procesada bajo los estándares <span class="text-neon-blue font-bold">KM0</span>. Pronto activaremos tu acceso.</p>
-        <button onclick="window.location.href='index.html'" class="px-10 h-14 border border-white/20 rounded-full flex items-center justify-center text-sm font-bold uppercase tracking-widest text-white/80 hover:bg-neon-blue/10 transition-colors">
+        <p class="text-white/60 text-sm leading-relaxed mb-12">Tu tienda está bajo estándares <span class="text-electric-blue font-bold text-lg">KM</span><span class="text-neon-fuchsia font-bold text-lg">0</span>.</p>
+        <button onclick="window.location.href='index.html'" class="px-10 h-14 border border-neon-fuchsia/40 rounded-full flex items-center justify-center text-sm font-bold uppercase tracking-widest text-white/80 hover:bg-neon-fuchsia/10 transition-colors">
             VOLVER AL INICIO
         </button>
     </div>
@@ -198,7 +194,7 @@
 
             } catch (error) {
                 console.error("Error:", error);
-                alert("SISTEMA OCUPADO. Reintenta en unos segundos.");
+                alert("SISTEMA OCUPADO. Reintenta.");
                 btn.disabled = false;
                 btnText.innerText = 'FINALIZAR REGISTRO';
             }
