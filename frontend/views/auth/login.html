@@ -22,12 +22,22 @@
             overflow-x: hidden;
         }
 
-        /* Animación para el icono de usuario */
-        @keyframes iconEntrance {
-            from { opacity: 0; transform: scale(0.8); }
-            to { opacity: 1; transform: scale(1); }
+        /* Animación Cíclica de Iconos */
+        @keyframes morphIcons {
+            0%, 25% { content: "account_circle"; transform: rotate(0deg); opacity: 1; }
+            30% { opacity: 0; }
+            35%, 55% { content: "storefront"; transform: rotate(360deg); opacity: 1; }
+            60% { opacity: 0; }
+            65%, 90% { content: "moped"; transform: rotate(720deg); opacity: 1; }
+            95% { opacity: 0; }
+            100% { content: "account_circle"; transform: rotate(1080deg); opacity: 1; }
         }
-        .animate-icon { animation: iconEntrance 0.8s ease-out forwards; }
+
+        .icon-morph::before {
+            content: "account_circle";
+            animation: morphIcons 8s infinite ease-in-out;
+            display: inline-block;
+        }
 
         .bg-glow {
             position: fixed;
@@ -46,11 +56,6 @@
             animation: move-bg 1.5s linear infinite; 
         }
         @keyframes move-bg { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-
-        input:-webkit-autofill {
-            -webkit-text-fill-color: white !important;
-            -webkit-box-shadow: 0 0 0px 1000px #0a0a0a inset !important;
-        }
     </style>
 </head>
 <body class="p-6">
@@ -59,10 +64,10 @@
     <div class="w-full max-w-[360px] flex flex-col items-center">
         
         <div class="w-full space-y-8">
-            <div class="text-center space-y-4 animate-icon">
+            <div class="text-center space-y-4">
                 <div class="flex justify-center">
-                    <div class="p-5 bg-zinc-900/50 rounded-full border border-zinc-800 shadow-[0_0_20px_rgba(236,19,19,0.1)]">
-                        <span class="material-symbols-outlined text-[#EC1313] text-6xl">account_circle</span>
+                    <div class="p-6 bg-zinc-900/50 rounded-full border border-zinc-800 shadow-[0_0_30px_rgba(236,19,19,0.15)]">
+                        <span class="material-symbols-outlined icon-morph text-[#EC1313] text-6xl leading-none"></span>
                     </div>
                 </div>
                 <div>
@@ -148,28 +153,18 @@
                     localStorage.setItem('km0_user_rol', result.rol);
                     
                     switch(result.rol) {
-                        case 'TIENDAS': 
-                            window.location.href = "../tienda/panel-operativo-tienda.html"; 
-                            break;
-                        case 'MOTORIZADO': 
-                            window.location.href = "../motorizado/panel-operativo-motorizado.html"; 
-                            break;
-                        case 'ADMINISTRADOR': 
-                            window.location.href = "../admin/admin.html"; 
-                            break;
-                        case 'FINANZAS': 
-                            window.location.href = "../finanzas/gestion-finanzas.html"; 
-                            break;
-                        default: 
-                            showError("Rol no asignado. Contacte soporte.");
-                            resetBtn(btn);
+                        case 'TIENDAS': window.location.href = "../tienda/panel-operativo-tienda.html"; break;
+                        case 'MOTORIZADO': window.location.href = "../motorizado/panel-operativo-motorizado.html"; break;
+                        case 'ADMINISTRADOR': window.location.href = "../admin/admin.html"; break;
+                        case 'FINANZAS': window.location.href = "../finanzas/gestion-finanzas.html"; break;
+                        default: showError("Rol no asignado"); resetBtn(btn);
                     }
                 } else {
                     showError(result.mensaje);
                     resetBtn(btn);
                 }
             } catch (e) {
-                showError("Error de conexión con el servidor");
+                showError("Error de conexión");
                 resetBtn(btn);
             }
         }
