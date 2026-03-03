@@ -43,7 +43,7 @@
         </div>
         <div>
             <h1 id="shop-name" class="text-sm font-black italic uppercase leading-none text-white">Cargando Tienda...</h1>
-            <p class="text-[9px] text-primary font-black uppercase tracking-widest leading-none mt-1">Panel Operativo</p>
+            <p class="text-[9px] text-primary font-black uppercase tracking-widest leading-none mt-1">Operación Activa</p>
         </div>
     </div>
     
@@ -51,13 +51,13 @@
         <button onclick="location.href='catalogo-tienda.html'" class="size-10 flex items-center justify-center rounded-full bg-neutral-dark border border-white/10 active:scale-90 transition-transform">
             <span class="material-symbols-outlined text-primary font-variation-fill">inventory</span>
         </button>
-        <button onclick="enviarNotif('Sistema OK', 'Conectado a KM0 Cloud')" class="size-10 flex items-center justify-center rounded-full bg-neutral-dark border border-white/10">
+        <button onclick="enviarNotif('Conexión Estable', 'Base de datos sincronizada')" class="size-10 flex items-center justify-center rounded-full bg-neutral-dark border border-white/10">
             <span class="material-symbols-outlined text-primary font-variation-fill">notifications_active</span>
         </button>
     </div>
 </header>
 
-<main class="flex-1 overflow-y-auto pb-40 p-4 space-y-6">
+<main class="flex-1 overflow-y-auto pb-44 p-4 space-y-6">
     
     <div class="grid grid-cols-2 gap-3">
         <button onclick="location.href='new-producto-tienda.html'" class="flex flex-col items-start justify-center p-5 bg-neutral-dark text-white rounded-2xl font-black border border-white/5 active:scale-95 transition-transform uppercase italic">
@@ -91,31 +91,31 @@
                     <p class="text-xl font-black">148</p>
                 </div>
                 <div>
-                    <p class="text-slate-400 text-[10px] font-black uppercase">Total Unidades</p>
+                    <p class="text-slate-400 text-[10px] font-black uppercase">Unidades Totales</p>
                     <p class="text-[11px] text-white font-bold italic uppercase">En Bodega</p>
                 </div>
             </div>
             <div class="text-right">
-                <span class="px-2 py-0.5 rounded bg-status-orange text-black text-[10px] font-black italic">ALERTAS</span>
+                <span class="px-2 py-0.5 rounded bg-status-orange text-black text-[10px] font-black italic">5 BAJOS</span>
             </div>
         </div>
     </div>
 
     <div class="space-y-3">
         <h2 class="text-xs font-black uppercase tracking-widest text-slate-500 flex items-center gap-2 italic">
-            <span class="material-symbols-outlined text-primary text-sm font-variation-fill">analytics</span> Entregas Activas
+            <span class="material-symbols-outlined text-primary text-sm font-variation-fill">analytics</span> Estado de Entregas
         </h2>
         
         <div class="grid grid-cols-2 gap-3">
             <button onclick="location.href='historial-entregas-tienda.html'" class="text-left p-4 rounded-2xl bg-neutral-dark border border-white/5">
-                <p class="text-slate-400 text-[10px] font-black uppercase mb-1">Entregados</p>
+                <p class="text-slate-400 text-[10px] font-black uppercase mb-1">Finalizados</p>
                 <div class="flex items-center justify-between">
                     <p class="text-2xl font-black text-status-green italic">45</p>
                     <span class="material-symbols-outlined text-status-green font-variation-fill">check_circle</span>
                 </div>
             </button>
             <button onclick="location.href='resolver-novedades-tienda.html'" class="text-left p-4 rounded-2xl bg-neutral-dark border border-status-fuchsia/30">
-                <p class="text-status-fuchsia text-[10px] font-black uppercase mb-1">Novedades</p>
+                <p class="text-status-fuchsia text-[10px] font-black uppercase mb-1">Problemas</p>
                 <div class="flex items-center justify-between">
                     <p class="text-2xl font-black text-white italic">03</p>
                     <span class="material-symbols-outlined text-status-fuchsia animate-pulse font-variation-fill">error</span>
@@ -127,6 +127,12 @@
 
 <nav class="fixed bottom-0 left-0 right-0 border-t border-white/5 bg-background-dark/95 backdrop-blur-xl px-2 pb-8 pt-3 z-50">
     <div class="flex justify-around items-center max-w-lg mx-auto relative">
+        
+        <a class="flex flex-col items-center gap-1 text-slate-500 hover:text-primary transition-colors" href="dashboard-tienda.html">
+            <span class="material-symbols-outlined text-2xl">analytics</span>
+            <span class="text-[8px] font-black uppercase">Dashboard</span>
+        </a>
+
         <a class="flex flex-col items-center gap-1 text-primary" href="panel-operativo-tienda.html">
             <span class="material-symbols-outlined text-2xl font-variation-fill">grid_view</span>
             <span class="text-[8px] font-black uppercase">Panel</span>
@@ -139,39 +145,40 @@
             </button>
         </div>
 
-        <a class="flex flex-col items-center gap-1 text-slate-500" href="perfil-tienda.html">
-            <span class="material-symbols-outlined text-2xl font-variation-fill">person</span>
-            <span class="text-[8px] font-black uppercase">Tienda</span>
+        <a class="flex flex-col items-center gap-1 text-slate-500 hover:text-primary transition-colors" href="finanzas-tienda.html">
+            <span class="material-symbols-outlined text-2xl">payments</span>
+            <span class="text-[8px] font-black uppercase">Finanzas</span>
+        </a>
+
+        <a class="flex flex-col items-center gap-1 text-slate-500 hover:text-primary transition-colors" href="perfil-tienda.html">
+            <span class="material-symbols-outlined text-2xl">person</span>
+            <span class="text-[8px] font-black uppercase">Perfil</span>
         </a>
     </div>
 </nav>
 
 <script>
-    // URL de tu Script de Google
     const WEB_APP_URL = "TU_URL_DE_IMPLEMENTACION_AQUI";
 
     window.onload = function() {
-        // 1. Mostrar nombre de la tienda guardado en Login
-        const nombreTienda = localStorage.getItem('tiendaNombre') || "KM0 PARTNER";
+        // Carga nombre dinámico de la tienda
+        const nombreTienda = localStorage.getItem('tiendaNombre') || "TIENDA SOCIA";
         document.getElementById('shop-name').innerText = nombreTienda;
-
-        // 2. Cargar Saldo Real (opcional si ya tienes el script de saldo activo)
-        cargarSaldo();
+        
+        // Carga el saldo real
+        actualizarSaldo();
     };
 
-    async function cargarSaldo() {
+    async function actualizarSaldo() {
         const idTienda = localStorage.getItem('usuarioId');
         if (!idTienda) return;
-        
         try {
             const resp = await fetch(`${WEB_APP_URL}?idTienda=${idTienda}`);
             const data = await resp.json();
             if(data.saldo) {
                 document.getElementById('monto-finanzas').innerText = `$${data.saldo}`;
             }
-        } catch (e) {
-            console.log("Error al cargar saldo real.");
-        }
+        } catch (e) { console.log("Error en sincronización de saldo."); }
     }
 
     function enviarNotif(titulo, msj) {
@@ -183,9 +190,9 @@
                 <span class="material-symbols-outlined font-variation-fill">notifications</span>
             </div>
             <div class="flex-1">
-                <div class="flex justify-between items-center">
-                    <p class="text-[10px] font-black uppercase text-primary">${titulo}</p>
-                    <p class="text-[9px] text-slate-400 font-bold">Ahora</p>
+                <div class="flex justify-between items-center text-[10px] font-black uppercase text-primary">
+                    <span>${titulo}</span>
+                    <span class="text-slate-400">Ahora</span>
                 </div>
                 <p class="text-xs font-bold text-slate-100">${msj}</p>
             </div>
