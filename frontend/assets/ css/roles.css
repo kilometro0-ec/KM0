@@ -4,7 +4,48 @@
     --km0-electric-blue: #0070FF;
     --km0-fuchsia: #FF00FF;
     --km0-dark-bg: #000000;
-    --km0-zinc-card: rgba(24, 24, 27, 0.5); /* Zinc-900 con transparencia */
+    --km0-zinc-card: rgba(24, 24, 27, 0.5);
+}
+
+/* Base */
+body { 
+    background-color: var(--km0-dark-bg); 
+    font-family: 'Inter', sans-serif; 
+    color: white;
+    margin: 0;
+}
+
+/* Estilos de Inputs (CSS Puro para evitar error de blanco) */
+.input-container {
+    position: relative;
+    width: 100%;
+    height: 56px;
+    background: rgba(39, 39, 42, 0.3); /* zinc-900/30 */
+    border: 1px solid rgba(63, 63, 70, 0.5); /* zinc-800 */
+    border-radius: 16px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    transition: all 0.3s ease;
+}
+
+.input-container:focus-within {
+    border-color: var(--km0-electric-blue);
+}
+
+.input-field {
+    background: transparent;
+    border: none;
+    width: 100%;
+    color: white;
+    outline: none;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.input-field::placeholder {
+    color: #52525b; /* zinc-600 */
 }
 
 /* Clases para el Rol TIENDA */
@@ -17,22 +58,12 @@
 .theme-shop-btn {
     background: linear-gradient(90deg, var(--km0-electric-blue) 0%, var(--km0-fuchsia) 100%);
     box-shadow: 0 0 20px rgba(0, 112, 255, 0.3);
+    border: none;
+    cursor: pointer;
 }
 
-.theme-shop-border {
-    border: 1.5px solid transparent;
-    background: linear-gradient(var(--km0-dark-bg), var(--km0-dark-bg)) padding-box,
-                linear-gradient(90deg, var(--km0-electric-blue), var(--km0-fuchsia)) border-box;
-}
-
-/* Clases para el Rol MOTORIZADO */
-.theme-rider-border {
-    border: 1.5px solid rgba(236, 19, 19, 0.4);
-}
-
-.theme-rider-btn {
-    border: 1px solid rgba(236, 19, 19, 0.6);
-    color: var(--km0-red);
+.theme-shop-btn:disabled {
+    opacity: 0.3;
 }
 
 /* Animaciones compartidas */
