@@ -1,1 +1,55 @@
+/* RESET PARA FONDO NEGRO PURO */
+html, body {
+    background-color: #000000 !important;
+    margin: 0;
+    padding: 0;
+    color: white;
+    font-family: 'Inter', sans-serif;
+}
 
+/* ELIMINAR CUADROS BLANCOS DE LOS INPUTS */
+input, select {
+    background-color: transparent !important; /* Quita el fondo blanco */
+    border: none !important;
+    color: white !important; /* Texto siempre blanco */
+    outline: none !important;
+    width: 100%;
+}
+
+/* CONTENEDOR DE CADA LÍNEA (INPUT GROUP) */
+.km0-input-group {
+    background: rgba(255, 255, 255, 0.03); /* Un toque muy leve de luz */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    height: 55px;
+    margin-bottom: 15px;
+}
+
+.km0-input-group:focus-within {
+    border-color: #0070FF;
+    box-shadow: 0 0 15px rgba(0, 112, 255, 0.2);
+}
+
+/* PARCHE PARA AUTOCOMPLETADO DE GOOGLE (Que pone el fondo amarillo/blanco) */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus {
+    -webkit-text-fill-color: white !important;
+    -webkit-box-shadow: 0 0 0px 1000px #000 inset !important; /* Fuerza fondo negro */
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+/* ESTILO DEL BOTÓN FINALIZAR */
+.shop-btn-fusion {
+    background: linear-gradient(90deg, #0070FF, #FF00FF);
+    border: none;
+    border-radius: 50px;
+    color: white;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+}
