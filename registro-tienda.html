@@ -16,7 +16,17 @@
                         'electric-blue': '#0070FF',
                         'neon-fuchsia': '#FF00FF',
                         'deep-navy': '#020D1F',
+                        'success-green': '#10B981',
                     },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.5s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
                 }
             }
         }
@@ -105,7 +115,7 @@
                 <div class="grid grid-cols-2 gap-3 mb-4">
                     <div class="input-container !mb-0">
                         <span class="material-symbols-outlined">map</span>
-                        <select id="provincia" required class="input-field !text-[13px] appearance-none">
+                        <select id="provincia" required class="input-field !text-[15px] appearance-none">
                             <option value="" disabled selected>Provincia</option>
                             <option value="Azuay">Azuay</option><option value="Bolívar">Bolívar</option><option value="Cañar">Cañar</option><option value="Carchi">Carchi</option><option value="Chimborazo">Chimborazo</option><option value="Cotopaxi">Cotopaxi</option><option value="El Oro">El Oro</option><option value="Esmeraldas">Esmeraldas</option><option value="Galápagos">Galápagos</option><option value="Guayas">Guayas</option><option value="Imbabura">Imbabura</option><option value="Loja">Loja</option><option value="Los Ríos">Los Ríos</option><option value="Manabí">Manabí</option><option value="Morona Santiago">Morona Santiago</option><option value="Napo">Napo</option><option value="Orellana">Orellana</option><option value="Pastaza">Pastaza</option><option value="Pichincha">Pichincha</option><option value="Santa Elena">Santa Elena</option><option value="Santo Domingo">Santo Domingo</option><option value="Sucumbíos">Sucumbíos</option><option value="Tungurahua">Tungurahua</option><option value="Zamora Chinchipe">Zamora Chinchipe</option>
                         </select>
@@ -135,15 +145,19 @@
     </div>
 
     <div id="successView" class="fixed inset-0 bg-[#020D1F] z-[100] hidden flex-col items-center justify-center p-10 text-center">
-        <div class="size-24 rounded-full bg-electric-blue/10 border-2 border-electric-blue flex items-center justify-center mb-8 shadow-[0_0_30px_rgba(0,112,255,0.3)]">
-            <span class="material-symbols-outlined text-5xl text-electric-blue !mr-0">task_alt</span>
+        <div class="animate-fade-in-up flex flex-col items-center">
+            <div class="size-24 rounded-full bg-success-green/10 border-2 border-success-green flex items-center justify-center mb-8 shadow-[0_0_40px_rgba(16,185,129,0.2)]">
+                <span class="material-symbols-outlined text-6xl text-success-green !mr-0">check_circle</span>
+            </div>
+            <h2 class="text-3xl font-black italic mb-4 uppercase text-white">¡REGISTRO CON ÉXITO!</h2>
+            <p class="text-white/60 text-sm mb-12 leading-relaxed max-w-[300px]">
+                KM0 REVISARÁ TU SOLICITUD Y SE PONDRÁ EN CONTACTO CONTIGO.
+            </p>
+            
+            <button onclick="window.location.href='index.html'" class="w-full min-w-[260px] h-14 bg-white/5 border border-white/10 rounded-2xl text-[11px] font-bold uppercase tracking-[0.2em] text-white hover:bg-white/10 active:scale-95 transition-all">
+                VOLVER AL INICIO
+            </button>
         </div>
-        <h2 class="text-3xl font-black italic mb-4 uppercase text-white">¡REGISTRO CON ÉXITO!</h2>
-        <p class="text-white/60 text-sm mb-12 leading-relaxed">KM0 REVISARÁ TU SOLICITUD Y SE PONDRÁ EN CONTACTO CONTIGO.</p>
-        
-        <button onclick="window.location.href='index.html'" class="w-full max-w-[280px] h-14 border border-white/10 rounded-2xl text-[11px] font-bold uppercase tracking-widest text-white/80 hover:bg-white/5 active:scale-95 transition-all">
-            VOLVER AL INICIO
-        </button>
     </div>
 
     <script>
