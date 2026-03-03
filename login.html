@@ -12,30 +12,14 @@
             darkMode: "class",
             theme: {
                 extend: {
-                    colors: {
-                        "primary": "#ef4444", 
-                        "background-dark": "#0a0f16",
-                    },
+                    colors: { "primary": "#ef4444", "background-dark": "#0a0f16" },
                 },
             },
         }
     </script>
     <style>
-        @keyframes pulse-red {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.05); opacity: 0.8; }
-        }
-        .btn-loading {
-            pointer-events: none;
-            opacity: 0.7;
-            background: linear-gradient(90deg, #ef4444, #b91c1c, #ef4444);
-            background-size: 200% 100%;
-            animation: move-bg 1.5s linear infinite;
-        }
-        @keyframes move-bg {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
+        .btn-loading { pointer-events: none; opacity: 0.7; background: linear-gradient(90deg, #ef4444, #b91c1c, #ef4444); background-size: 200% 100%; animation: move-bg 1.5s linear infinite; }
+        @keyframes move-bg { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
     </style>
 </head>
 <body class="bg-background-dark text-white font-['Inter'] flex items-center justify-center min-h-screen p-6">
@@ -46,142 +30,110 @@
                 <span class="material-symbols-outlined text-primary text-5xl">pest_control_rodent</span>
             </div>
             <h1 class="text-3xl font-black italic tracking-tighter text-white uppercase leading-none">Kilómetro Cero</h1>
-            <p class="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] mt-2">Terminal de Acceso Seguro</p>
+            <p class="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] mt-2">v4.0 Motor Integral</p>
         </div>
 
         <div class="space-y-4">
             <div class="space-y-1">
-                <label class="text-[10px] font-black text-slate-500 uppercase ml-1">Usuario / Cédula</label>
-                <input type="text" id="user" placeholder="Ej: 12345" 
-                    class="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-4 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-white placeholder:text-slate-700">
+                <label class="text-[10px] font-black text-slate-500 uppercase ml-1">Usuario / Correo</label>
+                <input type="text" id="user" placeholder="Ingrese su usuario" class="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-4 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-white">
             </div>
             
             <div class="space-y-1">
                 <label class="text-[10px] font-black text-slate-500 uppercase ml-1">Contraseña</label>
                 <div class="relative">
-                    <input type="password" id="pass" placeholder="••••••••" 
-                        class="w-full bg-white/5 border border-white/10 rounded-xl py-4 pl-4 pr-12 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-white placeholder:text-slate-700">
-                    <button type="button" onclick="togglePassword()" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-primary transition-colors">
+                    <input type="password" id="pass" placeholder="••••••••" class="w-full bg-white/5 border border-white/10 rounded-xl py-4 pl-4 pr-12 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-white">
+                    <button type="button" onclick="togglePassword()" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-primary">
                         <span id="eye-icon" class="material-symbols-outlined text-xl">visibility</span>
                     </button>
                 </div>
             </div>
             
-            <button id="btn-login" onclick="ejecutarLogin()" 
-                class="w-full bg-primary hover:bg-red-500 text-white font-black py-4 rounded-xl shadow-xl shadow-primary/20 transition-all active:scale-95 flex items-center justify-center gap-2 mt-4">
+            <button id="btn-login" onclick="validarYRedirigir()" class="w-full bg-primary hover:bg-red-500 text-white font-black py-4 rounded-xl shadow-xl shadow-primary/20 transition-all active:scale-95 flex items-center justify-center gap-2 mt-4">
                 <span id="btn-text">INICIAR SESIÓN</span>
-                <span id="btn-spinner" class="material-symbols-outlined animate-spin hidden">sync</span>
             </button>
         </div>
 
-        <div id="error-box" class="hidden">
-            <p id="error-msg" class="text-center text-primary text-[10px] font-black uppercase bg-primary/10 py-3 rounded-lg border border-primary/20">
-                Error: Credenciales no válidas
-            </p>
-        </div>
-
-        <div class="text-center space-y-4 pt-4">
-            <button onclick="window.location.href='registro-tienda.html'" class="text-slate-400 text-[10px] font-bold uppercase hover:text-white transition-all underline decoration-primary/50 tracking-wider">
-                ¿Eres un comercio nuevo? Regístrate
-            </button>
-            <div class="flex items-center justify-center gap-4 text-slate-600">
-                <div class="h-[1px] w-8 bg-white/10"></div>
-                <span class="text-[9px] font-black uppercase">KM0 v5.0</span>
-                <div class="h-[1px] w-8 bg-white/10"></div>
-            </div>
-        </div>
+        <div id="error-msg" class="hidden text-center text-primary text-[10px] font-black uppercase bg-primary/10 py-3 rounded-lg border border-primary/20"></div>
     </div>
 
     <script>
-        // URL DE TU SCRIPT DE GOOGLE
-        const URL_MAESTRA = 'https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec';
+        const URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec';
 
         function togglePassword() {
             const passInput = document.getElementById('pass');
             const eyeIcon = document.getElementById('eye-icon');
-            if (passInput.type === "password") {
-                passInput.type = "text";
-                eyeIcon.innerText = "visibility_off";
-            } else {
-                passInput.type = "password";
-                eyeIcon.innerText = "visibility";
-            }
+            passInput.type = passInput.type === "password" ? "text" : "password";
+            eyeIcon.innerText = passInput.type === "password" ? "visibility" : "visibility_off";
         }
 
-        async function ejecutarLogin() {
-            const u = document.getElementById('user').value.trim();
-            const p = document.getElementById('pass').value.trim();
+        async function validarYRedirigir() {
+            const userField = document.getElementById('user').value.trim();
+            const passField = document.getElementById('pass').value.trim();
+            const error = document.getElementById('error-msg');
             const btn = document.getElementById('btn-login');
-            const btnText = document.getElementById('btn-text');
-            const btnSpinner = document.getElementById('btn-spinner');
-            const errorBox = document.getElementById('error-box');
-            const errorMsg = document.getElementById('error-msg');
 
-            if (!u || !p) {
-                mostrarError("Complete los campos");
+            if (!userField || !passField) {
+                error.innerText = "Complete todos los campos";
+                error.classList.remove('hidden');
                 return;
             }
 
-            // UI Loading
+            btn.disabled = true;
+            btn.innerHTML = `VERIFICANDO...`;
             btn.classList.add('btn-loading');
-            btnText.innerText = "AUTENTICANDO";
-            btnSpinner.classList.remove('hidden');
-            errorBox.classList.add('hidden');
-
-            const payload = {
-                accion: "login",
-                usuario: u,
-                password: p
-            };
+            error.classList.add('hidden');
 
             try {
-                // Enviar al Google Apps Script
-                const response = await fetch(URL_MAESTRA, {
+                const response = await fetch(URL_SCRIPT, {
                     method: 'POST',
-                    body: JSON.stringify(payload)
+                    body: JSON.stringify({ accion: "login", usuario: userField, password: passField })
                 });
+                
+                const result = await response.json();
 
-                const data = await response.json();
-
-                if (data.success) {
-                    // Guardar Sesión Local
-                    localStorage.setItem('km0_user_id', data.id);
-                    localStorage.setItem('km0_user_rol', data.rol);
+                if (result.success) {
+                    localStorage.setItem('km0_user_id', result.id);
+                    localStorage.setItem('km0_user_rol', result.rol);
                     
-                    // Redirección Exitosa
-                    window.location.href = data.redirect;
+                    // LÓGICA DE REDIRECCIÓN BASADA EN ROL DE LA HOJA
+                    switch(result.rol) {
+                        case 'TIENDAS': 
+                            window.location.href = "panel-operativo-tienda.html"; 
+                            break;
+                        case 'MOTORIZADO': 
+                            window.location.href = "panel-operativo-motorizado.html"; 
+                            break;
+                        case 'ADMINISTRADOR': 
+                            window.location.href = "admin.html"; 
+                            break;
+                        case 'FINANZAS': 
+                            window.location.href = "gestion-finanzas.html"; 
+                            break;
+                        default: 
+                            error.innerText = "Rol no asignado. Contacte soporte.";
+                            error.classList.remove('hidden');
+                            resetBtn(btn);
+                    }
                 } else {
-                    mostrarError(data.mensaje || "Acceso Denegado");
-                    restablecerBoton();
+                    error.innerText = result.mensaje;
+                    error.classList.remove('hidden');
+                    resetBtn(btn);
                 }
-
-            } catch (err) {
-                mostrarError("Error de Red / CORS");
-                console.error(err);
-                restablecerBoton();
+            } catch (e) {
+                error.innerText = "Error de conexión con el servidor.";
+                error.classList.remove('hidden');
+                resetBtn(btn);
             }
         }
 
-        function mostrarError(txt) {
-            const errorBox = document.getElementById('error-box');
-            const errorMsg = document.getElementById('error-msg');
-            errorMsg.innerText = "ERROR: " + txt;
-            errorBox.classList.remove('hidden');
-        }
-
-        function restablecerBoton() {
-            const btn = document.getElementById('btn-login');
-            const btnText = document.getElementById('btn-text');
-            const btnSpinner = document.getElementById('btn-spinner');
+        function resetBtn(btn) {
+            btn.disabled = false;
+            btn.innerHTML = "INICIAR SESIÓN";
             btn.classList.remove('btn-loading');
-            btnText.innerText = "INICIAR SESIÓN";
-            btnSpinner.classList.add('hidden');
         }
 
-        // Tecla Enter para entrar rápido
-        document.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') ejecutarLogin();
-        });
+        document.addEventListener('keypress', (e) => { if (e.key === 'Enter') validarYRedirigir(); });
     </script>
 </body>
 </html>
