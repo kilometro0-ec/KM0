@@ -20,7 +20,6 @@
             }
         }
 
-        /* Corrección de parches blancos en navegadores */
         input:-webkit-autofill,
         input:-webkit-autofill:hover, 
         input:-webkit-autofill:focus {
@@ -57,6 +56,12 @@
         }
 
         .hidden { display: none; }
+
+        @keyframes fadeInError {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .error-animation { animation: fadeInError 0.3s ease-out forwards; }
     </style>
 </head>
 
@@ -68,12 +73,12 @@
                 <span class="material-symbols-outlined !text-white !mr-0 !text-xl">arrow_back_ios_new</span>
             </button>
             <div class="text-right">
-                <p class="text-[15px] font-black text-[#FF00FF] tracking-widest uppercase italic leading-none">KM0</p>
+                <p class="text-[17px] font-black text-[#FF00FF] tracking-widest uppercase italic leading-none">KM0</p>
                 <p class="text-[8px] text-white/30 font-bold uppercase tracking-tighter mt-1">Aliados Estratégicos</p>
             </div>
         </header>
 
-        <main class="flex-1 px-8 pt-4 pb-44">
+        <main class="flex-1 px-8 pt-4 pb-52">
             <div class="mb-10">
                 <h1 class="text-2xl font-extrabold italic tracking-tighter leading-tight uppercase text-white">
                     REGISTRA TU <br/>
@@ -101,32 +106,32 @@
                 <div class="grid grid-cols-2 gap-3">
                     <div class="input-group">
                       <select id="provincia" required class="input-field !text-[13px] cursor-pointer">
-    <option value="" disabled selected>Provincia</option>
-    <option value="Azuay">Azuay</option>
-    <option value="Bolívar">Bolívar</option>
-    <option value="Cañar">Cañar</option>
-    <option value="Carchi">Carchi</option>
-    <option value="Chimborazo">Chimborazo</option>
-    <option value="Cotopaxi">Cotopaxi</option>
-    <option value="El Oro">El Oro</option>
-    <option value="Esmeraldas">Esmeraldas</option>
-    <option value="Galápagos">Galápagos</option>
-    <option value="Guayas">Guayas</option>
-    <option value="Imbabura">Imbabura</option>
-    <option value="Loja">Loja</option>
-    <option value="Los Ríos">Los Ríos</option>
-    <option value="Manabí">Manabí</option>
-    <option value="Morona Santiago">Morona Santiago</option>
-    <option value="Napo">Napo</option>
-    <option value="Orellana">Orellana</option>
-    <option value="Pastaza">Pastaza</option>
-    <option value="Pichincha">Pichincha</option>
-    <option value="Santa Elena">Santa Elena</option>
-    <option value="Santo Domingo de los Tsáchilas">Santo Domingo</option>
-    <option value="Sucumbíos">Sucumbíos</option>
-    <option value="Tungurahua">Tungurahua</option>
-    <option value="Zamora Chinchipe">Zamora Chinchipe</option>
-</select>
+                            <option value="" disabled selected>Provincia</option>
+                            <option value="Azuay">Azuay</option>
+                            <option value="Bolívar">Bolívar</option>
+                            <option value="Cañar">Cañar</option>
+                            <option value="Carchi">Carchi</option>
+                            <option value="Chimborazo">Chimborazo</option>
+                            <option value="Cotopaxi">Cotopaxi</option>
+                            <option value="El Oro">El Oro</option>
+                            <option value="Esmeraldas">Esmeraldas</option>
+                            <option value="Galápagos">Galápagos</option>
+                            <option value="Guayas">Guayas</option>
+                            <option value="Imbabura">Imbabura</option>
+                            <option value="Loja">Loja</option>
+                            <option value="Los Ríos">Los Ríos</option>
+                            <option value="Manabí">Manabí</option>
+                            <option value="Morona Santiago">Morona Santiago</option>
+                            <option value="Napo">Napo</option>
+                            <option value="Orellana">Orellana</option>
+                            <option value="Pastaza">Pastaza</option>
+                            <option value="Pichincha">Pichincha</option>
+                            <option value="Santa Elena">Santa Elena</option>
+                            <option value="Santo Domingo de los Tsáchilas">Santo Domingo</option>
+                            <option value="Sucumbíos">Sucumbíos</option>
+                            <option value="Tungurahua">Tungurahua</option>
+                            <option value="Zamora Chinchipe">Zamora Chinchipe</option>
+                        </select>
                     </div>
                     <div class="input-group">
                         <input id="ciudad" required class="input-field" placeholder="Ciudad" type="text">
@@ -145,8 +150,14 @@
             </form>
         </main>
 
-        <div class="fixed bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-[#020D1F] via-[#020D1F]/90 to-transparent z-50">
+        <div class="fixed bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-[#020D1F] via-[#020D1F]/95 to-transparent z-50">
             <div class="max-w-[480px] mx-auto">
+                
+                <div id="errorBox" class="hidden mb-4 p-4 rounded-2xl bg-red-500/10 border border-red-500/50 flex items-center gap-3 error-animation">
+                    <span class="material-symbols-outlined !text-red-500 !mr-0 !text-xl">warning</span>
+                    <p id="errorMsg" class="text-red-500 text-[11px] font-bold uppercase tracking-wider leading-tight"></p>
+                </div>
+
                 <button type="submit" form="formTienda" id="btnEnviar" disabled 
                         class="btn-fusion w-full h-16 rounded-[24px] text-white font-black tracking-widest uppercase flex items-center justify-center gap-4 group">
                     <div id="loading" class="hidden"><div class="spinner"></div></div>
@@ -173,10 +184,13 @@
     const btnText = document.getElementById('btnText');
     const loader = document.getElementById('loading');
     const icon = document.getElementById('btnIcon');
+    const errorBox = document.getElementById('errorBox');
+    const errorMsg = document.getElementById('errorMsg');
 
-    // Habilitar botón solo cuando el formulario sea válido
+    // Habilitar botón y ocultar errores al escribir
     form.addEventListener('input', () => {
         btn.disabled = !form.checkValidity();
+        errorBox.classList.add('hidden');
     });
 
     form.addEventListener('submit', async (e) => {
@@ -184,29 +198,29 @@
         
         // Estado de carga visual
         btn.disabled = true;
-        btnText.innerText = 'VERIFICANDO DATOS...';
+        btnText.innerText = 'CONECTANDO KM0...';
         loader.classList.remove('hidden');
         icon.classList.add('hidden');
+        errorBox.classList.add('hidden');
+
+        // NORMALIZACIÓN DE TELÉFONO: Elimina espacios y asegura el +593
+        let telRaw = document.getElementById('telefono').value.replace(/\s+/g, '');
+        if (!telRaw.startsWith('+')) telRaw = '+' + telRaw;
 
         const payload = {
-            token: API_KEY, // Viene de config.js
+            token: API_KEY, 
             accion: "registro_tienda",
             nombre: document.getElementById('nombreTienda').value,
             representante: document.getElementById('representante').value,
             ruc: document.getElementById('identificacion').value,
             provincia: document.getElementById('provincia').value,
             ciudad: document.getElementById('ciudad').value,
-            telefono: document.getElementById('telefono').value,
+            telefono: telRaw, 
             correo: document.getElementById('correo').value,
             timestamp: new Date().toLocaleString()
         };
 
         try {
-            /** * CAMBIO CRÍTICO:
-             * Usamos mode: 'cors' y Content-Type: 'text/plain'.
-             * Esto permite que Google Apps Script nos devuelva el JSON 
-             * y que nosotros podamos LEER el mensaje de "RUC Duplicado".
-             */
             const response = await fetch(API_URL, {
                 method: 'POST',
                 mode: 'cors', 
@@ -217,19 +231,20 @@
             const result = await response.json();
 
             if (result.success) {
-                // Éxito: Mostrar pantalla de confirmación
                 document.getElementById('contenedorForm').classList.add('hidden');
                 document.getElementById('successScreen').classList.remove('hidden');
                 document.getElementById('successScreen').classList.add('flex');
             } else {
-                // ERROR DE NEGOCIO: RUC, Teléfono o Correo repetido
-                alert("⚠️ ATENCIÓN KM0:\n" + result.mensaje);
+                // MOSTRAR ADVERTENCIA SOBRE EL BOTÓN
+                errorMsg.innerText = result.mensaje;
+                errorBox.classList.remove('hidden');
                 restablecerBoton();
             }
 
         } catch (err) {
-            console.error("Error en Fetch:", err);
-            alert("Error de conexión con KM0 Cloud. Verifica tu internet.");
+            console.error("Error:", err);
+            errorMsg.innerText = "Error de red. Verifica tu internet e intenta de nuevo.";
+            errorBox.classList.remove('hidden');
             restablecerBoton();
         }
     });
