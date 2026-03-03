@@ -1,29 +1,32 @@
-/* ==========================================
-   CONFIGURACIÓN MAESTRA DE COLORES KM0
-   ========================================== */
 :root {
-    /* Si cambias esto aquí, cambia en TODA la web */
-    --brand-shop-primary: #0070FF;   /* Azul Eléctrico */
-    --brand-shop-secondary: #FF00FF; /* Fucsia */
-    --brand-rider: #EC1313;          /* Rojo Motorizado */
-    --bg-dark: #000000;
+    --km0-blue: #0070FF;
+    --km0-fuchsia: #FF00FF;
+    --km0-dark: #000000;
 }
 
-/* Estilos Globales para Inputs (Para que no salgan blancos) */
+/* Forzar fondo negro en toda la página */
+html, body {
+    background-color: var(--km0-dark) !important;
+    color: white !important;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Contenedor de Inputs Estilo Index */
 .km0-input-group {
-    background: rgba(24, 24, 27, 0.8) !important;
-    border: 1px solid rgba(63, 63, 70, 0.4) !important;
-    border-radius: 16px;
+    background: rgba(24, 24, 27, 0.6) !important;
+    border: 1px solid rgba(63, 63, 70, 0.5) !important;
+    border-radius: 16px !important;
     display: flex;
     align-items: center;
     padding: 0 16px;
-    height: 60px;
-    margin-bottom: 12px;
-    transition: all 0.3s;
+    height: 58px;
+    transition: all 0.3s ease;
 }
 
 .km0-input-group:focus-within {
-    border-color: var(--brand-shop-primary) !important;
+    border-color: var(--km0-blue) !important;
+    background: rgba(39, 39, 42, 0.8) !important;
     box-shadow: 0 0 15px rgba(0, 112, 255, 0.1);
 }
 
@@ -33,20 +36,21 @@
     width: 100%;
     color: white !important;
     outline: none !important;
-    font-size: 15px;
+    font-size: 14px;
+    font-weight: 500;
 }
 
-/* Clases de Identidad para TIENDAS */
-.shop-gradient-text {
-    background: linear-gradient(90deg, var(--brand-shop-primary), var(--brand-shop-secondary));
+/* Gradientes de Tienda */
+.shop-text-gradient {
+    background: linear-gradient(90deg, var(--km0-blue), var(--km0-fuchsia));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
-.shop-gradient-bg {
-    background: linear-gradient(90deg, var(--brand-shop-primary), var(--brand-shop-secondary)) !important;
+.shop-bg-gradient {
+    background: linear-gradient(90deg, var(--km0-blue), var(--km0-fuchsia)) !important;
 }
 
 .shop-glow {
-    background: radial-gradient(circle at center, rgba(0, 112, 255, 0.15) 0%, transparent 70%);
+    background: radial-gradient(circle at 50% 0%, rgba(0, 112, 255, 0.15) 0%, transparent 75%);
 }
