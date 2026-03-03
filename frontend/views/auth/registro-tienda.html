@@ -122,41 +122,78 @@
     </div>
 
     <script>
-        const form = document.getElementById('formTienda');
-        const btn = document.getElementById('btnEnviar');
+    const form = document.getElementById('formTienda');
+    const btn = document.getElementById('btnEnviar');
+    const btnText = document.getElementById('btnText');
 
-        form.addEventListener('input', () => {
-            btn.disabled = !form.checkValidity();
-        });
+    // 1. Habilitar botón al validar campos básicos
+    form.addEventListener('input', () => {
+        btn.disabled = !form.checkValidity();
+    });
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            btn.disabled = true;
-            document.getElementById('btnText').innerText = 'ENVIANDO...';
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        // Bloqueo de seguridad y UI de carga
+        btn.disabled = true;
+        btnText.innerText = 'VERIFICANDO DATOS...';
+
+        const ruc = document.getElementById('identificacion').value;
+        const correo = document.getElementById('correo').value;
+        const telf = "+593" + document.getElementById('telefono').value;
+
+        try {
+            // 2. VALIDACIÓN DE DUPLICADOS (Consulta al Google Sheet)
+            // Enviamos una petición de tipo "verificar"
+            const checkRes = await fetch(`${API_URL}?accion=verificar_tienda&ruc=${ruc}&correo=${correo}&telefono=${telf}`);
+            const checkData = await checkRes.json();
+
+            if (checkData.existe) {
+                alert(`⚠️ Error: El ${checkData.campo} ya se encuentra registrado en KM0.`);
+                btn.disabled = false;
+                btnText.innerText = 'FINALIZAR REGISTRO';
+                return; // Detenemos el proceso
+            }
+
+            // 3. SI NO EXISTE, PROCEDEMOS AL REGISTRO
+            btnText.innerText = 'REGISTRANDO EN LA NUBE...';
 
             const payload = {
                 token: API_KEY,
                 accion: "registro_tienda",
                 nombre: document.getElementById('nombreTienda').value,
                 representante: document.getElementById('representante').value,
-                ruc: document.getElementById('identificacion').value,
+                ruc: ruc,
                 provincia: document.getElementById('provincia').value,
                 ciudad: document.getElementById('ciudad').value,
-                // Combinamos el prefijo con el número para el Excel
-                telefono: "+593" + document.getElementById('telefono').value,
-                correo: document.getElementById('correo').value,
+                telefono: telf,
+                correo: correo,
                 fecha: new Date().toLocaleString()
             };
 
-            try {
-                await fetch(API_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
-                alert("¡Registro Exitoso! KM0 despega con tu tienda.");
+            // Envío final
+            await fetch(API_URL, { 
+                method: 'POST', 
+                mode: 'no-cors', 
+                body: JSON.stringify(payload) 
+            });
+
+            // 4. MENSAJE DE ÉXITO VISUAL
+            btnText.innerText = '¡REGISTRO EXITOSO!';
+            btn.style.background = "#10B981"; // Color verde éxito
+            
+            setTimeout(() => {
+                alert("🚀 ¡Bienvenido a KM0! Tu tienda ha sido registrada con éxito.");
                 window.location.href = '../../index.html';
-            } catch (err) {
-                alert("Error de pista. Intenta de nuevo.");
-                btn.disabled = false;
-            }
-        });
-    </script>
+            }, 1500);
+
+        } catch (err) {
+            console.error(err);
+            alert("Hubo un problema de conexión. Intenta de nuevo en unos segundos.");
+            btn.disabled = false;
+            btnText.innerText = 'FINALIZAR REGISTRO';
+        }
+    });
+</script>
 </body>
 </html>
