@@ -1,205 +1,210 @@
 <!DOCTYPE html>
-<html lang="es">
+<html class="dark" lang="es">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KM0 - Registro de Comercio</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
-    <style>
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: #000; 
-            color: white; 
-            min-height: 100dvh; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>KM0 - Registro Tiendas</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,700;0,900;1,900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#FF00FF",
+                        "electric-blue": "#0070FF",
+                        "neon-fuchsia": "#FF00FF",
+                        "deep-black": "#050505",
+                    },
+                    fontFamily: { "sans": ["Inter", "sans-serif"] },
+                },
+            },
         }
-        
-        /* Fusión Fucsia Eléctrica (Azul + Magenta) */
-        .text-fucsia-neon { 
-            color: #FF00FF; 
-            text-shadow: 0 0 10px #0066FF; 
-        }
-        .bg-fucsia-neon { 
-            background: linear-gradient(90deg, #FF00FF 0%, #0066FF 100%); 
-        }
-        .border-fucsia-neon { 
-            border-color: #FF00FF; 
-            box-shadow: 0 0 15px rgba(255, 0, 255, 0.4); 
-        }
+    </script>
 
-        input, select { 
-            background: #0a0a0a !important; 
-            border: 1px solid #222 !important; 
-            color: white !important; 
-            transition: all 0.3s ease; 
+    <style type="text/tailwindcss">
+        :root {
+            --neon-fuchsia: #FF00FF;
+            --electric-blue: #0070FF;
         }
-        
-        input:focus, select:focus { 
-            border-color: #FF00FF !important; 
-            outline: none; 
-            box-shadow: 0 0 20px rgba(0, 102, 255, 0.3); 
+        body {
+            background-color: #050505;
+            background-image: radial-gradient(circle at 50% -20%, #220022 0%, #050505 70%);
+            min-height: 100dvh;
         }
-
+        .neon-text-glow {
+            text-shadow: 0 0 15px rgba(255, 0, 255, 0.7), 0 0 5px rgba(255, 0, 255, 0.5);
+        }
+        .neon-border-glow:focus {
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.3);
+            border-color: var(--neon-fuchsia) !important;
+        }
+        .neon-btn-glow {
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.4), 0 0 40px rgba(0, 112, 255, 0.2);
+        }
+        .capsule-input {
+            @apply bg-black/40 border border-white/10 rounded-full transition-all duration-300 text-white placeholder-white/20;
+        }
+        .ios-blur {
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+        }
         .hidden { display: none; }
-        button:disabled { opacity: 0.3; cursor: not-allowed; filter: grayscale(1); }
-        
-        /* Animación suave para la transición */
-        #pantallaExito { animation: fadeIn 0.5s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body class="p-6">
 
-    <div id="contenedorForm" class="w-full max-w-[400px]">
-        <header class="mb-10 text-center">
-            <h1 class="text-4xl font-black italic text-fucsia-neon uppercase tracking-tighter">Registro Tienda</h1>
-            <p class="text-zinc-500 text-[10px] uppercase tracking-[0.3em] mt-2">Km0 Motor Integral v11.0</p>
+<body class="text-slate-100 font-sans selection:bg-neon-fuchsia selection:text-white">
+
+    <div class="min-h-screen flex flex-col" id="contenedorForm">
+        <header class="sticky top-0 z-50 bg-deep-black/60 ios-blur px-4 h-20 flex items-center justify-between">
+            <button onclick="window.location.href='index.html'" class="flex items-center justify-center size-12 rounded-full bg-white/5 border border-white/10 active:scale-95 transition-transform">
+                <span class="material-symbols-outlined text-white text-2xl">arrow_back_ios_new</span>
+            </button>
+            <div class="flex flex-col items-center">
+                <span class="text-[10px] uppercase tracking-[0.3em] font-black text-neon-fuchsia neon-text-glow italic">KILÓMETRO CERO</span>
+                <span class="text-xs text-white/40 font-medium uppercase">Partner Portal</span>
+            </div>
+            <div class="size-12 flex items-center justify-center bg-neon-fuchsia/10 rounded-full border border-neon-fuchsia/20">
+                <span class="material-symbols-outlined text-neon-fuchsia">storefront</span>
+            </div>
         </header>
 
-        <form id="formTienda" class="space-y-5">
-            <div>
-                <label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1 ml-1">Nombre Comercial</label>
-                <input type="text" id="nombreTienda" required class="w-full p-4 rounded-2xl text-sm" placeholder="Ej: Pizzería KM0">
+        <main class="flex-1 px-6 pt-10 pb-40 max-w-[480px] mx-auto w-full">
+            <div class="mb-12">
+                <h1 class="text-5xl font-black italic tracking-tighter text-neon-fuchsia neon-text-glow uppercase leading-none">
+                    REGISTRO<br/>TIENDA
+                </h1>
+                <div class="h-1 w-20 bg-gradient-to-r from-neon-fuchsia to-electric-blue mt-4 rounded-full"></div>
             </div>
 
-            <div>
-                <label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1 ml-1">Representante Legal</label>
-                <input type="text" id="representante" required class="w-full p-4 rounded-2xl text-sm" placeholder="Nombres y Apellidos">
-            </div>
-
-            <div>
-                <label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1 ml-1">CI o RUC (Identificación)</label>
-                <input type="text" id="identificacion" minlength="10" maxlength="13" pattern="[0-9]{10,13}" required class="w-full p-4 rounded-2xl text-sm" placeholder="17XXXXXXXX001">
-            </div>
-
-            <div class="grid grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1 ml-1">Provincia</label>
-                    <select id="provincia" required class="w-full p-4 rounded-2xl text-sm appearance-none">
-                        <option value="" disabled selected>Seleccione...</option>
-                        <option value="Azuay">Azuay</option>
-                        <option value="Bolívar">Bolívar</option>
-                        <option value="Cañar">Cañar</option>
-                        <option value="Carchi">Carchi</option>
-                        <option value="Chimborazo">Chimborazo</option>
-                        <option value="Cotopaxi">Cotopaxi</option>
-                        <option value="El Oro">El Oro</option>
-                        <option value="Esmeraldas">Esmeraldas</option>
-                        <option value="Galápagos">Galápagos</option>
-                        <option value="Guayas">Guayas</option>
-                        <option value="Imbabura">Imbabura</option>
-                        <option value="Loja">Loja</option>
-                        <option value="Los Ríos">Los Ríos</option>
-                        <option value="Manabí">Manabí</option>
-                        <option value="Morona Santiago">Morona Santiago</option>
-                        <option value="Napo">Napo</option>
-                        <option value="Orellana">Orellana</option>
-                        <option value="Pastaza">Pastaza</option>
-                        <option value="Pichincha">Pichincha</option>
-                        <option value="Santa Elena">Santa Elena</option>
-                        <option value="Santo Domingo">Santo Domingo</option>
-                        <option value="Sucumbíos">Sucumbíos</option>
-                        <option value="Tungurahua">Tungurahua</option>
-                        <option value="Zamora Chinchipe">Zamora Chinchipe</option>
-                    </select>
+            <form id="formTienda" class="space-y-4">
+                <div class="relative group">
+                    <span class="material-symbols-outlined absolute left-5 top-1/2 -translate-y-1/2 text-white/30 group-focus-within:text-neon-fuchsia transition-colors text-xl">store</span>
+                    <input id="nombreTienda" required class="capsule-input w-full h-14 pl-14 pr-6 outline-none focus:ring-0 neon-border-glow" placeholder="Nombre Comercial" type="text"/>
                 </div>
-                <div>
-                    <label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1 ml-1">Ciudad</label>
-                    <input type="text" id="ciudad" required class="w-full p-4 rounded-2xl text-sm" placeholder="Ej: Quito">
+
+                <div class="relative group">
+                    <span class="material-symbols-outlined absolute left-5 top-1/2 -translate-y-1/2 text-white/30 group-focus-within:text-neon-fuchsia transition-colors text-xl">person</span>
+                    <input id="representante" required class="capsule-input w-full h-14 pl-14 pr-6 outline-none focus:ring-0 neon-border-glow" placeholder="Representante Legal" type="text"/>
                 </div>
-            </div>
 
-            <div>
-                <label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1 ml-1">WhatsApp (+593...)</label>
-                <input type="tel" id="telefono" pattern="^\+593[0-9]{9}$" required class="w-full p-4 rounded-2xl text-sm" placeholder="+593XXXXXXXXX">
-            </div>
+                <div class="relative group">
+                    <span class="material-symbols-outlined absolute left-5 top-1/2 -translate-y-1/2 text-white/30 group-focus-within:text-neon-fuchsia transition-colors text-xl">fingerprint</span>
+                    <input id="identificacion" minlength="10" maxlength="13" pattern="[0-9]{10,13}" required class="capsule-input w-full h-14 pl-14 pr-6 outline-none focus:ring-0 neon-border-glow" placeholder="Cédula o RUC (10-13 dígitos)" type="text"/>
+                </div>
 
-            <div>
-                <label class="block text-[10px] font-bold text-zinc-500 uppercase mb-1 ml-1">Correo Electrónico</label>
-                <input type="email" id="correo" required class="w-full p-4 rounded-2xl text-sm" placeholder="comercio@ejemplo.com">
-            </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="relative group">
+                        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-white/30 group-focus-within:text-neon-fuchsia transition-colors text-lg">map</span>
+                        <select id="provincia" required class="capsule-input w-full h-14 pl-12 pr-4 text-xs outline-none focus:ring-0 neon-border-glow appearance-none">
+                            <option value="" disabled selected>Provincia</option>
+                            <option value="Azuay">Azuay</option><option value="Bolívar">Bolívar</option><option value="Cañar">Cañar</option>
+                            <option value="Carchi">Carchi</option><option value="Chimborazo">Chimborazo</option><option value="Cotopaxi">Cotopaxi</option>
+                            <option value="El Oro">El Oro</option><option value="Esmeraldas">Esmeraldas</option><option value="Galápagos">Galápagos</option>
+                            <option value="Guayas">Guayas</option><option value="Imbabura">Imbabura</option><option value="Loja">Loja</option>
+                            <option value="Los Ríos">Los Ríos</option><option value="Manabí">Manabí</option><option value="Morona Santiago">Morona Santiago</option>
+                            <option value="Napo">Napo</option><option value="Orellana">Orellana</option><option value="Pastaza">Pastaza</option>
+                            <option value="Pichincha">Pichincha</option><option value="Santa Elena">Santa Elena</option><option value="Santo Domingo">Santo Domingo</option>
+                            <option value="Sucumbíos">Sucumbíos</option><option value="Tungurahua">Tungurahua</option><option value="Zamora Chinchipe">Zamora Chinchipe</option>
+                        </select>
+                    </div>
+                    <div class="relative group">
+                        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-white/30 group-focus-within:text-neon-fuchsia transition-colors text-lg">location_city</span>
+                        <input id="ciudad" required class="capsule-input w-full h-14 pl-12 pr-4 text-sm outline-none focus:ring-0 neon-border-glow" placeholder="Ciudad" type="text"/>
+                    </div>
+                </div>
 
-            <button type="submit" id="btnEnviar" disabled class="w-full bg-fucsia-neon text-white font-black py-5 rounded-2xl uppercase text-xs tracking-widest active:scale-95 transition-all shadow-lg shadow-blue-500/20">
-                Finalizar Registro
-            </button>
-        </form>
-    </div>
+                <div class="relative group">
+                    <span class="material-symbols-outlined absolute left-5 top-1/2 -translate-y-1/2 text-white/30 group-focus-within:text-neon-fuchsia transition-colors text-xl">chat</span>
+                    <input id="telefono" pattern="^\+593[0-9]{9}$" required class="capsule-input w-full h-14 pl-14 pr-6 outline-none focus:ring-0 neon-border-glow" placeholder="WhatsApp (+593...)" type="tel"/>
+                </div>
 
-    <div id="pantallaExito" class="hidden text-center max-w-[400px]">
-        <div class="mb-6 flex justify-center">
-            <div class="w-20 h-20 bg-white/5 border-2 border-fucsia-neon rounded-full flex items-center justify-center shadow-[0_0_40px_rgba(255,0,255,0.4)]">
-                <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
-                </svg>
+                <div class="relative group">
+                    <span class="material-symbols-outlined absolute left-5 top-1/2 -translate-y-1/2 text-white/30 group-focus-within:text-neon-fuchsia transition-colors text-xl">mail</span>
+                    <input id="correo" required class="capsule-input w-full h-14 pl-14 pr-6 outline-none focus:ring-0 neon-border-glow" placeholder="Email Corporativo" type="email"/>
+                </div>
+            </form>
+        </main>
+
+        <div class="fixed bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-deep-black via-deep-black/90 to-transparent pt-12">
+            <div class="max-w-[480px] mx-auto">
+                <button type="submit" form="formTienda" id="btnEnviar" disabled class="w-full h-16 bg-gradient-to-r from-neon-fuchsia to-electric-blue text-white font-black text-lg rounded-full neon-btn-glow active:scale-95 disabled:opacity-30 disabled:grayscale transition-all flex items-center justify-center gap-3 uppercase tracking-tighter italic">
+                    <span id="btnText">FINALIZAR REGISTRO</span>
+                    <span class="material-symbols-outlined font-bold">rocket_launch</span>
+                </button>
+                <p class="text-[10px] text-center text-white/30 mt-6 uppercase tracking-widest">
+                    KM0 by CORPORACÓN 360
+                </p>
             </div>
         </div>
-        <h2 class="text-3xl font-black uppercase text-white mb-4 italic">Solicitud Enviada</h2>
-        <p class="text-zinc-400 text-sm leading-relaxed mb-8 px-4">
-            Tu tienda ha sido registrada con éxito. Un administrador activará tu cuenta tras validar los datos. Podrás ingresar en breve.
-        </p>
-        
-        <button onclick="window.location.href='index.html'" class="w-full bg-zinc-900 border border-zinc-700 text-white font-bold text-[10px] tracking-[0.3em] py-5 rounded-2xl uppercase hover:bg-white hover:text-black transition-all shadow-lg">
-            Regresar al Inicio
+    </div>
+
+    <div class="fixed inset-0 bg-deep-black z-[100] hidden flex-col items-center justify-center px-10 text-center" id="success-view">
+        <div class="mb-8 relative">
+            <div class="size-32 rounded-full border-4 border-neon-fuchsia flex items-center justify-center neon-btn-glow">
+                <span class="material-symbols-outlined text-6xl text-neon-fuchsia font-bold">check</span>
+            </div>
+            <div class="absolute inset-0 rounded-full border border-neon-fuchsia animate-ping opacity-20"></div>
+        </div>
+        <h2 class="text-4xl font-black italic text-white mb-2 uppercase tracking-tighter">¡ÉXITO TOTAL!</h2>
+        <p class="text-white/60 text-sm leading-relaxed mb-12">Tu tienda ha sido registrada bajo los estándares de <span class="text-neon-fuchsia font-bold">Kilómetro Cero</span>. Un administrador validará tus datos.</p>
+        <button onclick="window.location.href='index.html'" class="px-10 h-14 border border-white/20 rounded-full flex items-center justify-center text-sm font-bold uppercase tracking-widest text-white/80 hover:bg-white/5 transition-colors">
+            VOLVER AL INICIO
         </button>
     </div>
 
-<script>
-    // URL de tu Apps Script implementado
-    const URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec';
+    <script>
+        const URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec';
+        const form = document.getElementById('formTienda');
+        const btn = document.getElementById('btnEnviar');
+        const btnText = document.getElementById('btnText');
 
-    const form = document.getElementById('formTienda');
-    const btn = document.getElementById('btnEnviar');
+        // Validación en tiempo real para habilitar botón
+        form.addEventListener('input', () => {
+            btn.disabled = !form.checkValidity();
+        });
 
-    // Validación del formulario en tiempo real
-    form.addEventListener('input', () => {
-        const allValid = form.checkValidity();
-        btn.disabled = !allValid;
-        btn.style.opacity = allValid ? "1" : "0.5";
-    });
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            btn.disabled = true;
+            btnText.innerText = 'PROCESANDO...';
 
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        btn.disabled = true;
-        btn.innerText = 'PROCESANDO REGISTRO...';
+            const datos = {
+                accion: "registro_tienda",
+                nombre: document.getElementById('nombreTienda').value,
+                representante: document.getElementById('representante').value,
+                ruc: document.getElementById('identificacion').value,
+                provincia: document.getElementById('provincia').value,
+                ciudad: document.getElementById('ciudad').value,
+                telefono: document.getElementById('telefono').value,
+                correo: document.getElementById('correo').value
+            };
 
-        // Mapeo exacto para el Script v11.0
-        const datos = {
-            accion: "registro_tienda",
-            nombre: document.getElementById('nombreTienda').value,
-            representante: document.getElementById('representante').value,
-            ruc: document.getElementById('identificacion').value,
-            provincia: document.getElementById('provincia').value,
-            ciudad: document.getElementById('ciudad').value,
-            telefono: document.getElementById('telefono').value,
-            correo: document.getElementById('correo').value
-        };
+            try {
+                await fetch(URL_SCRIPT, {
+                    method: 'POST',
+                    mode: 'no-cors', 
+                    cache: 'no-cache',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(datos)
+                });
 
-        try {
-            // Envío de datos
-            await fetch(URL_SCRIPT, {
-                method: 'POST',
-                mode: 'no-cors', 
-                cache: 'no-cache',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(datos)
-            });
+                // Éxito: Ocultar registro, mostrar éxito
+                document.getElementById('contenedorForm').classList.add('hidden');
+                document.getElementById('success-view').classList.remove('hidden');
+                document.getElementById('success-view').classList.add('flex');
+                window.scrollTo(0,0);
 
-            // Ocultar formulario y mostrar éxito
-            document.getElementById('contenedorForm').classList.add('hidden');
-            document.getElementById('pantallaExito').classList.remove('hidden');
-            window.scrollTo(0,0);
-
-        } catch (error) {
-            console.error("Error en el registro:", error);
-            alert("Error de conexión con el servidor. Por favor, intente de nuevo.");
-            btn.disabled = false;
-            btn.innerText = 'Finalizar Registro';
-        }
-    });
-</script>
+            } catch (error) {
+                console.error("Error:", error);
+                alert("SISTEMA OCUPADO. Reintenta en unos segundos.");
+                btn.disabled = false;
+                btnText.innerText = 'FINALIZAR REGISTRO';
+            }
+        });
+    </script>
 </body>
 </html>
