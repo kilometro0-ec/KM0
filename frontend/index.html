@@ -1,25 +1,25 @@
 <!DOCTYPE html>
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="KM0 ADMIN">
-
-<link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/717/717431.png">
-<link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/717/717431.png">
-
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      // Este script permite que el navegador reconozca el sitio como una aplicación instalable
-      navigator.serviceWorker.register('data:text/javascript;base64,c2VsZi5hZGRFdmVudExpc3RlbmVyKCdmZXRjaCcsIGU9PntlLmludGVydmVudGUoZmV0Y2goZS5yZXF1ZXN0KSk7fSk7');
-    });
-  }
-</script>
 <html class="dark" lang="es">
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>Kilómetro Cero - Logistics & Identity</title>
+
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="KM0 ADMIN">
+
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/2362/2362252.png">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2362/2362252.png">
+
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('data:text/javascript;base64,c2VsZi5hZGRFdmVudExpc3RlbmVyKCdmZXRjaCcsIGU9PntlLmludGVydmVudGUoZmV0Y2goZS5yZXF1ZXN0KSk7fSk7');
+        });
+      }
+    </script>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet"/>
@@ -36,6 +36,7 @@
             align-items: center;
             justify-content: center;
             overflow-x: hidden;
+            margin: 0;
         }
 
         /* Animación exclusiva para el Logo */
@@ -57,10 +58,6 @@
             height: 500px;
             background: radial-gradient(circle, rgba(236, 19, 19, 0.05) 0%, rgba(0, 0, 0, 0) 70%);
             z-index: -1;
-        }
-
-        .material-symbols-outlined {
-            font-display: block;
         }
 
         /* Borde degradado para Comercio */
@@ -128,7 +125,7 @@
 
         <div class="text-center opacity-60">
             <p class="text-[9px] font-bold uppercase tracking-[0.1em] text-zinc-400">
-                2025 KM0® by CORPORACIÓN 360 <span class="ml-2 text-zinc-600">V1.0.1</span>
+                2026 KM0® by CORPORACIÓN 360 <span class="ml-2 text-zinc-600">V1.0.1</span>
             </p>
             <p class="text-[7px] uppercase tracking-[0.5em] mt-2 text-zinc-500 italic">Logistics & Identity</p>
         </div>
