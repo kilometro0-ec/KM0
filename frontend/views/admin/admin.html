@@ -9,20 +9,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <style>
-        :root { 
-            --naranja: #ff6600; 
-            --azul: #0047AB; 
-            --magenta: #E200F7; 
-            --verde-toxico: #39FF14; 
-        }
+        :root { --naranja: #ff6600; --azul: #0047AB; --magenta: #E200F7; --verde-toxico: #39FF14; }
         body { font-family: 'Inter', sans-serif; background: #000; color: white; overflow-x: hidden; }
 
-        /* EFECTO SOBREPOSICIÓN TABS */
         .tab-btn { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; }
         .tab-btn.active { transform: scale(1.08); z-index: 50; }
         .tab-btn.inactive { opacity: 0.3; transform: scale(0.95); z-index: 10; }
 
-        /* BORDES SIMÉTRICOS */
         .border-gradient-round { position: relative; background: #0f0f0f; border-radius: 2.5rem; }
         .active-store::before {
             content: ""; position: absolute; inset: -2px; border-radius: 2.5rem; padding: 2px;
@@ -31,24 +24,14 @@
             -webkit-mask-composite: xor; mask-composite: exclude;
         }
 
-        /* NAVEGACIÓN TOXIC */
         .bottom-nav { background: rgba(5, 5, 5, 0.95); backdrop-filter: blur(25px); border-top: 1px solid rgba(57, 255, 20, 0.15); }
         .icon-toxic { color: var(--verde-toxico); text-shadow: 0 0 12px rgba(57, 255, 20, 0.5); }
         
-        /* SIDEBAR CAMPANA */
         .sidebar-notif { transform: translateX(100%); transition: transform 0.4s ease-out; }
         .sidebar-notif.open { transform: translateX(0); }
 
         .detalle-hidden { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
         .detalle-open { max-height: 850px; }
-        
-        /* Efecto de pulso para la campana cuando hay notif */
-        .pulse-tox { animation: pulse-toxic 2s infinite; }
-        @keyframes pulse-toxic {
-            0% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(57, 255, 20, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0); }
-        }
     </style>
 </head>
 <body class="pb-32">
@@ -69,7 +52,7 @@
         <div class="flex items-center gap-4">
             <button onclick="toggleCampana()" class="relative p-2 rounded-full active:scale-95 transition-all">
                 <span class="material-symbols-outlined text-gray-400 text-3xl">notifications</span>
-                <span id="badge-campana" class="absolute top-1 right-1 bg-[#39FF14] text-black text-[9px] font-black w-5 h-5 flex items-center justify-center rounded-full hidden border-2 border-black pulse-tox">0</span>
+                <span id="badge-campana" class="absolute top-1 right-1 bg-[#39FF14] text-black text-[9px] font-black w-5 h-5 flex items-center justify-center rounded-full hidden border-2 border-black">0</span>
             </button>
             <button onclick="init()" class="bg-white/5 p-2 rounded-full"><span id="sync-icon" class="material-symbols-outlined icon-toxic">sync</span></button>
         </div>
@@ -96,22 +79,18 @@
             <span class="material-symbols-outlined icon-toxic text-2xl font-variation-fill">dashboard</span>
             <span class="text-[7px] font-black uppercase text-white/40">Panel</span>
         </button>
-        
         <button class="flex flex-col items-center gap-1 w-14">
             <span class="material-symbols-outlined icon-toxic text-2xl">local_shipping</span>
             <span class="text-[7px] font-black uppercase text-white/40">Logística</span>
         </button>
-
-        <button onclick="alert('Módulo de Control de Accesos')" class="bg-[#39FF14] text-black w-14 h-14 rounded-[1.8rem] shadow-[0_0_25px_rgba(57,255,20,0.5)] flex flex-col items-center justify-center -translate-y-5 active:scale-90 transition-transform">
+        <button class="bg-[#39FF14] text-black w-14 h-14 rounded-[1.8rem] shadow-[0_0_25px_rgba(57,255,20,0.5)] flex flex-col items-center justify-center -translate-y-5 active:scale-90 transition-transform">
             <span class="material-symbols-outlined font-black text-2xl">group_active</span>
-            <span class="text-[6px] font-black uppercase leading-none mt-0.5">Usuarios</span>
+            <span class="text-[6px] font-black uppercase mt-0.5">Usuarios</span>
         </button>
-
         <button class="flex flex-col items-center gap-1 w-14">
             <span class="material-symbols-outlined icon-toxic text-2xl">payments</span>
             <span class="text-[7px] font-black uppercase text-white/40">Finanzas</span>
         </button>
-
         <button class="flex flex-col items-center gap-1 w-14">
             <span class="material-symbols-outlined icon-toxic text-2xl">account_circle</span>
             <span class="text-[7px] font-black uppercase text-white/40">Perfil</span>
@@ -137,7 +116,6 @@
                 document.getElementById('count-m').innerText = nM;
                 document.getElementById('count-t').innerText = nT;
 
-                // Actualizar Campana
                 const badge = document.getElementById('badge-campana');
                 const listResumen = document.getElementById('lista-resumen');
                 listResumen.innerHTML = '';
@@ -150,9 +128,7 @@
                         listResumen.innerHTML += `
                             <div class="bg-white/5 p-4 rounded-3xl border-l-4 ${esM ? 'border-[#ff6600]' : 'border-[#0047AB]'}">
                                 <p class="text-[10px] font-black uppercase text-white">${item.nombre || item.nombreTienda}</p>
-                                <p class="text-[8px] text-gray-500 font-bold mt-1 uppercase italic">${esM ? 'Motorizado' : 'Tienda'} en espera</p>
-                            </div>
-                        `;
+                            </div>`;
                     });
                 } else { badge.classList.add('hidden'); }
                 render();
@@ -168,10 +144,10 @@
             list.forEach((item, index) => {
                 const isMoto = currentTab === 'motorizados';
                 container.innerHTML += `
-                <div class="bg-[#0f0f0f] rounded-[2.5rem] p-6 border border-white/5 shadow-2xl">
+                <div class="bg-[#0f0f0f] rounded-[2.5rem] p-6 border border-white/5">
                     <div onclick="document.getElementById('det-${index}').classList.toggle('detalle-open')" class="flex justify-between items-center cursor-pointer">
                         <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center border border-white/5">
+                            <div class="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center">
                                 <span class="material-symbols-outlined ${isMoto ? 'text-[#ff6600]' : 'text-[#0047AB]'}">${isMoto ? 'motorcycle' : 'store'}</span>
                             </div>
                             <div>
@@ -184,26 +160,41 @@
                     
                     <div id="det-${index}" class="detalle-hidden">
                         <div class="pt-6 mt-6 border-t border-white/5 grid grid-cols-2 gap-3">
-                            <div class="bg-black/60 p-4 rounded-[1.5rem] border border-white/5">
-                                <p class="text-gray-500 text-[8px] font-black uppercase mb-1">Cédula</p>
-                                <p class="font-bold text-white text-[11px]">${item.cedula}</p>
+                            <div class="bg-black/60 p-4 rounded-[1.5rem] border border-white/5 text-[10px]">
+                                <p class="text-gray-500 font-black uppercase mb-1">Cédula</p><p class="font-bold">${item.cedula}</p>
                             </div>
-                            <div class="bg-black/60 p-4 rounded-[1.5rem] border border-white/5">
-                                <p class="text-gray-500 text-[8px] font-black uppercase mb-1">Pass</p>
-                                <p class="font-bold text-white text-[11px]">${item.password}</p>
-                            </div>
-                            <div class="col-span-2 bg-black/60 p-4 rounded-[1.5rem] border border-white/5 flex justify-between items-center">
-                                <div><p class="text-gray-500 text-[8px] font-black uppercase mb-1">Teléfono</p><p class="font-bold text-white text-[11px]">${item.telefono}</p></div>
-                                <div class="text-right"><p class="text-gray-500 text-[8px] font-black uppercase mb-1">Tipo</p><p class="font-bold text-white text-[11px] uppercase">${item.vehiculo || item.categoria || 'S/N'}</p></div>
+                            <div class="bg-black/60 p-4 rounded-[1.5rem] border border-white/5 text-[10px]">
+                                <p class="text-gray-500 font-black uppercase mb-1">Pass</p><p class="font-bold">${item.password}</p>
                             </div>
                         </div>
                         <div class="flex gap-2 mt-6">
-                            <button onclick="gestionar('${item.id}', 'RECHAZADO', '${item.telefono}', '${item.nombre || item.nombreTienda}')" class="flex-1 bg-white/5 text-red-500 py-4 rounded-2xl font-black uppercase text-[10px]">Rechazar</button>
-                            <button onclick="gestionar('${item.id}', 'ACTIVO', '${item.telefono}', '${item.nombre || item.nombreTienda}', '${item.password}', '${item.cedula}')" class="flex-[2] ${isMoto ? 'bg-[#ff6600]' : 'bg-gradient-to-r from-[#0047AB] to-[#E200F7]'} text-white py-4 rounded-2xl font-black uppercase text-[10px] shadow-xl shadow-black">Habilitar Socio</button>
+                            <button onclick="gestionar('${item.id}', 'RECHAZADO', '${item.telefono}', '${item.nombre || item.nombreTienda}')" class="flex-1 bg-red-600/10 text-red-500 py-4 rounded-2xl font-black uppercase text-[10px]">Rechazar</button>
+                            <button onclick="gestionar('${item.id}', 'ACTIVO', '${item.telefono}', '${item.nombre || item.nombreTienda}', '${item.password}', '${item.cedula}')" class="flex-[2] ${isMoto ? 'bg-[#ff6600]' : 'bg-gradient-to-r from-[#0047AB] to-[#E200F7]'} text-white py-4 rounded-2xl font-black uppercase text-[10px]">Habilitar Socio</button>
                         </div>
                     </div>
                 </div>`;
             });
+        }
+
+        async function gestionar(id, estado, telf, nombre, pass, user) {
+            let msg = "";
+            if(estado === 'RECHAZADO') {
+                const motivo = prompt(`Motivo de rechazo para ${nombre}:`);
+                if(!motivo) return;
+                msg = `*KM0 - SOLICITUD RECHAZADA*%0AHola *${nombre}*, lamentamos informarte que tu solicitud fue rechazada por el siguiente motivo: %0A%0A*${motivo}*`;
+            } else {
+                if(!confirm(`¿Habilitar acceso para ${nombre}?`)) return;
+                msg = `*KM0 - BIENVENIDO Socio/a*%0A👤 *User:* ${user}%0A🔑 *Pass:* ${pass}%0A%0A¡Ya puedes iniciar sesión!`;
+            }
+
+            try {
+                await fetch(API_URL, { 
+                    method: 'POST', 
+                    body: JSON.stringify({ accion: "gestionar_solicitud", id, nuevoEstado: estado }) 
+                });
+                window.open(`https://api.whatsapp.com/send?phone=${telf}&text=${msg}`, '_blank');
+                init();
+            } catch (e) { alert("Error al procesar"); }
         }
 
         function cambiarTab(tab) {
@@ -211,19 +202,13 @@
             const btnMoto = document.getElementById('btn-moto');
             const btnStore = document.getElementById('btn-store');
             if(tab === 'motorizados') {
-                btnMoto.className = "tab-btn active flex-1 h-full border-gradient-round border-2 border-[#ff6600] flex flex-col items-center justify-center shadow-2xl";
+                btnMoto.className = "tab-btn active flex-1 h-full border-gradient-round border-2 border-[#ff6600] flex flex-col items-center justify-center";
                 btnStore.className = "tab-btn inactive flex-1 h-full border-gradient-round flex flex-col items-center justify-center";
             } else {
-                btnStore.className = "tab-btn active flex-1 h-full border-gradient-round active-store flex flex-col items-center justify-center shadow-2xl";
+                btnStore.className = "tab-btn active flex-1 h-full border-gradient-round active-store flex flex-col items-center justify-center";
                 btnMoto.className = "tab-btn inactive flex-1 h-full border-gradient-round flex flex-col items-center justify-center";
             }
             render();
-        }
-
-        async function gestionar(id, estado, telf, nombre, pass, user) {
-            if(!confirm(`¿Habilitar acceso para ${nombre}?`)) return;
-            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ accion: "gestionar_solicitud", id, nuevoEstado: estado }) });
-            init();
         }
 
         init();
