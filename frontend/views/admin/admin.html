@@ -3,209 +3,177 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>CENTRO 360 - Operativo</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Admin: Dashboard Gerencial 360</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
     
-    <script>
+    <script src="frontend/assets/js/config.js"></script>
+
+    <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#ec1313",
-                        "accent-fuchsia": "#ff00ff",
-                        "toxic-green": "#39FF14",
-                        "card-dark": "#1a0a0a",
-                        "background-dark": "#0a0505",
-                    }
-                }
-            }
+                        "primary": "#46f20d",
+                        "secondary": "#00f5ff",
+                        "background-light": "#f6f8f5",
+                        "background-dark": "#0a0f08",
+                    },
+                    fontFamily: { "display": ["Space Grotesk", "sans-serif"] },
+                },
+            },
         }
     </script>
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #0a0505; color: white; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .glow-green { filter: drop-shadow(0 0 5px #39FF14); }
-        .material-icons { vertical-align: middle; }
+        body { font-family: 'Space Grotesk', sans-serif; }
+        .glass-panel { background: rgba(70, 242, 13, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(70, 242, 13, 0.1); }
+        .neon-border-cyan { border: 1px solid rgba(0, 245, 255, 0.3); box-shadow: 0 0 10px rgba(0, 245, 255, 0.1); }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 1; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col">
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
 
-<header class="sticky top-0 z-50 bg-black/90 backdrop-blur-md px-4 py-4 border-b border-white/5 flex justify-between items-center">
+<header class="sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-primary/20 p-4 flex items-center justify-between">
     <div class="flex items-center gap-3">
-        <div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
-            <i class="material-icons text-white text-2xl">smart_toy</i>
+        <div class="p-2 rounded-lg bg-primary/10 border border-primary/30">
+            <span class="material-symbols-outlined text-primary">hub</span>
         </div>
         <div>
-            <h1 class="text-lg font-black italic tracking-tighter uppercase leading-none">Centro 360</h1>
-            <p class="text-[9px] text-toxic-green font-bold glow-green">SISTEMA OPERATIVO</p>
+            <h1 class="text-lg font-bold tracking-tight">Centro de Mando</h1>
+            <p class="text-[10px] uppercase tracking-widest text-secondary font-semibold">Kilómetro Cero v3.0</p>
         </div>
     </div>
-    <div class="flex gap-2">
-        <button onclick="init()" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 text-toxic-green">
-            <i class="material-icons">sync</i>
+    <div class="flex items-center gap-2">
+        <button onclick="fetchDashboardData()" class="p-2 rounded-full hover:bg-primary/10 text-primary">
+            <span class="material-symbols-outlined">sync</span>
         </button>
-        <div class="w-10 h-10 rounded-full border-2 border-toxic-green p-0.5">
-            <img src="https://ui-avatars.com/api/?name=Admin&background=000&color=39FF14" class="rounded-full" />
+        <div class="size-9 rounded-full bg-primary/20 border border-primary/40 overflow-hidden">
+            <img src="https://ui-avatars.com/api/?name=Admin&background=0a0f08&color=46f20d" />
         </div>
     </div>
 </header>
 
-<main class="flex-1 overflow-y-auto pb-32">
-    <div class="flex gap-3 p-4 overflow-x-auto no-scrollbar">
-        <div class="min-w-[120px] bg-white/5 border border-white/10 rounded-2xl p-3">
-            <p class="text-gray-500 text-[9px] font-black uppercase">Motos</p>
-            <p id="stat-m" class="text-xl font-black">0</p>
+<main class="flex-1 overflow-y-auto pb-24">
+    <section class="grid grid-cols-2 gap-3 p-4">
+        <div class="glass-panel p-4 rounded-xl border-l-4 border-l-primary">
+            <div class="flex items-center justify-between mb-2">
+                <span class="material-symbols-outlined text-primary text-sm">payments</span>
+                <span class="text-[10px] font-bold text-primary">+12.5%</span>
+            </div>
+            <p class="text-xs text-slate-500 font-medium">Ventas Hoy</p>
+            <p id="metric-sales" class="text-xl font-bold mt-1">$0.00</p>
         </div>
-        <div class="min-w-[120px] bg-white/5 border border-white/10 rounded-2xl p-3">
-            <p class="text-gray-500 text-[9px] font-black uppercase">Tiendas</p>
-            <p id="stat-t" class="text-xl font-black text-accent-fuchsia">0</p>
+        <div class="glass-panel p-4 rounded-xl border-l-4 border-l-secondary">
+            <div class="flex items-center justify-between mb-2">
+                <span class="material-symbols-outlined text-secondary text-sm">local_shipping</span>
+                <span class="text-[10px] font-bold text-secondary uppercase">Activos</span>
+            </div>
+            <p class="text-xs text-slate-500 font-medium">Pedidos</p>
+            <p id="metric-orders" class="text-xl font-bold mt-1">0</p>
         </div>
-        <div class="min-w-[120px] bg-toxic-green/5 border border-toxic-green/20 rounded-2xl p-3">
-            <p class="text-toxic-green text-[9px] font-black uppercase">Total</p>
-            <p id="stat-total" class="text-xl font-black text-toxic-green">0</p>
-        </div>
-    </div>
+        </section>
 
     <section class="px-4 py-2">
-        <h2 class="text-[10px] font-black uppercase tracking-widest text-gray-500 mb-4">Solicitudes Pendientes</h2>
-        <div id="contenedor-solicitudes" class="flex gap-4 overflow-x-auto no-scrollbar pb-4 min-h-[160px]">
-            <div class="w-full text-center py-10 text-gray-700 font-bold uppercase text-xs">Conectando con base de datos...</div>
+        <div class="glass-panel p-5 rounded-xl neon-border-cyan relative overflow-hidden">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-sm font-bold text-white uppercase tracking-wider">Rendimiento de Flota</h2>
+                    <p class="text-xs text-secondary opacity-80">Actividad 24h</p>
+                </div>
+                <p class="text-2xl font-bold text-primary">88%</p>
+            </div>
+            <div class="h-32 w-full">
+                <svg class="w-full h-full" preserveAspectRatio="none" viewBox="0 0 400 120">
+                    <path d="M0,100 Q40,40 80,80 T160,50 T240,90 T320,30 T400,60" fill="none" stroke="#46f20d" stroke-width="3" stroke-linecap="round"></path>
+                </svg>
+            </div>
         </div>
     </section>
 
-    <section class="px-4 py-6">
-        <h2 class="text-[10px] font-black uppercase tracking-widest text-gray-500 mb-4">Usuarios Activos en Sesión</h2>
-        <div id="lista-activos" class="space-y-3">
-            </div>
-    </section>
-
-    <section class="px-4 grid grid-cols-2 gap-3">
-        <div class="bg-card-dark p-4 rounded-2xl border border-white/5">
-            <p class="text-[8px] font-black text-gray-500 uppercase mb-2">Pedidos Libres</p>
-            <div class="flex items-center gap-2">
-                <i class="material-icons text-accent-fuchsia text-sm">local_mall</i>
-                <p class="text-[11px] font-bold">Sushi Garden</p>
-            </div>
-        </div>
-        <div class="bg-card-dark p-4 rounded-2xl border border-white/5">
-            <p class="text-[8px] font-black text-gray-500 uppercase mb-2">Motos Libres</p>
-            <div class="flex items-center gap-2 text-toxic-green glow-green">
-                <i class="material-icons text-sm">directions_bike</i>
-                <p class="text-[11px] font-bold">Mario V.</p>
+    <section class="p-4 mt-2">
+        <h2 class="text-base font-bold mb-4 flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary text-xl">priority_high</span>
+            Feed de Prioridades
+        </h2>
+        <div id="priorities-feed" class="space-y-3">
+            <div class="p-8 text-center text-slate-500 text-xs animate-pulse uppercase font-bold">
+                Escaneando Red...
             </div>
         </div>
     </section>
 </main>
 
-<nav class="fixed bottom-0 w-full bg-black/95 border-t border-white/5 px-6 py-4 pb-8 z-[100] flex justify-between items-end">
-    <button class="flex flex-col items-center text-gray-600"><i class="material-icons">dashboard</i></button>
-    <button class="flex flex-col items-center text-gray-600"><i class="material-icons">map</i></button>
-    
-    <button class="bg-toxic-green w-14 h-14 rounded-2xl shadow-[0_0_15px_#39FF1466] flex items-center justify-center -translate-y-4">
-        <i class="material-icons text-black text-3xl font-bold">badge</i>
-    </button>
-
-    <button class="flex flex-col items-center text-gray-600"><i class="material-icons">payments</i></button>
-    <button class="flex flex-col items-center text-gray-600"><i class="material-icons">settings</i></button>
+<nav class="fixed bottom-0 left-0 right-0 z-50 bg-background-dark/95 backdrop-blur-xl border-t border-primary/10 pb-6 pt-2 px-4">
+    <div class="flex items-center justify-around max-w-lg mx-auto">
+        <a class="flex flex-col items-center gap-1 text-primary" href="#">
+            <span class="material-symbols-outlined text-2xl">dashboard</span>
+            <span class="text-[10px] font-bold uppercase tracking-tighter">Panel</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-slate-400" href="gestion-usuarios.html">
+            <span class="material-symbols-outlined text-2xl">group</span>
+            <span class="text-[10px] font-medium uppercase tracking-tighter">Usuarios</span>
+        </a>
+        <div class="relative -mt-10">
+            <button class="size-14 rounded-full bg-primary text-black flex items-center justify-center shadow-[0_0_25px_rgba(70,242,13,0.4)] border-4 border-background-dark">
+                <span class="material-symbols-outlined text-3xl font-bold">add</span>
+            </button>
+        </div>
+        <a class="flex flex-col items-center gap-1 text-slate-400" href="#"><span class="material-symbols-outlined text-2xl">delivery_dining</span><span class="text-[10px] font-medium uppercase tracking-tighter">Flota</span></a>
+        <a class="flex flex-col items-center gap-1 text-slate-400" href="#"><span class="material-symbols-outlined text-2xl">settings</span><span class="text-[10px] font-medium uppercase tracking-tighter">Ajustes</span></a>
+    </div>
 </nav>
 
 <script>
-    let db = { motorizados: [], tiendas: [] };
-    let activos = [];
-
-    async function init() {
-        const container = document.getElementById('contenedor-solicitudes');
+    async function fetchDashboardData() {
+        const feed = document.getElementById('priorities-feed');
         try {
-            const res = await fetch(API_URL);
-            db = await res.json();
+            const response = await fetch(API_URL);
+            const data = await response.json();
             
-            // Actualizar Stats
-            document.getElementById('stat-m').innerText = (db.motorizados || []).length;
-            document.getElementById('stat-t').innerText = (db.tiendas || []).length;
-            document.getElementById('stat-total').innerText = ((db.motorizados || []).length + (db.tiendas || []).length);
-            
-            render();
-        } catch (e) { 
-            container.innerHTML = `<div class="w-full text-red-500 text-[10px] font-black uppercase">Error: Verifica el ID de tu Script</div>`;
-        }
-    }
+            // 1. Actualizar métricas ficticias basadas en datos reales
+            document.getElementById('metric-sales').innerText = `$${(data.motorizados.length * 15.5).toFixed(2)}`;
+            document.getElementById('metric-orders').innerText = data.motorizados.length + data.tiendas.length;
 
-    function render() {
-        const container = document.getElementById('contenedor-solicitudes');
-        container.innerHTML = "";
-        
-        let all = [...(db.motorizados || []), ...(db.tiendas || [])];
+            // 2. Limpiar feed y meter solicitudes reales
+            feed.innerHTML = "";
+            const totalSolicitudes = [...data.motorizados, ...data.tiendas];
 
-        if(all.length === 0) {
-            container.innerHTML = `<div class="w-full py-10 bg-white/5 rounded-3xl border border-dashed border-white/10 text-center text-gray-600 text-[10px] font-black uppercase">Sin solicitudes pendientes</div>`;
-            return;
-        }
+            if(totalSolicitudes.length === 0) {
+                feed.innerHTML = `<p class="text-center text-slate-600 text-xs py-4 uppercase">No hay prioridades pendientes</p>`;
+                return;
+            }
 
-        all.forEach(item => {
-            const isMoto = item.nombre !== undefined;
-            const color = isMoto ? '#ec1313' : '#ff00ff'; 
-            const icono = isMoto ? 'moped' : 'storefront';
-            const nombre = item.nombre || item.nombreTienda || "Sin Nombre";
-
-            container.innerHTML += `
-                <div class="min-w-[240px] bg-card-dark border-l-4 rounded-3xl p-5 shadow-2xl" style="border-color: ${color}">
-                    <div class="flex items-center gap-2 mb-3">
-                        <i class="material-icons text-lg" style="color: ${color}">${icono}</i>
-                        <span class="text-[9px] font-black uppercase tracking-widest text-gray-400">${isMoto ? 'Motorizado' : 'Tienda'}</span>
+            totalSolicitudes.forEach(item => {
+                const esMoto = item.nombre !== undefined;
+                const nombre = item.nombre || item.nombreTienda;
+                
+                feed.innerHTML += `
+                <div class="flex items-start gap-3 p-4 bg-slate-900/50 rounded-xl border border-primary/10">
+                    <div class="size-10 rounded-lg ${esMoto ? 'bg-primary/10' : 'bg-secondary/10'} flex items-center justify-center shrink-0 border border-white/5">
+                        <span class="material-symbols-outlined ${esMoto ? 'text-primary' : 'text-secondary'}">${esMoto ? 'moped' : 'storefront'}</span>
                     </div>
-                    <p class="text-sm font-black text-white mb-1 truncate">${nombre}</p>
-                    <p class="text-[9px] text-gray-500 mb-5 font-bold uppercase">${item.ciudad || 'Sector pendiente'}</p>
-                    <div class="flex gap-2">
-                        <button onclick="gestionar('${item.id}', 'RECHAZADO', '${item.telefono}', '${nombre}')" class="flex-1 bg-white/5 text-gray-500 text-[10px] font-black py-3 rounded-xl uppercase">Rechazar</button>
-                        <button onclick="gestionar('${item.id}', 'ACTIVO', '${item.telefono}', '${nombre}', '${item.password}', '${item.cedula}', ${isMoto})" class="flex-[1.5] text-[10px] font-black py-3 rounded-xl uppercase text-white shadow-lg" style="background: ${color}">Aprobar</button>
+                    <div class="flex-1">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-sm font-bold">${nombre}</h3>
+                            <span class="text-[10px] px-2 py-0.5 rounded-full bg-primary/20 text-primary">NUEVO</span>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-1">Solicitud de ingreso zona: ${item.ciudad || 'Pendiente'}</p>
+                        <div class="mt-3 flex gap-2">
+                            <button onclick="window.location.href='gestion-usuarios.html'" class="flex-1 py-1.5 rounded bg-primary text-black text-[10px] font-bold uppercase tracking-wider">Gestionar</button>
+                        </div>
                     </div>
                 </div>`;
-        });
-        renderActivos();
-    }
+            });
 
-    function renderActivos() {
-        const container = document.getElementById('lista-activos');
-        if(activos.length === 0) {
-            container.innerHTML = '<p class="text-[10px] text-gray-800 italic px-2">No hay usuarios aprobados en esta sesión</p>';
-            return;
+        } catch (e) {
+            feed.innerHTML = `<p class="text-red-500 text-center text-xs">Error de conexión con la hoja de solicitudes</p>`;
         }
-        container.innerHTML = activos.map(u => `
-            <div class="flex items-center justify-between bg-card-dark p-4 rounded-2xl border border-white/5">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background: ${u.isMoto ? '#ec131320' : '#ff00ff20'}">
-                        <i class="material-icons" style="color: ${u.isMoto ? '#ec1313' : '#ff00ff'}">${u.isMoto ? 'delivery_dining' : 'shopping_bag'}</i>
-                    </div>
-                    <div>
-                        <p class="text-sm font-black text-white">${u.nombre}</p>
-                        <p class="text-[9px] text-toxic-green font-bold uppercase">Habilitado</p>
-                    </div>
-                </div>
-                <label class="relative inline-flex items-center cursor-pointer">
-                    <input checked class="sr-only peer" type="checkbox">
-                    <div class="w-11 h-6 bg-gray-800 rounded-full peer peer-checked:bg-toxic-green after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>
-                </label>
-            </div>`).join('');
     }
 
-    async function gestionar(id, estado, telf, nombre, pass, user, isMoto) {
-        if(!confirm(`¿Deseas ${estado.toLowerCase()} a ${nombre}?`)) return;
-        
-        let msg = (estado === 'ACTIVO') 
-            ? `*KM0 - ACCESO*%0A👤 *User:* ${user}%0A🔑 *Pass:* ${pass}`
-            : `*KM0 - RECHAZADO*%0A*Motivo:* Perfil no cumple requerimientos.`;
-
-        if(estado === 'ACTIVO') activos.unshift({ nombre, isMoto });
-
-        await fetch(API_URL, { method: 'POST', body: JSON.stringify({ accion: "gestionar_solicitud", id, nuevoEstado: estado }) });
-        window.open(`https://api.whatsapp.com/send?phone=${telf}&text=${msg}`, '_blank');
-        init();
-    }
-
-    init();
+    // Cargar al iniciar
+    document.addEventListener('DOMContentLoaded', fetchDashboardData);
 </script>
 </body>
 </html>
