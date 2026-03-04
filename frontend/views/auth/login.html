@@ -109,18 +109,21 @@
                         accion: "login", 
                         usuario: userField, 
                         password: passField,
-                        token: API_KEY // <--- CAMBIADO PARA COINCIDIR CON config.js
+                        token: API_KEY 
                     })
                 });
                 
                 const result = await response.json();
 
                 if (result.success) {
+                    // Guardamos TODA la información necesaria
                     localStorage.setItem('km0_user_id', result.id);
                     localStorage.setItem('km0_user_rol', result.rol);
+                    localStorage.setItem('km0_user_nombre', result.nombre || "Socio KM0");
                     
                     const userRol = result.rol.toString().toUpperCase().trim();
 
+                    // Redirección por carpetas
                     if (userRol === 'TIENDAS') {
                         window.location.href = "../tienda/panel-operativo-tienda.html";
                     } else if (userRol === 'ADMINISTRADOR') {
@@ -154,6 +157,11 @@
             btn.innerText = "Iniciar Sesión";
             btn.classList.remove('btn-loading');
         }
+
+        // Soporte para tecla Enter
+        document.addEventListener('keypress', (e) => { 
+            if (e.key === 'Enter') validarYRedirigir(); 
+        });
     </script>
 </body>
 </html>
