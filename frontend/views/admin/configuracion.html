@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Configuración Engine - KM0</title>
+    <title>Motor Sync - KM0</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
@@ -14,158 +14,128 @@
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#46f20d",
-                        "background-dark": "#0d140a",
-                        "surface-dark": "#162512",
+                        "primary-green": "#12c965", 
+                        "shop-blue": "#0066FF",      
+                        "background-dark": "#0a0f0c",
+                        "surface-dark": "#121a15",
                     },
-                    fontFamily: { "display": ["Space Grotesk", "sans-serif"] },
                 },
             },
         }
     </script>
     <style>
-        body { font-family: 'Space Grotesk', sans-serif; background-color: #0d140a; color: white; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Space Grotesk', sans-serif; background-color: #0a0f0c; color: white; -webkit-tap-highlight-color: transparent; }
         .ios-blur { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
-        .material-symbols-outlined { font-variation-settings: 'FILL' 0; }
-        .filled { font-variation-settings: 'FILL' 1; }
-        .spin-hover:active { transform: rotate(180deg); transition: 0.3s; }
-        
-        /* Estilo para el slider de comisión */
-        input[type=range] { font-size: 1.5rem; width: 100%; appearance: none; background: transparent; cursor: pointer; }
-        input[type=range]::-webkit-slider-runnable-track { background: #22351b; height: 0.5rem; border-radius: 0.5rem; }
-        input[type=range]::-webkit-slider-thumb { appearance: none; margin-top: -8px; background-color: #46f20d; height: 1.5rem; width: 1.5rem; border-radius: 50%; box-shadow: 0 0 10px rgba(70, 242, 13, 0.5); }
+        .neon-glow-green { box-shadow: 0 0 20px rgba(18, 201, 101, 0.15); }
+        input[type=range] { appearance: none; width: 100%; background: #1e2923; height: 8px; border-radius: 10px; outline: none; }
+        .slider-blue::-webkit-slider-thumb { appearance: none; background: #0066FF; height: 22px; width: 22px; border-radius: 50%; border: 3px solid #0a0f0c; }
+        .slider-green::-webkit-slider-thumb { appearance: none; background: #12c965; height: 22px; width: 22px; border-radius: 50%; border: 3px solid #0a0f0c; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col pb-24">
+<body class="min-h-screen flex flex-col pb-32">
 
-<header class="sticky top-0 z-50 bg-background-dark/80 ios-blur border-b border-primary/20 px-4 py-3">
-    <div class="flex items-center justify-between">
-        <button onclick="alert('Menú de Opciones Avanzadas')" class="p-2 text-primary">
-            <span class="material-symbols-outlined text-3xl">menu</span>
-        </button>
-
-        <div class="text-center">
-            <h1 class="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Sistema KM0</h1>
-            <p class="text-xs font-bold text-white uppercase">Engine Config</p>
-        </div>
-
-        <div class="flex items-center gap-1">
-            <button onclick="window.location.reload()" class="p-2 text-slate-400 spin-hover">
-                <span class="material-symbols-outlined text-2xl">refresh</span>
-            </button>
-            <button onclick="confirmExit()" class="p-2 text-red-500">
-                <span class="material-symbols-outlined text-2xl">logout</span>
-            </button>
+<header class="sticky top-0 z-50 bg-background-dark/80 ios-blur border-b border-white/10 px-4 py-4">
+    <div class="flex items-center justify-between max-w-lg mx-auto">
+        <div class="flex items-center gap-3">
+            <div class="size-10 rounded-full bg-primary-green/20 flex items-center justify-center border border-primary-green/40">
+                <span class="material-symbols-outlined text-primary-green animate-pulse">sync</span>
+            </div>
+            <div>
+                <h1 class="text-[10px] font-black uppercase tracking-[0.2em] text-primary-green">KM0 Intelligence</h1>
+                <p class="text-xs font-bold text-white">SINCRO GOOGLE CALENDAR</p>
+            </div>
         </div>
     </div>
 </header>
 
-<main class="p-4 space-y-6">
-    <div class="bg-surface-dark border border-primary/10 rounded-2xl p-4 flex items-center gap-4 shadow-lg">
-        <div class="size-14 rounded-full border-2 border-primary/30 p-1">
-            <img src="https://ui-avatars.com/api/?name=Admin&background=46f20d&color=000" class="rounded-full">
+<main class="p-4 space-y-6 max-w-lg mx-auto w-full">
+
+    <section class="bg-surface-dark border border-white/5 rounded-3xl p-4 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Google_Calendar_icon_%282020%29.svg" class="w-6 h-6">
+            <div>
+                <p class="text-[10px] font-black text-slate-500 uppercase">Google API Status</p>
+                <p id="calendar-status" class="text-xs font-bold text-primary-green">Sincronizado correctamente</p>
+            </div>
         </div>
+        <button onclick="syncCalendar()" class="bg-primary-green/10 p-2 rounded-lg text-primary-green active:scale-90 transition-transform">
+            <span class="material-symbols-outlined">sync_lock</span>
+        </button>
+    </section>
+
+    <section class="bg-surface-dark border border-shop-blue/30 rounded-[2.5rem] p-6 shadow-xl">
+        <div class="flex justify-between items-start mb-4">
+            <div>
+                <h3 class="text-[10px] font-black text-shop-blue uppercase tracking-widest">COMISIÓN_KM0</h3>
+                <p class="text-4xl font-black">$ <span id="val-tienda">2.50</span></p>
+            </div>
+            <span class="material-symbols-outlined text-shop-blue/30 text-4xl">storefront</span>
+        </div>
+        <input type="range" id="input-tienda" min="0" max="10" step="0.5" value="2.50" class="slider-blue" oninput="updateUI()">
+    </section>
+
+    <section class="bg-surface-dark border border-primary-green/30 rounded-[2.5rem] p-6 shadow-xl neon-glow-green">
+        <div class="flex justify-between items-start mb-4">
+            <div>
+                <h3 class="text-[10px] font-black text-primary-green uppercase tracking-widest">PAGO_MOTORIZADO</h3>
+                <p class="text-4xl font-black">$ <span id="val-driver">1.50</span></p>
+            </div>
+            <span class="material-symbols-outlined text-primary-green/30 text-4xl">motorcycle</span>
+        </div>
+        <input type="range" id="input-driver" min="0" max="10" step="0.5" value="1.50" class="slider-green" oninput="updateUI()">
+    </section>
+
+    <div class="bg-black/40 border border-white/5 rounded-2xl p-4 flex justify-between items-center">
         <div>
-            <h2 class="font-bold text-base uppercase">Super Administrador</h2>
-            <p class="text-[9px] text-primary font-black uppercase tracking-widest">Estado: En Línea</p>
+            <p class="text-[9px] font-black text-slate-500 uppercase">Utilidad por Pedido</p>
+            <p class="text-2xl font-black text-white">$ <span id="val-utilidad">1.00</span></p>
+        </div>
+        <div class="text-right">
+            <span class="text-[10px] font-bold text-primary-green bg-primary-green/10 px-2 py-1 rounded">Auto-Cálculo Activo</span>
         </div>
     </div>
 
-    <section class="space-y-3">
-        <h3 class="text-[10px] font-black uppercase tracking-widest text-slate-500 px-1">Configuración de Comisión</h3>
-        <div class="bg-surface-dark border border-primary/20 rounded-2xl p-5 shadow-xl">
-            <div class="flex items-center justify-between mb-6">
-                <div>
-                    <p class="text-[9px] font-black text-slate-400 uppercase mb-1">Tasa Global Sugerida</p>
-                    <div class="flex items-baseline gap-1">
-                        <span id="val-comision" class="text-4xl font-black text-white">12.5</span>
-                        <span class="text-xl font-black text-primary">%</span>
-                    </div>
-                </div>
-                <div class="size-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
-                    <span class="material-symbols-outlined text-3xl">percent</span>
-                </div>
-            </div>
-
-            <div class="space-y-3">
-                <input type="range" min="0" max="30" step="0.5" value="12.5" 
-                       oninput="document.getElementById('val-comision').innerText = this.value">
-                <div class="flex justify-between text-[8px] font-black text-slate-500 uppercase tracking-tighter">
-                    <span>Mínimo (0%)</span>
-                    <span>Máximo Sugerido (30%)</span>
-                </div>
-            </div>
-
-            <div class="mt-6 flex items-center justify-between p-3 bg-black/20 rounded-xl border border-white/5">
-                <p class="text-[10px] font-bold text-slate-300 uppercase">Aplicar a todos los comercios</p>
-                <label class="relative inline-flex items-center cursor-pointer">
-                    <input type="checkbox" checked class="sr-only peer">
-                    <div class="w-9 h-5 bg-slate-800 rounded-full peer peer-checked:bg-primary after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-4"></div>
-                </label>
-            </div>
-        </div>
-    </section>
-
-    <section class="space-y-3">
-        <h3 class="text-[10px] font-black uppercase tracking-widest text-slate-500 px-1">Horarios Operativos</h3>
-        <div class="bg-surface-dark border border-white/5 rounded-2xl overflow-hidden divide-y divide-white/5" id="lista-horarios">
-            </div>
-    </section>
-
-    <button class="w-full py-4 bg-primary text-background-dark rounded-xl font-black uppercase tracking-[0.2em] shadow-lg shadow-primary/20 active:scale-95 transition-all">
-        Guardar Configuración
+    <button onclick="saveAndSync()" class="w-full py-5 bg-primary-green text-black rounded-[2rem] font-black uppercase tracking-[0.2em] shadow-lg shadow-primary-green/20 active:scale-95 transition-all">
+        Sincronizar Pedidos & Calendario
     </button>
+
 </main>
 
-<nav class="fixed bottom-0 left-0 right-0 bg-background-dark/95 ios-blur border-t border-white/10 px-2 pb-6 pt-2 z-50">
+<nav class="fixed bottom-0 left-0 right-0 bg-background-dark/95 ios-blur border-t border-white/10 px-2 pb-8 pt-2 z-50">
     <div class="flex justify-between items-center max-w-lg mx-auto">
-        <a class="flex flex-1 flex-col items-center gap-1 text-slate-500" href="dashboard.html">
-            <span class="material-symbols-outlined text-[24px]">dashboard</span>
-            <span class="text-[9px] font-bold uppercase">Panel</span>
-        </a>
-        <a class="flex flex-1 flex-col items-center gap-1 text-slate-500" href="tiendas.html">
-            <span class="material-symbols-outlined text-[24px]">storefront</span>
-            <span class="text-[9px] font-bold uppercase">Tiendas</span>
-        </a>
-        <a class="flex flex-1 flex-col items-center gap-1 text-slate-500" href="motorizados.html">
-            <span class="material-symbols-outlined text-[24px]">pedal_bike</span>
-            <span class="text-[9px] font-bold uppercase">Flota</span>
-        </a>
-        <a class="flex flex-1 flex-col items-center gap-1 text-slate-500" href="pedidos.html">
-            <span class="material-symbols-outlined text-[24px]">receipt_long</span>
-            <span class="text-[9px] font-bold uppercase">Pedidos</span>
-        </a>
-        <a class="flex flex-1 flex-col items-center gap-1 text-primary" href="configuracion.html">
-            <span class="material-symbols-outlined text-[24px] filled">tune</span>
-            <span class="text-[9px] font-bold uppercase">Motor</span>
-        </a>
+        <a class="flex flex-1 flex-col items-center gap-1 text-slate-500" href="dashboard.html"><span class="material-symbols-outlined">dashboard</span><span class="text-[9px] font-bold">PANEL</span></a>
+        <a class="flex flex-1 flex-col items-center gap-1 text-slate-500" href="pedidos.html"><span class="material-symbols-outlined">receipt_long</span><span class="text-[9px] font-bold">PEDIDOS</span></a>
+        <a class="flex flex-1 flex-col items-center gap-1 text-primary-green" href="configuracion.html"><span class="material-symbols-outlined filled">calendar_month</span><span class="text-[9px] font-bold">MOTOR</span></a>
     </div>
 </nav>
 
 <script>
-    const dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
-    const container = document.getElementById('lista-horarios');
-    dias.forEach(dia => {
-        container.innerHTML += `
-            <div class="p-4 flex items-center justify-between">
-                <span class="text-xs font-bold text-slate-300 w-16 uppercase text-[10px]">${dia}</span>
-                <div class="flex items-center gap-2 bg-black/30 px-2 py-1 rounded-lg border border-white/5">
-                    <input type="time" value="08:00" class="bg-transparent border-none p-0 text-[10px] font-black text-primary focus:ring-0">
-                    <span class="text-slate-600 text-[9px] font-bold uppercase">A</span>
-                    <input type="time" value="22:00" class="bg-transparent border-none p-0 text-[10px] font-black text-primary focus:ring-0">
-                </div>
-                <label class="relative inline-flex items-center cursor-pointer">
-                    <input type="checkbox" checked class="sr-only peer">
-                    <div class="w-7 h-4 bg-slate-800 rounded-full peer peer-checked:bg-primary after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:after:translate-x-3"></div>
-                </label>
-            </div>
-        `;
-    });
+    function updateUI() {
+        const t = parseFloat(document.getElementById('input-tienda').value);
+        const d = parseFloat(document.getElementById('input-driver').value);
+        document.getElementById('val-tienda').innerText = t.toFixed(2);
+        document.getElementById('val-driver').innerText = d.toFixed(2);
+        document.getElementById('val-utilidad').innerText = (t - d).toFixed(2);
+    }
 
-    function confirmExit() {
-        if(confirm("¿Desea cerrar la sesión administrativa?")) {
-            window.location.href = "login.html";
-        }
+    async function syncCalendar() {
+        document.getElementById('calendar-status').innerText = "Sincronizando...";
+        // Simulación de llamado a Google Apps Script
+        setTimeout(() => {
+            document.getElementById('calendar-status').innerText = "Horarios de Google Calendar Importados";
+            alert("Los horarios operativos ahora se rigen por tu calendario de Google.");
+        }, 1500);
+    }
+
+    function saveAndSync() {
+        const payload = {
+            comision: document.getElementById('val-tienda').innerText,
+            pago: document.getElementById('val-driver').innerText,
+            utilidad: document.getElementById('val-utilidad').innerText,
+            timestamp: new Date().toISOString()
+        };
+        console.log("Enviando a Hoja PEDIDOS:", payload);
+        alert("✅ Datos guardados en hoja PEDIDOS y Motor sincronizado con Calendario.");
     }
 </script>
 
