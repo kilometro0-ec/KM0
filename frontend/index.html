@@ -5,7 +5,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>Kilómetro Cero - Logistics & Identity</title>
 
-    <link rel="manifest" href='data:application/json,{"name":"KM0 ADMIN","short_name":"KM0","start_url":"/KM0/index.html","display":"standalone","background_color":"#000000","theme_color":"#000000","icons":[{"src":"https://cdn-icons-png.flaticon.com/512/2362/2362252.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}]}'>
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIktNMDAgQURNSU4iLAogICJzaG9ydF9uYW1lIjogIktNMCIsCiAgInN0YXJ0X3VybCI6ICIvS00wL2luZGV4Lmh0bWwiLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiMwMDAwMDAiLAogICJ0aGVtZV9jbG9yIjogIiMwMDAwMDAiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJodHRwczovL2Nkbi1pY29ucy1wbmcuZmxhdGljb24uY29tLzUxMi8yMzYyLzIzNjIyNTIucG5nIiwKICAgICAgInNpemVzIjogIjUxMng1MTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9wbmciLAogICAgICAicHVycG9zZSI6ICJhbnkgbWFza2FibGUiCiAgICB9CiAgXQp9">
 
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -18,12 +18,13 @@
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          const swCode = "self.addEventListener('fetch', function(event) {});";
+          const swCode = "self.addEventListener('install', (e) => self.skipWaiting()); self.addEventListener('fetch', (e) => e.respondWith(fetch(e.request)));";
           const blob = new Blob([swCode], {type: 'text/javascript'});
           const url = URL.createObjectURL(blob);
+          // IMPORTANTE: El scope debe coincidir con la carpeta de GitHub
           navigator.serviceWorker.register(url, { scope: '/KM0/' })
-            .then(() => console.log("KM0: Android detectado y listo"))
-            .catch(err => console.error("Error SW:", err));
+            .then(() => console.log("KM0: App configurada correctamente"))
+            .catch(err => console.error("Error crítico:", err));
         });
       }
     </script>
