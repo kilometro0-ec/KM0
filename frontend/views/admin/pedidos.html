@@ -1,196 +1,157 @@
 <!DOCTYPE html>
-
-<html class="dark" lang="es"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Admin: Control de Pedidos - Kilómetro Cero</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
+<html class="dark" lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>KM0 Admin: Engine Pedidos</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+    
+    <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#46f20d",
-                        "background-light": "#f6f8f5",
-                        "background-dark": "#142210",
+                        "primary": "#46f20d", 
+                        "background-dark": "#0d140a",
+                        "surface-dark": "#162512",
                     },
-                    fontFamily: {
-                        "display": ["Space Grotesk"]
-                    },
-                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                    fontFamily: { "display": ["Space Grotesk", "sans-serif"] },
                 },
             },
         }
     </script>
-<style>
-        body {
-            font-family: 'Space Grotesk', sans-serif;
-        }
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
+    <style>
+        body { font-family: 'Space Grotesk', sans-serif; background-color: #0d140a; color: white; -webkit-tap-highlight-color: transparent; }
+        .neon-text { text-shadow: 0 0 10px rgba(70, 242, 13, 0.3); }
+        .ios-blur { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0; }
+        .filled { font-variation-settings: 'FILL' 1; }
     </style>
-<style>
-    body {
-      min-height: max(884px, 100dvh);
-    }
-  </style>
-  </head>
-<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
-<header class="sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-primary/10">
-<div class="flex items-center p-4 justify-between">
-<div class="flex items-center gap-3">
-<span class="material-symbols-outlined text-primary text-2xl">menu</span>
-<h1 class="text-lg font-bold tracking-tight">Control de Pedidos</h1>
-</div>
-<div class="flex items-center gap-2">
-<button class="relative p-2 rounded-full hover:bg-primary/10 transition-colors">
-<span class="material-symbols-outlined">notifications</span>
-<span class="absolute top-1 right-1 w-2 h-2 bg-primary rounded-full"></span>
-</button>
-<div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center border border-primary/30 overflow-hidden">
-<img alt="Admin Profile" class="w-full h-full object-cover" data-alt="User profile avatar icon circular" src="https://lh3.googleusercontent.com/aida-public/AB6AXuABqAkoRGjGM8tYbQUlsQ_gp6DVi2X0aZqbCgGDER4hnzZgrLlI0Al2vKrelYQALKq5_pcFA4MGfpTZIBYNiSZccvSUO5Iu8mShN0gjt0A7WN742Pq4P7vIr0zCPBKdXcV-ck3mT60uT_rTAWDEjEOTYBh7oki0JqFs81HDxH5XSgEbmuQ74miQ4hy3CPHDJIACzekMHQYnkHRo6io7Uoj2kgqE2Fiv0D3U89yb7kp5W_9YipLgqEX_dvtG1UD7myycuGyruKAxdbCt"/>
-</div>
-</div>
-</div>
-<div class="px-4 pb-2 overflow-x-auto no-scrollbar">
-<div class="flex border-b border-primary/10 gap-6">
-<a class="flex flex-col items-center justify-center border-b-2 border-primary text-primary pb-3 pt-2" href="#">
-<span class="text-sm font-bold">Todos</span>
-</a>
-<a class="flex flex-col items-center justify-center border-b-2 border-transparent text-slate-500 dark:text-slate-400 pb-3 pt-2" href="#">
-<span class="text-sm font-medium">Pendientes</span>
-</a>
-<a class="flex flex-col items-center justify-center border-b-2 border-transparent text-slate-500 dark:text-slate-400 pb-3 pt-2" href="#">
-<span class="text-sm font-medium">En Camino</span>
-</a>
-<a class="flex flex-col items-center justify-center border-b-2 border-transparent text-slate-500 dark:text-slate-400 pb-3 pt-2" href="#">
-<span class="text-sm font-medium">Entregados</span>
-</a>
-</div>
-</div>
+</head>
+<body class="min-h-screen flex flex-col pb-32">
+
+<header class="sticky top-0 z-50 bg-background-dark/80 ios-blur border-b border-primary/20 px-4 pt-4">
+    <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-3">
+            <button onclick="window.location.href='dashboard.html'" class="size-10 bg-primary/10 rounded-full flex items-center justify-center text-primary">
+                <span class="material-symbols-outlined">arrow_back</span>
+            </button>
+            <div>
+                <h1 class="text-lg font-black uppercase tracking-tighter neon-text">Pedidos Engine</h1>
+                <p class="text-[10px] text-primary font-bold uppercase tracking-[0.2em]">Logística en Vivo</p>
+            </div>
+        </div>
+        <div class="flex gap-2">
+            <div class="size-10 rounded-full bg-surface-dark border border-primary/20 flex items-center justify-center overflow-hidden">
+                <img src="https://ui-avatars.com/api/?name=Admin&background=46f20d&color=000" class="w-full h-full">
+            </div>
+        </div>
+    </div>
+
+    <div class="flex gap-6 overflow-x-auto no-scrollbar border-b border-white/5">
+        <button class="pb-3 border-b-2 border-primary text-primary text-[11px] font-black uppercase whitespace-nowrap">Todos</button>
+        <button class="pb-3 border-b-2 border-transparent text-slate-500 text-[11px] font-black uppercase whitespace-nowrap">Pendientes</button>
+        <button class="pb-3 border-b-2 border-transparent text-slate-500 text-[11px] font-black uppercase whitespace-nowrap">En Camino</button>
+        <button class="pb-3 border-b-2 border-transparent text-slate-500 text-[11px] font-black uppercase whitespace-nowrap">Entregados</button>
+    </div>
 </header>
-<main class="flex-1 overflow-y-auto px-4 py-4 space-y-4">
-<div class="relative">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
-<input class="w-full pl-10 pr-4 py-3 rounded-xl border-none bg-primary/5 dark:bg-primary/10 text-slate-900 dark:text-slate-100 placeholder:text-slate-500 focus:ring-1 focus:ring-primary" placeholder="Buscar por ID o Cliente" type="text"/>
-</div>
-<div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
-<button class="flex shrink-0 items-center gap-2 px-4 py-2 rounded-lg bg-primary/10 border border-primary/20 text-xs font-semibold">
-                Fecha: Hoy
-                <span class="material-symbols-outlined text-base">expand_more</span>
-</button>
-<button class="flex shrink-0 items-center gap-2 px-4 py-2 rounded-lg bg-primary/10 border border-primary/20 text-xs font-semibold">
-                Tienda: Todas
-                <span class="material-symbols-outlined text-base">expand_more</span>
-</button>
-<button class="flex shrink-0 items-center gap-2 px-4 py-2 rounded-lg bg-primary/10 border border-primary/20 text-xs font-semibold">
-                Estado
-                <span class="material-symbols-outlined text-base">expand_more</span>
-</button>
-</div>
-<div class="space-y-3">
-<div class="p-4 rounded-xl bg-primary/5 dark:bg-slate-900/50 border border-primary/10 hover:border-primary/30 transition-all">
-<div class="flex justify-between items-start mb-3">
-<div>
-<span class="text-[10px] font-bold uppercase tracking-wider text-primary">ORD-89241</span>
-<h3 class="font-bold text-slate-900 dark:text-slate-100">Carlos Rodríguez</h3>
-</div>
-<span class="px-2 py-1 rounded text-[10px] font-bold bg-yellow-500/20 text-yellow-600 dark:text-yellow-400 border border-yellow-500/30 uppercase">En Camino</span>
-</div>
-<div class="flex items-center gap-3 text-sm text-slate-600 dark:text-slate-400 mb-4">
-<span class="material-symbols-outlined text-base">storefront</span>
-<span>Tienda Central (Sede Norte)</span>
-</div>
-<div class="flex items-center justify-between pt-3 border-t border-primary/10">
-<div class="flex -space-x-2">
-<div class="w-8 h-8 rounded-full bg-slate-800 border-2 border-background-dark flex items-center justify-center">
-<span class="material-symbols-outlined text-xs text-primary">pedal_bike</span>
-</div>
-<div class="w-8 h-8 rounded-full bg-slate-700 border-2 border-background-dark flex items-center justify-center text-[10px] font-bold">
-                            +2
-                        </div>
-</div>
-<div class="flex gap-2">
-<button class="p-2 rounded-lg bg-primary/20 text-primary">
-<span class="material-symbols-outlined text-xl">edit</span>
-</button>
-<button class="px-4 py-2 rounded-lg bg-primary text-background-dark font-bold text-xs uppercase tracking-tight">Ver Trazabilidad</button>
-</div>
-</div>
-</div>
-<div class="p-4 rounded-xl bg-primary/5 dark:bg-slate-900/50 border border-primary/10 hover:border-primary/30 transition-all opacity-80">
-<div class="flex justify-between items-start mb-3">
-<div>
-<span class="text-[10px] font-bold uppercase tracking-wider text-primary">ORD-89239</span>
-<h3 class="font-bold text-slate-900 dark:text-slate-100">Ana María López</h3>
-</div>
-<span class="px-2 py-1 rounded text-[10px] font-bold bg-primary/20 text-primary border border-primary/30 uppercase">Entregado</span>
-</div>
-<div class="flex items-center gap-3 text-sm text-slate-600 dark:text-slate-400 mb-4">
-<span class="material-symbols-outlined text-base">storefront</span>
-<span>Tienda Gourmet (Zona Este)</span>
-</div>
-<div class="flex items-center justify-between pt-3 border-t border-primary/10">
-<div class="text-xs text-slate-500">Completado hace 14m</div>
-<button class="px-4 py-2 rounded-lg border border-primary/30 text-primary font-bold text-xs uppercase">Detalles</button>
-</div>
-</div>
-<div class="p-4 rounded-xl bg-primary/5 dark:bg-slate-900/50 border border-primary/10 hover:border-primary/30 transition-all">
-<div class="flex justify-between items-start mb-3">
-<div>
-<span class="text-[10px] font-bold uppercase tracking-wider text-primary">ORD-89245</span>
-<h3 class="font-bold text-slate-900 dark:text-slate-100">Julián Ortega</h3>
-</div>
-<span class="px-2 py-1 rounded text-[10px] font-bold bg-red-500/20 text-red-600 dark:text-red-400 border border-red-500/30 uppercase">Pendiente</span>
-</div>
-<div class="flex items-center gap-3 text-sm text-slate-600 dark:text-slate-400 mb-4">
-<span class="material-symbols-outlined text-base">priority_high</span>
-<span class="text-red-400">Sin repartidor asignado</span>
-</div>
-<div class="flex items-center justify-between pt-3 border-t border-primary/10">
-<div class="flex items-center gap-2">
-<span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-<span class="text-xs font-medium">Urgente</span>
-</div>
-<button class="px-4 py-2 rounded-lg bg-primary text-background-dark font-bold text-xs uppercase">Asignar Manual</button>
-</div>
-</div>
-</div>
+
+<main class="p-4 space-y-4">
+    
+    <div class="relative">
+        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary/50">search</span>
+        <input type="text" placeholder="BUSCAR ID O CLIENTE..." class="w-full bg-surface-dark border border-primary/10 rounded-xl py-3 pl-12 pr-4 text-xs font-bold tracking-widest focus:ring-1 focus:ring-primary focus:border-primary outline-none uppercase">
+    </div>
+
+    <div class="space-y-3">
+        
+        <div class="bg-surface-dark border border-red-500/30 rounded-2xl p-4 shadow-xl">
+            <div class="flex justify-between items-start mb-3">
+                <div>
+                    <span class="text-[10px] font-black text-red-500 uppercase tracking-widest">ORD-89245</span>
+                    <h3 class="font-bold text-sm">Julián Ortega</h3>
+                </div>
+                <span class="px-2 py-1 rounded text-[9px] font-black bg-red-500/20 text-red-500 border border-red-500/30 uppercase">Urgente</span>
+            </div>
+            <div class="flex items-center gap-2 text-[10px] text-slate-400 font-bold mb-4 uppercase">
+                <span class="material-symbols-outlined text-sm">priority_high</span>
+                Sin repartidor asignado
+            </div>
+            <div class="flex items-center justify-between pt-3 border-t border-white/5">
+                <div class="flex items-center gap-2">
+                    <span class="size-2 rounded-full bg-red-500 animate-ping"></span>
+                    <span class="text-[9px] font-black text-slate-500 uppercase">Hace 5 min</span>
+                </div>
+                <button class="px-4 py-2 bg-primary text-background-dark rounded-lg font-black text-[10px] uppercase shadow-lg shadow-primary/20">Asignar Manual</button>
+            </div>
+        </div>
+
+        <div class="bg-surface-dark border border-primary/10 rounded-2xl p-4 shadow-lg">
+            <div class="flex justify-between items-start mb-3">
+                <div>
+                    <span class="text-[10px] font-black text-primary uppercase tracking-widest">ORD-89241</span>
+                    <h3 class="font-bold text-sm">Carlos Rodríguez</h3>
+                </div>
+                <span class="px-2 py-1 rounded text-[9px] font-black bg-amber-500/20 text-amber-500 border border-amber-500/30 uppercase">En Camino</span>
+            </div>
+            <div class="flex items-center gap-2 text-[10px] text-slate-400 font-bold mb-4 uppercase">
+                <span class="material-symbols-outlined text-sm">storefront</span>
+                Tienda Central (Sede Norte)
+            </div>
+            <div class="flex items-center justify-between pt-3 border-t border-white/5">
+                <div class="flex -space-x-2">
+                    <div class="size-8 rounded-full bg-background-dark border-2 border-surface-dark flex items-center justify-center text-primary">
+                        <span class="material-symbols-outlined text-xs filled">pedal_bike</span>
+                    </div>
+                    <div class="size-8 rounded-full bg-primary/10 border-2 border-surface-dark flex items-center justify-center text-[10px] font-black text-primary">
+                        +2
+                    </div>
+                </div>
+                <div class="flex gap-2">
+                    <button class="size-9 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-primary">
+                        <span class="material-symbols-outlined text-lg">edit</span>
+                    </button>
+                    <button class="px-4 py-2 bg-white/5 border border-white/10 rounded-lg font-black text-[10px] uppercase text-slate-300">Trazabilidad</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </main>
-<nav class="sticky bottom-0 bg-background-light dark:bg-[#1e271b] border-t border-primary/10 px-4 pb-6 pt-2 flex justify-between items-center z-50">
-<a class="flex flex-1 flex-col items-center gap-1 text-slate-400" href="#">
-<span class="material-symbols-outlined">dashboard</span>
-<p class="text-[10px] font-medium">Dashboard</p>
-</a>
-<a class="flex flex-1 flex-col items-center gap-1 text-primary" href="#">
-<span class="material-symbols-outlined fill-1">package_2</span>
-<p class="text-[10px] font-bold">Pedidos</p>
-</a>
-<a class="flex flex-1 flex-col items-center gap-1 text-slate-400" href="#">
-<span class="material-symbols-outlined">storefront</span>
-<p class="text-[10px] font-medium">Tiendas</p>
-</a>
-<a class="flex flex-1 flex-col items-center gap-1 text-slate-400" href="#">
-<span class="material-symbols-outlined">group</span>
-<p class="text-[10px] font-medium">Usuarios</p>
-</a>
-<a class="flex flex-1 flex-col items-center gap-1 text-slate-400" href="#">
-<span class="material-symbols-outlined">settings</span>
-<p class="text-[10px] font-medium">Ajustes</p>
-</a>
-</nav>
-<div class="fixed bottom-24 right-4">
-<button class="w-14 h-14 rounded-full bg-primary text-background-dark shadow-xl flex items-center justify-center hover:scale-105 active:scale-95 transition-transform">
-<span class="material-symbols-outlined text-3xl font-bold">add</span>
+
+<button class="fixed bottom-28 right-6 size-14 bg-primary text-background-dark rounded-full shadow-[0_0_20px_rgba(70,242,13,0.4)] flex items-center justify-center border-4 border-background-dark z-40 active:scale-90 transition-transform">
+    <span class="material-symbols-outlined font-black text-3xl">add</span>
 </button>
-</div>
-</body></html>
+
+<nav class="fixed bottom-0 left-0 right-0 bg-background-dark/95 ios-blur border-t border-primary/20 px-2 pb-6 pt-2 z-50">
+    <div class="flex justify-around items-center">
+        <a class="flex flex-col items-center gap-1 px-4 py-2 text-slate-500" href="dashboard.html">
+            <span class="material-symbols-outlined text-[26px]">dashboard</span>
+            <span class="text-[9px] font-black uppercase">Inicio</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 px-4 py-2 text-primary" href="#">
+            <span class="material-symbols-outlined text-[26px] filled">package_2</span>
+            <span class="text-[9px] font-black uppercase">Pedidos</span>
+        </a>
+        <div class="relative -top-6">
+            <button class="size-14 bg-primary rounded-full flex items-center justify-center text-background-dark shadow-lg border-4 border-background-dark">
+                <span class="material-symbols-outlined text-3xl font-black">qr_code_scanner</span>
+            </button>
+        </div>
+        <a class="flex flex-col items-center gap-1 px-4 py-2 text-slate-500" href="finanzas.html">
+            <span class="material-symbols-outlined text-[26px]">account_balance_wallet</span>
+            <span class="text-[9px] font-black uppercase">Finanzas</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 px-4 py-2 text-slate-500" href="configuracion.html">
+            <span class="material-symbols-outlined text-[26px]">tune</span>
+            <span class="text-[9px] font-black uppercase">Motor</span>
+        </a>
+    </div>
+</nav>
+
+</body>
+</html>
