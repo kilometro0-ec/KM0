@@ -102,11 +102,52 @@
             }).catch(e => alert("Toque de nuevo para activar"));
         }
 
-        async function init(silent = false) {
+     async function init(silent = false) {
             if(!silent) document.getElementById('sync-icon').classList.add('animate-spin');
             try {
                 const res = await fetch(API_URL);
                 const data = await res.json();
+                
+                // --- ACTUALIZACIÓN DE CONTADORES (FORZADO) ---
+                const numMotos = data.motorizados ? data.motorizados.length : 0;
+                const numTiendas = data.tiendas ? data.tiendas.length : 0;
+
+                document.getElementById('count-m').innerText = numMotos;
+                document.getElementById('count-t').innerText = numTiendas;
+                // --------------------------------------------
+
+                // DETECCIÓN DE NOVEDADES PARA PUSH
+                if (numMotos > lastCounts.m) {
+                    lanzarPush("NUEVA MOTO", "Socio esperando aprobación", "#ff6600", "motorcycle");
+                }
+                if (numTiendas > lastCounts.t) {
+                    lanzarPush("NUEVA TIENDA", "Tienda solicita ingreso", "#0047AB", "store");
+                }
+                
+                // Alertas de Pedidos
+                if (data.alertas) {
+                    data.alertas.forEach(alerta => {
+                        if (!localStorage.getItem('visto_' + alerta.id)) {
+                            const esNovedad = alerta.estado === "NOVEDAD";
+                            lanzarPush(alerta.estado, `Pedido ${alerta.id}: ${alerta.tienda}`, esNovedad ? "#ff0000" : "#39FF14", esNovedad ? "warning" : "check_circle");
+                            localStorage.setItem('visto_' + alerta.id, 'true');
+                        }
+                    });
+                }
+
+                db = data;
+                lastCounts = { m: numMotos, t: numTiendas, a: (data.alertas ? data.alertas.length : 0) };
+                render();
+            } catch (e) { 
+                console.error("Error cargando datos:", e);
+                // Si hay error, poner en 0 para no dejar la pantalla vacía
+                document.getElementById('count-m').innerText = "!";
+                document.getElementById('count-t').innerText = "!";
+            }
+            finally { 
+                document.getElementById('sync-icon').classList.remove('animate-spin'); 
+            }
+        };
                 
                 // DETECCIÓN DE NOVEDADES
                 if (data.motorizados.length > lastCounts.m) {
