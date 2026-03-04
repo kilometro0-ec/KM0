@@ -2,10 +2,10 @@
 <html class="dark" lang="es">
 <head>
     <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
     <title>Kilómetro Cero - Logistics & Identity</title>
 
-    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIktNMDAgQURNSU4iLAogICJzaG9ydF9uYW1lIjogIktNMCIsCiAgInN0YXJ0X3VybCI6ICIvS00wL2luZGV4Lmh0bWwiLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiMwMDAwMDAiLAogICJ0aGVtZV9jbG9yIjogIiMwMDAwMDAiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJodHRwczovL2Nkbi1pY29ucy1wbmcuZmxhdGljb24uY29tLzUxMi8yMzYyLzIzNjIyNTIucG5nIiwKICAgICAgInNpemVzIjogIjUxMng1MTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9wbmciLAogICAgICAicHVycG9zZSI6ICJhbnkgbWFza2FibGUiCiAgICB9CiAgXQp9">
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIktNMDAgQURNSU4iLAogICJzaG9ydF9uYW1lIjogIktNMCIsCiAgInN0YXJ0X3VybCI6ICIvS00wLyIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzAwMDAwMCIsCiAgInRoZW1lX2NvbG9yIjogIiMwMDAwMDAiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJodHRwczovL2Nkbi1pY29ucy1wbmcuZmxhdGljb24uY29tLzUxMi8yMzYyLzIzNjIyNTIucG5nIiwKICAgICAgInNpemVzIjogIjUxMng1MTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9wbmciLAogICAgICAicHVycG9zZSI6ICJhbnkgbWFza2FibGUiCiAgICB9CiAgXQp9">
 
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -15,20 +15,6 @@
     <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/2362/2362252.png">
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2362/2362252.png">
 
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          const swCode = "self.addEventListener('install', (e) => self.skipWaiting()); self.addEventListener('fetch', (e) => e.respondWith(fetch(e.request)));";
-          const blob = new Blob([swCode], {type: 'text/javascript'});
-          const url = URL.createObjectURL(blob);
-          // IMPORTANTE: El scope debe coincidir con la carpeta de GitHub
-          navigator.serviceWorker.register(url, { scope: '/KM0/' })
-            .then(() => console.log("KM0: App configurada correctamente"))
-            .catch(err => console.error("Error crítico:", err));
-        });
-      }
-    </script>
-    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
@@ -41,9 +27,15 @@
         .border-motorizado { border: 1.5px solid rgba(236, 19, 19, 0.4); }
         @keyframes logoEntrance { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
         .animate-logo { animation: logoEntrance 0.8s ease-out forwards; }
+        
+        /* Botón de instalación forzado */
+        #installBtn { display: none; position: fixed; bottom: 20px; background: #0047AB; color: white; padding: 15px 30px; border-radius: 50px; font-weight: bold; z-index: 999; box-shadow: 0 0 20px rgba(0,71,171,0.5); }
     </style>
 </head>
 <body class="p-6">
+
+    <button id="installBtn">📦 INSTALAR KM0 APP</button>
+
     <div class="w-full max-w-[360px] flex flex-col items-center">
         <div class="mb-10 animate-logo">
             <img src="assets/images/logo-trans.png" alt="Logo KM0" class="w-64 h-64 object-contain drop-shadow-[0_0_15px_rgba(236,19,19,0.3)]">
@@ -80,5 +72,39 @@
             <p class="text-[9px] font-bold uppercase tracking-[0.1em]">2026 KM0® by CORPORACIÓN 360</p>
         </div>
     </div>
+
+    <script>
+      let deferredPrompt;
+      const installBtn = document.getElementById('installBtn');
+
+      // Escuchar el evento de instalación
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        // Mostrar el botón manual
+        installBtn.style.display = 'block';
+      });
+
+      installBtn.addEventListener('click', (e) => {
+        installBtn.style.display = 'none';
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('Usuario instaló la App');
+          }
+          deferredPrompt = null;
+        });
+      });
+
+      // Registro del Service Worker
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          const swCode = "self.addEventListener('fetch', function(event) {});";
+          const blob = new Blob([swCode], {type: 'text/javascript'});
+          const url = URL.createObjectURL(blob);
+          navigator.serviceWorker.register(url, { scope: '/KM0/' });
+        });
+      }
+    </script>
 </body>
 </html>
