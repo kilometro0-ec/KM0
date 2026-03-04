@@ -3,17 +3,23 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>KM0 ADMIN CONTROL</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIktNMCBBRE1JTiIsCiAgInNob3J0X25hbWUiOiAiS00wIiwKICAic3RhcnRfdXJsIjogIi4iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiMwMDAwMDAiLAogICJ0aGVtZV9jbG9yIjogIiMzOUZGMTQiCn0=">
+    
     <script src="../../assets/js/config.js"></script>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <style>
-        body { font-family: 'Inter', sans-serif; background: #000; color: white; }
-        .tab-moto.active { color: #ff6600; border-bottom: 3px solid #ff6600; }
-        .tab-store.active { color: #0047AB; border-bottom: 3px solid #0047AB; }
+        body { font-family: 'Inter', sans-serif; background: #000; color: white; -webkit-tap-highlight-color: transparent; }
+        .tab-moto.active { color: #ff6600; border-bottom: 3px solid #ff6600; opacity: 1; }
+        .tab-store.active { color: #0047AB; border-bottom: 3px solid #0047AB; opacity: 1; }
         .detalle-hidden { display: none; }
         #notificacion-push { transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .bg-surface { background: #1a1a1a; }
+        .bg-surface { background: #151515; }
+        .btn-active:active { transform: scale(0.95); }
     </style>
 </head>
 <body>
@@ -21,45 +27,55 @@
         <source src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg" type="audio/ogg">
     </audio>
 
-    <div id="modal-audio" class="fixed inset-0 z-[200] bg-black/90 flex items-center justify-center p-6 text-center">
-        <div class="bg-surface p-8 rounded-3xl border border-primary/20 max-w-xs">
-            <span class="material-symbols-outlined text-6xl text-primary animate-pulse">notifications_active</span>
-            <h3 class="text-xl font-black mt-4">KM0 CONTROL</h3>
-            <p class="text-gray-400 text-sm mt-2">Para recibir alertas sonoras en tiempo real, activa el monitor.</p>
-            <button onclick="activarAudio()" class="w-full bg-primary text-black font-black py-4 rounded-2xl mt-6 uppercase tracking-widest shadow-lg shadow-primary/20">
-                Activar Monitor
+    <div id="modal-audio" class="fixed inset-0 z-[200] bg-black/95 flex items-center justify-center p-6 text-center">
+        <div class="bg-surface p-8 rounded-3xl border border-[#39FF14]/20 max-w-xs shadow-2xl shadow-[#39FF14]/10">
+            <span class="material-symbols-outlined text-7xl text-[#39FF14] animate-bounce">notifications_active</span>
+            <h3 class="text-2xl font-black mt-6">SISTEMA KM0</h3>
+            <p class="text-gray-400 text-sm mt-3 leading-relaxed">Active el monitor para recibir alertas con <b>Sonido y Vibración</b> incluso con pantalla bloqueada.</p>
+            <button onclick="activarMonitor()" class="w-full bg-[#39FF14] text-black font-extrabold py-5 rounded-2xl mt-8 uppercase tracking-tighter shadow-xl shadow-[#39FF14]/20 btn-active">
+                INICIAR MONITOR
             </button>
         </div>
     </div>
 
     <div id="notificacion-push" class="fixed top-4 inset-x-4 z-[100] transform -translate-y-64">
-        <div id="notif-box" class="p-4 rounded-2xl shadow-2xl border-l-8 flex items-center gap-4 bg-surface border-white/10">
-            <div id="notif-icon-bg" class="p-3 rounded-xl"><span id="notif-icon" class="material-symbols-outlined text-white">notifications</span></div>
+        <div id="notif-box" class="p-4 rounded-2xl shadow-2xl border-l-[10px] flex items-center gap-4 bg-[#1a1a1a] border-white/10">
+            <div id="notif-icon-bg" class="p-3 rounded-xl"><span id="notif-icon" class="material-symbols-outlined text-white text-2xl">notifications</span></div>
             <div class="flex-1">
                 <p id="notif-titulo" class="text-[10px] font-black uppercase tracking-widest text-gray-400"></p>
-                <p id="notif-mensaje" class="text-sm font-bold"></p>
+                <p id="notif-mensaje" class="text-sm font-bold leading-tight"></p>
             </div>
         </div>
     </div>
 
     <div class="relative flex flex-col min-h-screen pb-32">
-        <div class="flex items-center bg-black/95 p-4 sticky top-0 z-50 border-b border-white/10 justify-between">
-            <h2 class="text-base font-black uppercase italic tracking-widest text-[#39FF14]">KM0 ADMIN</h2>
-            <button onclick="init()" class="text-[#39FF14]"><span id="sync-icon" class="material-symbols-outlined">sync</span></button>
+        <div class="flex items-center bg-black/95 p-5 sticky top-0 z-50 border-b border-white/10 justify-between backdrop-blur-lg">
+            <h2 class="text-base font-black uppercase italic tracking-tighter text-[#39FF14]">ADMIN CONTROL <span class="text-white opacity-30 text-[10px]">v3.0</span></h2>
+            <button onclick="init()" class="text-[#39FF14] bg-white/5 p-2 rounded-full"><span id="sync-icon" class="material-symbols-outlined">sync</span></button>
         </div>
 
-        <div class="grid grid-cols-2 gap-3 p-4">
-            <div onclick="cambiarTab('motorizados')" id="card-moto" class="bg-surface p-4 rounded-2xl border-b-4 border-[#ff6600] cursor-pointer">
-                <span class="material-symbols-outlined text-[#ff6600] text-3xl">motorcycle</span>
-                <p id="count-m" class="text-3xl font-black mt-2">0</p>
+        <div class="grid grid-cols-2 gap-4 p-4">
+            <div onclick="cambiarTab('motorizados')" id="card-moto" class="bg-surface p-5 rounded-3xl border-b-8 border-[#ff6600] cursor-pointer transition-all duration-300">
+                <div class="flex justify-between items-center">
+                    <span class="material-symbols-outlined text-[#ff6600] text-4xl">motorcycle</span>
+                    <span class="text-[10px] bg-[#ff6600] text-black font-black px-2 py-0.5 rounded-md">PEND</span>
+                </div>
+                <p id="count-m" class="text-4xl font-black mt-3">0</p>
+                <p class="text-[9px] font-bold text-gray-500 uppercase mt-1 tracking-widest">SOCIOS MOTO</p>
             </div>
-            <div onclick="cambiarTab('tiendas')" id="card-store" class="bg-surface p-4 rounded-2xl border-b-4 border-[#0047AB] cursor-pointer opacity-50">
-                <span class="material-symbols-outlined text-[#0047AB] text-3xl">storefront</span>
-                <p id="count-t" class="text-3xl font-black mt-2">0</p>
+            <div onclick="cambiarTab('tiendas')" id="card-store" class="bg-surface p-5 rounded-3xl border-b-8 border-[#0047AB] cursor-pointer opacity-30 transition-all duration-300">
+                <div class="flex justify-between items-center">
+                    <span class="material-symbols-outlined text-[#0047AB] text-4xl">storefront</span>
+                    <span class="text-[10px] bg-[#0047AB] text-white font-black px-2 py-0.5 rounded-md">PEND</span>
+                </div>
+                <p id="count-t" class="text-4xl font-black mt-3">0</p>
+                <p class="text-[9px] font-bold text-gray-500 uppercase mt-1 tracking-widest">TIENDAS</p>
             </div>
         </div>
 
-        <div id="main-content" class="p-4 space-y-4"></div>
+        <div id="main-content" class="p-4 space-y-4">
+            <div class="py-20 text-center opacity-20"><p class="text-xs font-black uppercase animate-pulse">Cargando Operaciones...</p></div>
+        </div>
     </div>
 
     <script>
@@ -67,44 +83,55 @@
         let currentTab = 'motorizados';
         let lastCounts = { m: 0, t: 0, a: 0 };
 
-        // 🔊 FUNCIÓN PARA DESBLOQUEAR EL AUDIO
-        function activarAudio() {
+        // 📳 FUNCION MONITOR: Desbloquea Audio, Vibración y Notificaciones
+        function activarMonitor() {
             const sound = document.getElementById('notif-sound');
             sound.play().then(() => {
-                sound.pause(); // Reproduce y pausa para ganar el permiso
+                sound.pause(); 
                 document.getElementById('modal-audio').style.display = 'none';
+                
+                // Pedir permiso de Notificaciones de Sistema
+                if ("Notification" in window) {
+                    Notification.requestPermission();
+                }
+                
+                // Vibración de prueba
+                if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+                
                 init();
-            }).catch(e => console.log("Error de audio:", e));
+            }).catch(e => alert("Toque de nuevo para activar"));
         }
 
         async function init(silent = false) {
+            if(!silent) document.getElementById('sync-icon').classList.add('animate-spin');
             try {
                 const res = await fetch(API_URL);
                 const data = await res.json();
                 
-                // DETECTAR NOVEDADES Y SONAR
+                // DETECCIÓN DE NOVEDADES
                 if (data.motorizados.length > lastCounts.m) {
-                    lanzarPush("NUEVO MOTORIZADO", "Solicitud pendiente de revisión", "#ff6600", "motorcycle");
+                    lanzarPush("NUEVA MOTO", "Socio esperando aprobación", "#ff6600", "motorcycle");
                 }
                 if (data.tiendas.length > lastCounts.t) {
-                    lanzarPush("NUEVA TIENDA", "Nueva solicitud de afiliación", "#0047AB", "store");
+                    lanzarPush("NUEVA TIENDA", "Tienda solicita ingreso", "#0047AB", "store");
                 }
                 
-                // Alertas de Pedidos (Novedades)
+                // Alertas de Pedidos
                 data.alertas.forEach(alerta => {
                     if (!localStorage.getItem('visto_' + alerta.id)) {
-                        lanzarPush(alerta.estado, `Pedido ${alerta.id}: ${alerta.tienda}`, "#ff0000", "warning");
+                        const esNovedad = alerta.estado === "NOVEDAD";
+                        lanzarPush(alerta.estado, `Pedido ${alerta.id}: ${alerta.tienda}`, esNovedad ? "#ff0000" : "#39FF14", esNovedad ? "warning" : "check_circle");
                         localStorage.setItem('visto_' + alerta.id, 'true');
                     }
                 });
 
                 db = data;
                 lastCounts = { m: db.motorizados.length, t: db.tiendas.length, a: db.alertas.length };
-                
                 document.getElementById('count-m').innerText = db.motorizados.length;
                 document.getElementById('count-t').innerText = db.tiendas.length;
                 render();
             } catch (e) { console.error(e); }
+            finally { document.getElementById('sync-icon').classList.remove('animate-spin'); }
         }
 
         function lanzarPush(titulo, msg, color, icono) {
@@ -114,17 +141,25 @@
             document.getElementById('notif-titulo').innerText = titulo;
             document.getElementById('notif-mensaje').innerText = msg;
             document.getElementById('notif-icon').innerText = icono;
+            document.getElementById('notif-icon-bg').style.backgroundColor = color;
             document.getElementById('notif-box').style.borderLeftColor = color;
             
+            // 🔊 Sonar y 📳 Vibrar
             sound.currentTime = 0;
-            sound.play().catch(e => console.log("Audio bloqueado"));
+            sound.play().catch(e => console.log("Audio Bloqueado"));
+            if (navigator.vibrate) navigator.vibrate([500, 200, 500]);
             
+            // Mostrar Banner
             box.classList.remove('-translate-y-64');
-            setTimeout(() => box.classList.add('-translate-y-64'), 6000);
+            setTimeout(() => box.classList.add('-translate-y-64'), 7000);
 
-            // Notificación de sistema (para pantalla apagada)
+            // 📲 Notificación de Sistema (Pantalla Bloqueada)
             if (Notification.permission === "granted") {
-                new Notification("KM0: " + titulo, { body: msg });
+                new Notification("KM0: " + titulo, {
+                    body: msg,
+                    icon: "https://cdn-icons-png.flaticon.com/512/717/717431.png",
+                    vibrate: [500, 200, 500]
+                });
             }
         }
 
@@ -133,28 +168,33 @@
             const container = document.getElementById('main-content');
             container.innerHTML = '';
 
+            if(list.length === 0) {
+                container.innerHTML = `<div class="py-20 text-center opacity-10"><span class="material-symbols-outlined text-6xl">verified</span><p class="text-xs font-black mt-2">OPERACIÓN LIMPIA</p></div>`;
+                return;
+            }
+
             list.forEach((item, index) => {
                 const color = currentTab === 'motorizados' ? 'border-[#ff6600]' : 'border-[#0047AB]';
                 const btn = currentTab === 'motorizados' ? 'bg-[#ff6600]' : 'bg-[#0047AB]';
                 
                 container.innerHTML += `
-                <div class="bg-surface p-4 rounded-2xl border-l-4 ${color} shadow-lg">
+                <div class="bg-surface p-5 rounded-3xl border-l-8 ${color} shadow-xl animate-in slide-in-from-bottom duration-500">
                     <div onclick="document.getElementById('det-${index}').classList.toggle('detalle-hidden')" class="flex justify-between items-center cursor-pointer">
-                        <p class="font-black text-sm uppercase">${item.nombre || item.nombreTienda}</p>
-                        <span class="material-symbols-outlined text-gray-600">expand_more</span>
-                    </div>
-                    <div id="det-${index}" class="detalle-hidden mt-4 pt-4 border-t border-white/5">
-                        <div class="grid grid-cols-2 gap-3 text-[10px] mb-4">
-                            <p><span class="text-gray-500">USER:</span><br>${item.cedula}</p>
-                            <p><span class="text-gray-500">ID:</span><br>${item.id}</p>
+                        <div>
+                            <p class="font-black text-base uppercase tracking-tight">${item.nombre || item.nombreTienda}</p>
+                            <p class="text-[10px] text-gray-500 font-bold">${item.cedula} • ${item.id}</p>
                         </div>
-                        <div class="flex gap-2 mb-4">
-                            <a href="${item.urlFoto}" target="_blank" class="bg-white/5 p-2 rounded-lg text-[9px] flex-1 text-center">FOTO CÉDULA</a>
-                            <a href="${item.urlVideo}" target="_blank" class="bg-white/5 p-2 rounded-lg text-[9px] flex-1 text-center">VIDEO SELFIE</a>
+                        <span class="material-symbols-outlined text-gray-700">expand_more</span>
+                    </div>
+                    
+                    <div id="det-${index}" class="detalle-hidden mt-5 pt-5 border-t border-white/5 space-y-4">
+                        <div class="grid grid-cols-2 gap-4">
+                            <a href="${item.urlFoto}" target="_blank" class="bg-white/5 p-4 rounded-2xl text-center"><span class="material-symbols-outlined block mb-1">badge</span><p class="text-[9px] font-black uppercase">Cédula</p></a>
+                            <a href="${item.urlVideo}" target="_blank" class="bg-white/5 p-4 rounded-2xl text-center"><span class="material-symbols-outlined block mb-1">videocam</span><p class="text-[9px] font-black uppercase">Video</p></a>
                         </div>
                         <div class="flex gap-2">
-                            <button onclick="gestionar('${item.id}', 'RECHAZADO', '${item.telefono}', '${item.nombre || item.nombreTienda}')" class="flex-1 bg-red-600/20 text-red-500 py-3 rounded-xl text-[10px] font-black uppercase">Rechazar</button>
-                            <button onclick="gestionar('${item.id}', 'ACTIVO', '${item.telefono}', '${item.nombre || item.nombreTienda}', '${item.password}', '${item.cedula}')" class="flex-[2] ${btn} text-white py-3 rounded-xl text-[10px] font-black uppercase">Autorizar</button>
+                            <button onclick="gestionar('${item.id}', 'RECHAZADO', '${item.telefono}', '${item.nombre || item.nombreTienda}')" class="flex-1 bg-red-600/10 text-red-500 py-4 rounded-2xl text-[10px] font-black uppercase btn-active">Rechazar</button>
+                            <button onclick="gestionar('${item.id}', 'ACTIVO', '${item.telefono}', '${item.nombre || item.nombreTienda}', '${item.password}', '${item.cedula}')" class="flex-[2] ${btn} text-white py-4 rounded-2xl text-[10px] font-black uppercase shadow-lg btn-active">Autorizar</button>
                         </div>
                     </div>
                 </div>`;
@@ -166,16 +206,10 @@
             if(estado === 'RECHAZADO') {
                 const motivo = prompt("Motivo del rechazo:");
                 if(!motivo) return;
-                msg = `*KM0 - NOTIFICACIÓN* ⚠️%0A%0A` +
-                      `Hola *${nombre}*, tu solicitud no pudo ser aprobada.%0A%0A` +
-                      `❌ *MOTIVO:* ${motivo}`;
+                msg = `*KM0 - NOTIFICACIÓN* ⚠️%0A%0AHola *${nombre}*, tu solicitud no pudo ser aprobada.%0A%0A❌ *MOTIVO:* ${motivo}`;
             } else {
-                if(!confirm("¿Aprobar y enviar claves?")) return;
-                msg = `*KM0 - BIENVENIDO* 🏁%0A%0A` +
-                      `Hola *${nombre}*, tu solicitud ha sido *APROBADA*.%0A%0A` +
-                      `🔐 *CREDENCIALES:*%0A` +
-                      `👤 *Usuario:* ${user}%0A` +
-                      `🔑 *Clave:* ${pass}`;
+                if(!confirm("¿Aprobar y enviar credenciales?")) return;
+                msg = `*KM0 - BIENVENIDO* 🏁%0A%0AHola *${nombre}*, tu solicitud ha sido *APROBADA*.%0A%0A🔐 *CREDENCIALES:*%0A👤 *Usuario:* ${user}%0A🔑 *Clave:* ${pass}`;
             }
 
             await fetch(API_URL, { method: 'POST', body: JSON.stringify({ accion: "gestionar_solicitud", token: "KM0_SECURE_TOKEN_2026_XYZ", id: id, nuevoEstado: estado }) });
@@ -185,12 +219,17 @@
 
         function cambiarTab(tab) {
             currentTab = tab;
-            document.getElementById('card-moto').classList.toggle('opacity-50', tab !== 'motorizados');
-            document.getElementById('card-store').classList.toggle('opacity-50', tab !== 'tiendas');
+            document.getElementById('card-moto').classList.toggle('opacity-30', tab !== 'motorizados');
+            document.getElementById('card-store').classList.toggle('opacity-30', tab !== 'tiendas');
             render();
         }
 
-        setInterval(() => init(true), 20000); // Revisar cada 20s
+        // Service Worker Embebido para Notificaciones
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('data:text/javascript;base64,c2VsZi5hZGRFdmVudExpc3RlbmVyKCdwdXNoJywgZnVuY3Rpb24oZSkpIHsgY29uc29sZS5sb2coJ05vdGlmJyk7IH0pOw==');
+        }
+
+        setInterval(() => init(true), 15000); // Revisión cada 15 segundos
     </script>
 </body>
 </html>
