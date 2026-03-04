@@ -1,184 +1,120 @@
-<!DOCTYPE html>
-<html class="dark" lang="es">
-<head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Reporte Global - KM0 Tienda</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
-    
-    <script src="../../assets/js/config.js"></script>
-
-    <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "shop-blue": "#0066FF",
-                        "background-dark": "#0a0f0c",
-                        "surface-dark": "#121a15",
-                        "primary-green": "#12c965",
-                    },
-                },
-            },
-        }
-    </script>
-    <style>
-        body { font-family: 'Space Grotesk', sans-serif; background-color: #0a0f0c; color: white; -webkit-tap-highlight-color: transparent; }
-        .ios-blur { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
-        .menu-open { transform: translateX(0) !important; }
-        .card-gradient { background: linear-gradient(145deg, #121a15 0%, #0a0f0c 100%); }
-    </style>
-</head>
-<body class="min-h-screen flex flex-col pb-32">
-
-<div id="side-menu" class="fixed inset-y-0 left-0 w-72 bg-surface-dark z-[100] border-r border-white/10 transition-transform duration-300 -translate-x-full shadow-2xl">
-    <div class="p-6 space-y-6">
-        <div class="flex justify-between items-center border-b border-white/5 pb-4">
-            <h2 class="text-shop-blue font-black tracking-widest uppercase text-[10px]">KM0 - Menú Tienda</h2>
-            <button onclick="toggleMenu()" class="text-slate-500"><span class="material-symbols-outlined">close</span></button>
-        </div>
-        <nav class="space-y-1">
-            <a href="catalogo-tienda.html" class="flex items-center gap-4 p-3 rounded-xl hover:bg-shop-blue/10 transition-all">
-                <span class="material-symbols-outlined text-shop-blue">inventory_2</span>
-                <span class="text-sm font-bold">Catálogo</span>
-            </a>
-            <a href="new-producto-tienda.html" class="flex items-center gap-4 p-3 rounded-xl hover:bg-shop-blue/10 transition-all">
-                <span class="material-symbols-outlined text-shop-blue">add_box</span>
-                <span class="text-sm font-bold">Nuevo Producto</span>
-            </a>
-            <a href="reporte-global-tienda.html" class="flex items-center gap-4 p-3 bg-shop-blue/10 rounded-xl text-shop-blue">
-                <span class="material-symbols-outlined">analytics</span>
-                <span class="text-sm font-bold">Reporte Global</span>
-            </a>
-            <a href="resolver-novedades-tienda.html" class="flex items-center gap-4 p-3 rounded-xl hover:bg-red-500/10 transition-all text-red-400">
-                <span class="material-symbols-outlined">warning</span>
-                <span class="text-sm font-bold">Novedades</span>
-            </a>
-            <hr class="border-white/5 my-4">
-            <button onclick="cerrarSesion()" class="flex items-center gap-4 p-3 text-red-500 w-full hover:bg-red-500/10 rounded-xl transition-all">
-                <span class="material-symbols-outlined">logout</span>
-                <span class="text-sm font-bold uppercase tracking-widest">Cerrar Sesión</span>
-            </button>
-        </nav>
-    </div>
-</div>
-
-<header class="sticky top-0 z-50 bg-background-dark/80 ios-blur border-b border-white/10 px-4 py-4 flex items-center justify-between">
-    <div class="flex items-center gap-3">
-        <button onclick="toggleMenu()" class="p-2 text-white bg-white/5 rounded-xl"><span class="material-symbols-outlined">menu</span></button>
-        <span class="text-[10px] font-black uppercase tracking-widest text-shop-blue">KM0 2026</span>
+<section class="bg-surface-dark border border-white/5 rounded-[2.5rem] p-6 shadow-xl">
+    <div class="flex items-center gap-2 mb-4">
+        <span class="material-symbols-outlined text-shop-blue">calendar_month</span>
+        <h3 class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Filtrar Rendimiento</h3>
     </div>
     
-    <div class="flex items-center gap-3">
-        <button onclick="window.location.href='resolver-novedades-tienda.html'" class="relative p-2 text-slate-400 bg-white/5 rounded-xl">
-            <span class="material-symbols-outlined">notifications</span>
-            <span class="absolute top-2 right-2 size-2 bg-red-500 rounded-full border border-background-dark animate-pulse"></span>
-        </button>
-        <button onclick="location.reload()" class="p-2 text-shop-blue bg-shop-blue/10 rounded-xl">
-            <span class="material-symbols-outlined">sync</span>
-        </button>
-    </div>
-</header>
-
-<main class="p-4 space-y-6 max-w-lg mx-auto w-full">
-
-    <div class="space-y-1">
-        <h2 class="text-3xl font-black italic">REPORTE GLOBAL</h2>
-        <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Resumen de Ventas y Rendimiento</p>
-    </div>
-
-    <div class="grid grid-cols-2 gap-4">
-        <div class="card-gradient border border-shop-blue/20 p-5 rounded-[2rem] space-y-2">
-            <span class="material-symbols-outlined text-shop-blue">trending_up</span>
-            <p class="text-[9px] font-black text-slate-400 uppercase">Ventas Mes</p>
-            <p id="ventas-mes" class="text-2xl font-black">$0.00</p>
+    <div class="grid grid-cols-2 gap-3">
+        <div class="space-y-1">
+            <label class="text-[8px] font-black text-slate-500 uppercase px-1">Desde</label>
+            <input type="date" id="fecha-inicio" class="w-full bg-black/40 border-white/10 rounded-xl p-3 text-xs font-bold focus:ring-shop-blue text-white">
         </div>
-        <div class="card-gradient border border-primary-green/20 p-5 rounded-[2rem] space-y-2">
-            <span class="material-symbols-outlined text-primary-green">task_alt</span>
-            <p class="text-[9px] font-black text-slate-400 uppercase">Entregados</p>
-            <p id="pedidos-total" class="text-2xl font-black">0</p>
+        <div class="space-y-1">
+            <label class="text-[8px] font-black text-slate-500 uppercase px-1">Hasta</label>
+            <input type="date" id="fecha-fin" class="w-full bg-black/40 border-white/10 rounded-xl p-3 text-xs font-bold focus:ring-shop-blue text-white">
         </div>
     </div>
 
-    <section class="bg-surface-dark border border-white/5 rounded-[2.5rem] p-6 space-y-4">
-        <div class="flex justify-between items-center">
-            <h3 class="text-xs font-black uppercase tracking-widest text-shop-blue italic">Actividad Reciente</h3>
-            <span class="material-symbols-outlined text-slate-600">query_stats</span>
-        </div>
-        
-        <div id="lista-reporte" class="space-y-3 min-h-[200px] flex flex-col justify-center items-center text-slate-600">
-            <span class="material-symbols-outlined text-4xl animate-spin">refresh</span>
-            <p class="text-[10px] font-bold uppercase">Cargando datos desde la nube...</p>
-        </div>
-    </section>
-
-</main>
-
-<nav class="fixed bottom-0 left-0 right-0 bg-background-dark/95 ios-blur border-t border-white/10 px-2 pb-10 pt-3 z-50">
-    <div class="flex justify-between items-center max-w-lg mx-auto text-slate-500">
-        <a class="flex flex-1 flex-col items-center gap-1" href="panel-operativo-tienda.html"><span class="material-symbols-outlined">grid_view</span><span class="text-[8px] font-bold uppercase">Panel</span></a>
-        <a class="flex flex-1 flex-col items-center gap-1" href="nuevo-pedido-tienda.html"><span class="material-symbols-outlined">add_circle</span><span class="text-[8px] font-bold uppercase">Nuevo</span></a>
-        <a class="flex flex-1 flex-col items-center gap-1" href="historial-entregas-tienda.html"><span class="material-symbols-outlined">receipt_long</span><span class="text-[8px] font-bold uppercase">Entregas</span></a>
-        <a class="flex flex-1 flex-col items-center gap-1" href="finanzas-tienda.html"><span class="material-symbols-outlined">payments</span><span class="text-[8px] font-bold uppercase">Finanzas</span></a>
-        <a class="flex flex-1 flex-col items-center gap-1" href="perfil-tienda.html"><span class="material-symbols-outlined">person</span><span class="text-[8px] font-bold uppercase tracking-tighter">Tienda</span></a>
+    <div class="flex gap-2 mt-4 overflow-x-auto pb-2 no-scrollbar">
+        <button onclick="setRango('hoy')" class="whitespace-nowrap px-4 py-2 rounded-full bg-white/5 border border-white/10 text-[9px] font-black uppercase hover:border-shop-blue transition-all">Hoy</button>
+        <button onclick="setRango('semana')" class="whitespace-nowrap px-4 py-2 rounded-full bg-white/5 border border-white/10 text-[9px] font-black uppercase hover:border-shop-blue transition-all">7 Días</button>
+        <button onclick="setRango('mes')" class="whitespace-nowrap px-4 py-2 rounded-full bg-shop-blue/20 border border-shop-blue text-[9px] font-black uppercase text-shop-blue">Este Mes</button>
     </div>
-</nav>
+
+    <button onclick="cargarReporte()" class="w-full mt-4 py-4 bg-shop-blue text-white rounded-2xl font-black uppercase text-[10px] tracking-widest shadow-lg shadow-shop-blue/20 active:scale-95 transition-all">
+        Aplicar Filtro
+    </button>
+</section>
 
 <script>
-    // Lógica de Menú
-    function toggleMenu() {
-        document.getElementById('side-menu').classList.toggle('menu-open');
-    }
-
-    // Cerrar Sesión
-    function cerrarSesion() {
-        localStorage.clear();
-        window.location.href = "../../index.html"; // O tu página de login
-    }
-
-    // CARGAR DATOS REALES DE GOOGLE SHEETS
-    async function cargarReporte() {
-        const idTienda = localStorage.getItem('user_id'); // Supongamos que lo guardas al loguear
+    // Función para establecer fechas automáticas
+    function setRango(tipo) {
+        const hoy = new Date();
+        let inicio = new Date();
         
+        if (tipo === 'hoy') {
+            inicio = hoy;
+        } else if (tipo === 'semana') {
+            inicio.setDate(hoy.getDate() - 7);
+        } else if (tipo === 'mes') {
+            inicio = new Date(hoy.getFullYear(), hoy.getFullYear() === hoy.getFullYear() ? hoy.getMonth() : 0, 1);
+        }
+
+        document.getElementById('fecha-inicio').value = inicio.toISOString().split('T')[0];
+        document.getElementById('fecha-fin').value = hoy.toISOString().split('T')[0];
+        
+        // Animación de feedback
+        cargarReporte();
+    }
+
+    // CARGAR DATOS REALES CON FILTRO
+    async function cargarReporte() {
+        const btn = document.querySelector('button[onclick="cargarReporte()"]');
+        const fInicio = document.getElementById('fecha-inicio').value;
+        const fFin = document.getElementById('fecha-fin').value;
+        const idTienda = localStorage.getItem('user_id');
+
+        if(!fInicio || !fFin) return;
+
+        btn.innerHTML = '<span class="material-symbols-outlined animate-spin text-sm">refresh</span>';
+        btn.disabled = true;
+
         const payload = {
-            accion: 'obtener_reporte_global',
+            accion: 'obtener_reporte_fechas',
             token: API_KEY,
-            idTienda: idTienda
+            idTienda: idTienda,
+            fechaInicio: fInicio,
+            fechaFin: fFin
         };
 
         try {
+            // Llamada a tu API_URL (de config.js)
             const response = await fetch(API_URL, {
                 method: "POST",
                 body: JSON.stringify(payload)
             });
             const data = await response.json();
-            
-            // Aquí pintarías los datos en las tarjetas
-            document.getElementById('lista-reporte').innerHTML = `
-                <div class="text-center p-4">
-                    <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Sincronización Completa</p>
-                    <p class="text-[10px] text-shop-blue mt-2">Última actualización: ${new Date().toLocaleTimeString()}</p>
+
+            // Actualizar Tarjetas (Ventas y Pedidos)
+            document.getElementById('ventas-mes').innerText = `$${data.totalVentas.toFixed(2)}`;
+            document.getElementById('pedidos-total').innerText = data.totalPedidos;
+
+            // Mostrar el log de actividad filtrada
+            actualizarLista(data.detalles);
+
+        } catch (e) {
+            console.error("Error cargando reporte:", e);
+        } finally {
+            btn.innerText = 'Aplicar Filtro';
+            btn.disabled = false;
+        }
+    }
+
+    function actualizarLista(detalles) {
+        const lista = document.getElementById('lista-reporte');
+        if (!detalles || detalles.length === 0) {
+            lista.innerHTML = '<p class="text-[10px] text-slate-500 uppercase italic">Sin datos en este rango</p>';
+            return;
+        }
+        
+        // Aquí construyes el HTML de las filas basado en la respuesta de Google Sheets
+        let html = '';
+        detalles.forEach(item => {
+            html += `
+                <div class="flex justify-between items-center p-3 border-b border-white/5">
+                    <div>
+                        <p class="text-xs font-bold">${item.fecha}</p>
+                        <p class="text-[8px] text-slate-500 uppercase">${item.metodo_pago}</p>
+                    </div>
+                    <p class="font-black text-shop-blue">+$${item.monto}</p>
                 </div>
             `;
-            
-        } catch (e) {
-            document.getElementById('lista-reporte').innerHTML = "<p class='text-[10px] text-red-500 uppercase'>Error al conectar con la base de datos</p>";
-        }
+        });
+        lista.innerHTML = html;
     }
 
-    // Verificar si hay sesión
+    // Al cargar por primera vez, poner el mes actual
     window.onload = () => {
-        const user = localStorage.getItem('user_id');
-        if(!user) {
-            window.location.href = "../../index.html"; 
-        } else {
-            cargarReporte();
-        }
-    }
+        setRango('mes');
+    };
 </script>
-
-</body>
-</html>
