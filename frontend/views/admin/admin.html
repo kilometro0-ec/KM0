@@ -130,6 +130,13 @@
         }
 
      async function init(silent = false) {
+         // Dentro de init(silent = false)
+const res = await fetch(API_URL);
+const data = await res.json();
+
+// ACTUALIZAR NÚMEROS DE UNA VEZ
+document.getElementById('count-m').innerText = data.motorizados ? data.motorizados.length : 0;
+document.getElementById('count-t').innerText = data.tiendas ? data.tiendas.length : 0;
             if(!silent) document.getElementById('sync-icon').classList.add('animate-spin');
             try {
                 const res = await fetch(API_URL);
