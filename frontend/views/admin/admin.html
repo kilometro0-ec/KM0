@@ -29,6 +29,7 @@
         .nav-active { color: #39FF14; }
         .nav-active .material-symbols-outlined { font-variation-settings: 'FILL' 1; }
         #modal-viewer { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,0.9); align-items: center; justify-content: center; }
+        .badge { @apply flex items-center justify-center rounded-full text-[10px] font-bold h-5 w-5; }
     </style>
 </head>
 <body class="text-white">
@@ -39,7 +40,7 @@
                 <span class="material-symbols-outlined text-3xl">menu</span>
             </div>
             <div class="flex-1 text-center">
-                <h2 class="text-base font-bold uppercase tracking-tight">Panel Kilómetro Cero</h2>
+                <h2 class="text-base font-bold uppercase tracking-tight italic">Panel Kilómetro Cero</h2>
             </div>
             <div class="flex w-12 justify-end">
                 <button onclick="init()" class="text-toxic"><span id="sync-icon" class="material-symbols-outlined">sync</span></button>
@@ -55,55 +56,105 @@
             <div class="flex-1 min-w-[140px] bg-surface-grey p-4 rounded-xl border-l-4 border-primary">
                 <span class="material-symbols-outlined text-toxic">delivery_dining</span>
                 <p class="text-accent-grey text-[10px] uppercase font-bold mt-2">Motorizados Online</p>
-                <p class="text-2xl font-bold">18</p>
+                <p id="count-m-online" class="text-2xl font-bold">18</p>
             </div>
             <div class="flex-1 min-w-[140px] bg-surface-grey p-4 rounded-xl border-l-4 border-urgent-purple">
                 <span class="material-symbols-outlined text-urgent-purple">shopping_cart</span>
                 <p class="text-accent-grey text-[10px] uppercase font-bold mt-2">Pedidos Hoy</p>
-                <p class="text-2xl font-bold">42</p>
+                <p id="count-p-hoy" class="text-2xl font-bold">42</p>
             </div>
         </div>
 
         <div class="flex items-center justify-between px-4 py-4">
             <h2 class="text-xl font-bold">Tareas Prioritarias</h2>
-            <div class="flex gap-3">
-                <button onclick="cambiarTab('motorizados')" id="btn-m" class="text-toxic text-xs font-bold border-b border-toxic">MOTOS</button>
-                <button onclick="cambiarTab('tiendas')" id="btn-t" class="text-accent-grey text-xs font-bold">TIENDAS</button>
+            <div class="flex gap-4">
+                <button onclick="cambiarTab('motorizados')" id="btn-m" class="flex items-center gap-2 text-toxic text-xs font-bold border-b-2 border-toxic pb-1 transition-all">
+                    MOTOS 
+                    <span id="badge-m" class="bg-toxic text-black rounded-full px-1.5 py-0.5 text-[9px] font-black">0</span>
+                </button>
+                <button onclick="cambiarTab('tiendas')" id="btn-t" class="flex items-center gap-2 text-accent-grey text-xs font-bold pb-1 transition-all">
+                    TIENDAS 
+                    <span id="badge-t" class="bg-accent-grey text-black rounded-full px-1.5 py-0.5 text-[9px] font-black">0</span>
+                </button>
             </div>
         </div>
 
         <div id="main-content" class="px-4 space-y-3">
-            <p class="text-center text-accent-grey py-10 animate-pulse">Sincronizando...</p>
+            <p class="text-center text-accent-grey py-10 animate-pulse">Sincronizando con la central...</p>
         </div>
 
-        <nav class="fixed bottom-0 left-0 right-0 bg-black border-t border-white/10 px-6 py-3 flex justify-between items-center z-50">
-            <div class="flex flex-col items-center nav-active"><span class="material-symbols-outlined">dashboard</span><span class="text-[10px] mt-1">Panel</span></div>
-            <div class="flex flex-col items-center text-accent-grey"><span class="material-symbols-outlined">group</span><span class="text-[10px] mt-1">Usuarios</span></div>
-            <div class="flex flex-col items-center text-accent-grey"><span class="material-symbols-outlined">account_balance_wallet</span><span class="text-[10px] mt-1">Finanzas</span></div>
-            <div class="flex flex-col items-center text-accent-grey"><span class="material-symbols-outlined">settings</span><span class="text-[10px] mt-1">Config</span></div>
+        <nav class="fixed bottom-0 left-0 right-0 bg-black/95 backdrop-blur-md border-t border-white/10 px-4 py-3 flex justify-between items-center z-50">
+            <div class="flex flex-col items-center nav-active">
+                <span class="material-symbols-outlined">dashboard</span>
+                <span class="text-[9px] mt-1 font-bold">Panel</span>
+            </div>
+            <div class="flex flex-col items-center text-accent-grey">
+                <span class="material-symbols-outlined">local_shipping</span>
+                <span class="text-[9px] mt-1 font-bold">Logística</span>
+            </div>
+            <div class="flex flex-col items-center text-accent-grey">
+                <span class="material-symbols-outlined">group</span>
+                <span class="text-[9px] mt-1 font-bold">Usuarios</span>
+            </div>
+            <div class="flex flex-col items-center text-accent-grey">
+                <span class="material-symbols-outlined">account_balance_wallet</span>
+                <span class="text-[9px] mt-1 font-bold">Finanzas</span>
+            </div>
+            <div class="flex flex-col items-center text-accent-grey">
+                <span class="material-symbols-outlined">settings</span>
+                <span class="text-[9px] mt-1 font-bold">Config</span>
+            </div>
         </nav>
     </div>
 
-    <div id="modal-viewer" onclick="this.style.display='none'"><img id="modal-img" src="" class="max-w-[90%] border-2 border-primary rounded-xl"></div>
+    <div id="modal-viewer" onclick="this.style.display='none'">
+        <img id="modal-img" src="" class="max-w-[95%] max-h-[80vh] border-2 border-primary rounded-xl shadow-2xl shadow-primary/20">
+    </div>
 
     <script>
         let db = { motorizados: [], tiendas: [] };
         let currentTab = 'motorizados';
 
         async function init() {
-            document.getElementById('sync-icon').classList.add('animate-spin');
+            const syncIcon = document.getElementById('sync-icon');
+            syncIcon.classList.add('animate-spin');
             try {
                 const response = await fetch(API_URL);
                 db = await response.json();
+                actualizarBadges();
                 render();
-            } catch (e) { console.error(e); }
-            finally { document.getElementById('sync-icon').classList.remove('animate-spin'); }
+            } catch (e) { 
+                console.error(e);
+                document.getElementById('main-content').innerHTML = '<p class="text-center text-red-500 py-10">Error de conexión</p>';
+            } finally { 
+                syncIcon.classList.remove('animate-spin'); 
+            }
+        }
+
+        function actualizarBadges() {
+            const mCount = db.motorizados ? db.motorizados.length : 0;
+            const tCount = db.tiendas ? db.tiendas.length : 0;
+            
+            document.getElementById('badge-m').innerText = mCount;
+            document.getElementById('badge-t').innerText = tCount;
+            
+            // Actualizar colores de badges según si hay pendientes
+            document.getElementById('badge-m').className = mCount > 0 ? "bg-toxic text-black rounded-full px-1.5 py-0.5 text-[9px] font-black" : "bg-accent-grey text-black rounded-full px-1.5 py-0.5 text-[9px] font-black";
+            document.getElementById('badge-t').className = tCount > 0 ? "bg-urgent-purple text-white rounded-full px-1.5 py-0.5 text-[9px] font-black" : "bg-accent-grey text-black rounded-full px-1.5 py-0.5 text-[9px] font-black";
         }
 
         function cambiarTab(tab) {
             currentTab = tab;
-            document.getElementById('btn-m').className = tab === 'motorizados' ? 'text-toxic text-xs font-bold border-b border-toxic' : 'text-accent-grey text-xs font-bold';
-            document.getElementById('btn-t').className = tab === 'tiendas' ? 'text-toxic text-xs font-bold border-b border-toxic' : 'text-accent-grey text-xs font-bold';
+            const btnM = document.getElementById('btn-m');
+            const btnT = document.getElementById('btn-t');
+            
+            if(tab === 'motorizados') {
+                btnM.className = 'flex items-center gap-2 text-toxic text-xs font-bold border-b-2 border-toxic pb-1 transition-all';
+                btnT.className = 'flex items-center gap-2 text-accent-grey text-xs font-bold pb-1 transition-all';
+            } else {
+                btnM.className = 'flex items-center gap-2 text-accent-grey text-xs font-bold pb-1 transition-all';
+                btnT.className = 'flex items-center gap-2 text-urgent-purple text-xs font-bold border-b-2 border-urgent-purple pb-1 transition-all';
+            }
             render();
         }
 
@@ -112,33 +163,40 @@
             const container = document.getElementById('main-content');
             container.innerHTML = '';
 
-            if(list.length === 0) {
-                container.innerHTML = '<p class="text-center text-accent-grey py-10">Sin tareas pendientes</p>';
+            if(!list || list.length === 0) {
+                container.innerHTML = `
+                    <div class="flex flex-col items-center justify-center py-10 text-accent-grey">
+                        <span class="material-symbols-outlined text-4xl mb-2">task_alt</span>
+                        <p class="text-xs uppercase font-bold tracking-widest">Todo al día</p>
+                    </div>`;
                 return;
             }
 
             list.forEach(item => {
                 if(currentTab === 'motorizados') {
                     container.innerHTML += `
-                    <div class="bg-surface-grey p-4 rounded-xl border border-white/5 space-y-4">
+                    <div class="bg-surface-grey p-4 rounded-xl border border-white/5 shadow-lg animate-in fade-in duration-300">
                         <div class="flex items-center gap-4">
-                            <img src="${item.urlFoto}" class="h-12 w-12 rounded-full border border-primary/50" onclick="document.getElementById('modal-img').src=this.src; document.getElementById('modal-viewer').style.display='flex'">
+                            <img src="${item.urlFoto}" class="h-14 w-14 rounded-full border-2 border-primary/30 object-cover" onclick="document.getElementById('modal-img').src=this.src; document.getElementById('modal-viewer').style.display='flex'">
                             <div class="flex-1">
-                                <p class="font-bold">${item.nombre}</p>
-                                <p class="text-toxic text-[10px] font-black tracking-widest uppercase italic">Placa: ${item.placa}</p>
+                                <p class="font-bold text-lg leading-tight">${item.nombre}</p>
+                                <p class="text-toxic text-[10px] font-black tracking-[0.2em] uppercase italic">PLACA: ${item.placa}</p>
                             </div>
-                            <button onclick="window.open('${item.urlVideo}')" class="text-urgent-purple material-symbols-outlined">videocam</button>
+                            <button onclick="window.open('${item.urlVideo}')" class="text-urgent-purple bg-urgent-purple/10 p-2 rounded-full material-symbols-outlined">videocam</button>
                         </div>
-                        <div class="flex gap-2">
-                            <button onclick="procesar('${item.id}', 'RECHAZADO')" class="flex-1 bg-white/5 text-red-500 text-[10px] font-bold py-3 rounded-lg uppercase">Rechazar</button>
-                            <button onclick="procesar('${item.id}', 'ACTIVO')" class="flex-[2] bg-primary text-black text-[10px] font-bold py-3 rounded-lg uppercase">Autorizar</button>
+                        <div class="flex gap-2 mt-4">
+                            <button onclick="procesar('${item.id}', 'RECHAZADO')" class="flex-1 bg-white/5 text-red-500 text-[10px] font-black py-3 rounded-xl border border-red-500/20 uppercase active:scale-95 transition-transform">Rechazar</button>
+                            <button onclick="procesar('${item.id}', 'ACTIVO')" class="flex-[2] bg-primary text-black text-[10px] font-black py-3 rounded-xl shadow-lg shadow-primary/20 uppercase active:scale-95 transition-transform">Autorizar Socio</button>
                         </div>
                     </div>`;
                 } else {
                     container.innerHTML += `
-                    <div class="bg-surface-grey p-4 rounded-xl flex justify-between items-center border-l-4 border-urgent-purple">
-                        <div><p class="font-bold">${item.nombreTienda}</p><p class="text-accent-grey text-xs">${item.representante}</p></div>
-                        <button onclick="procesar('${item.id}', 'ACTIVO')" class="bg-primary text-black px-4 py-2 rounded-lg text-[10px] font-bold">APROBAR</button>
+                    <div class="bg-surface-grey p-4 rounded-xl border-l-4 border-urgent-purple shadow-lg flex justify-between items-center animate-in slide-in-from-right-4 duration-300">
+                        <div class="flex flex-col">
+                            <p class="font-bold text-lg">${item.nombreTienda}</p>
+                            <p class="text-accent-grey text-[10px] font-bold uppercase tracking-wider">${item.representante} • ${item.cedula}</p>
+                        </div>
+                        <button onclick="procesar('${item.id}', 'ACTIVO')" class="bg-primary text-black px-5 py-2.5 rounded-xl text-[10px] font-black shadow-lg shadow-primary/10 active:scale-95 transition-transform">APROBAR</button>
                     </div>`;
                 }
             });
@@ -146,6 +204,12 @@
 
         async function procesar(id, estado) {
             try {
+                // Notificación visual rápida
+                const btn = event.target;
+                const originalText = btn.innerText;
+                btn.innerText = "PROCESANDO...";
+                btn.disabled = true;
+
                 await fetch(API_URL, {
                     method: 'POST',
                     body: JSON.stringify({
@@ -155,8 +219,11 @@
                         nuevoEstado: estado
                     })
                 });
-                init(); // Refrescar
-            } catch (e) { alert("Error"); }
+                init(); // Refrescar base de datos y UI
+            } catch (e) { 
+                alert("Error al procesar la solicitud"); 
+                init();
+            }
         }
 
         window.onload = init;
