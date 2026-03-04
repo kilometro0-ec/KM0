@@ -1,1 +1,187 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin: Finanzas Globales</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#46f20d",
+                        "background-light": "#f6f8f5",
+                        "background-dark": "#142210",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display selection:bg-primary/30">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden pb-24">
+<!-- Header -->
+<div class="flex items-center bg-background-light dark:bg-background-dark p-4 pb-2 justify-between sticky top-0 z-10 backdrop-blur-md bg-opacity-80">
+<div class="text-slate-900 dark:text-slate-100 flex size-12 shrink-0 items-center justify-start">
+<span class="material-symbols-outlined text-2xl">menu</span>
+</div>
+<h2 class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center">Finanzas Globales</h2>
+<div class="flex w-12 items-center justify-end">
+<button class="flex cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 bg-transparent text-slate-900 dark:text-slate-100 p-0">
+<span class="material-symbols-outlined text-2xl">notifications</span>
+</button>
+</div>
+</div>
+<!-- Navigation Tabs -->
+<div class="pb-3 border-b border-primary/10">
+<div class="flex px-4 gap-8">
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-primary text-primary pb-[13px] pt-4" href="#">
+<p class="text-sm font-bold leading-normal tracking-[0.015em]">Resumen</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-slate-500 dark:text-slate-400 pb-[13px] pt-4" href="#">
+<p class="text-sm font-bold leading-normal tracking-[0.015em]">Facturación</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-slate-500 dark:text-slate-400 pb-[13px] pt-4" href="#">
+<p class="text-sm font-bold leading-normal tracking-[0.015em]">Liquidados</p>
+</a>
+</div>
+</div>
+<!-- Financial Summary Cards -->
+<div class="flex flex-col gap-4 p-4">
+<div class="flex flex-col gap-2 rounded-xl p-6 bg-primary/10 border border-primary/20">
+<div class="flex justify-between items-start">
+<p class="text-slate-600 dark:text-slate-300 text-sm font-medium leading-normal">Facturación Total Bruta</p>
+<span class="material-symbols-outlined text-primary">payments</span>
+</div>
+<p class="text-slate-900 dark:text-white tracking-tight text-3xl font-bold leading-tight">$125,400.00</p>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-sm">trending_up</span>
+<p class="text-primary text-sm font-medium leading-normal">+12.5% vs mes anterior</p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="flex flex-col gap-2 rounded-xl p-5 bg-slate-100 dark:bg-primary/5 border border-slate-200 dark:border-primary/10">
+<p class="text-slate-600 dark:text-slate-400 text-xs font-medium uppercase tracking-wider">Comisiones KM0</p>
+<p class="text-slate-900 dark:text-white text-xl font-bold">$18,810.00</p>
+<p class="text-primary text-xs font-medium">+8.2%</p>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-5 bg-slate-100 dark:bg-primary/5 border border-slate-200 dark:border-primary/10">
+<p class="text-slate-600 dark:text-slate-400 text-xs font-medium uppercase tracking-wider">Saldos Pendientes</p>
+<p class="text-slate-900 dark:text-white text-xl font-bold">$4,200.00</p>
+<p class="text-red-500 text-xs font-medium">-2.4%</p>
+</div>
+</div>
+</div>
+<!-- Growth Chart Section -->
+<div class="px-4 py-2">
+<div class="flex flex-col gap-2 rounded-xl border border-slate-200 dark:border-primary/10 bg-slate-50 dark:bg-background-dark p-6">
+<div class="flex justify-between items-center mb-4">
+<div>
+<p class="text-slate-900 dark:text-white text-base font-bold leading-normal">Crecimiento Mensual</p>
+<p class="text-slate-500 dark:text-slate-400 text-xs">Ene - Jun 2024</p>
+</div>
+<div class="bg-primary/20 px-2 py-1 rounded text-primary text-xs font-bold">
+                        +15.3%
+                    </div>
+</div>
+<div class="flex min-h-[180px] flex-1 flex-col gap-4 py-2">
+<svg fill="none" height="148" preserveaspectratio="none" viewbox="-3 0 478 150" width="100%" xmlns="http://www.w3.org/2000/svg">
+<path d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25V149H326.769H0V109Z" fill="url(#paint0_linear)"></path>
+<path d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25" stroke="#46f20d" stroke-linecap="round" stroke-width="3"></path>
+<defs>
+<lineargradient gradientunits="userSpaceOnUse" id="paint0_linear" x1="236" x2="236" y1="1" y2="149">
+<stop stop-color="#46f20d" stop-opacity="0.3"></stop>
+<stop offset="1" stop-color="#46f20d" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+</svg>
+<div class="flex justify-between px-1">
+<p class="text-slate-500 text-[11px] font-bold uppercase">Ene</p>
+<p class="text-slate-500 text-[11px] font-bold uppercase">Feb</p>
+<p class="text-slate-500 text-[11px] font-bold uppercase">Mar</p>
+<p class="text-slate-500 text-[11px] font-bold uppercase">Abr</p>
+<p class="text-slate-500 text-[11px] font-bold uppercase">May</p>
+<p class="text-slate-500 text-[11px] font-bold uppercase">Jun</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Recent Transactions Preview -->
+<div class="px-4 py-6">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-slate-900 dark:text-white font-bold text-lg">Últimos Movimientos</h3>
+<button class="text-primary text-sm font-semibold">Ver todos</button>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between p-3 rounded-lg bg-slate-100 dark:bg-primary/5 border border-transparent dark:border-primary/10">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-primary/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">receipt_long</span>
+</div>
+<div>
+<p class="font-bold text-sm">Factura #8920</p>
+<p class="text-xs text-slate-500">Eco-Logistics S.A.</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-bold text-sm text-primary">+$1,450.00</p>
+<p class="text-[10px] text-slate-500 uppercase font-bold">Completado</p>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 rounded-lg bg-slate-100 dark:bg-primary/5 border border-transparent dark:border-primary/10">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center text-slate-500">
+<span class="material-symbols-outlined">pending</span>
+</div>
+<div>
+<p class="font-bold text-sm">Factura #8919</p>
+<p class="text-xs text-slate-500">Mensajería Express</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-bold text-sm">$820.00</p>
+<p class="text-[10px] text-yellow-500 uppercase font-bold">Pendiente</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Navigation Bar -->
+<div class="fixed bottom-0 left-0 right-0 z-50 flex gap-2 border-t border-slate-200 dark:border-primary/20 bg-white dark:bg-background-dark px-4 pb-6 pt-2">
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-400 dark:text-slate-500" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<p class="text-[10px] font-medium leading-normal tracking-[0.015em]">Dashboard</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-400 dark:text-slate-500" href="#">
+<span class="material-symbols-outlined">group</span>
+<p class="text-[10px] font-medium leading-normal tracking-[0.015em]">Usuarios</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-400 dark:text-slate-500" href="#">
+<span class="material-symbols-outlined">package_2</span>
+<p class="text-[10px] font-medium leading-normal tracking-[0.015em]">Servicios</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">credit_card</span>
+<p class="text-[10px] font-medium leading-normal tracking-[0.015em]">Finanzas</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-400 dark:text-slate-500" href="#">
+<span class="material-symbols-outlined">settings</span>
+<p class="text-[10px] font-medium leading-normal tracking-[0.015em]">Ajustes</p>
+</a>
+</div>
+</div>
+</body></html>
 
