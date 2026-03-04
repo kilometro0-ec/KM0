@@ -7,53 +7,58 @@
     <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <script src="../../assets/js/config.js"></script>
+
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#137fec",
-                        "background-dark": "#0a0f16",
-                        "neutral-dark": "#121923",
-                        "status-green": "#22c55e",
-                        "status-fuchsia": "#ff00ff",
-                        "status-orange": "#f97316",
-                        "status-red": "#ef4444"
+                        "primary": "#137fec", // Azul Eléctrico
+                        "accent-fuchsia": "#ff00ff", // Fucsia Neón
+                        "background-dark": "#05080b",
+                        "neutral-dark": "#0e1520",
+                        "status-green": "#22c55e"
                     }
                 },
             },
         }
     </script>
     <style>
-        body { font-family: 'Inter'; background-color: #0a0f16; color: white; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Inter'; background-color: #05080b; color: white; -webkit-tap-highlight-color: transparent; }
         .ios-blur { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
-        @keyframes slideDown { from { transform: translateY(-120%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        .notif-mobile { animation: slideDown 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
-        .nav-center-btn { filter: drop-shadow(0 0 15px rgba(19, 127, 236, 0.6)); }
+        .bg-km0-gradient { background: linear-gradient(135deg, #ff00ff 0%, #137fec 100%); }
+        .nav-center-btn { 
+            background: linear-gradient(180deg, #ff00ff, #137fec);
+            filter: drop-shadow(0 0 15px rgba(255, 0, 255, 0.5));
+        }
+        @keyframes pulse-fuchsia { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .animate-fuchsia { animation: pulse-fuchsia 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
 
 <div id="notif-root" class="fixed top-4 left-0 right-0 z-[100] px-4 pointer-events-none flex flex-col gap-3"></div>
 
-<header class="sticky top-0 z-50 bg-background-dark/80 ios-blur border-b border-white/5 px-4 py-3 flex items-center justify-between">
+<header class="sticky top-0 z-50 bg-background-dark/80 ios-blur border-b border-primary/20 px-4 py-3 flex items-center justify-between">
     <div class="flex items-center gap-3">
-        <div class="size-10 rounded-full bg-primary/20 flex items-center justify-center border border-primary/30">
-            <span class="material-symbols-outlined text-primary font-variation-fill">store</span>
+        <div class="size-10 rounded-full bg-primary/20 flex items-center justify-center border border-primary/40 shadow-[0_0_15px_rgba(19,127,236,0.3)]">
+            <span class="material-symbols-outlined text-primary font-variation-fill">storefront</span>
         </div>
         <div>
-            <h1 id="shop-name-display" class="text-sm font-black italic uppercase leading-none text-white">CARGANDO...</h1>
-            <p class="text-[9px] text-primary font-black uppercase tracking-widest leading-none mt-1">ID: <span id="shop-id-display">--</span></p>
+            <h1 id="shop-name-display" class="text-sm font-black italic uppercase leading-none text-white tracking-tight">CARGANDO...</h1>
+            <p class="text-[9px] text-accent-fuchsia font-black uppercase tracking-widest leading-none mt-1">Socio: <span id="shop-id-display" class="text-white">--</span></p>
         </div>
     </div>
     
     <div class="flex items-center gap-2">
-        <button onclick="enviarNotif('KM0 Cloud', 'Sincronización activa')" class="size-10 flex items-center justify-center rounded-full bg-neutral-dark border border-white/10 active:scale-90">
-            <span class="material-symbols-outlined text-primary font-variation-fill">notifications_active</span>
+        <button onclick="sincronizarAhora()" class="size-10 flex items-center justify-center rounded-full bg-neutral-dark border border-primary/20 active:scale-90">
+            <span id="sync-icon" class="material-symbols-outlined text-primary font-variation-fill">sync</span>
         </button>
-        <button onclick="cerrarSesion()" class="size-10 flex items-center justify-center rounded-full bg-status-red/10 border border-status-red/30 active:scale-90 transition-all">
-            <span class="material-symbols-outlined text-status-red font-variation-fill">logout</span>
+        <button onclick="cerrarSesion()" class="size-10 flex items-center justify-center rounded-full bg-red-500/10 border border-red-500/30 active:scale-90">
+            <span class="material-symbols-outlined text-red-500 font-variation-fill">logout</span>
         </button>
     </div>
 </header>
@@ -61,134 +66,124 @@
 <main class="flex-1 overflow-y-auto pb-44 p-4 space-y-6">
     
     <div class="grid grid-cols-2 gap-3">
-        <button onclick="location.href='new-producto-tienda.html'" class="flex flex-col items-start justify-center p-5 bg-neutral-dark text-white rounded-2xl font-black border border-white/5 active:scale-95 transition-transform uppercase italic">
-            <div class="flex items-center gap-2 mb-1">
-                <span class="material-symbols-outlined text-primary text-xl font-variation-fill">add_box</span>
-                <span class="text-[8px] tracking-widest text-slate-400">Inventario</span>
-            </div>
-            <p class="text-xs">NUEVO PRODUCTO</p>
+        <button onclick="location.href='new-producto-tienda.html'" class="flex flex-col items-start justify-center p-5 bg-neutral-dark rounded-2xl border border-white/5 active:scale-95 transition-all">
+            <span class="material-symbols-outlined text-accent-fuchsia mb-1">add_circle</span>
+            <p class="text-[10px] text-slate-400 font-black uppercase italic">Catálogo</p>
+            <p class="text-xs font-black uppercase italic">Nuevo Item</p>
         </button>
 
-        <button onclick="location.href='finanzas-tienda.html'" class="flex flex-col items-start justify-center p-5 bg-neutral-dark text-white rounded-2xl font-black border border-primary/30 shadow-lg shadow-primary/5 active:scale-95 transition-transform uppercase italic">
-            <div class="flex items-center gap-2 mb-1">
-                <span class="material-symbols-outlined text-primary text-xl font-variation-fill">account_balance_wallet</span>
-                <span class="text-[8px] tracking-widest text-slate-400">A Liquidar</span>
-            </div>
-            <p id="monto-finanzas" class="text-xl text-white font-black leading-none">$0.00</p>
+        <button onclick="location.href='finanzas-tienda.html'" class="flex flex-col items-start justify-center p-5 bg-neutral-dark rounded-2xl border border-primary/30 shadow-lg shadow-primary/5 active:scale-95 transition-all">
+            <span class="material-symbols-outlined text-primary mb-1">payments</span>
+            <p class="text-[10px] text-slate-400 font-black uppercase italic">Por Cobrar</p>
+            <p id="monto-finanzas" class="text-xl font-black italic">$0.00</p>
         </button>
     </div>
 
-    <div class="space-y-3">
-        <div class="flex items-center justify-between px-1">
-            <h2 class="text-xs font-black uppercase tracking-widest text-slate-500 italic flex items-center gap-2">
-                <span class="material-symbols-outlined text-status-orange text-sm font-variation-fill">inventory_2</span> Control de Stock
-            </h2>
-            <button onclick="location.href='catalogo-tienda.html'" class="text-primary text-[9px] font-black uppercase tracking-widest">Gestionar</button>
-        </div>
-
-        <div class="p-4 rounded-2xl bg-neutral-dark border border-white/5 flex items-center justify-between active:scale-[0.98] transition-all">
+    <div class="space-y-4">
+        <div class="p-4 rounded-2xl bg-neutral-dark border border-primary/10 flex items-center justify-between">
             <div class="flex items-center gap-4">
-                <div class="size-12 rounded-xl bg-status-orange/10 flex items-center justify-center text-status-orange border border-status-orange/20">
+                <div class="size-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary border border-primary/20">
                     <p id="total-stock-count" class="text-xl font-black">0</p>
                 </div>
                 <div>
-                    <p class="text-slate-400 text-[10px] font-black uppercase leading-none">Unidades en catálogo</p>
-                    <p class="text-[11px] text-white font-bold italic uppercase mt-1">Inventario Activo</p>
+                    <p class="text-slate-400 text-[10px] font-black uppercase">Inventario Total</p>
+                    <p class="text-[11px] text-white font-bold italic uppercase">Productos en Stock</p>
                 </div>
             </div>
+            <button onclick="location.href='catalogo-tienda.html'" class="text-primary material-symbols-outlined">arrow_forward_ios</button>
         </div>
-    </div>
 
-    <div class="space-y-3">
-        <h2 class="text-xs font-black uppercase tracking-widest text-slate-500 flex items-center gap-2 italic">
-            <span class="material-symbols-outlined text-primary text-sm font-variation-fill">analytics</span> Monitoreo de Pedidos
-        </h2>
-        
         <div class="grid grid-cols-2 gap-3">
-            <button onclick="location.href='historial-entregas-tienda.html'" class="text-left p-4 rounded-2xl bg-neutral-dark border border-white/5 active:scale-95 transition-all">
-                <p class="text-slate-400 text-[10px] font-black uppercase mb-1">Entregados</p>
+            <div class="p-4 rounded-2xl bg-neutral-dark border-l-4 border-status-green">
+                <p class="text-slate-400 text-[9px] font-black uppercase mb-1">Entregados</p>
                 <div class="flex items-center justify-between">
                     <p id="count-entregados" class="text-2xl font-black text-status-green italic">0</p>
-                    <span class="material-symbols-outlined text-status-green font-variation-fill">check_circle</span>
+                    <span class="material-symbols-outlined text-status-green">task_alt</span>
                 </div>
-            </button>
-            <button onclick="location.href='resolver-novedades-tienda.html'" class="text-left p-4 rounded-2xl bg-neutral-dark border border-status-fuchsia/30 active:scale-95 transition-all">
-                <p class="text-status-fuchsia text-[10px] font-black uppercase mb-1">Novedades</p>
+            </div>
+            <div class="p-4 rounded-2xl bg-neutral-dark border-l-4 border-accent-fuchsia">
+                <p class="text-slate-400 text-[9px] font-black uppercase mb-1 tracking-tighter">En Tránsito</p>
                 <div class="flex items-center justify-between">
-                    <p id="count-novedades" class="text-2xl font-black text-white italic">0</p>
-                    <span class="material-symbols-outlined text-status-fuchsia animate-pulse font-variation-fill">error</span>
+                    <p id="count-en-camino" class="text-2xl font-black text-white italic">0</p>
+                    <span class="material-symbols-outlined text-accent-fuchsia animate-fuchsia">local_shipping</span>
                 </div>
-            </button>
+            </div>
         </div>
     </div>
 </main>
 
-<nav class="fixed bottom-0 left-0 right-0 border-t border-white/5 bg-background-dark/95 backdrop-blur-xl px-2 pb-8 pt-3 z-50">
+<nav class="fixed bottom-0 left-0 right-0 border-t border-primary/10 bg-background-dark/95 backdrop-blur-xl px-2 pb-8 pt-3 z-50">
     <div class="flex justify-around items-center max-w-lg mx-auto relative">
-        <a class="flex flex-col items-center gap-1 text-slate-500 hover:text-primary transition-colors" href="dashboard-tienda.html">
+        <a class="flex flex-col items-center gap-1 text-slate-500" href="dashboard-tienda.html">
             <span class="material-symbols-outlined text-2xl">analytics</span>
-            <span class="text-[8px] font-black uppercase">Dashboard</span>
+            <span class="text-[8px] font-black uppercase tracking-tighter">Métricas</span>
         </a>
         <a class="flex flex-col items-center gap-1 text-primary" href="panel-operativo-tienda.html">
             <span class="material-symbols-outlined text-2xl font-variation-fill">grid_view</span>
-            <span class="text-[8px] font-black uppercase">Panel</span>
+            <span class="text-[8px] font-black uppercase tracking-tighter">Panel</span>
         </a>
         <div class="relative -top-12">
-            <button onclick="location.href='nuevo-pedido-tienda.html'" class="nav-center-btn size-20 bg-primary rounded-full flex flex-col items-center justify-center border-[6px] border-background-dark text-white shadow-2xl active:scale-90 transition-transform">
+            <button onclick="location.href='nuevo-pedido-tienda.html'" class="nav-center-btn size-20 rounded-full flex flex-col items-center justify-center border-[6px] border-background-dark text-white shadow-2xl active:scale-90 transition-transform">
                 <span class="material-symbols-outlined text-4xl font-black">add_shopping_cart</span>
-                <span class="text-[7px] font-black uppercase leading-none mt-1">VENDER</span>
+                <span class="text-[7px] font-black uppercase mt-1">Vender</span>
             </button>
         </div>
-        <a class="flex flex-col items-center gap-1 text-slate-500 hover:text-primary transition-colors" href="finanzas-tienda.html">
+        <a class="flex flex-col items-center gap-1 text-slate-500" href="finanzas-tienda.html">
             <span class="material-symbols-outlined text-2xl">payments</span>
-            <span class="text-[8px] font-black uppercase">Finanzas</span>
+            <span class="text-[8px] font-black uppercase tracking-tighter">Caja</span>
         </a>
-        <a class="flex flex-col items-center gap-1 text-slate-500 hover:text-primary transition-colors" href="perfil-tienda.html">
-            <span class="material-symbols-outlined text-2xl font-variation-fill">person</span>
-            <span class="text-[8px] font-black uppercase">Tienda</span>
+        <a class="flex flex-col items-center gap-1 text-slate-500" href="perfil-tienda.html">
+            <span class="material-symbols-outlined text-2xl">account_circle</span>
+            <span class="text-[8px] font-black uppercase tracking-tighter">Tienda</span>
         </a>
     </div>
 </nav>
 
 <script>
-    const URL_MAESTRA = 'https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec';
-
     window.onload = async function() {
-        // Cargar identidad desde el localStorage definido en el login
         const idTienda = localStorage.getItem('km0_user_id');
-        const nombreTienda = localStorage.getItem('km0_user_nombre') || "TIENDA PARTNER";
+        const nombreTienda = localStorage.getItem('km0_user_nombre');
         
         if (!idTienda) {
-            location.href = 'login.html';
+            window.location.href = '../auth/login.html';
             return;
         }
 
-        document.getElementById('shop-name-display').innerText = nombreTienda;
+        document.getElementById('shop-name-display').innerText = nombreTienda || "Socio KM0";
         document.getElementById('shop-id-display').innerText = idTienda;
 
-        await sincronizarDatosPanel(idTienda);
+        await sincronizarAhora();
     };
 
-    async function sincronizarDatosPanel(idTienda) {
+    async function sincronizarAhora() {
+        const icon = document.getElementById('sync-icon');
+        const idTienda = localStorage.getItem('km0_user_id');
+        icon.classList.add('animate-spin');
+
         try {
-            const resp = await fetch(`${URL_MAESTRA}?accion=obtener_resumen_panel&idTienda=${idTienda}`);
+            // Usamos API_URL de tu config.js
+            const resp = await fetch(`${API_URL}?accion=obtener_resumen_panel&idTienda=${idTienda}`);
             const data = await resp.json();
 
             if (data.success) {
-                document.getElementById('monto-finanzas').innerText = `$${data.saldo || '0.00'}`;
+                document.getElementById('monto-finanzas').innerText = `$${parseFloat(data.saldo || 0).toFixed(2)}`;
                 document.getElementById('total-stock-count').innerText = data.totalStock || '0';
                 document.getElementById('count-entregados').innerText = data.entregados || '0';
-                document.getElementById('count-novedades').innerText = data.novedades || '0';
+                document.getElementById('count-en-camino').innerText = data.enCamino || '0';
+                enviarNotif("KM0 Cloud", "Datos actualizados correctamente");
             }
         } catch (e) {
-            console.error("Error de sincronización:", e);
+            console.error("Error sync:", e);
+            enviarNotif("Error", "No se pudo conectar con el motor");
+        } finally {
+            icon.classList.remove('animate-spin');
         }
     }
 
     function cerrarSesion() {
-        if(confirm("¿Desea salir del sistema?")) {
+        if(confirm("¿Desea cerrar la sesión operativa?")) {
             localStorage.clear();
-            location.href = 'login.html';
+            window.location.href = '../auth/login.html';
         }
     }
 
@@ -198,22 +193,18 @@
         card.className = "notif-mobile pointer-events-auto w-full max-w-sm mx-auto bg-neutral-dark/95 backdrop-blur-md rounded-2xl shadow-2xl border-l-4 border-primary p-3 flex items-center gap-4 border border-white/10";
         card.innerHTML = `
             <div class="size-10 rounded-full bg-primary flex items-center justify-center text-white">
-                <span class="material-symbols-outlined font-variation-fill">notifications</span>
+                <span class="material-symbols-outlined">notifications</span>
             </div>
             <div class="flex-1">
                 <div class="flex justify-between items-center text-[10px] font-black uppercase text-primary">
                     <span>${titulo}</span>
-                    <span class="text-slate-400">Ahora</span>
+                    <span class="text-slate-400 font-normal">Ahora</span>
                 </div>
                 <p class="text-xs font-bold text-slate-100">${msj}</p>
             </div>
         `;
         root.appendChild(card);
-        setTimeout(() => { 
-            card.style.opacity = "0"; 
-            card.style.transform = "translateY(-20px)"; 
-            setTimeout(() => card.remove(), 500); 
-        }, 4000);
+        setTimeout(() => { card.style.opacity = "0"; setTimeout(() => card.remove(), 500); }, 3000);
     }
 </script>
 
