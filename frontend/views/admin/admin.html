@@ -1,238 +1,218 @@
 <!DOCTYPE html>
-<html lang="es">
+<html class="dark" lang="es">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KM0 - TOXIC COMMAND</title>
-    
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <script src="../../assets/js/config.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;800&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
-
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#39FF14", /* VERDE TÓXICO */
+                        "background-black": "#000000",
+                        "surface-grey": "#1a1a1a",
+                        "accent-grey": "#757575",
+                        "urgent-purple": "#FF00FF", /* MAGENTA */
+                    },
+                    fontFamily: { "display": ["Inter", "sans-serif"] },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
     <style>
-        :root {
-            --toxic: #39FF14;
-            --magenta: #FF00FF;
-            --dark: #000000;
-        }
-
-        body {
-            background-color: var(--dark);
-            color: #ffffff;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-image: linear-gradient(135deg, #0a0f02 0%, #000000 50%, #0f020f 100%);
-            min-height: 100vh;
-        }
-
-        /* Card con Neón Tóxico */
-        .toxic-card {
-            background: rgba(10, 10, 10, 0.9);
-            border: 2px solid var(--toxic);
-            box-shadow: 0 0 20px rgba(57, 255, 20, 0.15), inset 0 0 10px rgba(57, 255, 20, 0.05);
-            border-radius: 20px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .toxic-card::before {
-            content: ""; position: absolute; top: 0; right: 0;
-            width: 100px; height: 100px;
-            background: var(--magenta);
-            filter: blur(80px); opacity: 0.3;
-        }
-
-        /* Tabs */
-        .tab-btn { border-bottom: 2px solid transparent; transition: 0.3s; opacity: 0.5; }
-        .tab-btn.active { 
-            opacity: 1; 
-            color: var(--toxic); 
-            border-color: var(--magenta); 
-            text-shadow: 0 0 8px var(--toxic);
-        }
-
-        /* Modal */
-        #modal-viewer {
-            display: none; position: fixed; inset: 0; z-index: 999;
-            background: rgba(0,0,0,0.98); align-items: center; justify-content: center;
-        }
-        #modal-img { max-width: 90%; max-height: 85vh; border: 3px solid var(--toxic); box-shadow: 0 0 30px var(--toxic); }
-
-        /* Botón Confirmar */
-        .btn-approve {
-            background: var(--toxic); color: black; font-weight: 900;
-            box-shadow: 0 0 15px var(--toxic);
-        }
-
-        /* Animación de carga */
-        @keyframes spin-sync { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .sync-active { animation: spin-sync 1s linear infinite; color: var(--magenta) !important; }
+        body { font-family: 'Inter', sans-serif; min-height: 100dvh; background-color: #000; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        
+        /* HAMBURGUESA Y NAV VERDE */
+        .text-toxic-menu { color: #39FF14 !important; }
+        .nav-active { color: #39FF14 !important; }
+        .nav-active .material-symbols-outlined { font-variation-settings: 'FILL' 1; }
+        
+        #modal-viewer { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,0.95); align-items: center; justify-content: center; }
+        .img-preview { cursor: zoom-in; transition: transform 0.2s; }
+        .img-preview:hover { transform: scale(1.05); }
     </style>
 </head>
-<body class="pb-64">
-
-    <header class="p-5 border-b-2 border-toxic/20 bg-black/90 sticky top-0 z-50 flex justify-between items-center">
-        <div class="flex items-center gap-3">
-            <span class="material-symbols-outlined text-toxic text-3xl">radioactive</span>
-            <h1 class="font-black text-xl tracking-tighter italic">KM0 <span class="text-magenta">CONTROL</span></h1>
-        </div>
-        <button onclick="init()" class="flex items-center gap-2 bg-zinc-900 px-4 py-2 rounded-full border border-toxic/30">
-            <span id="icon-refresh" class="material-symbols-outlined text-toxic text-sm">sync</span>
-            <span class="text-[9px] font-bold uppercase tracking-widest text-zinc-400">Refrescar DB</span>
-        </button>
-    </header>
-
-    <nav class="flex justify-center mt-6 gap-8">
-        <button onclick="cambiarTab('motorizados')" id="btn-tab-m" class="tab-btn active py-2 px-6 font-black uppercase text-[10px] tracking-widest">Motorizados</button>
-        <button onclick="cambiarTab('tiendas')" id="btn-tab-t" class="tab-btn py-2 px-6 font-black uppercase text-[10px] tracking-widest">Tiendas</button>
-    </nav>
-
-    <main id="content" class="max-w-xl mx-auto p-6">
-        <div id="loader" class="hidden text-center py-20 text-toxic font-bold animate-pulse uppercase tracking-[0.5em]">Accediendo al Servidor...</div>
-        <div id="data-container"></div>
-    </main>
-
-    <div id="modal-viewer" onclick="this.style.display='none'">
-        <img id="modal-img" src="">
-    </div>
-
-    <footer id="footer" class="fixed bottom-0 inset-x-0 p-6 bg-black border-t-2 border-magenta/30 hidden z-50">
-        <div class="max-w-xl mx-auto">
-            <textarea id="notas" class="w-full bg-zinc-900 border-2 border-toxic/20 rounded-xl p-4 text-sm mb-4 outline-none focus:border-magenta text-white" placeholder="REPORTE DE SEGURIDAD..."></textarea>
-            <div class="flex gap-4">
-                <button onclick="procesar(false)" class="flex-1 py-4 border-2 border-red-600 text-red-600 font-black uppercase text-[10px] rounded-xl hover:bg-red-600 hover:text-white transition-all">Rechazar</button>
-                <button onclick="procesar(true)" class="btn-approve flex-[2] py-4 rounded-xl uppercase text-[10px] hover:scale-105 transition-all">Autorizar Acceso</button>
+<body class="bg-background-black font-display text-white flex flex-col">
+    <div class="relative flex h-auto w-full flex-col bg-background-black overflow-x-hidden pb-32">
+        
+        <div class="flex items-center bg-background-black/90 backdrop-blur-md p-4 pb-2 justify-between sticky top-0 z-50 border-b border-white/10">
+            <div class="text-toxic-menu flex size-12 shrink-0 items-center justify-start">
+                <span class="material-symbols-outlined text-3xl">menu</span>
+            </div>
+            <div class="flex flex-1 justify-center items-center gap-2">
+                <h2 class="text-white text-base font-bold leading-tight tracking-tight uppercase italic">Panel Kilómetro Cero</h2>
+            </div>
+            <div class="flex w-12 items-center justify-end">
+                <button onclick="init()" class="relative flex items-center justify-center h-12 text-primary">
+                    <span id="sync-icon" class="material-symbols-outlined">sync</span>
+                </button>
             </div>
         </div>
-    </footer>
+
+        <div class="px-4 pt-6">
+            <p class="text-accent-grey text-sm font-medium">Bienvenido de nuevo, Administrador</p>
+            <h1 class="text-white text-2xl font-bold">Panel de Control</h1>
+        </div>
+
+        <div class="flex flex-wrap gap-3 p-4">
+            <div class="flex min-w-[140px] flex-1 flex-col gap-2 rounded-xl p-4 bg-surface-grey border-l-4 border-primary shadow-sm">
+                <div class="flex items-center justify-between">
+                    <span class="material-symbols-outlined text-primary text-xl">delivery_dining</span>
+                    <p class="text-primary text-xs font-bold">+12%</p>
+                </div>
+                <div>
+                    <p class="text-accent-grey text-[10px] font-bold uppercase tracking-widest">Motorizados Online</p>
+                    <p class="text-white text-2xl font-bold">18</p>
+                </div>
+            </div>
+            <div class="flex min-w-[140px] flex-1 flex-col gap-2 rounded-xl p-4 bg-surface-grey border-l-4 border-urgent-purple shadow-sm">
+                <div class="flex items-center justify-between">
+                    <span class="material-symbols-outlined text-urgent-purple text-xl">shopping_cart</span>
+                    <p class="text-urgent-purple text-xs font-bold">Active</p>
+                </div>
+                <div>
+                    <p class="text-accent-grey text-[10px] font-bold uppercase tracking-widest">Pedidos Hoy</p>
+                    <p class="text-white text-2xl font-bold">42</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex items-center justify-between px-4 pb-3 pt-4">
+            <h2 class="text-white text-xl font-bold leading-tight tracking-tight">Tareas Prioritarias</h2>
+            <div class="flex gap-4">
+                <button onclick="cambiarTab('motorizados')" id="btn-m" class="text-primary text-xs font-bold border-b-2 border-primary pb-1">MOTORIZADOS</button>
+                <button onclick="cambiarTab('tiendas')" id="btn-t" class="text-accent-grey text-xs font-bold pb-1">TIENDAS</button>
+            </div>
+        </div>
+
+        <div id="main-content" class="space-y-3 px-4">
+            <div class="py-10 text-center text-accent-grey text-xs uppercase animate-pulse">Sincronizando con satélite...</div>
+        </div>
+
+        <nav class="fixed bottom-0 left-0 right-0 bg-background-black/95 backdrop-blur-lg border-t border-white/10 px-6 py-3 flex justify-between items-center z-50">
+            <div class="flex flex-col items-center nav-active">
+                <span class="material-symbols-outlined">dashboard</span>
+                <span class="text-[10px] mt-1 font-bold">Panel</span>
+            </div>
+            <div class="flex flex-col items-center text-accent-grey hover:text-primary transition-colors cursor-pointer">
+                <span class="material-symbols-outlined">local_shipping</span>
+                <span class="text-[10px] mt-1 font-medium">Logística</span>
+            </div>
+            <div class="flex flex-col items-center text-accent-grey hover:text-primary transition-colors cursor-pointer">
+                <span class="material-symbols-outlined">account_balance_wallet</span>
+                <span class="text-[10px] mt-1 font-medium">Finanzas</span>
+            </div>
+            <div class="flex flex-col items-center text-accent-grey hover:text-primary transition-colors cursor-pointer">
+                <span class="material-symbols-outlined">settings</span>
+                <span class="text-[10px] mt-1 font-medium">Config</span>
+            </div>
+        </nav>
+    </div>
+
+    <div id="modal-viewer" onclick="this.style.display='none'">
+        <img id="modal-img" src="" class="max-w-[95%] max-h-[85vh] border-2 border-primary rounded-2xl shadow-2xl shadow-primary/30">
+    </div>
 
     <script>
         let db = { motorizados: [], tiendas: [] };
         let currentTab = 'motorizados';
 
-        // FUNCIÓN CLAVE: CORRECCIÓN DE SINCRONIZACIÓN
         async function init() {
-            const icon = document.getElementById('icon-refresh');
-            const dataContainer = document.getElementById('data-container');
-            const loader = document.getElementById('loader');
-            
-            icon.classList.add('sync-active');
-            loader.classList.remove('hidden');
-            dataContainer.innerHTML = '';
-
+            const icon = document.getElementById('sync-icon');
+            icon.classList.add('animate-spin');
             try {
-                // Fetch directo a la URL de Google Script
                 const response = await fetch(API_URL);
-                const result = await response.json();
-                
-                // Asignar los datos recibidos
-                db.motorizados = result.motorizados || [];
-                db.tiendas = result.tiendas || [];
-                
-                console.log("Datos cargados:", db);
-                actualizarUI();
-            } catch (error) {
-                console.error("Error de Sync:", error);
-                dataContainer.innerHTML = `<p class="text-red-500 text-center font-bold">FALLO DE CONEXIÓN AL SERVIDOR</p>`;
+                db = await response.json();
+                render();
+            } catch (e) {
+                document.getElementById('main-content').innerHTML = '<p class="text-red-500 text-xs text-center py-5">ERROR DE SINCRONIZACIÓN</p>';
             } finally {
-                icon.classList.remove('sync-active');
-                loader.classList.add('hidden');
+                icon.classList.remove('animate-spin');
             }
-        }
-
-        function actualizarUI() {
-            const list = currentTab === 'motorizados' ? db.motorizados : db.tiendas;
-            const container = document.getElementById('data-container');
-            const footer = document.getElementById('footer');
-
-            if (!list || list.length === 0) {
-                container.innerHTML = `<div class="py-20 text-center text-zinc-600 font-bold uppercase tracking-widest text-[10px]">Sin Solicitudes Pendientes</div>`;
-                footer.classList.add('hidden');
-                return;
-            }
-
-            footer.classList.remove('hidden');
-            const item = list[0];
-
-            if (currentTab === 'motorizados') {
-                container.innerHTML = `
-                    <div class="toxic-card p-6 animate-in fade-in duration-500">
-                        <div class="flex justify-between items-start mb-6">
-                            <h2 class="text-2xl font-black uppercase italic">${item.nombre}</h2>
-                            <span class="text-[9px] font-bold text-magenta uppercase">ID: ${item.id}</span>
-                        </div>
-
-                        <div class="grid grid-cols-2 gap-4 mb-6">
-                            <img src="${item.urlFoto || 'https://via.placeholder.com/300?text=PERFIL'}" class="h-40 w-full object-cover rounded-lg border border-toxic/30 cursor-pointer" onclick="verImg(this.src)">
-                            <img src="${item.urlCedula || 'https://via.placeholder.com/300?text=DOCUMENTO'}" class="h-40 w-full object-cover rounded-lg border border-toxic/30 cursor-pointer" onclick="verImg(this.src)">
-                        </div>
-
-                        <div class="bg-black/60 p-4 border-l-4 border-toxic rounded-r-xl mb-4">
-                            <p class="text-[9px] text-zinc-500 font-bold uppercase">Placa Detectada</p>
-                            <p class="text-xl font-black text-toxic">${item.placa}</p>
-                        </div>
-
-                        <button onclick="window.open('${item.urlVideo}')" class="w-full py-3 bg-zinc-900 border border-magenta/40 text-[10px] font-black uppercase text-magenta flex items-center justify-center gap-2">
-                            <span class="material-symbols-outlined text-sm">videocam</span> Play Verificación
-                        </button>
-                    </div>`;
-            } else {
-                container.innerHTML = `
-                    <div class="toxic-card p-6 border-magenta shadow-[0_0_15px_rgba(255,0,255,0.1)]">
-                        <h2 class="text-2xl font-black uppercase italic mb-4">${item.nombreTienda}</h2>
-                        <p class="text-xs text-zinc-400 font-bold uppercase mb-2">Responsable: ${item.representante}</p>
-                        <p class="text-xs text-toxic font-bold uppercase">RUC: ${item.cedula}</p>
-                    </div>`;
-            }
-        }
-
-        function verImg(url) {
-            document.getElementById('modal-img').src = url;
-            document.getElementById('modal-viewer').style.display = 'flex';
         }
 
         function cambiarTab(tab) {
             currentTab = tab;
-            document.getElementById('btn-tab-m').classList.toggle('active', tab === 'motorizados');
-            document.getElementById('btn-tab-t').classList.toggle('active', tab === 'tiendas');
-            actualizarUI();
+            document.getElementById('btn-m').className = tab === 'motorizados' ? 'text-primary text-xs font-bold border-b-2 border-primary pb-1' : 'text-accent-grey text-xs font-bold pb-1';
+            document.getElementById('btn-t').className = tab === 'tiendas' ? 'text-primary text-xs font-bold border-b-2 border-primary pb-1' : 'text-accent-grey text-xs font-bold pb-1';
+            render();
         }
 
-        async function procesar(aprobado) {
+        function abrirImagen(url) {
+            document.getElementById('modal-img').src = url;
+            document.getElementById('modal-viewer').style.display = 'flex';
+        }
+
+        function render() {
             const list = currentTab === 'motorizados' ? db.motorizados : db.tiendas;
-            const item = list[0];
-            const footer = document.getElementById('footer');
+            const container = document.getElementById('main-content');
 
-            footer.style.opacity = "0.3";
-            footer.style.pointerEvents = "none";
+            if (!list || list.length === 0) {
+                container.innerHTML = `<p class="text-accent-grey text-xs py-10 text-center font-bold tracking-widest uppercase">Sin reportes pendientes</p>`;
+                return;
+            }
 
+            container.innerHTML = '';
+            list.forEach((item) => {
+                if (currentTab === 'motorizados') {
+                    container.innerHTML += `
+                    <div class="bg-surface-grey p-5 rounded-2xl border border-white/5 shadow-lg space-y-4 animate-in fade-in slide-in-from-bottom-2">
+                        <div class="flex items-center gap-4">
+                            <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-14 w-14 shrink-0 border-2 border-primary/40 img-preview" style='background-image: url("${item.urlFoto}");' onclick="abrirImagen('${item.urlFoto}')"></div>
+                            <div class="flex flex-col flex-1">
+                                <p class="text-white text-lg font-bold leading-none mb-1 italic">${item.nombre}</p>
+                                <p class="text-primary text-[10px] font-black uppercase tracking-[0.2em]">${item.placa}</p>
+                            </div>
+                            <button onclick="window.open('${item.urlVideo}')" class="text-urgent-purple material-symbols-outlined text-3xl">videocam</button>
+                        </div>
+                        
+                        <div class="flex gap-3 pt-2">
+                            <img src="${item.urlCedula}" class="h-20 w-24 object-cover rounded-xl border border-white/10 img-preview" onclick="abrirImagen('${item.urlCedula}')">
+                            <div class="flex-1 flex flex-col gap-2">
+                                <div class="flex gap-2">
+                                    <button onclick="procesar('${item.id}', false)" class="flex-1 bg-zinc-900 text-red-500 text-[10px] font-black py-3 rounded-xl border border-red-500/20 uppercase">Rechazar</button>
+                                    <button onclick="procesar('${item.id}', true)" class="flex-[2] bg-primary text-black text-[10px] font-black py-3 rounded-xl shadow-lg shadow-primary/20 uppercase">Autorizar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+                } else {
+                    container.innerHTML += `
+                    <div class="flex items-center gap-4 bg-surface-grey px-4 py-5 rounded-2xl border-l-4 border-urgent-purple shadow-md">
+                        <div class="flex flex-col flex-1">
+                            <p class="text-white text-base font-bold leading-none mb-1">${item.nombreTienda}</p>
+                            <p class="text-accent-grey text-xs font-medium uppercase tracking-widest">${item.representante} • RUC: ${item.cedula}</p>
+                        </div>
+                        <button onclick="procesar('${item.id}', true)" class="bg-primary text-black px-4 py-2 rounded-xl text-[10px] font-black shadow-lg shadow-primary/10">APROBAR</button>
+                    </div>`;
+                }
+            });
+        }
+
+        async function procesar(id, aprobado) {
             try {
-                // Quitamos el 'no-cors' para ver si hay errores, o usamos una técnica de redirección
                 await fetch(API_URL, {
                     method: 'POST',
+                    mode: 'no-cors',
                     body: JSON.stringify({
                         accion: "gestionar_solicitud",
                         token: API_KEY,
-                        id: item.id,
+                        id: id,
                         nuevoEstado: aprobado ? "ACTIVO" : "RECHAZADO",
-                        motivo: document.getElementById('notas').value || "ADMIN_OK"
+                        motivo: "Validación Panel Admin"
                     })
                 });
-
-                // Simulamos éxito para limpiar la lista localmente
-                list.shift();
-                document.getElementById('notas').value = "";
-                actualizarUI();
-                alert(aprobado ? "ACCESO AUTORIZADO" : "SOLICITUD RECHAZADA");
-            } catch (e) {
-                alert("ERROR EN LA OPERACIÓN");
-            } finally {
-                footer.style.opacity = "1";
-                footer.style.pointerEvents = "all";
-            }
+                init();
+            } catch (e) { alert("Error al procesar"); }
         }
 
-        // Ejecutar al cargar
         window.onload = init;
     </script>
 </body>
