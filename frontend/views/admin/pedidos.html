@@ -14,7 +14,7 @@
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#46f20d", 
+                        "primary": "#46f20d", // TU VERDE NEÓN
                         "background-dark": "#0d140a",
                         "surface-dark": "#162512",
                     },
@@ -25,7 +25,7 @@
     </script>
     <style>
         body { font-family: 'Space Grotesk', sans-serif; background-color: #0d140a; color: white; -webkit-tap-highlight-color: transparent; }
-        .neon-text { text-shadow: 0 0 10px rgba(70, 242, 13, 0.3); }
+        .neon-text { text-shadow: 0 0 10px rgba(70, 242, 13, 0.5); }
         .ios-blur { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .material-symbols-outlined { font-variation-settings: 'FILL' 0; }
@@ -34,121 +34,96 @@
 </head>
 <body class="min-h-screen flex flex-col pb-32">
 
-<header class="sticky top-0 z-50 bg-background-dark/80 ios-blur border-b border-primary/20 px-4 pt-4">
-    <div class="flex items-center justify-between mb-4">
-        <div class="flex items-center gap-3">
-            <button onclick="window.location.href='dashboard.html'" class="size-10 bg-primary/10 rounded-full flex items-center justify-center text-primary">
-                <span class="material-symbols-outlined">arrow_back</span>
-            </button>
-            <div>
-                <h1 class="text-lg font-black uppercase tracking-tighter neon-text">Pedidos Engine</h1>
-                <p class="text-[10px] text-primary font-bold uppercase tracking-[0.2em]">Logística en Vivo</p>
-            </div>
-        </div>
-        <div class="flex gap-2">
-            <div class="size-10 rounded-full bg-surface-dark border border-primary/20 flex items-center justify-center overflow-hidden">
-                <img src="https://ui-avatars.com/api/?name=Admin&background=46f20d&color=000" class="w-full h-full">
-            </div>
-        </div>
+<header class="sticky top-0 z-50 bg-background-dark/80 ios-blur border-b border-primary/20 px-4 py-3 flex items-center justify-between">
+    <button onclick="alert('Menú Pedidos')" class="p-2 text-primary">
+        <span class="material-symbols-outlined text-3xl">menu</span>
+    </button>
+    
+    <div class="text-center">
+        <h1 class="text-[10px] font-black uppercase tracking-[0.3em] text-primary neon-text">Kilómetro Cero</h1>
+        <p class="text-xs font-bold text-white uppercase">Engine Pedidos</p>
     </div>
 
-    <div class="flex gap-6 overflow-x-auto no-scrollbar border-b border-white/5">
-        <button class="pb-3 border-b-2 border-primary text-primary text-[11px] font-black uppercase whitespace-nowrap">Todos</button>
-        <button class="pb-3 border-b-2 border-transparent text-slate-500 text-[11px] font-black uppercase whitespace-nowrap">Pendientes</button>
-        <button class="pb-3 border-b-2 border-transparent text-slate-500 text-[11px] font-black uppercase whitespace-nowrap">En Camino</button>
-        <button class="pb-3 border-b-2 border-transparent text-slate-500 text-[11px] font-black uppercase whitespace-nowrap">Entregados</button>
+    <div class="flex items-center gap-1">
+        <button onclick="window.location.reload()" class="p-2 text-slate-400">
+            <span class="material-symbols-outlined text-2xl">refresh</span>
+        </button>
+        <div class="size-8 rounded-full bg-surface-dark border border-primary/20 overflow-hidden">
+            <img src="https://ui-avatars.com/api/?name=Admin&background=46f20d&color=000" class="w-full h-full">
+        </div>
     </div>
 </header>
 
+<nav class="flex px-4 overflow-x-auto no-scrollbar gap-6 border-b border-white/5 bg-background-dark/50">
+    <button class="py-3 border-b-2 border-primary text-primary text-[11px] font-black uppercase whitespace-nowrap">Todos</button>
+    <button class="py-3 border-b-2 border-transparent text-slate-500 text-[11px] font-black uppercase whitespace-nowrap">Pendientes</button>
+    <button class="py-3 border-b-2 border-transparent text-slate-500 text-[11px] font-black uppercase whitespace-nowrap">En Camino</button>
+</nav>
+
 <main class="p-4 space-y-4">
-    
     <div class="relative">
         <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary/50">search</span>
-        <input type="text" placeholder="BUSCAR ID O CLIENTE..." class="w-full bg-surface-dark border border-primary/10 rounded-xl py-3 pl-12 pr-4 text-xs font-bold tracking-widest focus:ring-1 focus:ring-primary focus:border-primary outline-none uppercase">
+        <input type="text" placeholder="BUSCAR PEDIDO..." class="w-full bg-surface-dark border border-primary/10 rounded-xl py-3 pl-12 pr-4 text-[10px] font-black tracking-widest focus:ring-1 focus:ring-primary outline-none uppercase text-white">
     </div>
 
-    <div class="space-y-3">
-        
-        <div class="bg-surface-dark border border-red-500/30 rounded-2xl p-4 shadow-xl">
-            <div class="flex justify-between items-start mb-3">
-                <div>
-                    <span class="text-[10px] font-black text-red-500 uppercase tracking-widest">ORD-89245</span>
-                    <h3 class="font-bold text-sm">Julián Ortega</h3>
-                </div>
-                <span class="px-2 py-1 rounded text-[9px] font-black bg-red-500/20 text-red-500 border border-red-500/30 uppercase">Urgente</span>
+    <div class="bg-surface-dark border border-red-500/30 rounded-2xl p-4 shadow-xl">
+        <div class="flex justify-between items-start mb-3">
+            <div>
+                <span class="text-[10px] font-black text-red-500 uppercase tracking-widest">ORD-89245</span>
+                <h3 class="font-bold text-sm">Julián Ortega</h3>
             </div>
-            <div class="flex items-center gap-2 text-[10px] text-slate-400 font-bold mb-4 uppercase">
-                <span class="material-symbols-outlined text-sm">priority_high</span>
-                Sin repartidor asignado
-            </div>
-            <div class="flex items-center justify-between pt-3 border-t border-white/5">
-                <div class="flex items-center gap-2">
-                    <span class="size-2 rounded-full bg-red-500 animate-ping"></span>
-                    <span class="text-[9px] font-black text-slate-500 uppercase">Hace 5 min</span>
-                </div>
-                <button class="px-4 py-2 bg-primary text-background-dark rounded-lg font-black text-[10px] uppercase shadow-lg shadow-primary/20">Asignar Manual</button>
-            </div>
+            <span class="px-2 py-1 rounded text-[9px] font-black bg-red-500/20 text-red-500 border border-red-500/30 uppercase animate-pulse">Urgente</span>
         </div>
-
-        <div class="bg-surface-dark border border-primary/10 rounded-2xl p-4 shadow-lg">
-            <div class="flex justify-between items-start mb-3">
-                <div>
-                    <span class="text-[10px] font-black text-primary uppercase tracking-widest">ORD-89241</span>
-                    <h3 class="font-bold text-sm">Carlos Rodríguez</h3>
-                </div>
-                <span class="px-2 py-1 rounded text-[9px] font-black bg-amber-500/20 text-amber-500 border border-amber-500/30 uppercase">En Camino</span>
-            </div>
-            <div class="flex items-center gap-2 text-[10px] text-slate-400 font-bold mb-4 uppercase">
-                <span class="material-symbols-outlined text-sm">storefront</span>
-                Tienda Central (Sede Norte)
-            </div>
-            <div class="flex items-center justify-between pt-3 border-t border-white/5">
-                <div class="flex -space-x-2">
-                    <div class="size-8 rounded-full bg-background-dark border-2 border-surface-dark flex items-center justify-center text-primary">
-                        <span class="material-symbols-outlined text-xs filled">pedal_bike</span>
-                    </div>
-                    <div class="size-8 rounded-full bg-primary/10 border-2 border-surface-dark flex items-center justify-center text-[10px] font-black text-primary">
-                        +2
-                    </div>
-                </div>
-                <div class="flex gap-2">
-                    <button class="size-9 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-primary">
-                        <span class="material-symbols-outlined text-lg">edit</span>
-                    </button>
-                    <button class="px-4 py-2 bg-white/5 border border-white/10 rounded-lg font-black text-[10px] uppercase text-slate-300">Trazabilidad</button>
-                </div>
-            </div>
+        <div class="flex items-center justify-between pt-3 border-t border-white/5">
+            <p class="text-[9px] font-black text-slate-500 uppercase">Sin asignar • Hace 5 min</p>
+            <button class="px-4 py-2 bg-primary text-background-dark rounded-lg font-black text-[10px] uppercase shadow-lg shadow-primary/20">Asignar</button>
         </div>
+    </div>
 
+    <div class="bg-surface-dark border border-primary/10 rounded-2xl p-4 shadow-lg">
+        <div class="flex justify-between items-start mb-3">
+            <div>
+                <span class="text-[10px] font-black text-primary uppercase tracking-widest">ORD-89241</span>
+                <h3 class="font-bold text-sm">Carlos Rodríguez</h3>
+            </div>
+            <span class="px-2 py-1 rounded text-[9px] font-black bg-amber-500/20 text-amber-500 border border-amber-500/30 uppercase">En Camino</span>
+        </div>
+        <div class="flex items-center justify-between pt-3 border-t border-white/5">
+            <div class="flex -space-x-2">
+                <div class="size-8 rounded-full bg-background-dark border-2 border-surface-dark flex items-center justify-center text-primary">
+                    <span class="material-symbols-outlined text-xs filled">pedal_bike</span>
+                </div>
+            </div>
+            <button class="px-4 py-2 bg-white/5 border border-white/10 rounded-lg font-black text-[10px] uppercase text-slate-300">Trazabilidad</button>
+        </div>
     </div>
 </main>
 
-<button class="fixed bottom-28 right-6 size-14 bg-primary text-background-dark rounded-full shadow-[0_0_20px_rgba(70,242,13,0.4)] flex items-center justify-center border-4 border-background-dark z-40 active:scale-90 transition-transform">
+<button class="fixed bottom-28 right-6 size-14 bg-primary text-background-dark rounded-full shadow-lg shadow-primary/20 flex items-center justify-center border-4 border-background-dark z-40">
     <span class="material-symbols-outlined font-black text-3xl">add</span>
 </button>
 
-<nav class="fixed bottom-0 left-0 right-0 bg-background-dark/95 ios-blur border-t border-primary/20 px-2 pb-6 pt-2 z-50">
-    <div class="flex justify-around items-center">
-        <a class="flex flex-col items-center gap-1 px-4 py-2 text-slate-500" href="dashboard.html">
-            <span class="material-symbols-outlined text-[26px]">dashboard</span>
-            <span class="text-[9px] font-black uppercase">Inicio</span>
+<nav class="fixed bottom-0 left-0 right-0 bg-background-dark/95 ios-blur border-t border-white/10 px-2 pb-6 pt-2 z-50">
+    <div class="flex justify-between items-center max-w-lg mx-auto">
+        <a class="flex flex-1 flex-col items-center gap-1 text-slate-500" href="dashboard.html">
+            <span class="material-symbols-outlined text-[24px]">dashboard</span>
+            <span class="text-[9px] font-black uppercase">Panel</span>
         </a>
-        <a class="flex flex-col items-center gap-1 px-4 py-2 text-primary" href="#">
-            <span class="material-symbols-outlined text-[26px] filled">package_2</span>
+        <a class="flex flex-1 flex-col items-center gap-1 text-slate-500" href="tiendas.html">
+            <span class="material-symbols-outlined text-[24px]">storefront</span>
+            <span class="text-[9px] font-black uppercase">Tiendas</span>
+        </a>
+        <a class="flex flex-1 flex-col items-center gap-1 text-slate-500" href="motorizados.html">
+            <span class="material-symbols-outlined text-[24px]">pedal_bike</span>
+            <span class="text-[9px] font-black uppercase">Flota</span>
+        </a>
+        <a class="flex flex-1 flex-col items-center gap-1 text-primary" href="pedidos.html">
+            <span class="material-symbols-outlined text-[24px] filled">package_2</span>
             <span class="text-[9px] font-black uppercase">Pedidos</span>
         </a>
-        <div class="relative -top-6">
-            <button class="size-14 bg-primary rounded-full flex items-center justify-center text-background-dark shadow-lg border-4 border-background-dark">
-                <span class="material-symbols-outlined text-3xl font-black">qr_code_scanner</span>
-            </button>
-        </div>
-        <a class="flex flex-col items-center gap-1 px-4 py-2 text-slate-500" href="finanzas.html">
-            <span class="material-symbols-outlined text-[26px]">account_balance_wallet</span>
-            <span class="text-[9px] font-black uppercase">Finanzas</span>
-        </a>
-        <a class="flex flex-col items-center gap-1 px-4 py-2 text-slate-500" href="configuracion.html">
-            <span class="material-symbols-outlined text-[26px]">tune</span>
-            <span class="text-[9px] font-black uppercase">Motor</span>
+        <a class="flex flex-1 flex-col items-center gap-1 text-slate-500" href="configuracion.html">
+            <span class="material-symbols-outlined text-[24px]">tune</span>
+            <span class="text-[9px] font-black uppercase">Ajustes</span>
         </a>
     </div>
 </nav>
