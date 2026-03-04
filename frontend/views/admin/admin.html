@@ -17,23 +17,19 @@
                         "moto-orange": "#ff6600", 
                         "store-blue": "#0047AB",
                         "surface-grey": "#1a1a1a",
-                        "novedad-red": "#ff0000"
                     },
                 },
             },
         }
     </script>
     <style>
-        body { font-family: 'Inter', sans-serif; background: #000; overflow-x: hidden; color: white; }
-        .text-toxic { color: #39FF14; }
-        .nav-active { color: #39FF14; font-variation-settings: 'FILL' 1; }
+        body { font-family: 'Inter', sans-serif; background: #000; color: white; overflow-x: hidden; }
         .tab-moto.active { color: #ff6600; border-bottom: 3px solid #ff6600; }
         .tab-store.active { color: #0047AB; border-bottom: 3px solid #0047AB; }
-        .card-selected-moto { border: 1px solid #ff6600; background: rgba(255, 102, 0, 0.1); }
-        .card-selected-store { border: 1px solid #0047AB; background: rgba(0, 71, 171, 0.1); }
-        .badge-new { animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.1); } }
-        #notificacion-push { transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .card-selected-moto { border: 1px solid #ff6600; background: rgba(255, 102, 0, 0.05); }
+        .card-selected-store { border: 1px solid #0047AB; background: rgba(0, 71, 171, 0.05); }
+        #notificacion-push { transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .detalle-hidden { display: none; }
     </style>
 </head>
 <body>
@@ -41,136 +37,64 @@
 
     <div id="notificacion-push" class="fixed top-4 inset-x-4 z-[100] transform -translate-y-64">
         <div id="notif-box" class="p-4 rounded-2xl shadow-2xl border-l-8 flex items-center gap-4 bg-surface-grey border-white/10">
-            <div id="notif-icon-bg" class="p-3 rounded-xl">
-                <span id="notif-icon" class="material-symbols-outlined text-white text-2xl">notifications</span>
-            </div>
+            <div id="notif-icon-bg" class="p-3 rounded-xl"><span id="notif-icon" class="material-symbols-outlined text-white">notifications</span></div>
             <div class="flex-1">
-                <p id="notif-titulo" class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400"></p>
-                <p id="notif-mensaje" class="text-sm font-bold leading-tight mt-1"></p>
+                <p id="notif-titulo" class="text-[10px] font-black uppercase tracking-widest text-gray-400"></p>
+                <p id="notif-mensaje" class="text-sm font-bold"></p>
             </div>
         </div>
     </div>
 
     <div class="relative flex flex-col min-h-screen pb-32">
-        
-        <div class="flex items-center bg-black/95 backdrop-blur-md p-4 sticky top-0 z-50 border-b border-white/10 justify-between">
-            <div class="text-toxic flex size-12 items-center"><span class="material-symbols-outlined text-3xl">menu</span></div>
-            <h2 class="text-base font-black uppercase tracking-widest italic">KM0 CONTROL</h2>
-            <div class="flex w-12 justify-end relative">
-                <button onclick="init()" class="text-toxic"><span id="sync-icon" class="material-symbols-outlined">sync</span></button>
-            </div>
+        <div class="flex items-center bg-black/95 p-4 sticky top-0 z-50 border-b border-white/10 justify-between">
+            <div class="text-primary flex size-12 items-center"><span class="material-symbols-outlined text-3xl">menu</span></div>
+            <h2 class="text-base font-black uppercase italic tracking-widest text-primary">KM0 ADMIN</h2>
+            <button onclick="init()" class="text-primary"><span id="sync-icon" class="material-symbols-outlined">sync</span></button>
         </div>
 
         <div class="grid grid-cols-2 gap-3 p-4">
-            <div id="card-moto" onclick="cambiarTab('motorizados')" class="bg-surface-grey p-4 rounded-2xl border-b-4 border-moto-orange transition-all active:scale-95 cursor-pointer card-selected-moto">
-                <div class="flex justify-between items-start">
-                    <span class="material-symbols-outlined text-moto-orange text-3xl">motorcycle</span>
-                    <span id="badge-m" class="bg-moto-orange text-black text-[10px] font-black px-2 py-0.5 rounded-full badge-new hidden">0</span>
-                </div>
-                <p class="text-[10px] font-bold text-gray-500 mt-2 uppercase">Solicitudes Moto</p>
+            <div id="card-moto" onclick="cambiarTab('motorizados')" class="bg-surface-grey p-4 rounded-2xl border-b-4 border-moto-orange card-selected-moto">
+                <span class="material-symbols-outlined text-moto-orange text-3xl">motorcycle</span>
+                <p class="text-[10px] font-bold text-gray-500 mt-2 uppercase">Motos en Espera</p>
                 <p id="count-m" class="text-3xl font-black">0</p>
             </div>
-
-            <div id="card-store" onclick="cambiarTab('tiendas')" class="bg-surface-grey p-4 rounded-2xl border-b-4 border-store-blue transition-all active:scale-95 cursor-pointer">
-                <div class="flex justify-between items-start">
-                    <span class="material-symbols-outlined text-store-blue text-3xl">storefront</span>
-                    <span id="badge-t" class="bg-store-blue text-white text-[10px] font-black px-2 py-0.5 rounded-full badge-new hidden">0</span>
-                </div>
-                <p class="text-[10px] font-bold text-gray-500 mt-2 uppercase">Solicitudes Tienda</p>
+            <div id="card-store" onclick="cambiarTab('tiendas')" class="bg-surface-grey p-4 rounded-2xl border-b-4 border-store-blue">
+                <span class="material-symbols-outlined text-store-blue text-3xl">storefront</span>
+                <p class="text-[10px] font-bold text-gray-500 mt-2 uppercase">Tiendas en Espera</p>
                 <p id="count-t" class="text-3xl font-black">0</p>
             </div>
         </div>
 
         <div class="flex px-4 border-b border-white/10">
-            <button onclick="cambiarTab('motorizados')" id="btn-m" class="tab-moto active flex-1 py-4 text-[11px] font-black uppercase tracking-widest">Logística Moto</button>
-            <button onclick="cambiarTab('tiendas')" id="btn-t" class="tab-store flex-1 py-4 text-[11px] font-black uppercase tracking-widest text-gray-500">Gestión Tiendas</button>
+            <button onclick="cambiarTab('motorizados')" id="btn-m" class="tab-moto active flex-1 py-4 text-[11px] font-black uppercase">SOCIOS MOTO</button>
+            <button onclick="cambiarTab('tiendas')" id="btn-t" class="tab-store flex-1 py-4 text-[11px] font-black uppercase text-gray-500">TIENDAS</button>
         </div>
 
-        <div id="main-content" class="p-4 space-y-4">
-            <div class="py-20 text-center opacity-20 animate-pulse">
-                <p class="text-xs font-bold uppercase tracking-widest">Sincronizando Operaciones...</p>
-            </div>
-        </div>
+        <div id="main-content" class="p-4 space-y-4"></div>
 
-        <nav class="fixed bottom-0 inset-x-0 bg-black/95 border-t border-white/10 px-4 py-4 flex justify-between items-center z-50">
-            <div class="flex flex-col items-center nav-active"><span class="material-symbols-outlined">dashboard</span><p class="text-[9px] font-bold mt-1">Panel</p></div>
-            <div class="flex flex-col items-center text-gray-600"><span class="material-symbols-outlined">local_shipping</span><p class="text-[9px] font-bold mt-1">Logística</p></div>
-            <div class="flex flex-col items-center text-gray-600"><span class="material-symbols-outlined">group</span><p class="text-[9px] font-bold mt-1">Usuarios</p></div>
-            <div class="flex flex-col items-center text-gray-600"><span class="material-symbols-outlined">account_balance_wallet</span><p class="text-[9px] font-bold mt-1">Finanzas</p></div>
-            <div class="flex flex-col items-center text-gray-600"><span class="material-symbols-outlined">settings</span><p class="text-[9px] font-bold mt-1">Config</p></div>
+        <nav class="fixed bottom-0 inset-x-0 bg-black/95 border-t border-white/10 px-6 py-4 flex justify-between items-center z-50 text-gray-600">
+            <div class="flex flex-col items-center text-primary"><span class="material-symbols-outlined">dashboard</span><p class="text-[9px] font-bold mt-1">Panel</p></div>
+            <div class="flex flex-col items-center"><span class="material-symbols-outlined">local_shipping</span><p class="text-[9px] font-bold mt-1">Logística</p></div>
+            <div class="flex flex-col items-center"><span class="material-symbols-outlined">group</span><p class="text-[9px] font-bold mt-1">Usuarios</p></div>
+            <div class="flex flex-col items-center"><span class="material-symbols-outlined">account_balance_wallet</span><p class="text-[9px] font-bold mt-1">Finanzas</p></div>
+            <div class="flex flex-col items-center"><span class="material-symbols-outlined">settings</span><p class="text-[9px] font-bold mt-1">Config</p></div>
         </nav>
     </div>
 
     <script>
-        let db = { motorizados: [], tiendas: [], alertas: [] };
+        let db = { motorizados: [], tiendas: [] };
         let currentTab = 'motorizados';
-        let counts = { m: 0, t: 0 };
 
         async function init(silent = false) {
             if(!silent) document.getElementById('sync-icon').classList.add('animate-spin');
             try {
                 const res = await fetch(API_URL);
-                const data = await res.json();
-                
-                // DETECCIÓN DE NOVEDADES EN TIEMPO REAL
-                if (data.motorizados.length > counts.m) {
-                    lanzarPush("NUEVO MOTORIZADO", "Un socio espera aprobación", "#ff6600", "motorcycle");
-                }
-                if (data.tiendas.length > counts.t) {
-                    lanzarPush("NUEVA TIENDA", "Solicitud de afiliación recibida", "#0047AB", "store");
-                }
-
-                // ALERTAS DE PEDIDOS (ENTREGADOS / NOVEDADES)
-                if(data.alertas) {
-                    data.alertas.forEach(alerta => {
-                        if (!localStorage.getItem('visto_' + alerta.id)) {
-                            const color = alerta.estado === 'NOVEDAD' ? '#ff0000' : '#39FF14';
-                            const icono = alerta.estado === 'NOVEDAD' ? 'report_problem' : 'task_alt';
-                            lanzarPush(alerta.estado, `Pedido ${alerta.id} - ${alerta.tienda}`, color, icono);
-                            localStorage.setItem('visto_' + alerta.id, 'true');
-                        }
-                    });
-                }
-
-                db = data;
-                counts.m = db.motorizados.length;
-                counts.t = db.tiendas.length;
-                
-                updateUI();
+                db = await res.json();
+                document.getElementById('count-m').innerText = db.motorizados.length;
+                document.getElementById('count-t').innerText = db.tiendas.length;
                 render();
-            } catch (e) { console.error("Error Sync:", e); }
+            } catch (e) { console.error(e); }
             finally { document.getElementById('sync-icon').classList.remove('animate-spin'); }
-        }
-
-        function lanzarPush(titulo, msg, color, icono) {
-            const box = document.getElementById('notificacion-push');
-            const inner = document.getElementById('notif-box');
-            const iconBg = document.getElementById('notif-icon-bg');
-            
-            document.getElementById('notif-titulo').innerText = titulo;
-            document.getElementById('notif-mensaje').innerText = msg;
-            document.getElementById('notif-icon').innerText = icono;
-            
-            inner.style.borderLeftColor = color;
-            iconBg.style.backgroundColor = color;
-            
-            document.getElementById('notif-sound').play();
-            box.classList.remove('-translate-y-64');
-            setTimeout(() => box.classList.add('-translate-y-64'), 6000);
-        }
-
-        function updateUI() {
-            document.getElementById('count-m').innerText = db.motorizados.length;
-            document.getElementById('count-t').innerText = db.tiendas.length;
-            
-            const bm = document.getElementById('badge-m');
-            const bt = document.getElementById('badge-t');
-            
-            bm.innerText = db.motorizados.length;
-            bt.innerText = db.tiendas.length;
-            
-            bm.classList.toggle('hidden', db.motorizados.length === 0);
-            bt.classList.toggle('hidden', db.tiendas.length === 0);
         }
 
         function cambiarTab(tab) {
@@ -187,60 +111,88 @@
             const container = document.getElementById('main-content');
             container.innerHTML = '';
 
-            if(!list || list.length === 0) {
-                container.innerHTML = `<div class="py-20 text-center opacity-10"><span class="material-symbols-outlined text-6xl">verified</span><p class="text-[10px] font-bold mt-2 uppercase italic tracking-widest">Sin tareas pendientes</p></div>`;
-                return;
-            }
-
-            list.forEach(item => {
+            list.forEach((item, index) => {
                 const color = currentTab === 'motorizados' ? 'border-moto-orange' : 'border-store-blue';
                 const btnColor = currentTab === 'motorizados' ? 'bg-moto-orange' : 'bg-store-blue';
                 
-                container.innerHTML += `
-                <div class="bg-surface-grey p-5 rounded-2xl border-l-[6px] ${color} shadow-2xl animate-in fade-in slide-in-from-bottom-3 duration-500">
-                    <div class="flex justify-between items-start mb-4">
-                        <div>
-                            <p class="text-sm font-black uppercase tracking-tight">${item.nombre || item.nombreTienda}</p>
-                            <p class="text-[9px] text-gray-500 font-bold mt-1">${item.placa || item.cedula}</p>
-                        </div>
-                        <button onclick="window.open('${item.urlVideo || '#'}')" class="${currentTab === 'motorizados' ? 'block' : 'hidden'} text-moto-orange material-symbols-outlined">videocam</button>
+                // Formar el bloque de detalles según sea Moto o Tienda
+                let detallesHTML = currentTab === 'motorizados' ? `
+                    <div class="grid grid-cols-2 gap-2 mt-4 text-[10px] border-t border-white/5 pt-4">
+                        <p><span class="text-gray-500">CÉDULA:</span><br>${item.cedula}</p>
+                        <p><span class="text-gray-500">PLACA:</span><br>${item.placa}</p>
+                        <p><span class="text-gray-500">TELÉFONO:</span><br>${item.telefono}</p>
+                        <p><span class="text-gray-500">ID SISTEMA:</span><br>${item.id}</p>
                     </div>
-                    <div class="flex gap-3">
-                        <button onclick="procesar('${item.id}', 'RECHAZADO', '${item.telefono}', '${item.nombre || item.nombreTienda}')" 
-                                class="flex-1 bg-black/40 text-red-500 py-3.5 rounded-xl text-[10px] font-black uppercase tracking-widest border border-red-500/10 active:scale-95 transition-all">
-                            Rechazar
-                        </button>
-                        <button onclick="procesar('${item.id}', 'ACTIVO', '${item.telefono}', '${item.nombre || item.nombreTienda}')" 
-                                class="flex-[2] ${btnColor} text-white py-3.5 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-black/40 active:scale-95 transition-all">
-                            Autorizar
-                        </button>
+                    <div class="flex gap-2 mt-4">
+                        <a href="${item.urlVideo}" target="_blank" class="bg-zinc-800 p-2 rounded-lg text-xs flex-1 text-center">VER VIDEO</a>
+                        <a href="${item.urlFoto}" target="_blank" class="bg-zinc-800 p-2 rounded-lg text-xs flex-1 text-center">VER CÉDULA</a>
+                    </div>
+                ` : `
+                    <div class="grid grid-cols-2 gap-2 mt-4 text-[10px] border-t border-white/5 pt-4">
+                        <p><span class="text-gray-500">RUC/CED:</span><br>${item.cedula}</p>
+                        <p><span class="text-gray-500">RESPONSABLE:</span><br>${item.representante}</p>
+                        <p><span class="text-gray-500">TELÉFONO:</span><br>${item.telefono}</p>
+                        <p><span class="text-gray-500">CIUDAD:</span><br>${item.ciudad || 'No reg.'}</p>
+                    </div>
+                `;
+
+                container.innerHTML += `
+                <div class="bg-surface-grey p-4 rounded-2xl border-l-4 ${color} shadow-xl animate-in fade-in">
+                    <div onclick="document.getElementById('det-${index}').classList.toggle('detalle-hidden')" class="cursor-pointer">
+                        <div class="flex justify-between items-center">
+                            <p class="font-black uppercase text-sm">${item.nombre || item.nombreTienda}</p>
+                            <span class="material-symbols-outlined text-gray-500">expand_more</span>
+                        </div>
+                    </div>
+                    
+                    <div id="det-${index}" class="detalle-hidden">
+                        ${detallesHTML}
+                        <div class="flex gap-2 mt-6">
+                            <button onclick="rechazar('${item.id}', '${item.telefono}', '${item.nombre || item.nombreTienda}')" 
+                                    class="flex-1 bg-red-600/20 text-red-500 py-3 rounded-xl text-[10px] font-black uppercase">RECHAZAR</button>
+                            <button onclick="autorizar('${item.id}', '${item.telefono}', '${item.nombre || item.nombreTienda}', '${item.password}')" 
+                                    class="flex-[2] ${btnColor} text-white py-3 rounded-xl text-[10px] font-black uppercase">AUTORIZAR Y ENVIAR CLAVES</button>
+                        </div>
                     </div>
                 </div>`;
             });
         }
 
-        async function procesar(id, estado, telf, nombre) {
+        async function autorizar(id, telf, nombre, pass) {
+            if(!confirm("¿Confirmas la activación de este usuario?")) return;
+            
             try {
                 await fetch(API_URL, {
                     method: 'POST',
-                    body: JSON.stringify({
-                        accion: "gestionar_solicitud",
-                        token: "KM0_SECURE_TOKEN_2026_XYZ",
-                        id: id,
-                        nuevoEstado: estado
-                    })
+                    body: JSON.stringify({ accion: "gestionar_solicitud", token: "KM0_SECURE_TOKEN_2026_XYZ", id: id, nuevoEstado: "ACTIVO" })
                 });
 
-                const msg = `Hola ${nombre}, tu solicitud en KM0 ha sido: ${estado}.`;
+                const msg = `¡BIENVENIDO A KM0! 🏁\n\nHola ${nombre}, tu solicitud ha sido APROBADA. Ya puedes empezar a generar ingresos.\n\n🔐 TUS CREDENCIALES:\n👤 Usuario: ${id}\n🔑 Clave: ${pass}\n\nDescarga la App aquí: [LINK_APP]`;
                 window.open(`https://api.whatsapp.com/send?phone=${telf}&text=${encodeURIComponent(msg)}`, '_blank');
-                
                 init();
-            } catch (e) { alert("Error al procesar"); }
+            } catch (e) { alert("Error"); }
         }
 
-        // Revisión automática cada 20 segundos
-        setInterval(() => init(true), 20000);
-        window.onload = init;
+        async function rechazar(id, telf, nombre) {
+            const motivo = prompt("Indique el motivo del rechazo (Ej: Documentos ilegibles):");
+            if(!motivo) return;
+
+            try {
+                await fetch(API_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ accion: "gestionar_solicitud", token: "KM0_SECURE_TOKEN_2026_XYZ", id: id, nuevoEstado: "RECHAZADO" })
+                });
+
+                const msg = `SOLICITUD KM0 ⚠️\n\nHola ${nombre}, lamentamos informarte que tu solicitud no pudo ser procesada en este momento.\n\n❌ MOTIVO: ${motivo}\n\nPor favor, corrige este punto y vuelve a intentarlo.`;
+                window.open(`https://api.whatsapp.com/send?phone=${telf}&text=${encodeURIComponent(msg)}`, '_blank');
+                init();
+            } catch (e) { alert("Error"); }
+        }
+
+        window.onload = () => {
+            init();
+            if ("Notification" in window) Notification.requestPermission();
+        };
     </script>
 </body>
 </html>
