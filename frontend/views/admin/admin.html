@@ -86,9 +86,36 @@
         // 📳 FUNCION MONITOR: Desbloquea Audio, Vibración y Notificaciones
         function activarMonitor() {
             const sound = document.getElementById('notif-sound');
-            sound.play().then(() => {
-                sound.pause(); 
-                document.getElementById('modal-audio').style.display = 'none';
+            const modal = document.getElementById('modal-audio');
+            
+            // 1. Ocultar el modal inmediatamente para que el usuario vea que algo pasó
+            modal.style.opacity = '0';
+            setTimeout(() => { modal.style.display = 'none'; }, 300);
+
+            // 2. Intentar desbloquear el audio (gesto del usuario)
+            sound.play()
+                .then(() => {
+                    sound.pause();
+                    sound.currentTime = 0;
+                    console.log("Audio desbloqueado correctamente");
+                })
+                .catch(e => {
+                    console.warn("Audio no pudo sonar, pero el monitor seguirá:", e);
+                });
+
+            // 3. Pedir permisos de Notificación
+            if ("Notification" in window) {
+                Notification.requestPermission();
+            }
+
+            // 4. Vibrar para confirmar acción
+            if (navigator.vibrate) {
+                navigator.vibrate([100, 50, 100]);
+            }
+
+            // 5. Iniciar la carga de datos
+            init();
+        }
                 
                 // Pedir permiso de Notificaciones de Sistema
                 if ("Notification" in window) {
