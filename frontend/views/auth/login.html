@@ -9,6 +9,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
     
+    <script src="../../assets/js/config.js"></script>
+
     <style>
         body { 
             font-family: 'Inter', sans-serif; 
@@ -22,7 +24,7 @@
             overflow-x: hidden;
         }
 
-        /* Animación Cíclica de Iconos */
+        /* Animación Cíclica de Iconos (Morphing) */
         @keyframes morphIcons {
             0%, 25% { content: "account_circle"; transform: rotate(0deg); opacity: 1; }
             30% { opacity: 0; }
@@ -48,6 +50,7 @@
             z-index: -1;
         }
 
+        /* Animación de carga en botón */
         .btn-loading { 
             pointer-events: none; 
             opacity: 0.7; 
@@ -109,75 +112,18 @@
 
         <div class="mt-16 text-center opacity-40">
             <p class="text-[9px] font-bold uppercase tracking-[0.1em] text-zinc-400">
-                2026 KM0® by CORPORACIÓN 360 <span class="ml-1 text-zinc-600">V1.0.1</span>
+                2025 KM0® by CORPORACIÓN 360 <span class="ml-1 text-zinc-600">V1.0.1</span>
             </p>
         </div>
     </div>
 
     <script>
-        const URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec';
-
+        // Funciones de UI
         function togglePassword() {
             const passInput = document.getElementById('pass');
             const eyeIcon = document.getElementById('eye-icon');
             passInput.type = passInput.type === "password" ? "text" : "password";
             eyeIcon.innerText = passInput.type === "password" ? "visibility" : "visibility_off";
-        }
-
-        async function validarYRedirigir() {
-            const userField = document.getElementById('user').value.trim();
-            const passField = document.getElementById('pass').value.trim();
-            const error = document.getElementById('error-msg');
-            const btn = document.getElementById('btn-login');
-
-            if (!userField || !passField) {
-                showError("Complete todos los campos");
-                return;
-            }
-
-            btn.disabled = true;
-            btn.innerHTML = `VERIFICANDO...`;
-            btn.classList.add('btn-loading');
-            error.classList.add('hidden');
-
-            try {
-                // He añadido el modo 'no-cors' no es necesario aquí porque Google Apps Script requiere manejar el preflight o usar POST simple
-                const response = await fetch(URL_SCRIPT, {
-                    method: 'POST',
-                    mode: 'no-cors', // Importante para Google Scripts si no hay headers específicos
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ accion: "login", usuario: userField, password: passField })
-                });
-                
-                // NOTA: Con Google Script y 'no-cors' no puedes leer la respuesta JSON directamente.
-                // Si tu script de Google ya tiene habilitado CORS (headers permitidos), usa 'cors'.
-                // Vamos a asumir que tu API_URL ya está configurada para devolver el JSON correctamente.
-                
-                const resFetch = await fetch(URL_SCRIPT, {
-                    method: 'POST',
-                    body: JSON.stringify({ accion: "login", usuario: userField, password: passField })
-                });
-                const result = await resFetch.json();
-
-                if (result.success) {
-                    localStorage.setItem('km0_user_id', result.id);
-                    localStorage.setItem('km0_user_rol', result.rol);
-                    
-                    switch(result.rol) {
-                        case 'TIENDAS': window.location.href = "../tienda/panel-operativo-tienda.html"; break;
-                        case 'MOTORIZADO': window.location.href = "../motorizado/panel-operativo-motorizado.html"; break;
-                        case 'ADMINISTRADOR': window.location.href = "../admin/admin.html"; break;
-                        case 'FINANZAS': window.location.href = "../finanzas/gestion-finanzas.html"; break;
-                        default: showError("Rol no asignado"); resetBtn(btn);
-                    }
-                } else {
-                    showError(result.mensaje);
-                    resetBtn(btn);
-                }
-            } catch (e) {
-                showError("Error de conexión con el servidor");
-                resetBtn(btn);
-            }
         }
 
         function showError(msg) {
@@ -192,7 +138,73 @@
             btn.classList.remove('btn-loading');
         }
 
-        document.addEventListener('keypress', (e) => { if (e.key === 'Enter') validarYRedirigir(); });
+        // Lógica de Autenticación Central
+        async function validarYRedirigir() {
+            const userField = document.getElementById('user').value.trim();
+            const passField = document.getElementById('pass').value.trim();
+            const error = document.getElementById('error-msg');
+            const btn = document.getElementById('btn-login');
+
+            if (!userField || !passField) {
+                showError("Complete todos los campos");
+                return;
+            }
+
+            // UI Loading
+            btn.disabled = true;
+            btn.innerHTML = `VERIFICANDO...`;
+            btn.classList.add('btn-loading');
+            error.classList.add('hidden');
+
+            try {
+                // Petición usando constantes de config.js
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ 
+                        accion: "login", 
+                        usuario: userField, 
+                        password: passField,
+                        token: API_KEY // Validamos contra tu token seguro
+                    })
+                });
+                
+                const result = await response.json();
+
+                if (result.success) {
+                    // Guardar datos de sesión local
+                    localStorage.setItem('km0_user_id', result.id);
+                    localStorage.setItem('km0_user_rol', result.rol);
+                    
+                    const userRol = result.rol.toUpperCase();
+                    
+                    // Redirección por roles basada en tu hoja de usuarios
+                    if (userRol === 'ADMINISTRADOR') {
+                        window.location.href = "../admin/admin.html";
+                    } else if (userRol === 'TIENDAS') {
+                        window.location.href = "../tienda/panel-operativo-tienda.html";
+                    } else if (userRol === 'MOTORIZADO') {
+                        window.location.href = "../motorizado/panel-operativo-motorizado.html";
+                    } else if (userRol === 'FINANZAS') {
+                        window.location.href = "../finanzas/gestion-finanzas.html";
+                    } else {
+                        showError("Rol '" + result.rol + "' sin vista definida");
+                        resetBtn(btn);
+                    }
+                } else {
+                    showError(result.mensaje || "Credenciales incorrectas");
+                    resetBtn(btn);
+                }
+            } catch (e) {
+                console.error("Error Login:", e);
+                showError("Error de conexión con el motor central");
+                resetBtn(btn);
+            }
+        }
+
+        // Acceso con tecla Enter
+        document.addEventListener('keypress', (e) => { 
+            if (e.key === 'Enter') validarYRedirigir(); 
+        });
     </script>
 </body>
 </html>
