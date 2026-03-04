@@ -3,92 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nuevo Pedido | KM0</title>
+    <title>Nuevo Pedido - KM0</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
     <script>
         tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        "electric-blue": "#137fec",
-                        "neon-fuchsia": "#ff00ff",
-                        "dark-bg": "#05080b",
-                    }
-                }
-            }
+            theme: { extend: { colors: { "electric-blue": "#137fec", "neon-fuchsia": "#ff00ff", "dark-bg": "#05080b" } } }
         }
     </script>
     <style>
-        body { font-family: 'Inter'; background-color: #05080b; color: white; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Inter'; background-color: #05080b; color: white; }
         .ios-blur { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
-        .input-km0 { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(19, 127, 236, 0.2); transition: all 0.3s ease; }
-        .input-km0:focus { border-color: #ff00ff; outline: none; background: rgba(255, 255, 255, 0.05); }
+        .input-km0 { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(19, 127, 236, 0.3); }
+        .input-km0:focus { border-color: #ff00ff; outline: none; }
         .btn-gradient { background: linear-gradient(135deg, #137fec 0%, #ff00ff 100%); }
-        .btn-disabled { background: #1a1a1a; color: #444; opacity: 0.5; cursor: not-allowed; }
-        .loader { width: 20px; height: 20px; border: 3px solid #FFF; border-bottom-color: transparent; border-radius: 50%; display: inline-block; animation: rotation 1s linear infinite; }
-        @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .btn-disabled { background: #1a1a1a; color: #444; opacity: 0.6; cursor: not-allowed; }
     </style>
 </head>
-<body class="pb-40">
+<body class="min-h-screen pb-40">
 
     <header class="sticky top-0 z-50 bg-dark-bg/80 ios-blur border-b border-electric-blue/20 p-5 flex items-center justify-between">
         <button onclick="window.location.href='panel-operativo-tienda.html'" class="text-electric-blue">
             <span class="material-symbols-outlined text-3xl">arrow_back_ios_new</span>
         </button>
-        <div class="text-center">
-            <h1 class="text-[10px] font-black uppercase tracking-[0.3em] text-electric-blue">Nueva Venta</h1>
-            <p id="nombre-tienda-header" class="text-sm font-bold italic">Cargando tienda...</p>
-        </div>
+        <h1 class="text-lg font-black italic uppercase tracking-tighter">Nuevo Pedido</h1>
         <div class="w-8"></div>
     </header>
 
-    <main class="p-6 max-w-md mx-auto space-y-8">
-        
-        <section class="space-y-4">
-            <input type="text" id="cliente" placeholder="Nombre del Cliente" oninput="validar()" class="input-km0 w-full rounded-2xl py-4 px-5 font-bold">
-            <div class="relative">
-                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 font-bold border-r border-white/10 pr-2">+593</span>
-                <input type="tel" id="telefono" maxlength="9" placeholder="999888777" oninput="validar()" class="input-km0 w-full rounded-2xl py-4 pl-16 pr-5 font-bold">
-            </div>
-        </section>
-
-        <section class="space-y-4">
-            <select id="sector" onchange="validar()" class="input-km0 w-full rounded-2xl py-4 px-5 font-bold text-white appearance-none">
-                <option value="" disabled selected>Seleccione Sector...</option>
+    <main class="p-6 max-w-md mx-auto space-y-6">
+        <div class="space-y-4">
+            <input type="text" id="cliente-nombre" placeholder="Nombre Cliente" oninput="validar()" class="input-km0 w-full rounded-2xl py-4 px-5 font-bold">
+            <input type="tel" id="telefono" maxlength="9" placeholder="WhatsApp (999888777)" oninput="validar()" class="input-km0 w-full rounded-2xl py-4 px-5 font-bold">
+            <select id="sector" onchange="validar()" class="input-km0 w-full rounded-2xl py-4 px-5 font-bold text-white">
+                <option value="" disabled selected>Seleccione Ciudad/Sector</option>
                 <option value="QUITO NORTE">Quito Norte</option>
                 <option value="QUITO SUR">Quito Sur</option>
                 <option value="QUITO CENTRO">Quito Centro</option>
                 <option value="VALLES">Valles</option>
+                <option value="GUAYAQUIL">Guayaquil</option>
             </select>
-            <textarea id="direccion" placeholder="Dirección exacta..." oninput="validar()" class="input-km0 w-full rounded-2xl py-4 px-5 text-sm"></textarea>
-        </section>
+            <textarea id="direccion" placeholder="Dirección y Referencia" oninput="validar()" class="input-km0 w-full rounded-2xl py-4 px-5"></textarea>
+        </div>
 
-        <section class="space-y-4 bg-white/5 p-5 rounded-3xl border border-white/5">
-            <select id="producto-select" onchange="seleccionarProducto()" class="input-km0 w-full rounded-xl py-3 px-4 font-bold text-white">
+        <div class="space-y-4 bg-white/5 p-4 rounded-3xl border border-white/5">
+            <select id="producto-select" onchange="actualizarPrecio()" class="input-km0 w-full rounded-xl py-3 px-4 font-bold text-white">
                 <option value="" disabled selected>Cargando inventario...</option>
             </select>
-
+            
             <div class="flex items-center justify-between px-2">
                 <span class="text-xs font-black uppercase text-electric-blue">Cantidad</span>
                 <div class="flex items-center gap-4">
-                    <button onclick="ajustarCant(-1)" class="w-10 h-10 rounded-full border border-electric-blue text-electric-blue">-</button>
-                    <span id="cant-label" class="text-xl font-black">1</span>
-                    <button onclick="ajustarCant(1)" class="w-10 h-10 rounded-full border border-neon-fuchsia text-neon-fuchsia">+</button>
+                    <button onclick="cambiarCant(-1)" class="w-10 h-10 rounded-full border border-electric-blue text-electric-blue font-bold">-</button>
+                    <span id="cant-label" class="text-xl font-bold">1</span>
+                    <button onclick="cambiarCant(1)" class="w-10 h-10 rounded-full border border-neon-fuchsia text-neon-fuchsia font-bold">+</button>
                 </div>
             </div>
 
-            <div class="relative pt-2">
-                <label class="text-[9px] font-black text-neon-fuchsia uppercase absolute top-0 left-4 bg-[#0d1117] px-1">Recaudo Efectivo</label>
-                <span class="absolute left-4 bottom-4 text-2xl font-black text-neon-fuchsia">$</span>
-                <input type="number" id="monto" value="0.00" oninput="validar()" class="input-km0 w-full rounded-2xl py-4 pl-10 text-3xl font-black text-white">
+            <div class="relative">
+                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-2xl font-black text-neon-fuchsia">$</span>
+                <input type="number" id="precio-final" value="0.00" oninput="validar()" class="input-km0 w-full rounded-2xl py-5 pl-10 text-3xl font-black">
             </div>
-        </section>
+        </div>
     </main>
 
     <div class="fixed bottom-0 left-0 right-0 p-6 bg-dark-bg/90 border-t border-white/5">
-        <button id="btn-enviar" onclick="enviar()" disabled class="btn-disabled w-full py-5 rounded-2xl font-black uppercase tracking-widest italic flex items-center justify-center gap-2">
+        <button id="btn-enviar" onclick="enviar()" disabled class="btn-disabled w-full py-5 rounded-2xl uppercase font-black italic tracking-widest">
             Confirmar Despacho
         </button>
     </div>
@@ -96,77 +76,84 @@
     <script>
         const URL_SCRIPT = 'TU_URL_DE_GOOGLE_SCRIPT';
         const ID_TIENDA = localStorage.getItem('km0_user_id');
-        const NOMBRE_TIENDA = localStorage.getItem('km0_user_name'); // IMPORTANTE
-        
+        const NOMBRE_TIENDA = localStorage.getItem('km0_user_name'); // Captura el nombre que ya tienes
+
         let cant = 1;
         let pUnit = 0;
 
-        window.onload = () => {
-            if(!ID_TIENDA) window.location.href = 'index.html';
-            document.getElementById('nombre-tienda-header').innerText = NOMBRE_TIENDA || "Tienda Socio";
-            cargarStock();
-        };
-
-        async function cargarStock() {
-            const res = await fetch(`${URL_SCRIPT}?accion=obtener_productos&idTienda=${ID_TIENDA}`);
-            const data = await res.json();
-            const sel = document.getElementById('producto-select');
-            sel.innerHTML = '<option value="" disabled selected>Elegir Producto</option>';
-            data.productos.forEach(p => {
-                sel.innerHTML += `<option value="${p.nombre}" data-precio="${p.precio}">${p.nombre} (${p.stock})</option>`;
-            });
+        async function cargar() {
+            try {
+                const res = await fetch(`${URL_SCRIPT}?accion=obtener_productos&idTienda=${ID_TIENDA}`);
+                const data = await res.json();
+                const sel = document.getElementById('producto-select');
+                sel.innerHTML = '<option value="" disabled selected>Selecciona Producto</option>';
+                data.productos.forEach(p => {
+                    sel.innerHTML += `<option value="${p.nombre}" data-p="${p.precio}">${p.nombre} (${p.stock})</option>`;
+                });
+            } catch(e) { console.error("Error al cargar stock"); }
         }
 
-        function seleccionarProducto() {
+        function actualizarPrecio() {
             const sel = document.getElementById('producto-select');
-            pUnit = parseFloat(sel.options[sel.selectedIndex].dataset.precio) || 0;
-            document.getElementById('monto').value = (pUnit * cant).toFixed(2);
+            pUnit = parseFloat(sel.options[sel.selectedIndex].dataset.p) || 0;
+            document.getElementById('precio-final').value = (pUnit * cant).toFixed(2);
             validar();
         }
 
-        function ajustarCant(v) {
+        function cambiarCant(v) {
             cant = Math.max(1, cant + v);
             document.getElementById('cant-label').innerText = cant;
-            document.getElementById('monto').value = (pUnit * cant).toFixed(2);
+            document.getElementById('precio-final').value = (pUnit * cant).toFixed(2);
             validar();
         }
 
         function validar() {
-            const v = (id) => document.getElementById(id).value.trim();
+            const inputs = [
+                document.getElementById('cliente-nombre').value,
+                document.getElementById('telefono').value.length >= 9,
+                document.getElementById('sector').value,
+                document.getElementById('direccion').value,
+                document.getElementById('producto-select').value
+            ];
             const btn = document.getElementById('btn-enviar');
-            const ok = v('cliente') && v('telefono').length >= 9 && v('sector') && v('direccion') && v('producto-select');
-            
-            btn.disabled = !ok;
-            btn.className = ok ? "btn-gradient w-full py-5 rounded-2xl font-black uppercase tracking-widest italic flex items-center justify-center gap-2" : "btn-disabled w-full py-5 rounded-2xl font-black uppercase tracking-widest italic flex items-center justify-center gap-2";
+            if (inputs.every(x => x)) {
+                btn.disabled = false;
+                btn.classList.replace('btn-disabled', 'btn-gradient');
+            } else {
+                btn.disabled = true;
+                btn.classList.replace('btn-gradient', 'btn-disabled');
+            }
         }
 
         async function enviar() {
             const btn = document.getElementById('btn-enviar');
-            btn.innerHTML = `<span class="loader"></span> ENVIANDO...`;
+            btn.innerText = "ENVIANDO...";
             btn.disabled = true;
 
             const datos = {
                 accion: 'crear_pedido',
                 token: "KM0_SECURE_TOKEN_2026_XYZ",
                 idTienda: ID_TIENDA,
-                nombreTienda: NOMBRE_TIENDA, // Se envía el nombre que ya conoces
-                cliente: document.getElementById('cliente').value,
+                nombreTienda: NOMBRE_TIENDA, // Mandamos el nombre para la Columna C
+                cliente: document.getElementById('cliente-nombre').value,
                 telefono: document.getElementById('telefono').value,
                 sector: document.getElementById('sector').value,
                 direccion: document.getElementById('direccion').value,
                 producto: document.getElementById('producto-select').value,
                 cantidad: cant,
-                monto: document.getElementById('monto').value
+                monto: document.getElementById('precio-final').value
             };
 
             try {
                 await fetch(URL_SCRIPT, { method: 'POST', body: JSON.stringify(datos) });
-                alert("✅ DESPACHO EXITOSO");
+                alert("🚀 DESPACHO OK");
                 window.location.href = 'panel-operativo-tienda.html';
             } catch (e) {
                 window.location.href = 'panel-operativo-tienda.html';
             }
         }
+
+        window.onload = cargar;
     </script>
 </body>
 </html>
