@@ -3,12 +3,12 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Admin: Control de Usuarios y Flota</title>
+    <title>Gestión de Usuarios - KM0 Admin</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
     
-    <script src="frontend/assets/js/config.js"></script>
+    <script src="../../assets/js/config.js"></script>
 
     <script id="tailwind-config">
         tailwind.config = {
@@ -16,63 +16,82 @@
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#56f91f",
+                        "primary": "#0df26c",
                         "accent-cyan": "#00f5ff",
-                        "background-light": "#f6f8f5",
-                        "background-dark": "#14230f",
+                        "background-dark": "#0d140a",
+                        "surface-dark": "#162512",
                     },
-                    fontFamily: { "display": ["Manrope", "sans-serif"] },
+                    fontFamily: { "display": ["Space Grotesk", "sans-serif"] },
                 },
             },
         }
     </script>
     <style>
-        body { font-family: 'Manrope', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Space Grotesk', sans-serif; background-color: #0d140a; color: white; -webkit-tap-highlight-color: transparent; }
+        .ios-blur { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0; }
+        .filled { font-variation-settings: 'FILL' 1; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        .material-symbols-outlined { font-variation-settings: 'FILL' 1; }
-        .loading-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
     </style>
 </head>
-<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display min-h-screen pb-24">
+<body class="min-h-screen flex flex-col pb-28">
 
-<header class="sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-slate-200 dark:border-primary/10">
-    <div class="flex items-center p-4 justify-between">
-        <div class="flex items-center gap-3">
-            <span class="material-symbols-outlined text-primary">menu</span>
-            <h1 class="text-lg font-extrabold tracking-tight">Gestión de Usuarios</h1>
+<header class="sticky top-0 z-50 bg-background-dark/80 ios-blur border-b border-primary/20 px-4 pt-3">
+    <div class="flex items-center justify-between mb-2">
+        <button onclick="alert('Opciones de Auditoría e Historial')" class="p-2 text-primary">
+            <span class="material-symbols-outlined text-3xl">menu</span>
+        </button>
+
+        <div class="text-center">
+            <h1 class="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Kilómetro Cero</h1>
+            <p class="text-xs font-bold text-white uppercase">Gestión Socios</p>
         </div>
-        <div class="flex items-center gap-4">
-            <button onclick="init()" class="p-2 rounded-full hover:bg-primary/10 transition-colors text-primary">
-                <span class="material-symbols-outlined">sync</span>
+
+        <div class="flex items-center gap-1">
+            <button onclick="init()" class="p-2 text-slate-400">
+                <span class="material-symbols-outlined text-2xl">refresh</span>
             </button>
-            <div class="relative">
-                <span id="notif-badge" class="absolute top-0 right-0 h-2.5 w-2.5 rounded-full bg-primary ring-2 ring-background-dark hidden"></span>
-                <span class="material-symbols-outlined">notifications</span>
-            </div>
+            <button onclick="location.href='dashboard.html'" class="p-2 text-red-500">
+                <span class="material-symbols-outlined text-2xl">close</span>
+            </button>
         </div>
     </div>
-    <div class="px-4">
-        <div class="flex gap-8 border-b border-slate-200 dark:border-primary/5">
-            <button onclick="cambiarTab('motorizados')" id="tab-moto" class="border-b-2 border-primary text-primary pb-3 pt-2 text-sm font-bold">Motorizados</button>
-            <button onclick="cambiarTab('tiendas')" id="tab-tienda" class="border-b-2 border-transparent text-slate-500 pb-3 pt-2 text-sm font-bold">Tiendas</button>
-        </div>
+
+    <div class="flex gap-8 border-b border-white/5 px-2">
+        <button onclick="cambiarTab('motorizados')" id="tab-moto" class="border-b-2 border-primary text-primary pb-3 pt-2 text-[11px] font-black uppercase tracking-widest">Motorizados</button>
+        <button onclick="cambiarTab('tiendas')" id="tab-tienda" class="border-b-2 border-transparent text-slate-500 pb-3 pt-2 text-[11px] font-black uppercase tracking-widest">Tiendas</button>
     </div>
 </header>
 
 <main id="main-content" class="p-4 space-y-4">
     <div class="flex flex-col items-center justify-center py-20 text-slate-500">
-        <span class="material-symbols-outlined animate-spin text-4xl mb-2 text-primary">sync</span>
-        <p class="text-xs font-bold uppercase tracking-widest">Sincronizando con Google Sheets...</p>
+        <div class="size-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin mb-4"></div>
+        <p class="text-[10px] font-black uppercase tracking-widest">Sincronizando Engine...</p>
     </div>
 </main>
 
-<nav class="fixed bottom-0 left-0 right-0 z-50 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border-t border-slate-200 dark:border-primary/10 px-4 pb-6 pt-2">
+<nav class="fixed bottom-0 left-0 right-0 bg-background-dark/95 ios-blur border-t border-white/10 px-2 pb-6 pt-2 z-50">
     <div class="flex justify-between items-center max-w-lg mx-auto">
-        <a class="flex flex-col items-center gap-1 text-primary" href="#"><span class="material-symbols-outlined">group</span><span class="text-[10px] font-bold uppercase">Usuarios</span></a>
-        <a class="flex flex-col items-center gap-1 text-slate-400" href="#"><span class="material-symbols-outlined">two_wheeler</span><span class="text-[10px] font-bold uppercase">Flota</span></a>
-        <a class="flex flex-col items-center gap-1 text-slate-400" href="#"><span class="material-symbols-outlined">verified_user</span><span class="text-[10px] font-bold uppercase">Auditoría</span></a>
-        <a class="flex flex-col items-center gap-1 text-slate-400" href="#"><span class="material-symbols-outlined">settings</span><span class="text-[10px] font-bold uppercase">Ajustes</span></a>
+        <a class="flex flex-1 flex-col items-center gap-1 text-slate-500" href="dashboard.html">
+            <span class="material-symbols-outlined text-[24px]">dashboard</span>
+            <span class="text-[9px] font-black uppercase">Panel</span>
+        </a>
+        <a class="flex flex-1 flex-col items-center gap-1 text-primary" href="tiendas.html">
+            <span class="material-symbols-outlined text-[24px] filled">storefront</span>
+            <span class="text-[9px] font-black uppercase">Tiendas</span>
+        </a>
+        <a class="flex flex-1 flex-col items-center gap-1 text-slate-500" href="motorizados.html">
+            <span class="material-symbols-outlined text-[24px]">pedal_bike</span>
+            <span class="text-[9px] font-black uppercase">Flota</span>
+        </a>
+        <a class="flex flex-1 flex-col items-center gap-1 text-slate-500" href="pedidos.html">
+            <span class="material-symbols-outlined text-[24px]">receipt_long</span>
+            <span class="text-[9px] font-black uppercase">Pedidos</span>
+        </a>
+        <a class="flex flex-1 flex-col items-center gap-1 text-slate-500" href="configuracion.html">
+            <span class="material-symbols-outlined text-[24px]">tune</span>
+            <span class="text-[9px] font-black uppercase">Ajustes</span>
+        </a>
     </div>
 </nav>
 
@@ -81,21 +100,13 @@
     let currentTab = 'motorizados';
 
     async function init() {
-        // Verificar que API_URL existe desde config.js
-        if (typeof API_URL === 'undefined') {
-            document.getElementById('main-content').innerHTML = `
-                <div class="p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-500 text-xs font-bold text-center">
-                    ERROR: No se encontró el archivo config.js o la API_URL
-                </div>`;
-            return;
-        }
-
+        const container = document.getElementById('main-content');
         try {
             const res = await fetch(API_URL);
             db = await res.json();
             render();
         } catch (e) {
-            document.getElementById('main-content').innerHTML = `<p class="text-center py-10 text-red-500 text-xs font-bold uppercase">Error de Conexión</p>`;
+            container.innerHTML = `<p class="text-center py-10 text-red-500 text-[10px] font-black uppercase tracking-widest font-display">Error de Conexión con el Servidor</p>`;
         }
     }
 
@@ -105,62 +116,85 @@
         const list = currentTab === 'motorizados' ? (db.motorizados || []) : (db.tiendas || []);
 
         if(list.length === 0) {
-            container.innerHTML = `<p class="text-center py-10 text-slate-500 text-xs font-bold uppercase tracking-widest">No hay registros</p>`;
+            container.innerHTML = `<div class="py-20 text-center"><span class="material-symbols-outlined text-slate-700 text-5xl mb-2">person_off</span><p class="text-slate-500 text-[10px] font-black uppercase tracking-widest">Sin solicitudes pendientes</p></div>`;
             return;
         }
 
         list.forEach(item => {
             const esMoto = currentTab === 'motorizados';
             const nombre = item.nombre || item.nombreTienda || "Sin Nombre";
-            const idDoc = item.cedula || item.id || "KM0-000";
+            const idDoc = item.cedula || item.id || "ID-KM0";
             
-            // TU DISEÑO ORIGINAL DE TARJETA
             container.innerHTML += `
-            <div class="rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-primary/5 overflow-hidden shadow-sm p-4">
+            <div class="rounded-2xl bg-surface-dark border border-white/5 overflow-hidden shadow-xl p-4 space-y-4">
                 <div class="flex gap-4">
-                    <div class="relative size-16 shrink-0">
+                    <div class="relative size-14 shrink-0">
                         ${esMoto ? 
-                            `<img class="size-16 rounded-lg object-cover grayscale" src="https://ui-avatars.com/api/?name=${nombre}&background=56f91f&color=14230f">` :
-                            `<div class="size-16 rounded-lg bg-primary/20 flex items-center justify-center text-primary"><span class="material-symbols-outlined text-3xl">store</span></div>`
+                            `<img class="size-14 rounded-xl object-cover border border-primary/20" src="https://ui-avatars.com/api/?name=${nombre}&background=162512&color=0df26c">` :
+                            `<div class="size-14 rounded-xl bg-primary/10 flex items-center justify-center text-primary border border-primary/20"><span class="material-symbols-outlined text-3xl">store</span></div>`
                         }
-                        <span class="absolute -bottom-1 -right-1 flex h-4 w-4 rounded-full bg-slate-400 border-2 border-white dark:border-slate-900"></span>
+                        <span class="absolute -bottom-1 -right-1 flex h-4 w-4 rounded-full bg-orange-500 border-2 border-surface-dark"></span>
                     </div>
                     <div class="flex-1 min-w-0">
                         <div class="flex justify-between items-start">
-                            <div>
-                                <h3 class="font-bold text-slate-900 dark:text-slate-50 truncate">${nombre}</h3>
-                                <p class="text-xs text-slate-500 dark:text-slate-400">ID: ${idDoc} • ${item.ciudad || 'Sector'}</p>
+                            <div class="truncate">
+                                <h3 class="font-black text-white text-sm uppercase truncate">${nombre}</h3>
+                                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">ID: ${idDoc} • ${item.ciudad || 'Pendiente'}</p>
                             </div>
-                            <span class="material-symbols-outlined text-slate-400">hourglass_empty</span>
+                            <span class="material-symbols-outlined text-orange-500 text-sm">schedule</span>
                         </div>
-                        <div class="mt-2 bg-slate-100 dark:bg-slate-800 rounded-lg h-2 w-full overflow-hidden">
-                            <div class="bg-primary h-full w-1/2 rounded-full"></div>
+                        <div class="mt-3 bg-white/5 rounded-full h-1.5 w-full overflow-hidden">
+                            <div class="bg-primary h-full w-1/3 rounded-full"></div>
                         </div>
                     </div>
                 </div>
-                <div class="mt-4 flex gap-2">
-                    <button onclick="window.open('https://wa.me/${item.telefono}')" class="flex-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 h-9 rounded-lg text-xs font-bold uppercase">WhatsApp</button>
-                    <button onclick="aprobar('${item.id}', '${item.telefono}', '${nombre}', '${item.password}', '${idDoc}')" class="flex-1 bg-accent-cyan/10 text-accent-cyan border border-accent-cyan/20 h-9 rounded-lg text-xs font-bold uppercase">Aprobar</button>
+                
+                <div class="flex gap-2">
+                    <button onclick="window.open('https://wa.me/${item.telefono}')" class="flex-1 bg-white/5 hover:bg-white/10 text-white h-10 rounded-xl text-[10px] font-black uppercase tracking-widest transition-colors">WhatsApp</button>
+                    <button onclick="aprobar('${item.id}', '${item.telefono}', '${nombre}', '${item.password}', '${idDoc}')" class="flex-1 bg-primary text-background-dark h-10 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-primary/20">Aprobar Acceso</button>
                 </div>
             </div>`;
         });
     }
 
     async function aprobar(id, telf, nombre, pass, user) {
-        if(!confirm(`¿Aprobar a ${nombre}?`)) return;
-        const msg = `*KM0 - ACCESO*%0A👤 *User:* ${user}%0A🔑 *Pass:* ${pass}`;
-        await fetch(API_URL, { method: 'POST', body: JSON.stringify({ accion: "gestionar_solicitud", id, nuevoEstado: "ACTIVO" }) });
-        window.open(`https://api.whatsapp.com/send?phone=${telf}&text=${msg}`, '_blank');
-        init();
+        if(!confirm(`¿Confirmar aprobación para ${nombre}?`)) return;
+        
+        // Simulación de envío
+        const msg = `*KM0 - ACCESO CONCEDIDO*%0A%0A👤 *Usuario:* ${user}%0A🔑 *Clave:* ${pass}%0A%0A_Bienvenido al ecosistema Kilómetro Cero._`;
+        
+        try {
+            await fetch(API_URL, { 
+                method: 'POST', 
+                body: JSON.stringify({ accion: "gestionar_solicitud", id, nuevoEstado: "ACTIVO" }) 
+            });
+            window.open(`https://api.whatsapp.com/send?phone=${telf}&text=${msg}`, '_blank');
+            init();
+        } catch(e) {
+            alert("Error al procesar la aprobación.");
+        }
     }
 
     function cambiarTab(tab) {
         currentTab = tab;
-        document.getElementById('tab-moto').className = tab === 'motorizados' ? 'border-b-2 border-primary text-primary pb-3 pt-2 text-sm font-bold' : 'border-b-2 border-transparent text-slate-500 pb-3 pt-2 text-sm font-bold';
-        document.getElementById('tab-tienda').className = tab === 'tiendas' ? 'border-b-2 border-primary text-primary pb-3 pt-2 text-sm font-bold' : 'border-b-2 border-transparent text-slate-500 pb-3 pt-2 text-sm font-bold';
+        const btnMoto = document.getElementById('tab-moto');
+        const btnTienda = document.getElementById('tab-tienda');
+
+        if(tab === 'motorizados') {
+            btnMoto.classList.replace('border-transparent', 'border-primary');
+            btnMoto.classList.replace('text-slate-500', 'text-primary');
+            btnTienda.classList.replace('border-primary', 'border-transparent');
+            btnTienda.classList.replace('text-primary', 'text-slate-500');
+        } else {
+            btnTienda.classList.replace('border-transparent', 'border-primary');
+            btnTienda.classList.replace('text-slate-500', 'text-primary');
+            btnMoto.classList.replace('border-primary', 'border-transparent');
+            btnMoto.classList.replace('text-primary', 'text-slate-500');
+        }
         render();
     }
 
+    // Ejecutar al cargar
     init();
 </script>
 </body>
