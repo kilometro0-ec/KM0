@@ -3,24 +3,166 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Finanzas - KM0</title>
+    <title>Acceso Privado - KM0</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+    
+    <script src="../../assets/js/config.js"></script>
+
     <style>
-        body { background-color: #000; color: white; font-family: 'Inter', sans-serif; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #000000; 
+            color: white; 
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bg-glow {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(236, 19, 19, 0.07) 0%, rgba(0, 0, 0, 0) 70%);
+            z-index: -1;
+        }
+
+        .btn-loading { 
+            pointer-events: none; 
+            opacity: 0.7; 
+            background: linear-gradient(90deg, #EC1313, #7f0a0a, #EC1313); 
+            background-size: 200% 100%; 
+            animation: move-bg 1.5s linear infinite; 
+        }
+        @keyframes move-bg { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
     </style>
 </head>
 <body class="p-6">
-    <div class="flex items-center gap-4 mb-8">
-        <span class="material-symbols-outlined text-amber-500 text-4xl">account_balance_wallet</span>
-        <h1 class="text-2xl font-black italic">GESTIÓN FINANCIERA</h1>
-    </div>
-    
-    <div class="space-y-4">
-        <div class="bg-zinc-900 p-6 rounded-3xl border border-white/5">
-            <p class="text-[10px] font-black text-zinc-500 uppercase">Pendiente de Liquidar</p>
-            <p class="text-4xl font-black text-amber-500">$1,240.50</p>
+    <div class="bg-glow"></div>
+
+    <div class="w-full max-w-[360px] space-y-8">
+        <div class="text-center space-y-4">
+            <div class="flex justify-center">
+                <div class="p-6 bg-zinc-900/50 rounded-full border border-zinc-800 shadow-[0_0_30px_rgba(236,19,19,0.15)]">
+                    <span class="material-symbols-outlined text-[#EC1313] text-6xl">account_circle</span>
+                </div>
+            </div>
+            <h1 class="text-2xl font-black uppercase tracking-widest italic">KM0 Acceso</h1>
         </div>
+
+        <div class="space-y-4">
+            <div class="space-y-1">
+                <label class="text-[10px] font-black text-zinc-500 uppercase ml-1 tracking-widest">Identificador</label>
+                <input type="text" id="user" placeholder="USUARIO / CÉDULA" class="w-full bg-zinc-900/50 border border-zinc-800 rounded-2xl py-4 px-5 focus:border-[#EC1313] outline-none text-white font-bold transition-all">
+            </div>
+            
+            <div class="space-y-1">
+                <label class="text-[10px] font-black text-zinc-500 uppercase ml-1 tracking-widest">Clave de Seguridad</label>
+                <div class="relative">
+                    <input type="password" id="pass" placeholder="••••••••" class="w-full bg-zinc-900/50 border border-zinc-800 rounded-2xl py-4 pl-5 pr-14 focus:border-[#EC1313] outline-none text-white font-bold transition-all">
+                    <button type="button" onclick="togglePassword()" class="absolute right-5 top-1/2 -translate-y-1/2 text-zinc-600 hover:text-[#EC1313]">
+                        <span id="eye-icon" class="material-symbols-outlined text-xl">visibility</span>
+                    </button>
+                </div>
+            </div>
+            
+            <button id="btn-login" onclick="validarYRedirigir()" class="w-full bg-[#EC1313] hover:bg-red-700 text-white font-black py-5 rounded-2xl transition-all active:scale-95 uppercase text-sm tracking-[0.2em]">
+                Iniciar Sesión
+            </button>
+        </div>
+
+        <div id="error-msg" class="hidden text-center text-[#EC1313] text-[10px] font-black uppercase bg-red-950/20 py-4 rounded-xl border border-red-900/30"></div>
     </div>
+
+    <script>
+        function togglePassword() {
+            const passInput = document.getElementById('pass');
+            const eyeIcon = document.getElementById('eye-icon');
+            const isPass = passInput.type === "password";
+            passInput.type = isPass ? "text" : "password";
+            eyeIcon.innerText = isPass ? "visibility_off" : "visibility";
+        }
+
+        async function validarYRedirigir() {
+            const userField = document.getElementById('user').value.trim();
+            const passField = document.getElementById('pass').value.trim();
+            const btn = document.getElementById('btn-login');
+            const error = document.getElementById('error-msg');
+
+            if (!userField || !passField) {
+                error.innerText = "COMPLETE TODOS LOS CAMPOS";
+                error.classList.remove('hidden');
+                return;
+            }
+
+            // Estado Loading
+            btn.disabled = true;
+            btn.innerText = "VERIFICANDO...";
+            btn.classList.add('btn-loading');
+            error.classList.add('hidden');
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ 
+                        accion: "login", 
+                        usuario: userField, 
+                        password: passField,
+                        token: API_KEY_SECRET // Asegúrate que coincida con tu config.js
+                    })
+                });
+                
+                const result = await response.json();
+
+                if (result.success) {
+                    // Guardar datos en el navegador
+                    localStorage.setItem('km0_user_id', result.id);
+                    localStorage.setItem('km0_user_rol', result.rol);
+                    
+                    const userRol = result.rol.toString().toUpperCase().trim();
+
+                    // --- RUTAS DE REDIRECCIÓN ---
+                    if (userRol === 'TIENDAS') {
+                        // Sube un nivel desde auth/ y entra en tienda/
+                        window.location.href = "../tienda/panel-operativo-tienda.html";
+                    } else if (userRol === 'ADMINISTRADOR') {
+                        window.location.href = "../admin/dashboard.html";
+                    } else if (userRol === 'MOTORIZADO') {
+                        window.location.href = "../motorizado/panel-operativo-motorizado.html";
+                    } else if (userRol === 'FINANZAS') {
+                        window.location.href = "../finanzas/gestion-finanzas.html";
+                    } else {
+                        error.innerText = "ROL NO RECONOCIDO";
+                        error.classList.remove('hidden');
+                        resetBtn(btn);
+                    }
+                } else {
+                    error.innerText = result.mensaje || "ACCESO DENEGADO";
+                    error.classList.remove('hidden');
+                    resetBtn(btn);
+                }
+            } catch (e) {
+                error.innerText = "ERROR DE CONEXIÓN CON EL MOTOR";
+                error.classList.remove('hidden');
+                resetBtn(btn);
+            }
+        }
+
+        function resetBtn(btn) {
+            btn.disabled = false;
+            btn.innerText = "Iniciar Sesión";
+            btn.classList.remove('btn-loading');
+        }
+
+        // Enter para enviar
+        document.addEventListener('keypress', (e) => { 
+            if (e.key === 'Enter') validarYRedirigir(); 
+        });
+    </script>
 </body>
 </html>
