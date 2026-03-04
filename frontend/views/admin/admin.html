@@ -3,97 +3,105 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KM0 - COMMAND CENTER</title>
+    <title>KM0 - TOXIC COMMAND</title>
     
     <script src="../../assets/js/config.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
 
     <style>
         :root {
-            --neon-lime: #DFFF00; /* VERDE AMARILLENTO LIMA */
-            --bg-dark: #080808;
+            --toxic: #39FF14;
+            --magenta: #FF00FF;
+            --dark: #000000;
         }
 
         body {
-            background-color: var(--bg-dark);
+            background-color: var(--dark);
             color: #ffffff;
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background-image: radial-gradient(circle at 50% 0%, #1a1d00, #080808);
+            background-image: linear-gradient(135deg, #0a0f02 0%, #000000 50%, #0f020f 100%);
+            min-height: 100vh;
         }
 
-        .glass-card {
-            background: rgba(15, 15, 15, 0.8);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(223, 255, 0, 0.15);
-            border-radius: 32px;
-        }
-
-        .img-verify {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
+        /* Card con Neón Tóxico */
+        .toxic-card {
+            background: rgba(10, 10, 10, 0.9);
+            border: 2px solid var(--toxic);
+            box-shadow: 0 0 20px rgba(57, 255, 20, 0.15), inset 0 0 10px rgba(57, 255, 20, 0.05);
             border-radius: 20px;
-            border: 1px solid rgba(255,255,255,0.05);
-            cursor: zoom-in;
-            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
-        .img-verify:hover { transform: scale(1.02); border-color: var(--neon-lime); }
 
+        .toxic-card::before {
+            content: ""; position: absolute; top: 0; right: 0;
+            width: 100px; height: 100px;
+            background: var(--magenta);
+            filter: blur(80px); opacity: 0.3;
+        }
+
+        /* Tabs */
+        .tab-btn { border-bottom: 2px solid transparent; transition: 0.3s; opacity: 0.5; }
         .tab-btn.active { 
-            color: var(--neon-lime); 
-            border-bottom: 3px solid var(--neon-lime);
-            background: rgba(223, 255, 0, 0.05);
+            opacity: 1; 
+            color: var(--toxic); 
+            border-color: var(--magenta); 
+            text-shadow: 0 0 8px var(--toxic);
         }
 
-        /* Animación de escaneo */
-        .scanning {
-            position: relative; overflow: hidden;
+        /* Modal */
+        #modal-viewer {
+            display: none; position: fixed; inset: 0; z-index: 999;
+            background: rgba(0,0,0,0.98); align-items: center; justify-content: center;
         }
-        .scanning::after {
-            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
-            background: var(--neon-lime); box-shadow: 0 0 15px var(--neon-lime);
-            animation: scanLine 3s linear infinite;
+        #modal-img { max-width: 90%; max-height: 85vh; border: 3px solid var(--toxic); box-shadow: 0 0 30px var(--toxic); }
+
+        /* Botón Confirmar */
+        .btn-approve {
+            background: var(--toxic); color: black; font-weight: 900;
+            box-shadow: 0 0 15px var(--toxic);
         }
-        @keyframes scanLine { 0% { top: 0%; } 100% { top: 100%; } }
+
+        /* Animación de carga */
+        @keyframes spin-sync { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .sync-active { animation: spin-sync 1s linear infinite; color: var(--magenta) !important; }
     </style>
 </head>
-<body class="pb-60">
+<body class="pb-64">
 
-    <header class="sticky top-0 z-50 bg-black/80 backdrop-blur-md border-b border-white/5 px-6 py-4">
-        <div class="max-w-4xl mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <div class="p-2 bg-[#DFFF00] rounded-lg shadow-[0_0_15px_rgba(223,255,0,0.3)]">
-                    <span class="material-symbols-outlined text-black font-bold">verified_user</span>
-                </div>
-                <h1 class="text-xl font-extrabold tracking-tighter uppercase">KM0 <span class="text-[#DFFF00]">VERIFY</span></h1>
-            </div>
-            <button onclick="init()" class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-[#DFFF00]">
-                <span id="icon-refresh" class="material-symbols-outlined text-sm">sync</span> Sincronizar
-            </button>
+    <header class="p-5 border-b-2 border-toxic/20 bg-black/90 sticky top-0 z-50 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-toxic text-3xl">radioactive</span>
+            <h1 class="font-black text-xl tracking-tighter italic">KM0 <span class="text-magenta">CONTROL</span></h1>
         </div>
+        <button onclick="init()" class="flex items-center gap-2 bg-zinc-900 px-4 py-2 rounded-full border border-toxic/30">
+            <span id="icon-refresh" class="material-symbols-outlined text-toxic text-sm">sync</span>
+            <span class="text-[9px] font-bold uppercase tracking-widest text-zinc-400">Refrescar DB</span>
+        </button>
     </header>
 
-    <nav class="max-w-md mx-auto mt-6 px-4">
-        <div class="flex bg-zinc-900/80 rounded-2xl overflow-hidden border border-white/5">
-            <button onclick="cambiarTab('motorizados')" id="btn-tab-m" class="tab-btn active flex-1 py-4 text-[10px] font-black uppercase tracking-widest transition-all">Motorizados (<span id="count-m">0</span>)</button>
-            <button onclick="cambiarTab('tiendas')" id="btn-tab-t" class="tab-btn flex-1 py-4 text-[10px] font-black uppercase tracking-widest transition-all">Tiendas (<span id="count-t">0</span>)</button>
-        </div>
+    <nav class="flex justify-center mt-6 gap-8">
+        <button onclick="cambiarTab('motorizados')" id="btn-tab-m" class="tab-btn active py-2 px-6 font-black uppercase text-[10px] tracking-widest">Motorizados</button>
+        <button onclick="cambiarTab('tiendas')" id="btn-tab-t" class="tab-btn py-2 px-6 font-black uppercase text-[10px] tracking-widest">Tiendas</button>
     </nav>
 
-    <main id="content" class="max-w-2xl mx-auto p-6 space-y-6">
-        </main>
+    <main id="content" class="max-w-xl mx-auto p-6">
+        <div id="loader" class="hidden text-center py-20 text-toxic font-bold animate-pulse uppercase tracking-[0.5em]">Accediendo al Servidor...</div>
+        <div id="data-container"></div>
+    </main>
 
-    <footer id="footer" class="fixed bottom-0 inset-x-0 p-6 bg-black/90 border-t border-white/10 hidden z-50">
-        <div class="max-w-2xl mx-auto">
-            <textarea id="notas" 
-                class="w-full bg-zinc-900 border border-white/10 rounded-2xl p-4 text-sm mb-4 focus:border-[#DFFF00] outline-none text-white"
-                placeholder="Observaciones de la verificación..."></textarea>
-            
+    <div id="modal-viewer" onclick="this.style.display='none'">
+        <img id="modal-img" src="">
+    </div>
+
+    <footer id="footer" class="fixed bottom-0 inset-x-0 p-6 bg-black border-t-2 border-magenta/30 hidden z-50">
+        <div class="max-w-xl mx-auto">
+            <textarea id="notas" class="w-full bg-zinc-900 border-2 border-toxic/20 rounded-xl p-4 text-sm mb-4 outline-none focus:border-magenta text-white" placeholder="REPORTE DE SEGURIDAD..."></textarea>
             <div class="flex gap-4">
-                <button onclick="procesar(false)" class="flex-1 py-4 bg-zinc-800 text-red-500 rounded-2xl font-bold uppercase text-[11px] tracking-widest border border-red-900/20 hover:bg-red-950/20 transition-all">Rechazar Solicitud</button>
-                <button onclick="procesar(true)" class="flex-[2] py-4 bg-[#DFFF00] text-black rounded-2xl font-black uppercase text-[11px] tracking-widest shadow-lg shadow-[#DFFF00]/10 hover:scale-[1.01] transition-all">Confirmar y Activar Socio</button>
+                <button onclick="procesar(false)" class="flex-1 py-4 border-2 border-red-600 text-red-600 font-black uppercase text-[10px] rounded-xl hover:bg-red-600 hover:text-white transition-all">Rechazar</button>
+                <button onclick="procesar(true)" class="btn-approve flex-[2] py-4 rounded-xl uppercase text-[10px] hover:scale-105 transition-all">Autorizar Acceso</button>
             </div>
         </div>
     </footer>
@@ -102,14 +110,85 @@
         let db = { motorizados: [], tiendas: [] };
         let currentTab = 'motorizados';
 
+        // FUNCIÓN CLAVE: CORRECCIÓN DE SINCRONIZACIÓN
         async function init() {
-            document.getElementById('icon-refresh').classList.add('animate-spin');
+            const icon = document.getElementById('icon-refresh');
+            const dataContainer = document.getElementById('data-container');
+            const loader = document.getElementById('loader');
+            
+            icon.classList.add('sync-active');
+            loader.classList.remove('hidden');
+            dataContainer.innerHTML = '';
+
             try {
-                const resp = await fetch(API_URL);
-                db = await resp.json();
+                // Fetch directo a la URL de Google Script
+                const response = await fetch(API_URL);
+                const result = await response.json();
+                
+                // Asignar los datos recibidos
+                db.motorizados = result.motorizados || [];
+                db.tiendas = result.tiendas || [];
+                
+                console.log("Datos cargados:", db);
                 actualizarUI();
-            } catch (e) { console.error(e); }
-            finally { document.getElementById('icon-refresh').classList.remove('animate-spin'); }
+            } catch (error) {
+                console.error("Error de Sync:", error);
+                dataContainer.innerHTML = `<p class="text-red-500 text-center font-bold">FALLO DE CONEXIÓN AL SERVIDOR</p>`;
+            } finally {
+                icon.classList.remove('sync-active');
+                loader.classList.add('hidden');
+            }
+        }
+
+        function actualizarUI() {
+            const list = currentTab === 'motorizados' ? db.motorizados : db.tiendas;
+            const container = document.getElementById('data-container');
+            const footer = document.getElementById('footer');
+
+            if (!list || list.length === 0) {
+                container.innerHTML = `<div class="py-20 text-center text-zinc-600 font-bold uppercase tracking-widest text-[10px]">Sin Solicitudes Pendientes</div>`;
+                footer.classList.add('hidden');
+                return;
+            }
+
+            footer.classList.remove('hidden');
+            const item = list[0];
+
+            if (currentTab === 'motorizados') {
+                container.innerHTML = `
+                    <div class="toxic-card p-6 animate-in fade-in duration-500">
+                        <div class="flex justify-between items-start mb-6">
+                            <h2 class="text-2xl font-black uppercase italic">${item.nombre}</h2>
+                            <span class="text-[9px] font-bold text-magenta uppercase">ID: ${item.id}</span>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4 mb-6">
+                            <img src="${item.urlFoto || 'https://via.placeholder.com/300?text=PERFIL'}" class="h-40 w-full object-cover rounded-lg border border-toxic/30 cursor-pointer" onclick="verImg(this.src)">
+                            <img src="${item.urlCedula || 'https://via.placeholder.com/300?text=DOCUMENTO'}" class="h-40 w-full object-cover rounded-lg border border-toxic/30 cursor-pointer" onclick="verImg(this.src)">
+                        </div>
+
+                        <div class="bg-black/60 p-4 border-l-4 border-toxic rounded-r-xl mb-4">
+                            <p class="text-[9px] text-zinc-500 font-bold uppercase">Placa Detectada</p>
+                            <p class="text-xl font-black text-toxic">${item.placa}</p>
+                        </div>
+
+                        <button onclick="window.open('${item.urlVideo}')" class="w-full py-3 bg-zinc-900 border border-magenta/40 text-[10px] font-black uppercase text-magenta flex items-center justify-center gap-2">
+                            <span class="material-symbols-outlined text-sm">videocam</span> Play Verificación
+                        </button>
+                    </div>`;
+            } else {
+                container.innerHTML = `
+                    <div class="toxic-card p-6 border-magenta shadow-[0_0_15px_rgba(255,0,255,0.1)]">
+                        <h2 class="text-2xl font-black uppercase italic mb-4">${item.nombreTienda}</h2>
+                        <p class="text-xs text-zinc-400 font-bold uppercase mb-2">Responsable: ${item.representante}</p>
+                        <p class="text-xs text-toxic font-bold uppercase">RUC: ${item.cedula}</p>
+                    </div>`;
+            }
+        }
+
+        function verImg(url) {
+            document.getElementById('modal-img').src = url;
+            document.getElementById('modal-viewer').style.display = 'flex';
         }
 
         function cambiarTab(tab) {
@@ -119,110 +198,42 @@
             actualizarUI();
         }
 
-        function actualizarUI() {
-            document.getElementById('count-m').innerText = db.motorizados ? db.motorizados.length : 0;
-            document.getElementById('count-t').innerText = db.tiendas ? db.tiendas.length : 0;
-            render();
-        }
-
-        function render() {
-            const list = currentTab === 'motorizados' ? db.motorizados : db.tiendas;
-            const container = document.getElementById('content');
-            const footer = document.getElementById('footer');
-
-            if (!list || list.length === 0) {
-                container.innerHTML = `<div class="py-20 text-center opacity-30 text-xs font-bold uppercase tracking-[0.5em]">No Data Pending</div>`;
-                footer.classList.add('hidden');
-                return;
-            }
-
-            const item = list[0];
-            footer.classList.remove('hidden');
-
-            if (currentTab === 'motorizados') {
-                container.innerHTML = `
-                    <div class="glass-card p-6 scanning">
-                        <div class="flex justify-between items-center mb-6">
-                            <h2 class="text-2xl font-black uppercase tracking-tighter">${item.nombre}</h2>
-                            <span class="bg-[#DFFF00]/10 text-[#DFFF00] text-[9px] font-black px-3 py-1 rounded-full border border-[#DFFF00]/30 uppercase">Verificación Unidad</span>
-                        </div>
-
-                        <div class="grid grid-cols-2 gap-4 mb-6">
-                            <div class="space-y-2">
-                                <p class="text-[9px] font-bold text-zinc-500 uppercase tracking-widest">Foto de Perfil / Unidad</p>
-                                <img src="${item.urlFoto || 'https://via.placeholder.com/400x300?text=SIN+FOTO'}" class="img-verify" onclick="window.open(this.src)">
-                            </div>
-                            <div class="space-y-2">
-                                <p class="text-[9px] font-bold text-zinc-500 uppercase tracking-widest">Documento ID / Licencia</p>
-                                <img src="${item.urlCedula || 'https://via.placeholder.com/400x300?text=SIN+CEDULA'}" class="img-verify" onclick="window.open(this.src)">
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-2 gap-4 bg-black/40 p-5 rounded-2xl border border-white/5 mb-6">
-                            <div>
-                                <p class="text-[9px] text-zinc-500 font-bold uppercase">Cédula</p>
-                                <p class="font-bold text-sm tracking-widest">${item.cedula}</p>
-                            </div>
-                            <div>
-                                <p class="text-[9px] text-zinc-500 font-bold uppercase">Placa</p>
-                                <p class="font-bold text-sm text-[#DFFF00] tracking-widest">${item.placa}</p>
-                            </div>
-                        </div>
-
-                        <button onclick="window.open('${item.urlVideo}')" class="w-full py-4 rounded-xl bg-white/5 border border-white/10 text-[10px] font-bold uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-[#DFFF00] hover:text-black transition-all">
-                            <span class="material-symbols-outlined text-sm">play_circle</span> Reproducir Video de Verificación
-                        </button>
-                    </div>`;
-            } else {
-                // Render Tiendas (similar estructura pero sin video, enfocado en documentos de comercio)
-                container.innerHTML = `
-                    <div class="glass-card p-6">
-                        <h2 class="text-2xl font-black uppercase tracking-tighter mb-6">${item.nombreTienda}</h2>
-                        <div class="space-y-4">
-                            <div class="flex justify-between p-4 bg-black/40 rounded-2xl border border-white/5">
-                                <span class="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">Representante</span>
-                                <span class="text-sm font-bold uppercase">${item.representante}</span>
-                            </div>
-                            <div class="flex justify-between p-4 bg-black/40 rounded-2xl border border-white/5">
-                                <span class="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">RUC</span>
-                                <span class="text-sm font-bold tracking-widest">${item.cedula}</span>
-                            </div>
-                        </div>
-                    </div>`;
-            }
-        }
-
         async function procesar(aprobado) {
             const list = currentTab === 'motorizados' ? db.motorizados : db.tiendas;
             const item = list[0];
             const footer = document.getElementById('footer');
 
-            footer.style.opacity = "0.5";
+            footer.style.opacity = "0.3";
             footer.style.pointerEvents = "none";
 
             try {
+                // Quitamos el 'no-cors' para ver si hay errores, o usamos una técnica de redirección
                 await fetch(API_URL, {
                     method: 'POST',
-                    mode: 'no-cors',
                     body: JSON.stringify({
                         accion: "gestionar_solicitud",
                         token: API_KEY,
                         id: item.id,
                         nuevoEstado: aprobado ? "ACTIVO" : "RECHAZADO",
-                        motivo: document.getElementById('notas').value || "Validación Admin"
+                        motivo: document.getElementById('notas').value || "ADMIN_OK"
                     })
                 });
+
+                // Simulamos éxito para limpiar la lista localmente
                 list.shift();
                 document.getElementById('notas').value = "";
                 actualizarUI();
-            } catch (e) { alert("Error de conexión"); }
-            finally { 
-                footer.style.opacity = "1"; 
-                footer.style.pointerEvents = "all"; 
+                alert(aprobado ? "ACCESO AUTORIZADO" : "SOLICITUD RECHAZADA");
+            } catch (e) {
+                alert("ERROR EN LA OPERACIÓN");
+            } finally {
+                footer.style.opacity = "1";
+                footer.style.pointerEvents = "all";
             }
         }
 
-        init();
+        // Ejecutar al cargar
+        window.onload = init;
     </script>
 </body>
 </html>
