@@ -1,244 +1,128 @@
 <!DOCTYPE html>
-
-<html class="dark" lang="es"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
+<html class="dark" lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>KM0 - Gestión de Flota (Admin)</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+    
+    <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#f42525",
-                        "background-light": "#f8f5f5",
-                        "background-dark": "#221010",
+                        "primary": "#FF0000", // ROJO PURO
+                        "background-dark": "#1a0505",
+                        "surface-dark": "#2d0a0a",
                     },
-                    fontFamily: {
-                        "display": ["Space Grotesk", "sans-serif"]
-                    },
-                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                    fontFamily: { "display": ["Space Grotesk", "sans-serif"] },
                 },
             },
         }
     </script>
-<title>Admin: Gestión de Motorizados</title>
-<style>
-    body {
-      min-height: max(884px, 100dvh);
-    }
-  </style>
-  </head>
-<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen pb-24">
-<!-- Header Section -->
-<header class="sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-primary/10 px-4 py-4">
-<div class="flex items-center justify-between">
-<div class="flex items-center gap-3">
-<div class="p-2 rounded-lg bg-primary/10 text-primary">
-<span class="material-symbols-outlined">two_wheeler</span>
-</div>
-<div>
-<h1 class="text-lg font-bold leading-tight">Gestión de Flota</h1>
-<p class="text-xs text-slate-500 dark:text-slate-400">Panel Administrador 3/6</p>
-</div>
-</div>
-<button class="p-2 rounded-full hover:bg-primary/10 transition-colors">
-<span class="material-symbols-outlined text-primary">notifications</span>
-</button>
-</div>
-</header>
-<!-- Metrics Grid -->
-<section class="p-4 grid grid-cols-2 gap-3">
-<div class="bg-white dark:bg-primary/5 border border-primary/10 rounded-xl p-4 shadow-sm">
-<div class="flex justify-between items-start mb-2">
-<span class="material-symbols-outlined text-primary text-xl">bolt</span>
-<span class="text-[10px] font-bold text-green-500 bg-green-500/10 px-1.5 py-0.5 rounded-full">+5%</span>
-</div>
-<p class="text-2xl font-bold tracking-tight">24</p>
-<p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Motorizados Activos</p>
-</div>
-<div class="bg-white dark:bg-primary/5 border border-primary/10 rounded-xl p-4 shadow-sm">
-<div class="flex justify-between items-start mb-2">
-<span class="material-symbols-outlined text-primary text-xl">route</span>
-<span class="text-[10px] font-bold text-red-500 bg-red-500/10 px-1.5 py-0.5 rounded-full">-2%</span>
-</div>
-<p class="text-2xl font-bold tracking-tight">18</p>
-<p class="text-xs text-slate-500 dark:text-slate-400 font-medium">En Ruta Actual</p>
-</div>
-<div class="bg-white dark:bg-primary/5 border border-primary/10 rounded-xl p-4 shadow-sm">
-<div class="flex justify-between items-start mb-2">
-<span class="material-symbols-outlined text-primary text-xl">verified_user</span>
-</div>
-<p class="text-2xl font-bold tracking-tight">94%</p>
-<p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Eficiencia Flota</p>
-</div>
-<div class="bg-white dark:bg-primary/5 border border-primary/10 rounded-xl p-4 shadow-sm">
-<div class="flex justify-between items-start mb-2">
-<span class="material-symbols-outlined text-primary text-xl">pending_actions</span>
-</div>
-<p class="text-2xl font-bold tracking-tight">06</p>
-<p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Docs. Pendientes</p>
-</div>
-</section>
-<!-- Filters / Sectors -->
-<section class="px-4 mb-4">
-<div class="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
-<button class="flex-none bg-primary text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2">
-<span class="material-symbols-outlined text-sm">grid_view</span> Todos
+    <style>
+        body { font-family: 'Space Grotesk', sans-serif; background-color: #1a0505; color: white; -webkit-tap-highlight-color: transparent; }
+        .ios-blur { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0; }
+        .filled { font-variation-settings: 'FILL' 1; }
+        .neon-red { text-shadow: 0 0 15px rgba(255, 0, 0, 0.5); }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col pb-28">
+
+<header class="sticky top-0 z-50 bg-background-dark/80 ios-blur border-b border-primary/30 px-4 py-3">
+    <div class="flex items-center justify-between">
+        <button onclick="alert('Menú de Opciones')" class="p-2 text-primary">
+            <span class="material-symbols-outlined text-3xl">menu</span>
+        </button>
+
+        <div class="text-center">
+            <h1 class="text-[10px] font-black uppercase tracking-[0.3em] text-primary neon-red">Kilómetro Cero</h1>
+            <p class="text-xs font-bold text-white uppercase">Gestión de Flota</p>
+        </div>
+
+        <div class="flex items-center gap-1">
+            <button onclick="window.location.reload()" class="p-2 text-slate-400">
+                <span class="material-symbols-outlined text-2xl">refresh</span>
             </button>
-<button class="flex-none bg-white dark:bg-primary/10 border border-primary/20 px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2">
-                Norte <span class="material-symbols-outlined text-sm">keyboard_arrow_down</span>
-</button>
-<button class="flex-none bg-white dark:bg-primary/10 border border-primary/20 px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2">
-                Sur <span class="material-symbols-outlined text-sm">keyboard_arrow_down</span>
-</button>
-<button class="flex-none bg-white dark:bg-primary/10 border border-primary/20 px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2">
-                Centro <span class="material-symbols-outlined text-sm">keyboard_arrow_down</span>
-</button>
-<button class="flex-none bg-white dark:bg-primary/10 border border-primary/20 px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2">
-                Valles <span class="material-symbols-outlined text-sm">keyboard_arrow_down</span>
-</button>
-</div>
-</section>
-<!-- Fleet List / Real Time -->
-<section class="px-4 space-y-3">
-<h2 class="text-lg font-bold mb-4 flex items-center gap-2">
-<span class="relative flex h-3 w-3">
-<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-<span class="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
-</span>
-            Tiempo Real
-        </h2>
-<!-- Driver Card 1 -->
-<div class="bg-white dark:bg-primary/5 border border-primary/10 rounded-xl overflow-hidden shadow-sm">
-<div class="p-4 flex items-center justify-between border-b border-primary/5">
-<div class="flex items-center gap-3">
-<div class="w-12 h-12 rounded-full bg-slate-200 dark:bg-slate-800 border-2 border-primary overflow-hidden">
-<img alt="Avatar" class="w-full h-full object-cover" data-alt="Portrait of a male delivery driver" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVEEyyz3polsdhaAt6wyIT1e5ByNkwknhdb9bXBsinEZv80oHn6U6xBrrC0OQVlW2fIp1VMz3LKgaBQMj7k9OMqv5PUy1ZS6w-mj6udRHEiJCVUEpBD9NlRi9x36HzWChXJ0NZOWwxlQhjZr9Lc3UALdiPv09mH2lupo-OZhfGd0Gfm5aVwxYBvw6FZzzuLHrvEZoGjk9MkgGMkF8TdWKkD18wak3pa8vHhjXWmZwKx4tZoavQX8-I5c3DyqrJrRusIXm-9PVZOZlN"/>
-</div>
-<div>
-<h3 class="font-bold text-sm">Carlos Mendoza</h3>
-<div class="flex items-center gap-1">
-<span class="text-[10px] bg-primary/20 text-primary px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">Sector Norte</span>
-<span class="text-[10px] text-green-500 font-medium flex items-center"><span class="material-symbols-outlined text-[12px] mr-1">wifi</span> Conectado</span>
-</div>
-</div>
-</div>
-<div class="text-right">
-<p class="text-xs font-bold">Yamaha FZ-25</p>
-<p class="text-[10px] text-slate-500 uppercase tracking-widest">ABC-1234</p>
-</div>
-</div>
-<div class="px-4 py-3 flex items-center justify-between text-xs">
-<div class="flex gap-4">
-<div class="flex flex-col">
-<span class="text-slate-500 text-[10px]">Entregas</span>
-<span class="font-bold">12 / 15</span>
-</div>
-<div class="flex flex-col">
-<span class="text-slate-500 text-[10px]">Combustible</span>
-<span class="font-bold text-orange-500">45%</span>
-</div>
-</div>
-<div class="flex gap-2">
-<button class="bg-primary/10 p-2 rounded-lg text-primary hover:bg-primary/20">
-<span class="material-symbols-outlined text-lg">videocam</span>
-</button>
-<button class="bg-primary/10 p-2 rounded-lg text-primary hover:bg-primary/20">
-<span class="material-symbols-outlined text-lg">description</span>
-</button>
-<button class="bg-primary p-2 rounded-lg text-white">
-<span class="material-symbols-outlined text-lg">near_me</span>
-</button>
-</div>
-</div>
-</div>
-<!-- Driver Card 2 -->
-<div class="bg-white dark:bg-primary/5 border border-primary/10 rounded-xl overflow-hidden shadow-sm">
-<div class="p-4 flex items-center justify-between border-b border-primary/5">
-<div class="flex items-center gap-3">
-<div class="w-12 h-12 rounded-full bg-slate-200 dark:bg-slate-800 border-2 border-slate-300 overflow-hidden grayscale">
-<img alt="Avatar" class="w-full h-full object-cover" data-alt="Portrait of a courier driver" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAluSoYh2hgOP7B5ZDeFXUxR7QtlyNMbqet0HELGwa5iMqDNMx6vePtyFfygBw4ROPSjgeE7E4n0lbStIsKlWYs1N6RrJ2_v0clc0akOQ87ZkJ6gwNbTEKM41Sqk9veH1Ez4614uXHAL3x8CaIvQWTzqgaH_-jZycpMxMCb5Ry-pfoY9JZHcdZje72r4uRLqokX7pAWdxzGN2c0xJGqha22w8L1ilKa_xJKvkDPTI64WsRoQzddOy8Sr7jLaUHserbU6610V7RArpuU"/>
-</div>
-<div>
-<h3 class="font-bold text-sm">Elena Rodriguez</h3>
-<div class="flex items-center gap-1">
-<span class="text-[10px] bg-slate-200 dark:bg-slate-700 text-slate-500 px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">Sector Centro</span>
-<span class="text-[10px] text-slate-400 font-medium flex items-center"><span class="material-symbols-outlined text-[12px] mr-1">wifi_off</span> Desconectado</span>
-</div>
-</div>
-</div>
-<div class="text-right">
-<p class="text-xs font-bold">Honda CB190</p>
-<p class="text-[10px] text-slate-500 uppercase tracking-widest">XYZ-9876</p>
-</div>
-</div>
-<div class="px-4 py-3 flex items-center justify-between text-xs opacity-60">
-<div class="flex gap-4">
-<div class="flex flex-col">
-<span class="text-slate-500 text-[10px]">Entregas</span>
-<span class="font-bold">0 / 0</span>
-</div>
-<div class="flex flex-col text-red-500">
-<span class="text-[10px] font-bold">ALERTA</span>
-<span class="font-bold">Seguro Vencido</span>
-</div>
-</div>
-<div class="flex gap-2">
-<button class="bg-primary/5 p-2 rounded-lg text-slate-400">
-<span class="material-symbols-outlined text-lg">videocam_off</span>
-</button>
-<button class="bg-primary text-white p-2 rounded-lg">
-<span class="material-symbols-outlined text-lg">warning</span>
-</button>
-</div>
-</div>
-</div>
-</section>
-<!-- Audit Section Header -->
-<section class="p-4 mt-6">
-<div class="flex items-center justify-between mb-4">
-<h2 class="text-lg font-bold">Auditoría Pendiente</h2>
-<a class="text-primary text-xs font-bold" href="#">Ver Todo</a>
-</div>
-<div class="bg-primary/10 border border-primary/20 rounded-xl p-4 flex items-center gap-4">
-<div class="w-16 h-12 rounded bg-slate-900 flex items-center justify-center relative">
-<span class="material-symbols-outlined text-white">play_circle</span>
-<img alt="Video Thumb" class="absolute inset-0 w-full h-full object-cover opacity-40 rounded" data-alt="Blurred motorcycle video preview" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBt83T1lAonR9yckt0dGP3DPc4yXix2cSK5y0HgJt9gN37KRSYBZVSGR7i05vVOM26_3aQ2DYlZFb2SSzTObBgMEtuvKBj12gnxlbzLQRhVkb3dKKC9lfNWyS47KP3lUvevgGi8LxiOcPE6X-6p-ponl-3y4THamtW-7ChbDOD9z-bevGeJCJ6yBm18xQu-9FW9OIgrx7rYr8MysGMbwTPYg_Q2nXS7Ar_1-qBeFLnb961mH0BZ8_WpsfZ_itDA1vv9uxLtiknm5iEC"/>
-</div>
-<div class="flex-1">
-<h4 class="text-xs font-bold">Revisión: Turno Mañana</h4>
-<p class="text-[10px] text-slate-500">Motorizado: Juan Perez • Hace 10m</p>
-</div>
-<button class="bg-primary text-white text-[10px] font-bold px-3 py-1.5 rounded-full uppercase">Auditar</button>
-</div>
-</section>
-<!-- Bottom Navigation (Fixed) -->
-<nav class="fixed bottom-0 left-0 right-0 bg-white/90 dark:bg-background-dark/95 backdrop-blur-lg border-t border-primary/10 px-6 py-2 pb-6 z-50">
-<div class="flex justify-between items-center max-w-md mx-auto">
-<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
-<span class="material-symbols-outlined">home</span>
-<span class="text-[10px] font-medium">Inicio</span>
-</a>
-<a class="flex flex-col items-center gap-1 text-primary" href="#">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">motorcycle</span>
-<span class="text-[10px] font-bold">Flota</span>
-</a>
-<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
-<span class="material-symbols-outlined">map</span>
-<span class="text-[10px] font-medium">Sectores</span>
-</a>
-<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
-<span class="material-symbols-outlined">bar_chart</span>
-<span class="text-[10px] font-medium">Métricas</span>
-</a>
-<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
-<span class="material-symbols-outlined">settings</span>
-<span class="text-[10px] font-medium">Ajustes</span>
-</a>
-</div>
+            <button onclick="confirmExit()" class="p-2 text-primary">
+                <span class="material-symbols-outlined text-2xl">logout</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<main class="p-4 space-y-6">
+    <div class="grid grid-cols-2 gap-3">
+        <div class="bg-surface-dark border border-primary/20 rounded-2xl p-4">
+            <span class="material-symbols-outlined text-primary mb-1">bolt</span>
+            <p class="text-2xl font-black">24</p>
+            <p class="text-[9px] text-slate-400 font-black uppercase tracking-widest">Activos</p>
+        </div>
+        <div class="bg-surface-dark border border-primary/20 rounded-2xl p-4">
+            <span class="material-symbols-outlined text-primary mb-1">route</span>
+            <p class="text-2xl font-black">18</p>
+            <p class="text-[9px] text-slate-400 font-black uppercase tracking-widest">En Ruta</p>
+        </div>
+    </div>
+
+    <section class="space-y-3">
+        <h2 class="text-[10px] font-black uppercase tracking-widest text-slate-500 px-1">Monitoreo Real-Time</h2>
+        
+        <div class="bg-surface-dark border border-primary/10 rounded-2xl overflow-hidden">
+            <div class="p-4 flex items-center justify-between border-b border-white/5">
+                <div class="flex items-center gap-3">
+                    <div class="size-12 rounded-xl border border-primary/40 p-0.5">
+                        <img src="https://ui-avatars.com/api/?name=Carlos+M&background=FF0000&color=fff" class="rounded-lg w-full h-full">
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-sm uppercase">Carlos Mendoza</h3>
+                        <p class="text-[9px] text-primary font-bold uppercase tracking-tighter">Yamaha FZ-25 • ABC-1234</p>
+                    </div>
+                </div>
+                <span class="material-symbols-outlined text-primary animate-pulse">location_searching</span>
+            </div>
+            <div class="p-3 bg-black/20 flex gap-2">
+                <button class="flex-1 bg-white/5 text-slate-300 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest">Detalles</button>
+                <button class="flex-1 bg-primary text-white py-2 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-primary/30">Rastrear</button>
+            </div>
+        </div>
+    </section>
+</main>
+
+<nav class="fixed bottom-0 left-0 right-0 bg-background-dark/95 ios-blur border-t border-white/10 px-2 pb-6 pt-2 z-50">
+    <div class="flex justify-between items-center max-w-lg mx-auto">
+        <a class="flex flex-1 flex-col items-center gap-1 text-slate-500" href="dashboard.html">
+            <span class="material-symbols-outlined text-[24px]">dashboard</span>
+            <span class="text-[9px] font-black uppercase">Panel</span>
+        </a>
+        <a class="flex flex-1 flex-col items-center gap-1 text-slate-500" href="tiendas.html">
+            <span class="material-symbols-outlined text-[24px]">storefront</span>
+            <span class="text-[9px] font-black uppercase">Tiendas</span>
+        </a>
+        <a class="flex flex-1 flex-col items-center gap-1 text-primary" href="motorizados.html">
+            <span class="material-symbols-outlined text-[24px] filled">pedal_bike</span>
+            <span class="text-[9px] font-black uppercase">Flota</span>
+        </a>
+        <a class="flex flex-1 flex-col items-center gap-1 text-slate-500" href="pedidos.html">
+            <span class="material-symbols-outlined text-[24px]">receipt_long</span>
+            <span class="text-[9px] font-black uppercase">Pedidos</span>
+        </a>
+        <a class="flex flex-1 flex-col items-center gap-1 text-slate-500" href="configuracion.html">
+            <span class="material-symbols-outlined text-[24px]">tune</span>
+            <span class="text-[9px] font-black uppercase">Ajustes</span>
+        </a>
+    </div>
 </nav>
-</body></html>
+
+<script>
+    function confirmExit() {
+        if(confirm("¿Cerrar sesión administrativa?")) window.location.href = "../auth/login.html";
+    }
+</script>
+
+</body>
+</html>
