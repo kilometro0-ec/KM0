@@ -5,141 +5,159 @@
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
     <title>KM0 ADMIN CONTROL</title>
     <script src="../../assets/js/config.js"></script>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <style>
-        body { font-family: 'Inter', sans-serif; background: #000; color: white; -webkit-tap-highlight-color: transparent; }
+        :root { 
+            --naranja: #ff6600; 
+            --azul: #0047AB; 
+            --magenta: #E200F7; 
+            --verde-toxico: #39FF14; 
+        }
+        body { font-family: 'Inter', sans-serif; background: #000; color: white; overflow-x: hidden; }
+
+        /* EFECTO SOBREPOSICIÓN TABS */
+        .tab-btn { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; }
+        .tab-btn.active { transform: scale(1.08); z-index: 50; }
+        .tab-btn.inactive { opacity: 0.3; transform: scale(0.95); z-index: 10; }
+
+        /* BORDES SIMÉTRICOS */
+        .border-gradient-round { position: relative; background: #0f0f0f; border-radius: 2.5rem; }
+        .active-store::before {
+            content: ""; position: absolute; inset: -2px; border-radius: 2.5rem; padding: 2px;
+            background: linear-gradient(90deg, var(--azul), var(--magenta));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor; mask-composite: exclude;
+        }
+
+        /* NAVEGACIÓN TOXIC */
+        .bottom-nav { background: rgba(5, 5, 5, 0.95); backdrop-filter: blur(25px); border-top: 1px solid rgba(57, 255, 20, 0.15); }
+        .icon-toxic { color: var(--verde-toxico); text-shadow: 0 0 12px rgba(57, 255, 20, 0.5); }
         
-        /* 🔵 ESTILO TIENDA (Degradado Azul a Magenta) */
-        .gradiente-tienda { background: linear-gradient(90deg, #0047AB 0%, #E200F7 100%); }
-        .border-tienda { border-image: linear-gradient(90deg, #0047AB, #E200F7) 1; border-width: 2px; border-style: solid; }
-        .text-tienda { color: #0047AB; }
+        /* SIDEBAR CAMPANA */
+        .sidebar-notif { transform: translateX(100%); transition: transform 0.4s ease-out; }
+        .sidebar-notif.open { transform: translateX(0); }
 
-        /* 🟠 ESTILO MOTORIZADO (Naranja KM0) */
-        .bg-motorizado { background-color: #ff6600; }
-        .border-motorizado { border-color: #ff6600; }
-        .text-motorizado { color: #ff6600; }
-
-        .detalle-hidden { display: none; }
-        .modal-notif { transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        .modal-notif.open { transform: translateX(0); }
+        .detalle-hidden { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+        .detalle-open { max-height: 850px; }
+        
+        /* Efecto de pulso para la campana cuando hay notif */
+        .pulse-tox { animation: pulse-toxic 2s infinite; }
+        @keyframes pulse-toxic {
+            0% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(57, 255, 20, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0); }
+        }
     </style>
 </head>
-<body>
+<body class="pb-32">
 
-    <audio id="notif-sound" preload="auto">
-        <source src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg" type="audio/ogg">
-    </audio>
-
-    <div id="panel-notif" class="fixed inset-y-0 right-0 w-80 bg-[#0a0a0a] z-[150] modal-notif border-l border-white/10 shadow-2xl">
-        <div class="p-6 border-b border-white/5 flex justify-between items-center">
-            <h3 class="font-black text-sm uppercase tracking-widest">Notificaciones</h3>
-            <button onclick="toggleNotificaciones()" class="material-symbols-outlined text-gray-500">close</button>
+    <div id="side-notif" class="fixed inset-y-0 right-0 w-[85%] bg-black/95 z-[200] sidebar-notif border-l border-white/5 backdrop-blur-3xl">
+        <div class="p-8 border-b border-white/5 flex justify-between items-center">
+            <h3 class="font-black text-xs uppercase tracking-[0.2em] text-white">Solicitudes Nuevas</h3>
+            <button onclick="toggleCampana()" class="material-symbols-outlined text-gray-400">close</button>
         </div>
-        <div id="lista-notif-resumen" class="p-4 space-y-3 overflow-y-auto max-h-[80vh]">
-            </div>
+        <div id="lista-resumen" class="p-6 space-y-4"></div>
     </div>
 
-    <div id="modal-audio" class="fixed inset-0 z-[200] bg-black flex items-center justify-center p-6 text-center hidden">
-        <div class="bg-[#111] p-10 rounded-[3rem] border-2 border-white/10 max-w-xs">
-            <span class="material-symbols-outlined text-7xl text-[#39FF14]">sensors</span>
-            <h3 class="text-2xl font-black mt-6 uppercase">Sistema KM0</h3>
-            <button onclick="activarMonitor()" class="w-full gradiente-tienda text-white font-black py-5 rounded-2xl mt-8 uppercase btn-active">CONECTAR</button>
+    <header class="p-6 sticky top-0 z-[100] bg-black/80 backdrop-blur-md flex justify-between items-center border-b border-white/5">
+        <div>
+            <p class="text-[9px] font-black tracking-[0.4em] text-gray-500 uppercase">Km0 Admin</p>
+            <h1 class="text-xl font-black italic tracking-tighter uppercase">Panel <span class="text-white">Operativo</span></h1>
         </div>
+        <div class="flex items-center gap-4">
+            <button onclick="toggleCampana()" class="relative p-2 rounded-full active:scale-95 transition-all">
+                <span class="material-symbols-outlined text-gray-400 text-3xl">notifications</span>
+                <span id="badge-campana" class="absolute top-1 right-1 bg-[#39FF14] text-black text-[9px] font-black w-5 h-5 flex items-center justify-center rounded-full hidden border-2 border-black pulse-tox">0</span>
+            </button>
+            <button onclick="init()" class="bg-white/5 p-2 rounded-full"><span id="sync-icon" class="material-symbols-outlined icon-toxic">sync</span></button>
+        </div>
+    </header>
+
+    <div class="flex p-6 gap-3 items-center justify-center h-48">
+        <button onclick="cambiarTab('motorizados')" id="btn-moto" class="tab-btn active flex-1 h-full border-gradient-round border-2 border-[#ff6600] flex flex-col items-center justify-center shadow-2xl">
+            <span class="material-symbols-outlined text-4xl text-[#ff6600] mb-2">motorcycle</span>
+            <p id="count-m" class="text-4xl font-black italic">0</p>
+            <p class="text-[9px] font-bold uppercase tracking-widest text-gray-500">Motos</p>
+        </button>
+
+        <button onclick="cambiarTab('tiendas')" id="btn-store" class="tab-btn inactive flex-1 h-full border-gradient-round flex flex-col items-center justify-center">
+            <span class="material-symbols-outlined text-4xl text-[#0047AB] mb-2">storefront</span>
+            <p id="count-t" class="text-4xl font-black italic">0</p>
+            <p class="text-[9px] font-bold uppercase tracking-widest text-gray-500">Tiendas</p>
+        </button>
     </div>
 
-    <div class="relative flex flex-col min-h-screen pb-32">
+    <main id="main-content" class="p-4 space-y-4"></main>
+
+    <nav class="fixed bottom-0 inset-x-0 h-20 bottom-nav z-[150] flex items-center justify-around px-2">
+        <button onclick="init()" class="flex flex-col items-center gap-1 w-14">
+            <span class="material-symbols-outlined icon-toxic text-2xl font-variation-fill">dashboard</span>
+            <span class="text-[7px] font-black uppercase text-white/40">Panel</span>
+        </button>
         
-        <div class="flex items-center bg-black/95 p-6 sticky top-0 z-50 border-b border-white/5 justify-between">
-            <h2 class="text-sm font-black uppercase italic tracking-widest text-white">ADMIN CONTROL</h2>
-            <div class="flex items-center gap-4">
-                <button onclick="toggleNotificaciones()" class="relative">
-                    <span class="material-symbols-outlined text-gray-400 text-3xl">notifications</span>
-                    <span id="badge-notif" class="absolute -top-1 -right-1 bg-[#39FF14] text-black text-[10px] font-black w-5 h-5 flex items-center justify-center rounded-full hidden">0</span>
-                </button>
-                <button onclick="init()" class="bg-white/5 p-2 rounded-xl"><span id="sync-icon" class="material-symbols-outlined">sync</span></button>
-            </div>
-        </div>
+        <button class="flex flex-col items-center gap-1 w-14">
+            <span class="material-symbols-outlined icon-toxic text-2xl">local_shipping</span>
+            <span class="text-[7px] font-black uppercase text-white/40">Logística</span>
+        </button>
 
-        <div class="grid grid-cols-2 gap-4 p-4">
-            <div onclick="cambiarTab('motorizados')" id="card-moto" class="bg-[#0f0f0f] p-6 rounded-[2.5rem] border-2 border-motorizado cursor-pointer transition-all">
-                <div class="flex justify-between items-center text-motorizado">
-                    <span class="material-symbols-outlined text-4xl">motorcycle</span>
-                    <span class="text-[9px] bg-motorizado text-white font-black px-2 py-0.5 rounded-full">NEW</span>
-                </div>
-                <p id="count-m" class="text-4xl font-black mt-4">0</p>
-                <p class="text-[10px] font-bold text-gray-400 uppercase">Solicitudes</p>
-            </div>
-            
-            <div onclick="cambiarTab('tiendas')" id="card-store" class="bg-[#0f0f0f] p-6 rounded-[2.5rem] border-2 border-transparent cursor-pointer opacity-30 transition-all shadow-lg" style="border-image: linear-gradient(90deg, #0047AB, #E200F7) 1;">
-                <div class="flex justify-between items-center">
-                    <span class="material-symbols-outlined text-4xl text-tienda">storefront</span>
-                    <span class="text-[9px] gradiente-tienda text-white font-black px-2 py-0.5 rounded-full">NEW</span>
-                </div>
-                <p id="count-t" class="text-4xl font-black mt-4">0</p>
-                <p class="text-[10px] font-bold text-gray-400 uppercase">Comercios</p>
-            </div>
-        </div>
+        <button onclick="alert('Módulo de Control de Accesos')" class="bg-[#39FF14] text-black w-14 h-14 rounded-[1.8rem] shadow-[0_0_25px_rgba(57,255,20,0.5)] flex flex-col items-center justify-center -translate-y-5 active:scale-90 transition-transform">
+            <span class="material-symbols-outlined font-black text-2xl">group_active</span>
+            <span class="text-[6px] font-black uppercase leading-none mt-0.5">Usuarios</span>
+        </button>
 
-        <div id="main-content" class="p-4 space-y-4"></div>
-    </div>
+        <button class="flex flex-col items-center gap-1 w-14">
+            <span class="material-symbols-outlined icon-toxic text-2xl">payments</span>
+            <span class="text-[7px] font-black uppercase text-white/40">Finanzas</span>
+        </button>
+
+        <button class="flex flex-col items-center gap-1 w-14">
+            <span class="material-symbols-outlined icon-toxic text-2xl">account_circle</span>
+            <span class="text-[7px] font-black uppercase text-white/40">Perfil</span>
+        </button>
+    </nav>
 
     <script>
         let db = { motorizados: [], tiendas: [] };
         let currentTab = 'motorizados';
 
-        window.onload = () => {
-            if (localStorage.getItem('km0_v4_admin') !== 'true') document.getElementById('modal-audio').classList.remove('hidden');
-            else init();
-        };
+        function toggleCampana() { document.getElementById('side-notif').classList.toggle('open'); }
 
-        function activarMonitor() {
-            localStorage.setItem('km0_v4_admin', 'true');
-            document.getElementById('modal-audio').classList.add('hidden');
-            init();
-        }
-
-        function toggleNotificaciones() {
-            document.getElementById('panel-notif').classList.toggle('open');
-        }
-
-        async function init(silent = false) {
-            if(!silent) document.getElementById('sync-icon').classList.add('animate-spin');
+        async function init() {
+            const sync = document.getElementById('sync-icon');
+            sync.classList.add('animate-spin');
             try {
                 const res = await fetch(API_URL);
                 const data = await res.json();
                 db = data;
-
+                
                 const nM = data.motorizados?.length || 0;
                 const nT = data.tiendas?.length || 0;
                 document.getElementById('count-m').innerText = nM;
                 document.getElementById('count-t').innerText = nT;
 
-                // Actualizar Badge y Resumen de Notificaciones
-                const badge = document.getElementById('badge-notif');
-                const listResumen = document.getElementById('lista-notif-resumen');
+                // Actualizar Campana
+                const badge = document.getElementById('badge-campana');
+                const listResumen = document.getElementById('lista-resumen');
                 listResumen.innerHTML = '';
                 
                 if((nM + nT) > 0) {
                     badge.innerText = nM + nT;
                     badge.classList.remove('hidden');
-                    
-                    // Llenar resumen lateral
                     [...db.motorizados, ...db.tiendas].forEach(item => {
-                        const isMoto = item.nombre !== undefined;
+                        const esM = item.nombre !== undefined;
                         listResumen.innerHTML += `
-                            <div class="bg-white/5 p-3 rounded-xl border-l-4 ${isMoto ? 'border-motorizado' : 'border-[#0047AB]'}">
-                                <p class="text-[10px] font-black uppercase">${item.nombre || item.nombreTienda}</p>
-                                <p class="text-[8px] text-gray-500 uppercase">${isMoto ? 'Nuevo Motorizado' : 'Nuevo Comercio'}</p>
+                            <div class="bg-white/5 p-4 rounded-3xl border-l-4 ${esM ? 'border-[#ff6600]' : 'border-[#0047AB]'}">
+                                <p class="text-[10px] font-black uppercase text-white">${item.nombre || item.nombreTienda}</p>
+                                <p class="text-[8px] text-gray-500 font-bold mt-1 uppercase italic">${esM ? 'Motorizado' : 'Tienda'} en espera</p>
                             </div>
                         `;
                     });
                 } else { badge.classList.add('hidden'); }
-
                 render();
             } catch (e) { console.error(e); }
-            finally { document.getElementById('sync-icon').classList.remove('animate-spin'); }
+            finally { setTimeout(() => sync.classList.remove('animate-spin'), 800); }
         }
 
         function render() {
@@ -149,56 +167,66 @@
 
             list.forEach((item, index) => {
                 const isMoto = currentTab === 'motorizados';
-                const accentClass = isMoto ? 'border-motorizado' : 'border-tienda';
-                const btnClass = isMoto ? 'bg-motorizado' : 'gradiente-tienda';
-
                 container.innerHTML += `
-                <div class="bg-[#0a0a0a] p-5 rounded-[2rem] border border-white/10">
-                    <div onclick="document.getElementById('det-${index}').classList.toggle('detalle-hidden')" class="flex justify-between items-center cursor-pointer">
+                <div class="bg-[#0f0f0f] rounded-[2.5rem] p-6 border border-white/5 shadow-2xl">
+                    <div onclick="document.getElementById('det-${index}').classList.toggle('detalle-open')" class="flex justify-between items-center cursor-pointer">
                         <div class="flex items-center gap-4">
-                            <div class="p-3 rounded-2xl ${isMoto ? 'bg-motorizado/10' : 'bg-blue-600/10'}">
-                                <span class="material-symbols-outlined ${isMoto ? 'text-motorizado' : 'text-tienda'}">${isMoto ? 'motorcycle' : 'store'}</span>
+                            <div class="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center border border-white/5">
+                                <span class="material-symbols-outlined ${isMoto ? 'text-[#ff6600]' : 'text-[#0047AB]'}">${isMoto ? 'motorcycle' : 'store'}</span>
                             </div>
                             <div>
-                                <p class="font-black text-sm uppercase tracking-tight">${item.nombre || item.nombreTienda}</p>
-                                <p class="text-[10px] text-gray-500 font-bold">${item.telefono || 'S/N'}</p>
+                                <p class="font-black text-[13px] uppercase leading-tight">${item.nombre || item.nombreTienda}</p>
+                                <p class="text-[9px] text-gray-500 font-bold uppercase mt-1 tracking-widest">${item.ciudad || 'Pendiente'}</p>
                             </div>
                         </div>
-                        <span class="material-symbols-outlined text-gray-700">expand_more</span>
+                        <span class="material-symbols-outlined text-gray-700">keyboard_arrow_down</span>
                     </div>
                     
-                    <div id="det-${index}" class="detalle-hidden mt-6 pt-6 border-t border-white/5 space-y-4">
-                        <div class="grid grid-cols-2 gap-2 text-[10px] font-bold">
-                            <div class="bg-white/5 p-3 rounded-xl uppercase"><p class="text-gray-500 text-[8px]">Usuario</p>${item.cedula || '---'}</div>
-                            <div class="bg-white/5 p-3 rounded-xl uppercase"><p class="text-gray-500 text-[8px]">Clave</p>${item.password || '---'}</div>
+                    <div id="det-${index}" class="detalle-hidden">
+                        <div class="pt-6 mt-6 border-t border-white/5 grid grid-cols-2 gap-3">
+                            <div class="bg-black/60 p-4 rounded-[1.5rem] border border-white/5">
+                                <p class="text-gray-500 text-[8px] font-black uppercase mb-1">Cédula</p>
+                                <p class="font-bold text-white text-[11px]">${item.cedula}</p>
+                            </div>
+                            <div class="bg-black/60 p-4 rounded-[1.5rem] border border-white/5">
+                                <p class="text-gray-500 text-[8px] font-black uppercase mb-1">Pass</p>
+                                <p class="font-bold text-white text-[11px]">${item.password}</p>
+                            </div>
+                            <div class="col-span-2 bg-black/60 p-4 rounded-[1.5rem] border border-white/5 flex justify-between items-center">
+                                <div><p class="text-gray-500 text-[8px] font-black uppercase mb-1">Teléfono</p><p class="font-bold text-white text-[11px]">${item.telefono}</p></div>
+                                <div class="text-right"><p class="text-gray-500 text-[8px] font-black uppercase mb-1">Tipo</p><p class="font-bold text-white text-[11px] uppercase">${item.vehiculo || item.categoria || 'S/N'}</p></div>
+                            </div>
                         </div>
-                        <div class="flex gap-2">
-                            <button onclick="gestionar('${item.id}', 'RECHAZADO', '${item.telefono}', '${item.nombre || item.nombreTienda}')" class="flex-1 bg-red-600/10 text-red-500 py-4 rounded-2xl text-[10px] font-black uppercase">Rechazar</button>
-                            <button onclick="gestionar('${item.id}', 'ACTIVO', '${item.telefono}', '${item.nombre || item.nombreTienda}', '${item.password}', '${item.cedula}')" class="flex-[2] ${btnClass} text-white py-4 rounded-2xl text-[10px] font-black uppercase shadow-lg">Aprobar Socio</button>
+                        <div class="flex gap-2 mt-6">
+                            <button onclick="gestionar('${item.id}', 'RECHAZADO', '${item.telefono}', '${item.nombre || item.nombreTienda}')" class="flex-1 bg-white/5 text-red-500 py-4 rounded-2xl font-black uppercase text-[10px]">Rechazar</button>
+                            <button onclick="gestionar('${item.id}', 'ACTIVO', '${item.telefono}', '${item.nombre || item.nombreTienda}', '${item.password}', '${item.cedula}')" class="flex-[2] ${isMoto ? 'bg-[#ff6600]' : 'bg-gradient-to-r from-[#0047AB] to-[#E200F7]'} text-white py-4 rounded-2xl font-black uppercase text-[10px] shadow-xl shadow-black">Habilitar Socio</button>
                         </div>
                     </div>
                 </div>`;
             });
         }
 
-        async function gestionar(id, estado, telf, nombre, pass, user) {
-            let msg = estado === 'RECHAZADO' ? `*KM0 - RECHAZADO*%0AAtención *${nombre}*, solicitud denegada.` : `*KM0 - APROBADO*%0A👤 *User:* ${user}%0A🔑 *Pass:* ${pass}`;
-            if(estado === 'RECHAZADO' && !prompt("Escriba RECHAZAR para confirmar:")) return;
-            if(estado === 'ACTIVO' && !confirm("¿Confirmar activación?")) return;
-
-            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ accion: "gestionar_solicitud", id: id, nuevoEstado: estado }) });
-            window.open(`https://api.whatsapp.com/send?phone=${telf}&text=${msg}`, '_blank');
-            init();
-        }
-
         function cambiarTab(tab) {
             currentTab = tab;
-            document.getElementById('card-moto').style.opacity = tab === 'motorizados' ? '1' : '0.3';
-            document.getElementById('card-store').style.opacity = tab === 'tiendas' ? '1' : '0.3';
+            const btnMoto = document.getElementById('btn-moto');
+            const btnStore = document.getElementById('btn-store');
+            if(tab === 'motorizados') {
+                btnMoto.className = "tab-btn active flex-1 h-full border-gradient-round border-2 border-[#ff6600] flex flex-col items-center justify-center shadow-2xl";
+                btnStore.className = "tab-btn inactive flex-1 h-full border-gradient-round flex flex-col items-center justify-center";
+            } else {
+                btnStore.className = "tab-btn active flex-1 h-full border-gradient-round active-store flex flex-col items-center justify-center shadow-2xl";
+                btnMoto.className = "tab-btn inactive flex-1 h-full border-gradient-round flex flex-col items-center justify-center";
+            }
             render();
         }
 
-        setInterval(() => init(true), 20000);
+        async function gestionar(id, estado, telf, nombre, pass, user) {
+            if(!confirm(`¿Habilitar acceso para ${nombre}?`)) return;
+            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ accion: "gestionar_solicitud", id, nuevoEstado: estado }) });
+            init();
+        }
+
+        init();
     </script>
 </body>
 </html>
