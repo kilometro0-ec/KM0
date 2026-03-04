@@ -7,75 +7,118 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    
+    <script src="../../assets/js/config.js"></script>
+
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        "electric-blue": "#2563eb",
-                        "dark-bg": "#0f172a"
+                        "primary": "#137fec", // Azul Eléctrico
+                        "accent-fuchsia": "#ff00ff", // Fucsia Neón
+                        "background-dark": "#05080b",
+                        "neutral-dark": "#0e1520"
                     }
                 }
             }
         }
     </script>
-</head>
-<body class="bg-dark-bg text-white font-['Inter'] min-h-screen pb-20">
+    <style>
+        body { font-family: 'Inter'; background-color: #05080b; color: white; }
+        .ios-blur { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+        
+        /* Efecto Neón para el contenedor de imagen */
+        .neon-border {
+            border: 2px dashed rgba(19, 127, 236, 0.3);
+            transition: all 0.3s ease;
+        }
+        .neon-border:hover {
+            border-color: #ff00ff;
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.2);
+        }
 
-    <header class="p-6 flex items-center gap-4 bg-slate-900/50 border-b border-white/5">
-        <button onclick="window.location.href='panel-operativo-tienda.html'" class="text-electric-blue hover:scale-110 transition-transform">
-            <span class="material-symbols-outlined text-3xl">arrow_back</span>
+        /* Botón con degradado KM0 */
+        .btn-km0 {
+            background: linear-gradient(135deg, #ff00ff 0%, #137fec 100%);
+            box-shadow: 0 0 20px rgba(19, 127, 236, 0.3);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .btn-km0:active { transform: scale(0.95); }
+        
+        /* Inputs Estilo Dark */
+        .input-km0 {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(19, 127, 236, 0.2);
+            transition: all 0.3s ease;
+        }
+        .input-km0:focus {
+            border-color: #ff00ff;
+            background: rgba(255,255,255,0.08);
+            box-shadow: 0 0 10px rgba(255, 0, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="min-h-screen pb-20">
+
+    <header class="sticky top-0 z-50 bg-background-dark/80 ios-blur border-b border-primary/20 p-6 flex items-center gap-4">
+        <button onclick="window.location.href='panel-operativo-tienda.html'" class="text-primary active:scale-90 transition-transform">
+            <span class="material-symbols-outlined text-3xl">arrow_back_ios</span>
         </button>
         <h1 class="text-xl font-black italic uppercase tracking-tighter">Añadir Producto</h1>
     </header>
 
     <main class="p-6 max-w-md mx-auto">
-        <div class="space-y-6">
+        <div class="space-y-8">
             
             <div class="flex flex-col items-center justify-center gap-4">
-                <div id="preview-container" class="w-full h-48 rounded-2xl border-2 border-dashed border-white/10 flex flex-col items-center justify-center bg-white/5 overflow-hidden">
-                    <span id="placeholder-icon" class="material-symbols-outlined text-5xl text-slate-600">add_a_photo</span>
+                <div id="preview-container" class="w-full h-56 rounded-3xl neon-border flex flex-col items-center justify-center bg-neutral-dark overflow-hidden relative">
+                    <span id="placeholder-icon" class="material-symbols-outlined text-6xl text-primary/40">add_a_photo</span>
                     <img id="img-preview" class="hidden w-full h-full object-cover">
                 </div>
-                <label class="bg-electric-blue hover:bg-blue-700 text-white text-xs font-black py-3 px-6 rounded-xl cursor-pointer transition-all uppercase tracking-widest">
+                <label class="btn-km0 text-white text-[10px] font-black py-4 px-8 rounded-2xl cursor-pointer uppercase tracking-[0.2em]">
                     Seleccionar Imagen
                     <input type="file" id="foto" accept="image/*" class="hidden" onchange="previewFile()">
                 </label>
             </div>
 
-            <div class="space-y-4">
-                <div class="space-y-1">
-                    <label class="text-[10px] font-black text-slate-500 uppercase ml-1">Nombre del Producto</label>
-                    <input type="text" id="nombre" placeholder="Ej: Hamburguesa Doble" class="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-4 outline-none focus:border-electric-blue text-white">
+            <div class="space-y-5">
+                <div class="space-y-2">
+                    <label class="text-[10px] font-black text-primary uppercase ml-1 tracking-widest italic flex items-center gap-2">
+                        <span class="material-symbols-outlined text-sm">label</span> Nombre del Producto
+                    </label>
+                    <input type="text" id="nombre" placeholder="Ej: Hamburguesa Doble" class="input-km0 w-full rounded-2xl py-4 px-5 outline-none text-white font-bold">
                 </div>
 
-                <div class="space-y-1">
-                    <label class="text-[10px] font-black text-slate-500 uppercase ml-1">Stock Inicial</label>
-                    <input type="number" id="stock" placeholder="Cantidad disponible" class="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-4 outline-none focus:border-electric-blue text-white">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-black text-primary uppercase ml-1 tracking-widest italic">Stock Inicial</label>
+                        <input type="number" id="stock" placeholder="0" class="input-km0 w-full rounded-2xl py-4 px-5 outline-none text-white font-bold">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-black text-primary uppercase ml-1 tracking-widest italic">Categoría</label>
+                        <input type="text" id="categoria" placeholder="Snacks" class="input-km0 w-full rounded-2xl py-4 px-5 outline-none text-white font-bold">
+                    </div>
                 </div>
 
-                <div class="space-y-1">
-                    <label class="text-[10px] font-black text-slate-500 uppercase ml-1">Categoría</label>
-                    <input type="text" id="categoria" placeholder="Escriba la categoría (Ej: Snaks, Ropa, etc.)" class="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-4 outline-none focus:border-electric-blue text-white">
+                <div class="space-y-2">
+                    <label class="text-[10px] font-black text-primary uppercase ml-1 tracking-widest italic">Descripción corta</label>
+                    <textarea id="descripcion" rows="3" placeholder="Detalles del producto..." class="input-km0 w-full rounded-2xl py-4 px-5 outline-none text-white font-medium"></textarea>
                 </div>
 
-                <div class="space-y-1">
-                    <label class="text-[10px] font-black text-slate-500 uppercase ml-1">Descripción corta</label>
-                    <textarea id="descripcion" rows="3" placeholder="Detalles del producto..." class="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-4 outline-none focus:border-electric-blue text-white"></textarea>
-                </div>
-
-                <button id="btn-guardar" onclick="subirProducto()" class="w-full bg-electric-blue py-5 rounded-2xl font-black uppercase tracking-widest shadow-lg shadow-blue-500/20 active:scale-95 transition-all flex items-center justify-center gap-2">
-                    <span class="material-symbols-outlined">save</span>
-                    Guardar Producto
+                <button id="btn-guardar" onclick="subirProducto()" class="btn-km0 w-full py-5 rounded-3xl font-black uppercase tracking-[0.2em] flex items-center justify-center gap-3 mt-4 shadow-[0_10px_30px_rgba(19,127,236,0.2)]">
+                    <span class="material-symbols-outlined font-black">cloud_upload</span>
+                    Subir al Catálogo
                 </button>
             </div>
 
-            <p id="msg" class="hidden text-center text-[10px] font-black uppercase p-3 rounded-lg"></p>
+            <p id="msg" class="hidden text-center text-[11px] font-black uppercase p-4 rounded-2xl border italic"></p>
         </div>
     </main>
 
     <script>
-        const URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec';
+        // Si no tienes config.js, usa esta constante. Si lo tienes, el script la tomará de ahí.
+        const URL_MAESTRA = typeof API_URL !== 'undefined' ? API_URL : 'https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec';
         let base64Image = "";
 
         function previewFile() {
@@ -98,41 +141,45 @@
             const msg = document.getElementById('msg');
             const idTienda = localStorage.getItem('km0_user_id');
 
+            if(!idTienda) { alert("Error: Sesión no encontrada."); return; }
+
             const payload = {
                 accion: "agregar_producto",
+                token: "KM0_SECURE_TOKEN_2026_XYZ",
                 idTienda: idTienda,
                 nombre: document.getElementById('nombre').value,
-                precio: "0", // Se envía 0 ya que se quitó del formulario
                 stock: document.getElementById('stock').value,
                 categoria: document.getElementById('categoria').value,
                 descripcion: document.getElementById('descripcion').value,
                 imagenBase64: base64Image
             };
 
-            if(!payload.nombre || !idTienda) {
-                alert("El nombre del producto es obligatorio");
+            if(!payload.nombre || !payload.stock) {
+                alert("Completa el nombre y el stock.");
                 return;
             }
 
             btn.disabled = true;
-            btn.innerText = "SUBIENDO...";
+            btn.innerHTML = `<span class="material-symbols-outlined animate-spin">sync</span> SUBIENDO...`;
             
             try {
-                const res = await fetch(URL_SCRIPT, {
+                const res = await fetch(URL_MAESTRA, {
                     method: 'POST',
                     body: JSON.stringify(payload)
                 });
                 const data = await res.json();
 
                 if(data.success) {
-                    msg.innerText = "¡PRODUCTO CREADO EXITOSAMENTE!";
-                    msg.className = "text-center text-[10px] font-black uppercase p-3 rounded-lg bg-green-500/20 text-green-500 block";
+                    msg.innerText = "¡PRODUCTO LISTADO EN KM0!";
+                    msg.className = "text-center text-[11px] font-black uppercase p-4 rounded-2xl bg-primary/10 text-primary border-primary/30 block italic";
                     setTimeout(() => window.location.href = 'panel-operativo-tienda.html', 1500);
+                } else {
+                    throw new Error(data.mensaje);
                 }
             } catch (e) {
                 btn.disabled = false;
-                btn.innerText = "GUARDAR PRODUCTO";
-                alert("Error al conectar con el servidor maestro.");
+                btn.innerHTML = `<span class="material-symbols-outlined font-black">cloud_upload</span> Subir al Catálogo`;
+                alert("Error: " + e.message);
             }
         }
     </script>
