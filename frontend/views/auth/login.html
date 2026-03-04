@@ -21,9 +21,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
         }
-
         .bg-glow {
             position: fixed;
             top: 50%; left: 50%;
@@ -32,8 +30,6 @@
             background: radial-gradient(circle, rgba(236, 19, 19, 0.08) 0%, rgba(0, 0, 0, 0) 70%);
             z-index: -1;
         }
-
-        /* Animación de carga */
         .btn-loading { 
             pointer-events: none; 
             opacity: 0.7; 
@@ -45,7 +41,7 @@
     </style>
 </head>
 <body class="p-6">
-    <div class="bg-glow" aria-hidden="true"></div>
+    <div class="bg-glow"></div>
 
     <div class="w-full max-w-[360px] space-y-8">
         <div class="text-center space-y-4">
@@ -59,51 +55,29 @@
 
         <div class="space-y-4">
             <div class="space-y-1">
-                <label for="user_input" class="text-[10px] font-black text-zinc-500 uppercase ml-1 tracking-widest">
-                    Identificador
-                </label>
-                <input type="text" 
-                       id="user_input" 
-                       name="username"
-                       placeholder="USUARIO / CÉDULA" 
-                       class="w-full bg-zinc-900/50 border border-zinc-800 rounded-2xl py-4 px-5 focus:border-[#EC1313] outline-none text-white font-bold transition-all placeholder:text-zinc-700">
+                <label for="user_input" class="text-[10px] font-black text-zinc-500 uppercase ml-1 tracking-widest">Identificador</label>
+                <input type="text" id="user_input" placeholder="USUARIO / CÉDULA" class="w-full bg-zinc-900/50 border border-zinc-800 rounded-2xl py-4 px-5 focus:border-[#EC1313] outline-none text-white font-bold transition-all">
             </div>
             
             <div class="space-y-1">
-                <label for="pass_input" class="text-[10px] font-black text-zinc-500 uppercase ml-1 tracking-widest">
-                    Clave de Seguridad
-                </label>
+                <label for="pass_input" class="text-[10px] font-black text-zinc-500 uppercase ml-1 tracking-widest">Clave de Seguridad</label>
                 <div class="relative">
-                    <input type="password" 
-                           id="pass_input" 
-                           name="password"
-                           placeholder="••••••••" 
-                           class="w-full bg-zinc-900/50 border border-zinc-800 rounded-2xl py-4 pl-5 pr-14 focus:border-[#EC1313] outline-none text-white font-bold transition-all placeholder:text-zinc-700">
-                    <button type="button" 
-                            onclick="togglePassword()" 
-                            aria-label="Mostrar u ocultar contraseña"
-                            class="absolute right-5 top-1/2 -translate-y-1/2 text-zinc-600 hover:text-[#EC1313] transition-colors">
+                    <input type="password" id="pass_input" placeholder="••••••••" class="w-full bg-zinc-900/50 border border-zinc-800 rounded-2xl py-4 pl-5 pr-14 focus:border-[#EC1313] outline-none text-white font-bold transition-all">
+                    <button type="button" onclick="togglePassword()" aria-label="Ver clave" class="absolute right-5 top-1/2 -translate-y-1/2 text-zinc-600 hover:text-[#EC1313]">
                         <span id="eye-icon" class="material-symbols-outlined text-xl">visibility</span>
                     </button>
                 </div>
             </div>
             
-            <button id="btn-login" 
-                    onclick="validarYRedirigir()" 
-                    class="w-full bg-[#EC1313] hover:bg-red-700 text-white font-black py-5 rounded-2xl shadow-xl shadow-red-900/10 transition-all active:scale-95 uppercase text-sm tracking-[0.2em]">
+            <button id="btn-login" onclick="validarYRedirigir()" class="w-full bg-[#EC1313] hover:bg-red-700 text-white font-black py-5 rounded-2xl transition-all active:scale-95 uppercase text-sm tracking-[0.2em]">
                 Iniciar Sesión
             </button>
         </div>
 
         <div id="error-msg" class="hidden text-center text-[#EC1313] text-[10px] font-black uppercase bg-red-950/20 py-4 rounded-xl border border-red-900/30"></div>
-        
-        <p class="text-center">
-            <a href="../../index.html" class="text-[9px] text-zinc-600 uppercase tracking-widest hover:text-white transition-colors italic">← Volver al Portal</a>
-        </p>
     </div>
 
     <script>
-        // Función para ver/ocultar clave
         function togglePassword() {
             const passInput = document.getElementById('pass_input');
             const eyeIcon = document.getElementById('eye-icon');
@@ -112,7 +86,6 @@
             eyeIcon.innerText = isPass ? "visibility_off" : "visibility";
         }
 
-        // Función Principal de Login
         async function validarYRedirigir() {
             const userField = document.getElementById('user_input').value.trim();
             const passField = document.getElementById('pass_input').value.trim();
@@ -120,38 +93,34 @@
             const error = document.getElementById('error-msg');
 
             if (!userField || !passField) {
-                mostrarError("Complete todos los campos de seguridad");
+                mostrarError("Complete todos los campos");
                 return;
             }
 
-            // UI: Cargando
             btn.disabled = true;
             btn.innerText = "VERIFICANDO...";
             btn.classList.add('btn-loading');
             error.classList.add('hidden');
 
             try {
-                // Petición al Google Apps Script
                 const response = await fetch(API_URL, {
                     method: 'POST',
                     body: JSON.stringify({ 
                         accion: "login", 
                         usuario: userField, 
                         password: passField,
-                        token: API_KEY_SECRET // Validado contra tu config.js
+                        token: API_KEY // <--- CAMBIADO PARA COINCIDIR CON config.js
                     })
                 });
                 
                 const result = await response.json();
 
                 if (result.success) {
-                    // Guardar Sesión Local
                     localStorage.setItem('km0_user_id', result.id);
                     localStorage.setItem('km0_user_rol', result.rol);
                     
                     const userRol = result.rol.toString().toUpperCase().trim();
 
-                    // Lógica de Redirección por Rol y Carpeta
                     if (userRol === 'TIENDAS') {
                         window.location.href = "../tienda/panel-operativo-tienda.html";
                     } else if (userRol === 'ADMINISTRADOR') {
@@ -161,16 +130,15 @@
                     } else if (userRol === 'FINANZAS') {
                         window.location.href = "../finanzas/gestion-finanzas.html";
                     } else {
-                        mostrarError("Acceso Denegado: Rol no configurado");
+                        mostrarError("ROL NO AUTORIZADO");
                         resetBtn(btn);
                     }
                 } else {
-                    mostrarError(result.mensaje || "Credenciales Incorrectas");
+                    mostrarError(result.mensaje || "ACCESO DENEGADO");
                     resetBtn(btn);
                 }
             } catch (e) {
-                mostrarError("Error de Conexión con el Motor Central");
-                console.error("Error detallado:", e);
+                mostrarError("ERROR DE CONEXIÓN CON EL MOTOR");
                 resetBtn(btn);
             }
         }
@@ -186,11 +154,6 @@
             btn.innerText = "Iniciar Sesión";
             btn.classList.remove('btn-loading');
         }
-
-        // Login con tecla Enter
-        document.addEventListener('keypress', (e) => { 
-            if (e.key === 'Enter') validarYRedirigir(); 
-        });
     </script>
 </body>
 </html>
