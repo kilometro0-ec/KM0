@@ -3,11 +3,12 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Admin: Centro de Control Total 360</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <script id="tailwind-config">
+    <title>CENTRO 360 - Operativo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <script>
         tailwind.config = {
             darkMode: "class",
             theme: {
@@ -15,119 +16,100 @@
                     colors: {
                         "primary": "#ec1313",
                         "accent-fuchsia": "#ff00ff",
-                        "status-purple": "#a855f7",
-                        "status-green": "#22c55e",
-                        "status-gray": "#64748b",
-                        "background-light": "#f8f6f6",
-                        "background-dark": "#120808",
-                        "card-dark": "#221010",
-                    },
-                    fontFamily: { "display": ["Inter"] }
+                        "toxic-green": "#39FF14",
+                        "card-dark": "#1a0a0a",
+                        "background-dark": "#0a0505",
+                    }
                 }
             }
         }
     </script>
     <style>
-        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Inter', sans-serif; background-color: #0a0505; color: white; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
+        .glow-green { filter: drop-shadow(0 0 5px #39FF14); }
+        .material-icons { vertical-align: middle; }
     </style>
 </head>
-<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col font-display">
+<body class="min-h-screen flex flex-col">
 
-<header class="sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md px-4 py-4 border-b border-primary/10">
-    <div class="flex items-center justify-between">
-        <div class="flex items-center gap-3">
-            <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center shadow-lg shadow-primary/20">
-                <span class="material-symbols-outlined text-white text-3xl">smart_toy</span>
-            </div>
-            <div>
-                <h1 class="text-lg font-bold leading-tight tracking-tight">Centro 360</h1>
-                <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Logística Kilómetro Cero</p>
-            </div>
+<header class="sticky top-0 z-50 bg-black/90 backdrop-blur-md px-4 py-4 border-b border-white/5 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
+            <i class="material-icons text-white text-2xl">smart_toy</i>
         </div>
-        <div class="flex gap-2">
-            <button onclick="init()" class="w-10 h-10 flex items-center justify-center rounded-full bg-slate-200 dark:bg-card-dark text-primary">
-                <span class="material-symbols-outlined">sync</span>
-            </button>
-            <div class="w-10 h-10 rounded-full border-2 border-primary overflow-hidden">
-                <img src="https://ui-avatars.com/api/?name=Admin&background=ec1313&color=fff" />
-            </div>
+        <div>
+            <h1 class="text-lg font-black italic tracking-tighter uppercase leading-none">Centro 360</h1>
+            <p class="text-[9px] text-toxic-green font-bold glow-green">SISTEMA OPERATIVO</p>
+        </div>
+    </div>
+    <div class="flex gap-2">
+        <button onclick="init()" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 text-toxic-green">
+            <i class="material-icons">sync</i>
+        </button>
+        <div class="w-10 h-10 rounded-full border-2 border-toxic-green p-0.5">
+            <img src="https://ui-avatars.com/api/?name=Admin&background=000&color=39FF14" class="rounded-full" />
         </div>
     </div>
 </header>
 
-<main class="flex-1 overflow-y-auto pb-24">
+<main class="flex-1 overflow-y-auto pb-32">
     <div class="flex gap-3 p-4 overflow-x-auto no-scrollbar">
-        <div class="min-w-[140px] flex-1 bg-status-green/10 border border-status-green/20 rounded-xl p-4">
-            <p class="text-status-green text-xs font-bold uppercase tracking-wider mb-1">Entregados</p>
-            <p class="text-2xl font-bold">142</p>
+        <div class="min-w-[120px] bg-white/5 border border-white/10 rounded-2xl p-3">
+            <p class="text-gray-500 text-[9px] font-black uppercase">Motos</p>
+            <p id="stat-m" class="text-xl font-black">0</p>
         </div>
-        <div class="min-w-[140px] flex-1 bg-status-purple/10 border border-status-purple/20 rounded-xl p-4">
-            <p class="text-status-purple text-xs font-bold uppercase tracking-wider mb-1">Novedades</p>
-            <p class="text-2xl font-bold">08</p>
+        <div class="min-w-[120px] bg-white/5 border border-white/10 rounded-2xl p-3">
+            <p class="text-gray-500 text-[9px] font-black uppercase">Tiendas</p>
+            <p id="stat-t" class="text-xl font-black text-accent-fuchsia">0</p>
         </div>
-        <div class="min-w-[140px] flex-1 bg-status-gray/10 border border-status-gray/20 rounded-xl p-4">
-            <p class="text-status-gray text-xs font-bold uppercase tracking-wider mb-1">En Camino</p>
-            <p class="text-2xl font-bold">36</p>
+        <div class="min-w-[120px] bg-toxic-green/5 border border-toxic-green/20 rounded-2xl p-3">
+            <p class="text-toxic-green text-[9px] font-black uppercase">Total</p>
+            <p id="stat-total" class="text-xl font-black text-toxic-green">0</p>
         </div>
     </div>
 
     <section class="px-4 py-2">
-        <div class="flex items-center justify-between mb-3">
-            <h2 class="text-sm font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">Solicitudes Pendientes</h2>
-            <span id="badge-total" class="bg-primary/20 text-primary text-[10px] px-2 py-0.5 rounded-full font-bold">0 NUEVAS</span>
+        <h2 class="text-[10px] font-black uppercase tracking-widest text-gray-500 mb-4">Solicitudes Pendientes</h2>
+        <div id="contenedor-solicitudes" class="flex gap-4 overflow-x-auto no-scrollbar pb-4 min-h-[160px]">
+            <div class="w-full text-center py-10 text-gray-700 font-bold uppercase text-xs">Conectando con base de datos...</div>
         </div>
-        <div id="contenedor-solicitudes" class="flex gap-3 overflow-x-auto no-scrollbar pb-2">
-            </div>
     </section>
 
     <section class="px-4 py-6">
-        <h2 class="text-sm font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-4">Gestión de Usuarios Activos</h2>
+        <h2 class="text-[10px] font-black uppercase tracking-widest text-gray-500 mb-4">Usuarios Activos en Sesión</h2>
         <div id="lista-activos" class="space-y-3">
             </div>
     </section>
 
-    <section class="px-4 py-2">
-        <h2 class="text-sm font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-4">Hub de Asignación</h2>
-        <div class="grid grid-cols-2 gap-3">
-            <div class="space-y-3">
-                <div class="text-[10px] font-bold text-slate-400 uppercase flex items-center gap-1">
-                    <span class="material-symbols-outlined text-[14px]">list_alt</span> Pedidos Sin Asignar
-                </div>
-                <div class="bg-card-dark p-2 rounded-lg border border-primary/20">
-                    <p class="text-xs font-semibold truncate text-white">Sushi Garden</p>
-                    <p class="text-[9px] text-slate-500">#8922 • $4.50</p>
-                </div>
-            </div>
-            <div class="space-y-3">
-                <div class="text-[10px] font-bold text-slate-400 uppercase flex items-center gap-1">
-                    <span class="material-symbols-outlined text-[14px]">person_pin_circle</span> Motorizados Libres
-                </div>
-                <div class="bg-card-dark/40 border border-dashed border-slate-700 p-2 rounded-lg flex items-center gap-2">
-                    <span class="material-symbols-outlined text-primary text-sm">directions_bike</span>
-                    <p class="text-xs font-bold text-white">Mario V.</p>
-                </div>
+    <section class="px-4 grid grid-cols-2 gap-3">
+        <div class="bg-card-dark p-4 rounded-2xl border border-white/5">
+            <p class="text-[8px] font-black text-gray-500 uppercase mb-2">Pedidos Libres</p>
+            <div class="flex items-center gap-2">
+                <i class="material-icons text-accent-fuchsia text-sm">local_mall</i>
+                <p class="text-[11px] font-bold">Sushi Garden</p>
             </div>
         </div>
-    </section>
-
-    <section class="p-4 mt-4">
-        <div class="relative w-full h-40 bg-card-dark rounded-xl overflow-hidden border border-primary/10 flex items-center justify-center">
-            <span class="material-symbols-outlined text-slate-700 text-6xl">map</span>
+        <div class="bg-card-dark p-4 rounded-2xl border border-white/5">
+            <p class="text-[8px] font-black text-gray-500 uppercase mb-2">Motos Libres</p>
+            <div class="flex items-center gap-2 text-toxic-green glow-green">
+                <i class="material-icons text-sm">directions_bike</i>
+                <p class="text-[11px] font-bold">Mario V.</p>
+            </div>
         </div>
     </section>
 </main>
 
-<nav class="fixed bottom-0 w-full bg-background-light dark:bg-card-dark border-t border-primary/10 px-4 py-2 pb-6">
-    <div class="flex justify-between items-center max-w-md mx-auto">
-        <a class="flex flex-col items-center gap-1 text-primary" href="#"><span class="material-symbols-outlined">dashboard</span><span class="text-[10px] font-bold uppercase">Control</span></a>
-        <a class="flex flex-col items-center gap-1 text-slate-400" href="#"><span class="material-symbols-outlined">map</span><span class="text-[10px] font-bold uppercase">Mapa</span></a>
-        <a class="flex flex-col items-center gap-1 text-slate-400" href="#"><span class="material-symbols-outlined">group</span><span class="text-[10px] font-bold uppercase">Usuarios</span></a>
-        <a class="flex flex-col items-center gap-1 text-slate-400" href="#"><span class="material-symbols-outlined">settings</span><span class="text-[10px] font-bold uppercase">Ajustes</span></a>
-    </div>
+<nav class="fixed bottom-0 w-full bg-black/95 border-t border-white/5 px-6 py-4 pb-8 z-[100] flex justify-between items-end">
+    <button class="flex flex-col items-center text-gray-600"><i class="material-icons">dashboard</i></button>
+    <button class="flex flex-col items-center text-gray-600"><i class="material-icons">map</i></button>
+    
+    <button class="bg-toxic-green w-14 h-14 rounded-2xl shadow-[0_0_15px_#39FF1466] flex items-center justify-center -translate-y-4">
+        <i class="material-icons text-black text-3xl font-bold">badge</i>
+    </button>
+
+    <button class="flex flex-col items-center text-gray-600"><i class="material-icons">payments</i></button>
+    <button class="flex flex-col items-center text-gray-600"><i class="material-icons">settings</i></button>
 </nav>
 
 <script>
@@ -135,39 +117,50 @@
     let activos = [];
 
     async function init() {
+        const container = document.getElementById('contenedor-solicitudes');
         try {
             const res = await fetch(API_URL);
             db = await res.json();
+            
+            // Actualizar Stats
+            document.getElementById('stat-m').innerText = (db.motorizados || []).length;
+            document.getElementById('stat-t').innerText = (db.tiendas || []).length;
+            document.getElementById('stat-total').innerText = ((db.motorizados || []).length + (db.tiendas || []).length);
+            
             render();
-        } catch (e) { console.error("Error API"); }
+        } catch (e) { 
+            container.innerHTML = `<div class="w-full text-red-500 text-[10px] font-black uppercase">Error: Verifica el ID de tu Script</div>`;
+        }
     }
 
     function render() {
         const container = document.getElementById('contenedor-solicitudes');
-        const badge = document.getElementById('badge-total');
         container.innerHTML = "";
         
         let all = [...(db.motorizados || []), ...(db.tiendas || [])];
-        badge.innerText = `${all.length} NUEVAS`;
+
+        if(all.length === 0) {
+            container.innerHTML = `<div class="w-full py-10 bg-white/5 rounded-3xl border border-dashed border-white/10 text-center text-gray-600 text-[10px] font-black uppercase">Sin solicitudes pendientes</div>`;
+            return;
+        }
 
         all.forEach(item => {
             const isMoto = item.nombre !== undefined;
-            // Forzamos colores hexadecimales para evitar errores de compilación de Tailwind dinámico
-            const colorHex = isMoto ? '#ec1313' : '#ff00ff'; 
-            const icono = isMoto ? 'moped' : 'store';
-            const nombre = item.nombre || item.nombreTienda;
+            const color = isMoto ? '#ec1313' : '#ff00ff'; 
+            const icono = isMoto ? 'moped' : 'storefront';
+            const nombre = item.nombre || item.nombreTienda || "Sin Nombre";
 
             container.innerHTML += `
-                <div class="min-w-[200px] bg-card-dark border-l-4 rounded-lg p-3 shadow-sm" style="border-color: ${colorHex}">
-                    <div class="flex items-center gap-2 mb-2">
-                        <span class="material-symbols-outlined text-sm" style="color: ${colorHex}">${icono}</span>
-                        <span class="text-[10px] font-bold uppercase" style="color: ${colorHex}">${isMoto ? 'Motorizado' : 'Tienda'}</span>
+                <div class="min-w-[240px] bg-card-dark border-l-4 rounded-3xl p-5 shadow-2xl" style="border-color: ${color}">
+                    <div class="flex items-center gap-2 mb-3">
+                        <i class="material-icons text-lg" style="color: ${color}">${icono}</i>
+                        <span class="text-[9px] font-black uppercase tracking-widest text-gray-400">${isMoto ? 'Motorizado' : 'Tienda'}</span>
                     </div>
-                    <p class="text-sm font-bold mb-1 text-white">${nombre}</p>
-                    <p class="text-[10px] text-slate-400 mb-3">${item.ciudad || 'Sector pendiente'}</p>
-                    <div class="flex gap-1">
-                        <button onclick="gestionar('${item.id}', 'RECHAZADO', '${item.telefono}', '${nombre}')" class="flex-1 bg-white/5 text-slate-400 text-[9px] font-bold py-2 rounded-lg">Rechazar</button>
-                        <button onclick="gestionar('${item.id}', 'ACTIVO', '${item.telefono}', '${nombre}', '${item.password}', '${item.cedula}', ${isMoto})" class="flex-[2] text-[9px] font-bold py-2 rounded-lg" style="background: ${colorHex}33; color: ${colorHex}">Aprobar</button>
+                    <p class="text-sm font-black text-white mb-1 truncate">${nombre}</p>
+                    <p class="text-[9px] text-gray-500 mb-5 font-bold uppercase">${item.ciudad || 'Sector pendiente'}</p>
+                    <div class="flex gap-2">
+                        <button onclick="gestionar('${item.id}', 'RECHAZADO', '${item.telefono}', '${nombre}')" class="flex-1 bg-white/5 text-gray-500 text-[10px] font-black py-3 rounded-xl uppercase">Rechazar</button>
+                        <button onclick="gestionar('${item.id}', 'ACTIVO', '${item.telefono}', '${nombre}', '${item.password}', '${item.cedula}', ${isMoto})" class="flex-[1.5] text-[10px] font-black py-3 rounded-xl uppercase text-white shadow-lg" style="background: ${color}">Aprobar</button>
                     </div>
                 </div>`;
         });
@@ -176,35 +169,37 @@
 
     function renderActivos() {
         const container = document.getElementById('lista-activos');
-        container.innerHTML = activos.map(u => {
-            const colorHex = u.isMoto ? '#ec1313' : '#ff00ff';
-            return `
-            <div class="flex items-center justify-between bg-white dark:bg-card-dark p-3 rounded-xl border border-slate-200 dark:border-primary/5">
+        if(activos.length === 0) {
+            container.innerHTML = '<p class="text-[10px] text-gray-800 italic px-2">No hay usuarios aprobados en esta sesión</p>';
+            return;
+        }
+        container.innerHTML = activos.map(u => `
+            <div class="flex items-center justify-between bg-card-dark p-4 rounded-2xl border border-white/5">
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background: ${colorHex}1a">
-                        <span class="material-symbols-outlined" style="color: ${colorHex}">${u.isMoto ? 'delivery_dining' : 'shopping_bag'}</span>
+                    <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background: ${u.isMoto ? '#ec131320' : '#ff00ff20'}">
+                        <i class="material-icons" style="color: ${u.isMoto ? '#ec1313' : '#ff00ff'}">${u.isMoto ? 'delivery_dining' : 'shopping_bag'}</i>
                     </div>
-                    <div><p class="text-sm font-bold text-slate-900 dark:text-white">${u.nombre}</p><p class="text-[10px] text-slate-500 uppercase">${u.isMoto ? 'Motorizado' : 'Tienda'}</p></div>
+                    <div>
+                        <p class="text-sm font-black text-white">${u.nombre}</p>
+                        <p class="text-[9px] text-toxic-green font-bold uppercase">Habilitado</p>
+                    </div>
                 </div>
                 <label class="relative inline-flex items-center cursor-pointer">
                     <input checked class="sr-only peer" type="checkbox">
-                    <div class="w-11 h-6 bg-slate-300 dark:bg-slate-700 rounded-full peer peer-checked:bg-primary after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>
+                    <div class="w-11 h-6 bg-gray-800 rounded-full peer peer-checked:bg-toxic-green after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>
                 </label>
-            </div>`;
-        }).join('');
+            </div>`).join('');
     }
 
     async function gestionar(id, estado, telf, nombre, pass, user, isMoto) {
-        let msg = "";
-        if(estado === 'RECHAZADO') {
-            const motivo = prompt(`Motivo de rechazo para ${nombre}:`);
-            if(!motivo) return;
-            msg = `*KM0 - RECHAZADO*%0A*Motivo:* ${motivo}`;
-        } else {
-            if(!confirm(`¿Aprobar a ${nombre}?`)) return;
-            msg = `*KM0 - BIENVENIDO*%0A👤 *User:* ${user}%0A🔑 *Pass:* ${pass}`;
-            activos.unshift({ nombre, isMoto: isMoto });
-        }
+        if(!confirm(`¿Deseas ${estado.toLowerCase()} a ${nombre}?`)) return;
+        
+        let msg = (estado === 'ACTIVO') 
+            ? `*KM0 - ACCESO*%0A👤 *User:* ${user}%0A🔑 *Pass:* ${pass}`
+            : `*KM0 - RECHAZADO*%0A*Motivo:* Perfil no cumple requerimientos.`;
+
+        if(estado === 'ACTIVO') activos.unshift({ nombre, isMoto });
+
         await fetch(API_URL, { method: 'POST', body: JSON.stringify({ accion: "gestionar_solicitud", id, nuevoEstado: estado }) });
         window.open(`https://api.whatsapp.com/send?phone=${telf}&text=${msg}`, '_blank');
         init();
