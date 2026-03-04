@@ -21,24 +21,24 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            overflow: hidden;
         }
 
         .bg-glow {
             position: fixed;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 500px; height: 500px;
-            background: radial-gradient(circle, rgba(236, 19, 19, 0.07) 0%, rgba(0, 0, 0, 0) 70%);
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(236, 19, 19, 0.08) 0%, rgba(0, 0, 0, 0) 70%);
             z-index: -1;
         }
 
-        /* Animación de carga en botón */
         .btn-loading { 
             pointer-events: none; 
-            opacity: 0.7; 
-            background: linear-gradient(90deg, #EC1313, #7f0a0a, #EC1313); 
+            opacity: 0.6; 
+            background: linear-gradient(90deg, #EC1313, #a50f0f, #EC1313); 
             background-size: 200% 100%; 
-            animation: move-bg 1.5s linear infinite; 
+            animation: move-bg 1.2s linear infinite; 
         }
         @keyframes move-bg { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
     </style>
@@ -49,43 +49,54 @@
     <div class="w-full max-w-[360px] space-y-8">
         <div class="text-center space-y-4">
             <div class="flex justify-center">
-                <div class="p-6 bg-zinc-900/50 rounded-full border border-zinc-800 shadow-[0_0_30px_rgba(236,19,19,0.15)]">
+                <div class="p-6 bg-zinc-900/40 rounded-full border border-zinc-800 shadow-[0_0_40px_rgba(236,19,19,0.1)]">
                     <span class="material-symbols-outlined text-[#EC1313] text-6xl">account_circle</span>
                 </div>
             </div>
-            <h1 class="text-2xl font-black uppercase tracking-widest italic">KM0 Acceso</h1>
+            <div>
+                <h1 class="text-2xl font-black uppercase tracking-[0.2em] italic">KM0 Acceso</h1>
+                <p class="text-zinc-600 text-[9px] font-bold uppercase tracking-widest mt-1">Motor de Gestión Integral</p>
+            </div>
         </div>
 
         <div class="space-y-4">
             <div class="space-y-1">
                 <label class="text-[10px] font-black text-zinc-500 uppercase ml-1 tracking-widest">Identificador</label>
-                <input type="text" id="user" placeholder="USUARIO" class="w-full bg-zinc-900/50 border border-zinc-800 rounded-2xl py-4 px-5 focus:border-[#EC1313] outline-none text-white font-bold">
+                <input type="text" id="user" placeholder="USUARIO" 
+                       class="w-full bg-zinc-900/50 border border-zinc-800 rounded-2xl py-4 px-5 focus:border-[#EC1313] focus:ring-1 focus:ring-[#EC1313] outline-none transition-all text-white font-bold placeholder:text-zinc-700">
             </div>
             
             <div class="space-y-1">
                 <label class="text-[10px] font-black text-zinc-500 uppercase ml-1 tracking-widest">Clave de Seguridad</label>
                 <div class="relative">
-                    <input type="password" id="pass" placeholder="••••••••" class="w-full bg-zinc-900/50 border border-zinc-800 rounded-2xl py-4 pl-5 pr-14 focus:border-[#EC1313] outline-none text-white font-bold">
-                    <button type="button" onclick="togglePassword()" class="absolute right-5 top-1/2 -translate-y-1/2 text-zinc-600 hover:text-[#EC1313]">
+                    <input type="password" id="pass" placeholder="••••••••" 
+                           class="w-full bg-zinc-900/50 border border-zinc-800 rounded-2xl py-4 pl-5 pr-14 focus:border-[#EC1313] focus:ring-1 focus:ring-[#EC1313] outline-none transition-all text-white font-bold placeholder:text-zinc-700">
+                    <button type="button" onclick="togglePassword()" class="absolute right-5 top-1/2 -translate-y-1/2 text-zinc-600 hover:text-[#EC1313] transition-colors">
                         <span id="eye-icon" class="material-symbols-outlined text-xl">visibility</span>
                     </button>
                 </div>
             </div>
             
-            <button id="btn-login" onclick="validarYRedirigir()" class="w-full bg-[#EC1313] hover:bg-red-700 text-white font-black py-5 rounded-2xl transition-all active:scale-95 uppercase text-sm tracking-[0.2em]">
+            <button id="btn-login" onclick="validarYRedirigir()" 
+                    class="w-full bg-[#EC1313] hover:bg-red-700 text-white font-black py-5 rounded-2xl shadow-xl shadow-red-900/10 transition-all active:scale-95 uppercase text-xs tracking-[0.2em] mt-2">
                 Iniciar Sesión
             </button>
         </div>
 
-        <div id="error-msg" class="hidden text-center text-[#EC1313] text-[10px] font-black uppercase bg-red-950/20 py-4 rounded-xl border border-red-900/30"></div>
+        <div id="error-msg" class="hidden text-center text-[#EC1313] text-[10px] font-black uppercase bg-red-950/20 py-4 rounded-xl border border-red-900/30 tracking-tight transition-all"></div>
+        
+        <p class="text-center">
+            <a href="../../index.html" class="text-[9px] text-zinc-600 uppercase tracking-widest hover:text-white transition-colors italic">← Volver al Portal Público</a>
+        </p>
     </div>
 
     <script>
         function togglePassword() {
             const passInput = document.getElementById('pass');
             const eyeIcon = document.getElementById('eye-icon');
-            passInput.type = passInput.type === "password" ? "text" : "password";
-            eyeIcon.innerText = passInput.type === "password" ? "visibility" : "visibility_off";
+            const isPass = passInput.type === "password";
+            passInput.type = isPass ? "text" : "password";
+            eyeIcon.innerText = isPass ? "visibility_off" : "visibility";
         }
 
         async function validarYRedirigir() {
@@ -95,19 +106,18 @@
             const error = document.getElementById('error-msg');
 
             if (!userField || !passField) {
-                error.innerText = "COMPLETE TODOS LOS CAMPOS";
-                error.classList.remove('hidden');
+                mostrarError("Complete todos los campos de seguridad");
                 return;
             }
 
-            // UI Loading
+            // Estado de Carga
             btn.disabled = true;
-            btn.innerText = "VERIFICANDO...";
+            btn.innerText = "VERIFICANDO CREDENCIALES...";
             btn.classList.add('btn-loading');
             error.classList.add('hidden');
 
             try {
-                // LLAMADA A TU GOOGLE APPS SCRIPT
+                // Petición al Backend (Google Apps Script)
                 const response = await fetch(API_URL, {
                     method: 'POST',
                     body: JSON.stringify({ 
@@ -121,35 +131,41 @@
                 const result = await response.json();
 
                 if (result.success) {
-                    // GUARDAR SESIÓN
+                    // Guardar ID y Rol en LocalStorage para las vistas siguientes
                     localStorage.setItem('km0_user_id', result.id);
                     localStorage.setItem('km0_user_rol', result.rol);
                     
                     const userRol = result.rol.toString().toUpperCase().trim();
 
-                    // --- REDIRECCIÓN SEGÚN TU REQUERIMIENTO ---
+                    // Lógica de Redirección por Carpeta
                     if (userRol === 'TIENDAS') {
-                        // VA DIRECTO AL REPORTE GLOBAL DE ESA TIENDA
-                        window.location.href = "reporte-global-tienda.html";
+                        // Sube de views/auth/ a views/ y entra en tienda/
+                        window.location.href = "../tienda/panel-operativo-tienda.html";
                     } else if (userRol === 'ADMINISTRADOR') {
                         window.location.href = "../admin/dashboard.html";
                     } else if (userRol === 'MOTORIZADO') {
                         window.location.href = "../motorizado/panel-operativo-motorizado.html";
+                    } else if (userRol === 'FINANZAS') {
+                        window.location.href = "../finanzas/gestion-finanzas.html";
                     } else {
-                        error.innerText = "ROL NO AUTORIZADO";
-                        error.classList.remove('hidden');
+                        mostrarError("Acceso Denegado: Rol '" + userRol + "' no configurado");
                         resetBtn(btn);
                     }
                 } else {
-                    error.innerText = result.mensaje || "ERROR DE ACCESO";
-                    error.classList.remove('hidden');
+                    mostrarError(result.mensaje || "Credenciales Incorrectas");
                     resetBtn(btn);
                 }
             } catch (e) {
-                error.innerText = "ERROR DE CONEXIÓN";
-                error.classList.remove('hidden');
+                mostrarError("Error Crítico: No se pudo conectar con el motor central");
+                console.error(e);
                 resetBtn(btn);
             }
+        }
+
+        function mostrarError(msg) {
+            const error = document.getElementById('error-msg');
+            error.innerText = msg;
+            error.classList.remove('hidden');
         }
 
         function resetBtn(btn) {
@@ -158,6 +174,7 @@
             btn.classList.remove('btn-loading');
         }
 
+        // Permitir Login con la tecla Enter
         document.addEventListener('keypress', (e) => { 
             if (e.key === 'Enter') validarYRedirigir(); 
         });
