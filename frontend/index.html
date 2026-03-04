@@ -1,4 +1,20 @@
 <!DOCTYPE html>
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="KM0 ADMIN">
+
+<link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/717/717431.png">
+<link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/717/717431.png">
+
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      // Este script permite que el navegador reconozca el sitio como una aplicación instalable
+      navigator.serviceWorker.register('data:text/javascript;base64,c2VsZi5hZGRFdmVudExpc3RlbmVyKCdmZXRjaCcsIGU9PntlLmludGVydmVudGUoZmV0Y2goZS5yZXF1ZXN0KSk7fSk7');
+    });
+  }
+</script>
 <html class="dark" lang="es">
 <head>
     <meta charset="utf-8"/>
