@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Admin: Pedidos y Ajustes del Motor - Kilómetro Cero</title>
+    <title>Configuración Avanzada - KM0</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
     
     <script src="../../assets/js/config.js"></script>
@@ -18,7 +18,6 @@
                     colors: {
                         "primary": "#46f20d",
                         "accent-cyan": "#00f5ff",
-                        "background-light": "#f6f8f5",
                         "background-dark": "#142210",
                         "surface-dark": "#1e2b1a",
                         "border-dark": "#2c3e27",
@@ -29,194 +28,146 @@
         }
     </script>
     <style>
-        body { font-family: 'Space Grotesk', sans-serif; -webkit-tap-highlight-color: transparent; }
-        .neon-text-primary { text-shadow: 0 0 10px rgba(70, 242, 13, 0.5); }
-        .neon-text-cyan { text-shadow: 0 0 10px rgba(0, 245, 255, 0.5); }
-        .material-symbols-outlined { font-variation-settings: 'FILL' 0; }
-        .filled { font-variation-settings: 'FILL' 1; }
+        body { font-family: 'Space Grotesk', sans-serif; background-color: #142210; color: white; }
+        .neon-border { box-shadow: 0 0 15px rgba(70, 242, 13, 0.1); }
+        input[type="checkbox"]:checked { background-color: #46f20d; }
     </style>
 </head>
-<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
+<body class="min-h-screen flex flex-col pb-32">
 
-<header class="sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-border-dark px-4 py-3 flex items-center justify-between">
+<header class="sticky top-0 z-50 bg-background-dark/90 backdrop-blur-md border-b border-border-dark px-4 py-4 flex items-center justify-between">
     <div class="flex items-center gap-3">
-        <div class="size-10 bg-primary/20 rounded-lg flex items-center justify-center border border-primary/50">
-            <span class="material-symbols-outlined text-primary filled">agriculture</span>
+        <div class="relative group">
+            <img id="admin-photo" src="https://ui-avatars.com/api/?name=Admin+KM0&background=1e2b1a&color=46f20d" class="size-12 rounded-full border-2 border-primary object-cover">
+            <label for="upload-photo" class="absolute bottom-0 right-0 size-5 bg-primary rounded-full flex items-center justify-center cursor-pointer border-2 border-background-dark">
+                <span class="material-symbols-outlined text-[10px] text-black font-bold">edit</span>
+            </label>
+            <input type="file" id="upload-photo" class="hidden" accept="image/*" onchange="previewImage(event)">
         </div>
         <div>
-            <h1 class="text-lg font-bold leading-tight">Kilómetro Cero</h1>
-            <p class="text-[10px] uppercase tracking-widest text-primary font-bold">Admin Engine</p>
+            <h1 class="text-sm font-black uppercase tracking-tighter">Motor Control Center</h1>
+            <p class="text-[9px] uppercase tracking-[0.3em] text-primary font-bold">Identidad & Operaciones</p>
         </div>
     </div>
-    <button onclick="location.reload()" class="size-10 flex items-center justify-center rounded-full bg-surface-dark border border-border-dark text-primary">
-        <span class="material-symbols-outlined">sync</span>
-    </button>
 </header>
 
-<main class="flex-1 overflow-y-auto pb-24">
-    <div class="flex border-b border-border-dark bg-surface-dark/50">
-        <button id="tab-pedidos" onclick="switchView('pedidos')" class="flex-1 py-4 text-sm font-bold border-b-2 border-primary text-primary flex items-center justify-center gap-2">
-            <span class="material-symbols-outlined text-sm">list_alt</span> Pedidos
-        </button>
-        <button id="tab-config" onclick="switchView('config')" class="flex-1 py-4 text-sm font-bold border-b-2 border-transparent text-slate-400 flex items-center justify-center gap-2">
-            <span class="material-symbols-outlined text-sm">settings_input_component</span> Configuración
-        </button>
-    </div>
-
-    <section class="p-4 space-y-6">
-        <div class="relative">
-            <span class="absolute inset-y-0 left-3 flex items-center text-slate-400">
-                <span class="material-symbols-outlined">search</span>
-            </span>
-            <input id="search-input" class="w-full bg-surface-dark border-border-dark rounded-xl py-3 pl-10 pr-4 text-sm outline-none text-slate-100 placeholder:text-slate-500" placeholder="Buscar pedido, cliente o sector..." type="text"/>
+<main class="p-4 space-y-8">
+    
+    <section class="space-y-4">
+        <div class="flex items-center justify-between px-1">
+            <h2 class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">Horario de Operación</h2>
+            <span class="text-[9px] bg-red-500/10 text-red-500 px-2 py-0.5 rounded border border-red-500/20 font-bold uppercase">Feriados: Cerrado</span>
         </div>
 
-        <div id="view-pedidos" class="space-y-4">
-            <div class="flex items-center justify-between">
-                <h2 class="text-xl font-bold flex items-center gap-2">
-                    Trazabilidad Maestra
-                    <span class="bg-primary/20 text-primary text-[10px] px-2 py-0.5 rounded-full border border-primary/30 uppercase">En Vivo</span>
-                </h2>
-            </div>
-            <div id="pedidos-container" class="space-y-3">
-                <div class="text-center py-10 text-slate-500 animate-pulse text-xs uppercase font-bold">Conectando con el Motor...</div>
-            </div>
-        </div>
-
-        <div id="view-config" class="hidden space-y-4">
-            <h2 class="text-xl font-bold flex items-center gap-2">
-                Ajustes del Motor
-                <span class="material-symbols-outlined text-accent-cyan">tune</span>
-            </h2>
-            <div class="grid grid-cols-1 gap-4">
-                <div class="bg-surface-dark border border-border-dark rounded-xl p-5 flex items-center justify-between">
-                    <div class="space-y-1">
-                        <p class="text-sm font-medium text-slate-300">Comisión Global</p>
-                        <p id="comision-val" class="text-2xl font-display font-bold text-primary neon-text-primary">12.5%</p>
-                    </div>
-                    <div class="flex items-center gap-3">
-                        <button onclick="updateValue('comision', -0.5)" class="size-10 rounded-lg bg-border-dark flex items-center justify-center text-accent-cyan"><span class="material-symbols-outlined">remove</span></button>
-                        <button onclick="updateValue('comision', 0.5)" class="size-10 rounded-lg bg-border-dark flex items-center justify-center text-accent-cyan"><span class="material-symbols-outlined">add</span></button>
-                    </div>
-                </div>
-                <div class="bg-surface-dark border border-border-dark rounded-xl p-5 flex items-center justify-between">
-                    <div class="space-y-1">
-                        <p class="text-sm font-medium text-slate-300">Valor Base Sector A</p>
-                        <p id="base-val" class="text-2xl font-display font-bold text-primary neon-text-primary">$4.50</p>
-                    </div>
-                    <div class="flex items-center gap-3">
-                        <button onclick="updateValue('base', -0.25)" class="size-10 rounded-lg bg-border-dark flex items-center justify-center text-accent-cyan"><span class="material-symbols-outlined">remove</span></button>
-                        <button onclick="updateValue('base', 0.25)" class="size-10 rounded-lg bg-border-dark flex items-center justify-center text-accent-cyan"><span class="material-symbols-outlined">add</span></button>
-                    </div>
-                </div>
+        <div class="bg-surface-dark border border-border-dark rounded-2xl overflow-hidden shadow-2xl">
+            <div id="schedule-list" class="divide-y divide-border-dark">
+                <script>
+                    const dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+                    dias.forEach(dia => {
+                        document.write(`
+                            <div class="p-4 flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <span class="text-xs font-bold w-16 text-slate-300">${dia}</span>
+                                    <input type="time" value="08:00" class="bg-transparent border-none text-primary text-xs font-bold focus:ring-0 p-0">
+                                    <span class="text-slate-600 text-[10px]">A</span>
+                                    <input type="time" value="22:00" class="bg-transparent border-none text-primary text-xs font-bold focus:ring-0 p-0">
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" checked class="sr-only peer">
+                                    <div class="w-8 h-4 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-primary"></div>
+                                </label>
+                            </div>
+                        `);
+                    });
+                </script>
             </div>
         </div>
     </section>
+
+    <section class="space-y-3">
+        <h2 class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 ml-1">Suspensión por Feriado</h2>
+        <div class="bg-red-500/5 border border-red-500/20 rounded-2xl p-5 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-red-500">event_busy</span>
+                <div>
+                    <p class="text-xs font-bold text-white uppercase tracking-tighter">Apagado de Emergencia</p>
+                    <p class="text-[9px] text-red-500 font-medium">Deshabilita el motor para todas las tiendas hoy.</p>
+                </div>
+            </div>
+            <button onclick="toggleEmergencyStop()" id="emergency-btn" class="px-4 py-2 bg-red-600 text-white text-[10px] font-black rounded-lg uppercase shadow-lg shadow-red-900/40">APAGAR</button>
+        </div>
+    </section>
+
+    <section class="space-y-4">
+        <h2 class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 ml-1">Finanzas KM0</h2>
+        <div class="grid grid-cols-2 gap-3">
+            <div class="bg-surface-dark border border-border-dark rounded-2xl p-4 text-center">
+                <p class="text-[9px] font-bold text-slate-400 uppercase mb-1">Cobra KM0</p>
+                <p class="text-xl font-black text-primary">$4.00</p>
+            </div>
+            <div class="bg-surface-dark border border-border-dark rounded-2xl p-4 text-center">
+                <p class="text-[9px] font-bold text-slate-400 uppercase mb-1">Gana Motorizado</p>
+                <p class="text-xl font-black text-accent-cyan">$2.75</p>
+            </div>
+        </div>
+    </section>
+
 </main>
 
 <nav class="fixed bottom-0 left-0 right-0 bg-background-dark/95 backdrop-blur-xl border-t border-border-dark px-2 pb-6 pt-2 z-50">
     <div class="flex justify-around items-center">
-        <a class="flex flex-col items-center gap-1 px-4 py-2 text-primary" href="admin.html">
-            <span class="material-symbols-outlined text-[28px] filled">dashboard</span>
+        <a class="flex flex-col items-center gap-1 px-4 py-2 text-slate-500" href="dashboard.html">
+            <span class="material-symbols-outlined text-[28px]">dashboard</span>
             <span class="text-[10px] font-bold uppercase tracking-tighter">Panel</span>
         </a>
-        <a class="flex flex-col items-center gap-1 px-4 py-2 text-slate-500" href="#">
-            <span class="material-symbols-outlined text-[28px]">analytics</span>
-            <span class="text-[10px] font-bold uppercase tracking-tighter">Reportes</span>
-        </a>
         <div class="relative -top-6">
-            <button class="size-16 bg-primary rounded-full flex items-center justify-center text-background-dark shadow-[0_0_20px_rgba(70,242,13,0.4)] border-4 border-background-dark">
-                <span class="material-symbols-outlined text-3xl font-bold">add</span>
+            <button onclick="guardarConfiguracion()" class="size-16 bg-primary rounded-full flex items-center justify-center text-background-dark shadow-[0_0_20px_rgba(70,242,13,0.4)] border-4 border-background-dark active:scale-95 transition-all">
+                <span class="material-symbols-outlined text-3xl font-black">cloud_upload</span>
             </button>
         </div>
-        <a class="flex flex-col items-center gap-1 px-4 py-2 text-slate-500" href="usuarios.html">
-            <span class="material-symbols-outlined text-[28px]">group</span>
-            <span class="text-[10px] font-bold uppercase tracking-tighter">Socios</span>
-        </a>
-        <a class="flex flex-col items-center gap-1 px-4 py-2 text-slate-500" href="#">
-            <span class="material-symbols-outlined text-[28px]">manage_accounts</span>
-            <span class="text-[10px] font-bold uppercase tracking-tighter">Perfil</span>
+        <a class="flex flex-col items-center gap-1 px-4 py-2 text-primary" href="#">
+            <span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1">tune</span>
+            <span class="text-[10px] font-bold uppercase tracking-tighter">Ajustes</span>
         </a>
     </div>
 </nav>
 
 <script>
-    // LÓGICA DE INTERFAZ Y DATOS
-    function switchView(view) {
-        const pView = document.getElementById('view-pedidos');
-        const cView = document.getElementById('view-config');
-        const pTab = document.getElementById('tab-pedidos');
-        const cTab = document.getElementById('tab-config');
+    function previewImage(event) {
+        const reader = new FileReader();
+        reader.onload = function(){
+            const output = document.getElementById('admin-photo');
+            output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
 
-        if(view === 'pedidos') {
-            pView.classList.remove('hidden');
-            cView.classList.add('hidden');
-            pTab.className = "flex-1 py-4 text-sm font-bold border-b-2 border-primary text-primary flex items-center justify-center gap-2";
-            cTab.className = "flex-1 py-4 text-sm font-bold border-b-2 border-transparent text-slate-400 flex items-center justify-center gap-2";
+    let isStopped = false;
+    function toggleEmergencyStop() {
+        const btn = document.getElementById('emergency-btn');
+        isStopped = !isStopped;
+        if(isStopped) {
+            btn.innerText = "ENCENDER";
+            btn.classList.replace('bg-red-600', 'bg-green-600');
+            alert("⚠️ EL MOTOR HA SIDO APAGADO. Ninguna tienda podrá solicitar pedidos.");
         } else {
-            cView.classList.remove('hidden');
-            pView.classList.add('hidden');
-            cTab.className = "flex-1 py-4 text-sm font-bold border-b-2 border-primary text-primary flex items-center justify-center gap-2";
-            pTab.className = "flex-1 py-4 text-sm font-bold border-b-2 border-transparent text-slate-400 flex items-center justify-center gap-2";
+            btn.innerText = "APAGAR";
+            btn.classList.replace('bg-green-600', 'bg-red-600');
+            alert("✅ MOTOR REINICIADO. Operaciones normales habilitadas.");
         }
     }
 
-    // Simulación de actualización de valores (Se conecta a Sheets mediante POST)
-    let currentComision = 12.5;
-    let currentBase = 4.50;
-
-    function updateValue(type, amount) {
-        if(type === 'comision') {
-            currentComision += amount;
-            document.getElementById('comision-val').innerText = currentComision.toFixed(1) + '%';
-        } else {
-            currentBase += amount;
-            document.getElementById('base-val').innerText = '$' + currentBase.toFixed(2);
-        }
-        // Aquí iría el fetch(API_URL, {method:'POST', body: ...}) para guardar en el Excel
-        console.log(`Actualizando ${type} en base de datos...`);
+    async function guardarConfiguracion() {
+        const btn = event.currentTarget;
+        btn.classList.add('animate-spin');
+        
+        // Simulación de envío a Google Sheets (aquí mapearías los valores de los horarios)
+        setTimeout(() => {
+            btn.classList.remove('animate-spin');
+            alert("🚀 CONFIGURACIÓN GLOBAL SINCRONIZADA\nHorarios y ajustes actualizados en la nube.");
+        }, 1500);
     }
-
-    // Cargar Pedidos Reales (Ejemplo conectando a la hoja de pedidos)
-    async function loadRealOrders() {
-        const container = document.getElementById('pedidos-container');
-        try {
-            const res = await fetch(API_URL);
-            const data = await res.json();
-            
-            // Si tienes una pestaña de 'pedidos' en tu JSON, la usamos. 
-            // Si no, mostramos los registros actuales como ejemplo de trazabilidad.
-            container.innerHTML = "";
-            const sampleOrders = [
-                { id: "#KC-9842", local: "Restaurante El Toro", monto: 1240, status: "En Tránsito", time: "4m" },
-                { id: "#KC-9841", local: "Fruver Central 01", monto: 850.5, status: "Completado", time: "22m" }
-            ];
-
-            sampleOrders.forEach(order => {
-                container.innerHTML += `
-                <div class="bg-surface-dark border border-border-dark rounded-xl p-4">
-                    <div class="flex justify-between items-start mb-3">
-                        <div>
-                            <span class="text-xs text-slate-500 font-mono">ID: ${order.id}</span>
-                            <h3 class="font-bold text-slate-100">${order.local}</h3>
-                        </div>
-                        <div class="text-right">
-                            <p class="text-primary font-display font-bold text-lg neon-text-primary">$${order.monto.toFixed(2)}</p>
-                            <span class="text-[10px] ${order.status === 'Completado' ? 'text-slate-400' : 'text-accent-cyan'} uppercase font-bold ${order.status === 'Completado' ? '' : 'neon-text-cyan'}">${order.status}</span>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-2 text-xs text-slate-400 border-t border-border-dark pt-3 mt-1">
-                        <span class="material-symbols-outlined text-sm">history</span>
-                        <span>Último evento: ${order.time}</span>
-                    </div>
-                </div>`;
-            });
-        } catch (e) {
-            container.innerHTML = `<p class="text-red-500 text-center text-xs">Error de sincronización</p>`;
-        }
-    }
-
-    document.addEventListener('DOMContentLoaded', loadRealOrders);
 </script>
+
 </body>
 </html>
