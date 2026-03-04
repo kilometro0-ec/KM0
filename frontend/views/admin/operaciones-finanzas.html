@@ -3,10 +3,10 @@
 <html class="dark" lang="es"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Admin: Finanzas Globales</title>
+<title>Admin: Operaciones Financieras</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
         tailwind.config = {
@@ -19,7 +19,7 @@
                         "background-dark": "#142210",
                     },
                     fontFamily: {
-                        "display": ["Space Grotesk", "sans-serif"]
+                        "display": ["Space Grotesk"]
                     },
                     borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
                 },
@@ -27,161 +27,206 @@
         }
     </script>
 <style>
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .ios-blur {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+<style>
     body {
       min-height: max(884px, 100dvh);
     }
   </style>
   </head>
-<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display selection:bg-primary/30">
-<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden pb-24">
-<!-- Header -->
-<div class="flex items-center bg-background-light dark:bg-background-dark p-4 pb-2 justify-between sticky top-0 z-10 backdrop-blur-md bg-opacity-80">
-<div class="text-slate-900 dark:text-slate-100 flex size-12 shrink-0 items-center justify-start">
-<span class="material-symbols-outlined text-2xl">menu</span>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen font-display">
+<!-- Header Section -->
+<header class="sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 ios-blur border-b border-slate-200 dark:border-primary/20">
+<div class="flex items-center justify-between p-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-900 dark:text-slate-100">arrow_back_ios</span>
+<h1 class="text-xl font-bold tracking-tight">Finanzas</h1>
 </div>
-<h2 class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center">Finanzas Globales</h2>
-<div class="flex w-12 items-center justify-end">
-<button class="flex cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 bg-transparent text-slate-900 dark:text-slate-100 p-0">
-<span class="material-symbols-outlined text-2xl">notifications</span>
-</button>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-primary">account_balance_wallet</span>
+<span class="material-symbols-outlined text-slate-900 dark:text-slate-100">search</span>
 </div>
 </div>
 <!-- Navigation Tabs -->
-<div class="pb-3 border-b border-primary/10">
-<div class="flex px-4 gap-8">
-<a class="flex flex-col items-center justify-center border-b-[3px] border-b-primary text-primary pb-[13px] pt-4" href="#">
-<p class="text-sm font-bold leading-normal tracking-[0.015em]">Resumen</p>
+<div class="flex px-4 overflow-x-auto no-scrollbar gap-6">
+<a class="flex flex-col items-center pt-2 pb-3 border-b-2 border-primary text-primary" href="#">
+<span class="text-sm font-bold whitespace-nowrap">Liquidaciones</span>
 </a>
-<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-slate-500 dark:text-slate-400 pb-[13px] pt-4" href="#">
-<p class="text-sm font-bold leading-normal tracking-[0.015em]">Facturación</p>
+<a class="flex flex-col items-center pt-2 pb-3 border-b-2 border-transparent text-slate-500 dark:text-slate-400" href="#">
+<span class="text-sm font-bold whitespace-nowrap">Depósitos</span>
 </a>
-<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-slate-500 dark:text-slate-400 pb-[13px] pt-4" href="#">
-<p class="text-sm font-bold leading-normal tracking-[0.015em]">Liquidados</p>
+<a class="flex flex-col items-center pt-2 pb-3 border-b-2 border-transparent text-slate-500 dark:text-slate-400" href="#">
+<span class="text-sm font-bold whitespace-nowrap">Pagos Tienda</span>
+</a>
+<a class="flex flex-col items-center pt-2 pb-3 border-b-2 border-transparent text-slate-500 dark:text-slate-400" href="#">
+<span class="text-sm font-bold whitespace-nowrap">Historial</span>
 </a>
 </div>
-</div>
-<!-- Financial Summary Cards -->
-<div class="flex flex-col gap-4 p-4">
-<div class="flex flex-col gap-2 rounded-xl p-6 bg-primary/10 border border-primary/20">
-<div class="flex justify-between items-start">
-<p class="text-slate-600 dark:text-slate-300 text-sm font-medium leading-normal">Facturación Total Bruta</p>
-<span class="material-symbols-outlined text-primary">payments</span>
-</div>
-<p class="text-slate-900 dark:text-white tracking-tight text-3xl font-bold leading-tight">$125,400.00</p>
-<div class="flex items-center gap-1">
-<span class="material-symbols-outlined text-primary text-sm">trending_up</span>
-<p class="text-primary text-sm font-medium leading-normal">+12.5% vs mes anterior</p>
+</header>
+<main class="pb-24">
+<!-- Summary Cards -->
+<div class="grid grid-cols-2 gap-4 p-4">
+<div class="bg-white dark:bg-primary/5 p-4 rounded-xl border border-slate-200 dark:border-primary/10 shadow-sm">
+<p class="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Pendiente Tiendas</p>
+<p class="text-2xl font-bold text-slate-900 dark:text-slate-100">$4,250.00</p>
+<div class="mt-2 flex items-center text-[10px] text-primary bg-primary/10 px-2 py-0.5 rounded-full w-fit">
+<span class="material-symbols-outlined text-[12px] mr-1">trending_up</span>
+<span>12% vs ayer</span>
 </div>
 </div>
-<div class="grid grid-cols-2 gap-4">
-<div class="flex flex-col gap-2 rounded-xl p-5 bg-slate-100 dark:bg-primary/5 border border-slate-200 dark:border-primary/10">
-<p class="text-slate-600 dark:text-slate-400 text-xs font-medium uppercase tracking-wider">Comisiones KM0</p>
-<p class="text-slate-900 dark:text-white text-xl font-bold">$18,810.00</p>
-<p class="text-primary text-xs font-medium">+8.2%</p>
-</div>
-<div class="flex flex-col gap-2 rounded-xl p-5 bg-slate-100 dark:bg-primary/5 border border-slate-200 dark:border-primary/10">
-<p class="text-slate-600 dark:text-slate-400 text-xs font-medium uppercase tracking-wider">Saldos Pendientes</p>
-<p class="text-slate-900 dark:text-white text-xl font-bold">$4,200.00</p>
-<p class="text-red-500 text-xs font-medium">-2.4%</p>
+<div class="bg-white dark:bg-primary/5 p-4 rounded-xl border border-slate-200 dark:border-primary/10 shadow-sm">
+<p class="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-wider mb-1">Caja Motorizados</p>
+<p class="text-2xl font-bold text-slate-900 dark:text-slate-100">$1,820.50</p>
+<div class="mt-2 flex items-center text-[10px] text-amber-500 bg-amber-500/10 px-2 py-0.5 rounded-full w-fit">
+<span class="material-symbols-outlined text-[12px] mr-1">pending_actions</span>
+<span>8 por cobrar</span>
 </div>
 </div>
 </div>
-<!-- Growth Chart Section -->
-<div class="px-4 py-2">
-<div class="flex flex-col gap-2 rounded-xl border border-slate-200 dark:border-primary/10 bg-slate-50 dark:bg-background-dark p-6">
-<div class="flex justify-between items-center mb-4">
-<div>
-<p class="text-slate-900 dark:text-white text-base font-bold leading-normal">Crecimiento Mensual</p>
-<p class="text-slate-500 dark:text-slate-400 text-xs">Ene - Jun 2024</p>
-</div>
-<div class="bg-primary/20 px-2 py-1 rounded text-primary text-xs font-bold">
-                        +15.3%
-                    </div>
-</div>
-<div class="flex min-h-[180px] flex-1 flex-col gap-4 py-2">
-<svg fill="none" height="148" preserveaspectratio="none" viewbox="-3 0 478 150" width="100%" xmlns="http://www.w3.org/2000/svg">
-<path d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25V149H326.769H0V109Z" fill="url(#paint0_linear)"></path>
-<path d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25" stroke="#46f20d" stroke-linecap="round" stroke-width="3"></path>
-<defs>
-<lineargradient gradientunits="userSpaceOnUse" id="paint0_linear" x1="236" x2="236" y1="1" y2="149">
-<stop stop-color="#46f20d" stop-opacity="0.3"></stop>
-<stop offset="1" stop-color="#46f20d" stop-opacity="0"></stop>
-</lineargradient>
-</defs>
-</svg>
-<div class="flex justify-between px-1">
-<p class="text-slate-500 text-[11px] font-bold uppercase">Ene</p>
-<p class="text-slate-500 text-[11px] font-bold uppercase">Feb</p>
-<p class="text-slate-500 text-[11px] font-bold uppercase">Mar</p>
-<p class="text-slate-500 text-[11px] font-bold uppercase">Abr</p>
-<p class="text-slate-500 text-[11px] font-bold uppercase">May</p>
-<p class="text-slate-500 text-[11px] font-bold uppercase">Jun</p>
-</div>
-</div>
-</div>
-</div>
-<!-- Recent Transactions Preview -->
-<div class="px-4 py-6">
+<!-- Action Required Section -->
+<section class="px-4 mt-2">
 <div class="flex items-center justify-between mb-4">
-<h3 class="text-slate-900 dark:text-white font-bold text-lg">Últimos Movimientos</h3>
-<button class="text-primary text-sm font-semibold">Ver todos</button>
+<h2 class="text-lg font-bold">Por Aprobar</h2>
+<span class="text-xs text-primary font-bold">Ver todos</span>
 </div>
+<!-- Pending Deposit Item -->
+<div class="bg-white dark:bg-primary/5 rounded-xl border border-slate-200 dark:border-primary/10 overflow-hidden mb-4">
+<div class="p-4 flex items-center justify-between border-b border-slate-100 dark:border-primary/5">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-slate-100 dark:bg-primary/10 flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Profile picture of a delivery driver" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDaYuJLJOB3DWa6j5NAYiTfWC6mVbUlZHYDp75B7LK1uiZTHU8bA0Wo00M8gI55CuhJsiBICFNsIlOB9f819tLnWptXTfcQsrilk0iGIqoeS8zsiVkS_TpLXYq-S6QZijOmPKEz7t17vSvXrfsNFhTJbFeoF1q1STh_itCSuqhHr2eEdIjpv3BwMSr8c5HheiMpF-dyfqJG3bgzbYL4l0ihFzVgzpvxGYYNLC32cQPJ3_PicQGvwbxfZ7LFcr4kMdLkESlEkeQLO18a"/>
+</div>
+<div>
+<p class="font-bold text-sm">Carlos Ruiz (M-42)</p>
+<p class="text-xs text-slate-500">Depósito Bancario #84920</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-bold text-primary">$145.00</p>
+<p class="text-[10px] text-slate-400 uppercase font-bold">Hoy, 10:24 AM</p>
+</div>
+</div>
+<div class="p-4 bg-slate-50/50 dark:bg-white/5">
+<div class="flex gap-4 mb-4">
+<div class="flex-1 aspect-[4/3] bg-slate-200 dark:bg-slate-800 rounded-lg relative overflow-hidden group">
+<img class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" data-alt="Photograph of a bank transfer receipt" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgS5b-q9zAhC1xC_ozjO8pE7BPJMmh9INMj4f8Z_BV8emtzzZsZkoEOJGO1amtD7Q2nGdJKmtER7Mj3gWf36t8Q5zfwYJPnZUEJ6yZr9aqx1LrC4lf9_-W3ud1F5yo8XNWymsrG5rihQ5I0N8NysNoYT_7x1-2_8dciUuEeIjDKRE2qJm29hKrvCAriyMejMpsyMOBcuMij0sapXDN7kg5Hy4igPSUv3i_u5C1lTHM8zLDdJcfuxfNDak3Uu_wGzcORHmcagCD3n1w"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-3xl opacity-60">zoom_in</span>
+</div>
+</div>
+<div class="flex-1 space-y-2">
+<p class="text-xs font-bold uppercase text-slate-400 tracking-tighter">Detalles</p>
+<p class="text-xs text-slate-600 dark:text-slate-300">Banco: Pichincha</p>
+<p class="text-xs text-slate-600 dark:text-slate-300">Ref: 29384752</p>
+<p class="text-xs text-slate-600 dark:text-slate-300">Tipo: Transferencia</p>
+</div>
+</div>
+<div class="flex gap-3">
+<button class="flex-1 bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-slate-100 py-2.5 rounded-lg text-sm font-bold">Rechazar</button>
+<button class="flex-[2] bg-primary text-slate-900 py-2.5 rounded-lg text-sm font-bold flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+                            Aprobar Depósito
+                        </button>
+</div>
+</div>
+</div>
+<!-- Store Payment Item -->
+<div class="bg-white dark:bg-primary/5 rounded-xl border border-slate-200 dark:border-primary/10 overflow-hidden mb-4">
+<div class="p-4 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-slate-100 dark:bg-primary/10 flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Logo of a local restaurant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC83BFR8y0JptEV_Zwnl-uAeJzVUfAPSEiQ8sByDFA5pB-h6mcMN1kZYWy5WQ_qrmhoHhG1Wr1wx_r-t5-S7ZwxEGFTTejED2NZdGsVHiK3xCyaHFLQ5qHpFhvRG_Knh01PRfiiKUwJOa3o8gyb8sqHcMQoC8FOzPy-xpvpVfIEEFntiERNh6_b4YZ3Ngd-X2h5zhutAK_3i-KZ-ihJQCOlUvv4w-uJRaTFUss7mQ5MHcFhP1bRZZs86XgbyGAaj1ryFxJVxvnuYjYN"/>
+</div>
+<div>
+<p class="font-bold text-sm">Pizzería Napoli</p>
+<p class="text-xs text-slate-500">Pago pendiente: 14 órdenes</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-bold text-slate-900 dark:text-slate-100">$892.40</p>
+<button class="text-[10px] text-primary font-bold border border-primary px-2 py-0.5 rounded-full mt-1">Pagar Ahora</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Recent Transactions -->
+<section class="px-4 mt-6">
+<h2 class="text-lg font-bold mb-4">Historial Reciente</h2>
 <div class="space-y-4">
-<div class="flex items-center justify-between p-3 rounded-lg bg-slate-100 dark:bg-primary/5 border border-transparent dark:border-primary/10">
+<div class="flex items-center justify-between bg-white dark:bg-primary/5 p-3 rounded-xl border border-slate-200 dark:border-primary/10">
 <div class="flex items-center gap-3">
-<div class="size-10 rounded-full bg-primary/20 flex items-center justify-center text-primary">
-<span class="material-symbols-outlined">receipt_long</span>
+<div class="size-10 rounded-lg bg-green-500/10 flex items-center justify-center text-green-500">
+<span class="material-symbols-outlined">call_received</span>
 </div>
 <div>
-<p class="font-bold text-sm">Factura #8920</p>
-<p class="text-xs text-slate-500">Eco-Logistics S.A.</p>
+<p class="font-bold text-sm">Entrada: Depósito M-12</p>
+<p class="text-[10px] text-slate-500">Ref: 293847 • 12:45 PM</p>
 </div>
 </div>
-<div class="text-right">
-<p class="font-bold text-sm text-primary">+$1,450.00</p>
-<p class="text-[10px] text-slate-500 uppercase font-bold">Completado</p>
+<p class="font-bold text-green-500">+$65.00</p>
 </div>
-</div>
-<div class="flex items-center justify-between p-3 rounded-lg bg-slate-100 dark:bg-primary/5 border border-transparent dark:border-primary/10">
+<div class="flex items-center justify-between bg-white dark:bg-primary/5 p-3 rounded-xl border border-slate-200 dark:border-primary/10">
 <div class="flex items-center gap-3">
-<div class="size-10 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center text-slate-500">
-<span class="material-symbols-outlined">pending</span>
+<div class="size-10 rounded-lg bg-red-500/10 flex items-center justify-center text-red-500">
+<span class="material-symbols-outlined">call_made</span>
 </div>
 <div>
-<p class="font-bold text-sm">Factura #8919</p>
-<p class="text-xs text-slate-500">Mensajería Express</p>
+<p class="font-bold text-sm">Salida: Pago Sushi Go</p>
+<p class="text-[10px] text-slate-500">Transferencia • 11:20 AM</p>
 </div>
 </div>
-<div class="text-right">
-<p class="font-bold text-sm">$820.00</p>
-<p class="text-[10px] text-yellow-500 uppercase font-bold">Pendiente</p>
+<p class="font-bold text-red-500">-$412.30</p>
+</div>
+<div class="flex items-center justify-between bg-white dark:bg-primary/5 p-3 rounded-xl border border-slate-200 dark:border-primary/10 opacity-60">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-lg bg-slate-500/10 flex items-center justify-center text-slate-500">
+<span class="material-symbols-outlined">refresh</span>
+</div>
+<div>
+<p class="font-bold text-sm">Ajuste de Saldo (Reembolso)</p>
+<p class="text-[10px] text-slate-500">Orden #29384 • Ayer</p>
 </div>
 </div>
+<p class="font-bold text-slate-400">+$12.50</p>
 </div>
 </div>
+</section>
+</main>
 <!-- Bottom Navigation Bar -->
-<div class="fixed bottom-0 left-0 right-0 z-50 flex gap-2 border-t border-slate-200 dark:border-primary/20 bg-white dark:bg-background-dark px-4 pb-6 pt-2">
-<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-400 dark:text-slate-500" href="#">
-<span class="material-symbols-outlined">dashboard</span>
-<p class="text-[10px] font-medium leading-normal tracking-[0.015em]">Dashboard</p>
+<nav class="fixed bottom-0 left-0 right-0 bg-background-light/95 dark:bg-background-dark/95 border-t border-slate-200 dark:border-primary/20 pb-safe shadow-lg ios-blur">
+<div class="flex items-center justify-between px-6 pt-2 pb-6">
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="text-[10px] font-medium">Inicio</span>
 </a>
-<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-400 dark:text-slate-500" href="#">
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">order_approve</span>
+<span class="text-[10px] font-medium">Pedidos</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined fill-[1]">account_balance_wallet</span>
+<span class="text-[10px] font-medium">Finanzas</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
 <span class="material-symbols-outlined">group</span>
-<p class="text-[10px] font-medium leading-normal tracking-[0.015em]">Usuarios</p>
+<span class="text-[10px] font-medium">Usuarios</span>
 </a>
-<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-400 dark:text-slate-500" href="#">
-<span class="material-symbols-outlined">package_2</span>
-<p class="text-[10px] font-medium leading-normal tracking-[0.015em]">Servicios</p>
-</a>
-<a class="flex flex-1 flex-col items-center justify-center gap-1 text-primary" href="#">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">credit_card</span>
-<p class="text-[10px] font-medium leading-normal tracking-[0.015em]">Finanzas</p>
-</a>
-<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-400 dark:text-slate-500" href="#">
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
 <span class="material-symbols-outlined">settings</span>
-<p class="text-[10px] font-medium leading-normal tracking-[0.015em]">Ajustes</p>
+<span class="text-[10px] font-medium">Ajustes</span>
 </a>
 </div>
-</div>
+</nav>
+<!-- Dynamic Overlay Elements (FAB) -->
+<button class="fixed bottom-24 right-6 bg-primary text-slate-900 size-14 rounded-full shadow-2xl flex items-center justify-center border-4 border-background-light dark:border-background-dark">
+<span class="material-symbols-outlined font-bold text-3xl">add</span>
+</button>
 </body></html>
-
