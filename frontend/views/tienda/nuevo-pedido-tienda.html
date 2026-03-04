@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generar Venta - KM0</title>
+    <title>Nuevo Pedido - KM0</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
@@ -23,31 +23,10 @@
     <style>
         body { font-family: 'Inter'; background-color: #05080b; color: white; -webkit-tap-highlight-color: transparent; }
         .ios-blur { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
-        
-        .input-km0 { 
-            background: rgba(255, 255, 255, 0.03); 
-            border: 1px solid rgba(19, 127, 236, 0.3); 
-            transition: all 0.3s ease; 
-        }
-        .input-km0:focus { 
-            border-color: #ff00ff; 
-            box-shadow: 0 0 15px rgba(255, 0, 255, 0.1); 
-            outline: none; 
-        }
-
-        .btn-disabled {
-            background: #2d2d2d !important;
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: scale(1) !important;
-        }
-
-        .btn-gradient { 
-            background: linear-gradient(135deg, #137fec 0%, #ff00ff 100%); 
-            transition: all 0.3s ease; 
-        }
-        .btn-gradient:active { transform: scale(0.96); }
-
+        .input-km0 { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(19, 127, 236, 0.3); transition: all 0.3s ease; }
+        .input-km0:focus { border-color: #ff00ff; box-shadow: 0 0 15px rgba(255, 0, 255, 0.1); outline: none; }
+        .btn-disabled { background: #1a1a1a !important; color: #444 !important; opacity: 0.6; cursor: not-allowed; }
+        .btn-gradient { background: linear-gradient(135deg, #137fec 0%, #ff00ff 100%); color: white; font-weight: 900; }
         .loader { width: 20px; height: 20px; border: 3px solid #FFF; border-bottom-color: transparent; border-radius: 50%; display: inline-block; animation: rotation 1s linear infinite; }
         @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
@@ -55,10 +34,10 @@
 <body class="min-h-screen pb-40">
 
     <header class="sticky top-0 z-50 bg-dark-bg/80 ios-blur border-b border-electric-blue/20 p-5 flex items-center justify-between">
-        <button onclick="window.location.href='panel-operativo-tienda.html'" class="text-electric-blue flex items-center">
+        <button onclick="window.location.href='panel-operativo-tienda.html'" class="text-electric-blue">
             <span class="material-symbols-outlined text-3xl">arrow_back_ios_new</span>
         </button>
-        <h1 class="text-lg font-black italic uppercase tracking-tighter">Generar Venta</h1>
+        <h1 class="text-lg font-black italic uppercase tracking-tighter">Nuevo Pedido</h1>
         <div class="w-8"></div>
     </header>
 
@@ -67,74 +46,73 @@
         <section class="space-y-4">
             <div class="flex items-center gap-2 border-l-4 border-neon-fuchsia pl-3">
                 <span class="material-symbols-outlined text-neon-fuchsia">person</span>
-                <h2 class="text-[11px] font-black uppercase tracking-widest text-slate-400">Destinatario</h2>
+                <h2 class="text-[11px] font-black uppercase tracking-widest text-slate-400">Cliente</h2>
             </div>
-            <input type="text" id="cliente-nombre" placeholder="Nombre del Cliente" class="input-km0 w-full rounded-2xl py-4 px-5 text-sm font-bold">
+            <input type="text" id="cliente-nombre" placeholder="Nombre completo" oninput="validarFormulario()" class="input-km0 w-full rounded-2xl py-4 px-5 text-sm font-bold">
             <div class="relative">
                 <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 font-bold border-r border-white/10 pr-2">+593</span>
-                <input type="tel" id="telefono" maxlength="9" placeholder="987654321" class="input-km0 w-full rounded-2xl py-4 pl-16 pr-5 text-sm font-bold">
+                <input type="tel" id="telefono" maxlength="9" placeholder="999888777" oninput="validarFormulario()" class="input-km0 w-full rounded-2xl py-4 pl-16 pr-5 text-sm font-bold">
             </div>
         </section>
 
         <section class="space-y-4">
             <div class="flex items-center gap-2 border-l-4 border-electric-blue pl-3">
-                <span class="material-symbols-outlined text-electric-blue">local_shipping</span>
-                <h2 class="text-[11px] font-black uppercase tracking-widest text-slate-400">Logística</h2>
+                <span class="material-symbols-outlined text-electric-blue">location_on</span>
+                <h2 class="text-[11px] font-black uppercase tracking-widest text-slate-400">Entrega</h2>
             </div>
-            <select id="sector" class="input-km0 w-full rounded-2xl py-4 px-5 text-sm font-bold text-white appearance-none">
-                <option value="" disabled selected>Seleccione zona...</option>
-                <option value="NORTE">Norte de Quito</option>
-                <option value="CENTRO">Centro de Quito</option>
-                <option value="SUR">Sur de Quito</option>
+            <select id="sector" onchange="validarFormulario()" class="input-km0 w-full rounded-2xl py-4 px-5 text-sm font-bold text-white appearance-none">
+                <option value="" disabled selected>Seleccione Ciudad/Sector...</option>
+                <option value="QUITO - NORTE">Quito Norte</option>
+                <option value="QUITO - SUR">Quito Sur</option>
+                <option value="QUITO - CENTRO">Quito Centro</option>
                 <option value="VALLES">Valles</option>
             </select>
-            <textarea id="direccion" rows="2" placeholder="Dirección exacta y referencia..." class="input-km0 w-full rounded-2xl py-4 px-5 text-sm font-medium"></textarea>
+            <textarea id="direccion" rows="2" placeholder="Dirección exacta y referencia..." oninput="validarFormulario()" class="input-km0 w-full rounded-2xl py-4 px-5 text-sm font-medium"></textarea>
         </section>
 
         <section class="space-y-4">
             <div class="flex items-center gap-2 border-l-4 border-neon-fuchsia pl-3">
-                <span class="material-symbols-outlined text-neon-fuchsia">shopping_cart</span>
-                <h2 class="text-[11px] font-black uppercase tracking-widest text-slate-400">Detalle de Venta</h2>
+                <span class="material-symbols-outlined text-neon-fuchsia">inventory_2</span>
+                <h2 class="text-[11px] font-black uppercase tracking-widest text-slate-400">Producto</h2>
             </div>
 
-            <select id="producto-select" class="input-km0 w-full rounded-2xl py-4 px-5 text-sm font-bold text-white mb-2">
-                <option value="" disabled selected>Cargando productos...</option>
+            <select id="producto-select" onchange="seleccionarProducto()" class="input-km0 w-full rounded-2xl py-4 px-5 text-sm font-bold text-white">
+                <option value="" disabled selected>Cargando inventario...</option>
             </select>
 
             <div class="flex items-center justify-between bg-white/5 p-3 rounded-2xl border border-white/5">
-                <label class="text-[10px] font-black text-electric-blue uppercase">Cantidad</label>
+                <span class="text-[10px] font-black text-electric-blue uppercase ml-2">Unidades</span>
                 <div class="flex items-center gap-4">
-                    <button onclick="ajustarCantidad(-1)" class="w-10 h-10 rounded-full bg-electric-blue/20 text-electric-blue font-black text-xl">-</button>
-                    <span id="cantidad-display" class="text-xl font-black">1</span>
-                    <button onclick="ajustarCantidad(1)" class="w-10 h-10 rounded-full bg-neon-fuchsia/20 text-neon-fuchsia font-black text-xl">+</button>
+                    <button onclick="ajustarCantidad(-1)" class="w-10 h-10 rounded-full bg-electric-blue/10 text-electric-blue font-black text-xl border border-electric-blue/20">-</button>
+                    <span id="cantidad-display" class="text-xl font-black min-w-[20px] text-center">1</span>
+                    <button onclick="ajustarCantidad(1)" class="w-10 h-10 rounded-full bg-neon-fuchsia/10 text-neon-fuchsia font-black text-xl border border-neon-fuchsia/20">+</button>
                 </div>
             </div>
 
             <div class="relative pt-4">
-                <label class="text-[9px] font-black text-neon-fuchsia uppercase absolute top-2 left-4 px-2">Total a Cobrar</label>
+                <label class="text-[9px] font-black text-neon-fuchsia uppercase absolute top-2 left-4 px-2 bg-dark-bg">Valor del Recaudo</label>
                 <span class="absolute left-4 bottom-5 text-2xl font-black text-neon-fuchsia">$</span>
-                <input type="number" id="precio-final" step="0.01" class="input-km0 w-full rounded-2xl py-5 pl-10 pr-5 text-3xl font-black text-white bg-neon-fuchsia/5">
+                <input type="number" id="precio-final" step="0.01" value="0.00" oninput="validarFormulario()" class="input-km0 w-full rounded-2xl py-5 pl-10 pr-5 text-3xl font-black text-white bg-neon-fuchsia/5">
             </div>
         </section>
     </main>
 
     <div class="fixed bottom-0 left-0 right-0 p-6 bg-dark-bg/90 backdrop-blur-md border-t border-white/5 z-50">
-        <button id="btn-enviar" onclick="confirmarVenta()" disabled class="btn-disabled w-full py-5 rounded-2xl font-black uppercase tracking-widest shadow-lg flex items-center justify-center gap-3 italic transition-all">
+        <button id="btn-enviar" onclick="confirmarVenta()" disabled class="btn-disabled w-full py-5 rounded-2xl uppercase tracking-[0.2em] shadow-lg flex items-center justify-center gap-3 italic transition-all duration-300">
             <span class="material-symbols-outlined font-bold">bolt</span>
             Confirmar Despacho
         </button>
     </div>
 
     <script>
-        const URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec';
-        const ID_TIENDA = localStorage.getItem('km0_user_id');
+        const URL_SCRIPT = 'https://script.google.com/macros/s/AKfycbzileiH-CN1fIYY7J_pPQIg3YHLXy9NKtAS_ULgNT3LtrPRZHrlGo49a58w-jTzmWm2/exec'; // Tu URL de script
+        const ID_TIENDA = localStorage.getItem('km0_user_id'); 
         let cantidad = 1;
         let precioUnitario = 0;
 
         window.onload = async () => {
             if(!ID_TIENDA) { window.location.href = 'index.html'; return; }
             await cargarProductos();
-            configurarValidacion();
         };
 
         async function cargarProductos() {
@@ -142,7 +120,7 @@
             try {
                 const res = await fetch(`${URL_SCRIPT}?accion=obtener_productos&idTienda=${ID_TIENDA}`);
                 const data = await res.json();
-                select.innerHTML = '<option value="" disabled selected>Selecciona Producto...</option>';
+                select.innerHTML = '<option value="" disabled selected>Selecciona un producto...</option>';
                 data.productos.forEach(p => {
                     const opt = document.createElement('option');
                     opt.value = p.nombre;
@@ -150,14 +128,15 @@
                     opt.innerText = `${p.nombre} (Stock: ${p.stock})`;
                     select.appendChild(opt);
                 });
+            } catch (e) { select.innerHTML = '<option>Error al cargar</option>'; }
+        }
 
-                select.onchange = (e) => {
-                    const selected = e.target.options[e.target.selectedIndex];
-                    precioUnitario = parseFloat(selected.dataset.precio) || 0;
-                    actualizarTotal();
-                    validarFormulario();
-                };
-            } catch (e) { select.innerHTML = '<option>Error de carga</option>'; }
+        function seleccionarProducto() {
+            const select = document.getElementById('producto-select');
+            const selected = select.options[select.selectedIndex];
+            precioUnitario = parseFloat(selected.dataset.precio) || 0;
+            actualizarTotal();
+            validarFormulario();
         }
 
         function ajustarCantidad(valor) {
@@ -172,36 +151,27 @@
             validarFormulario();
         }
 
-        function configurarValidacion() {
-            const inputs = ['cliente-nombre', 'telefono', 'sector', 'direccion', 'precio-final'];
-            inputs.forEach(id => {
-                document.getElementById(id).addEventListener('input', validarFormulario);
-            });
-        }
-
         function validarFormulario() {
-            const c = document.getElementById('cliente-nombre').value;
-            const t = document.getElementById('telefono').value;
-            const s = document.getElementById('sector').value;
-            const d = document.getElementById('direccion').value;
-            const p = document.getElementById('producto-select').value;
-            const m = document.getElementById('precio-final').value;
+            const cliente = document.getElementById('cliente-nombre').value.trim();
+            const tel = document.getElementById('telefono').value.trim();
+            const sector = document.getElementById('sector').value;
+            const dir = document.getElementById('direccion').value.trim();
+            const prod = document.getElementById('producto-select').value;
             const btn = document.getElementById('btn-enviar');
 
-            if(c && t.length >= 9 && s && d && p && m > 0) {
+            // Habilitar si tiene los campos básicos (el valor puede ser 0)
+            if (cliente && tel.length >= 9 && sector && dir && prod) {
                 btn.disabled = false;
-                btn.classList.remove('btn-disabled');
-                btn.classList.add('btn-gradient');
+                btn.classList.replace('btn-disabled', 'btn-gradient');
             } else {
                 btn.disabled = true;
-                btn.classList.add('btn-disabled');
-                btn.classList.remove('btn-gradient');
+                btn.classList.replace('btn-gradient', 'btn-disabled');
             }
         }
 
         async function confirmarVenta() {
             const btn = document.getElementById('btn-enviar');
-            const dataPost = {
+            const datos = {
                 accion: 'crear_pedido',
                 token: "KM0_SECURE_TOKEN_2026_XYZ",
                 idTienda: ID_TIENDA,
@@ -211,15 +181,15 @@
                 direccion: document.getElementById('direccion').value,
                 producto: document.getElementById('producto-select').value,
                 cantidad: cantidad,
-                monto: document.getElementById('precio-final').value
+                monto: document.getElementById('precio-final').value || 0
             };
 
             btn.disabled = true;
-            btn.innerHTML = `<span class="loader"></span>`;
+            btn.innerHTML = `<span class="loader"></span> DESPACHANDO...`;
 
             try {
-                await fetch(URL_SCRIPT, { method: 'POST', body: JSON.stringify(dataPost) });
-                alert("🚀 ¡VENTA GENERADA Y STOCK ACTUALIZADO!");
+                await fetch(URL_SCRIPT, { method: 'POST', body: JSON.stringify(datos) });
+                alert("✅ DESPACHO CONFIRMADO. Stock actualizado.");
                 window.location.href = 'panel-operativo-tienda.html';
             } catch (e) {
                 window.location.href = 'panel-operativo-tienda.html';
