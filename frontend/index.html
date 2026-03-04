@@ -3,108 +3,123 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
-    <title>Kilómetro Cero - Logistics & Identity</title>
+    <title>KM0 - Logistics & Identity</title>
 
     <link rel="manifest" href='data:application/json,{"name":"KM0 ADMIN","short_name":"KM0","start_url":"/KM0/","display":"standalone","background_color":"#000000","theme_color":"#000000","icons":[{"src":"https://kilometro0-ec.github.io/KM0/assets/images/logo-trans.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}]}'>
 
+    <meta name="theme-color" content="#000000">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#000000">
 
     <link rel="icon" type="image/png" href="assets/images/logo-trans.png">
-    <link rel="apple-touch-icon" href="assets/images/logo-trans.png">
-
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #000; color: white; min-height: 100dvh; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0; overflow: hidden; }
-        
-        /* 🎬 ANIMACIÓN ZOOM SUAVE (Hacia afuera/Minimizándose) */
-        @keyframes logoZoomOut {
-            0% { transform: scale(1.6); opacity: 0; filter: blur(15px); }
+        body { font-family: 'Inter', sans-serif; background-color: #000; color: white; margin: 0; overflow: hidden; }
+
+        /* 🌑 CAPA DE SPLASH SCREEN (Cubre todo al inicio) */
+        #splash-screen {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease-in-out;
+        }
+
+        /* 🎬 ANIMACIÓN ZOOM SUAVE (De grande a normal) */
+        @keyframes splashZoom {
+            0% { transform: scale(1.8); opacity: 0; filter: blur(10px); }
             100% { transform: scale(1); opacity: 1; filter: blur(0); }
         }
 
-        .animate-zoom-out {
-            animation: logoZoomOut 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        .splash-logo {
+            width: 280px;
+            height: 280px;
+            object-contain: contain;
+            animation: splashZoom 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            drop-shadow: 0 0 30px rgba(236,19,19,0.3);
         }
 
-        /* Diseño de tarjetas */
+        /* Ocultar contenido principal al inicio */
+        #main-app { opacity: 0; transition: opacity 1s ease; }
+
+        /* Estilos de tarjetas */
         .border-gradient-shop { border: 1.5px solid transparent; background: linear-gradient(#000, #000) padding-box, linear-gradient(90deg, #0047AB, #FF00FF) border-box; }
         .text-gradient-shop { background: linear-gradient(90deg, #0047AB, #FF00FF); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .bg-gradient-shop { background: linear-gradient(90deg, #0047AB, #FF00FF); }
         .border-motorizado { border: 1.5px solid rgba(236, 19, 19, 0.4); }
-
-        #installBtn { display: none; position: fixed; bottom: 30px; background: white; color: black; padding: 14px 28px; border-radius: 50px; font-weight: 900; font-size: 11px; letter-spacing: 1.5px; z-index: 100; box-shadow: 0 0 30px rgba(255,255,255,0.2); text-transform: uppercase; }
-        
-        .fade-in-up { opacity: 0; animation: fadeInUp 1s ease forwards 0.8s; }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body class="p-6">
+<body>
 
-    <button id="installBtn">Descargar App KM0</button>
+    <div id="splash-screen">
+        <img src="assets/images/logo-trans.png" class="splash-logo" alt="KM0 Logo">
+    </div>
 
-    <div class="w-full max-w-[360px] flex flex-col items-center">
-        <div class="mb-12 flex justify-center w-full">
-            <img src="assets/images/logo-trans.png" alt="Logo KM0" 
-                 class="w-72 h-72 object-contain drop-shadow-[0_0_40px_rgba(236,19,19,0.4)] animate-zoom-out">
-        </div>
+    <div id="main-app" class="min-h-screen flex flex-col items-center justify-center p-6">
+        <div class="w-full max-w-[360px] flex flex-col items-center">
+            
+            <div class="mb-12">
+                <img src="assets/images/logo-trans.png" class="w-64 h-64 object-contain drop-shadow-[0_0_20px_rgba(236,19,19,0.3)]">
+            </div>
 
-        <div class="w-full space-y-6 fade-in-up">
-            <button onclick="window.location.href='views/auth/login.html'" class="w-full bg-[#EC1313] text-white py-5 rounded-2xl font-black text-sm tracking-[0.2em] uppercase active:scale-95 transition-all shadow-lg shadow-red-900/40">
-                Iniciar Sesión
-            </button>
+            <div class="w-full space-y-6">
+                <button onclick="window.location.href='views/auth/login.html'" class="w-full bg-[#EC1313] text-white py-5 rounded-2xl font-black text-sm tracking-[0.2em] uppercase active:scale-95 transition-all shadow-lg shadow-red-900/40">
+                    Iniciar Sesión
+                </button>
 
-            <div class="border-gradient-shop p-6 rounded-[2.5rem] flex flex-col items-center text-center space-y-4">
-                <div class="flex items-center justify-center space-x-2">
-                    <span class="material-symbols-outlined text-[#0047AB] !text-3xl">storefront</span>
-                    <h3 class="text-[11px] font-black uppercase tracking-[0.2em] text-gradient-shop">¿Eres un comercio?</h3>
+                <div class="border-gradient-shop p-6 rounded-[2.5rem] flex flex-col items-center text-center space-y-4">
+                    <div class="flex items-center justify-center space-x-2">
+                        <span class="material-symbols-outlined text-[#0047AB] !text-3xl">storefront</span>
+                        <h3 class="text-[11px] font-black uppercase tracking-[0.2em] text-gradient-shop">¿Eres un comercio?</h3>
+                    </div>
+                    <button onclick="window.location.href='views/auth/registro-tienda.html'" class="w-full py-4 bg-gradient-shop text-white font-black text-xs tracking-[0.15em] uppercase rounded-xl active:scale-95 transition-all shadow-lg">
+                        Registra tu Tienda aquí
+                    </button>
                 </div>
-                <button onclick="window.location.href='views/auth/registro-tienda.html'" class="w-full py-4 bg-gradient-shop text-white font-black text-xs tracking-[0.15em] uppercase rounded-xl active:scale-95 transition-all shadow-lg">
-                    Registra tu Tienda aquí
-                </button>
+
+                <div class="border-motorizado bg-zinc-900/20 p-6 rounded-[2.5rem] flex flex-col items-center text-center space-y-4">
+                    <h3 class="text-[11px] font-bold uppercase tracking-widest text-zinc-200">¿Quieres ser parte del equipo?</h3>
+                    <button onclick="window.location.href='views/auth/registro-motorizado.html'" class="w-full py-4 border border-[#EC1313] text-[#EC1313] font-bold text-[11px] tracking-[0.2em] uppercase rounded-xl active:scale-95 transition-all">
+                        Regístrate como Motorizado
+                    </button>
+                </div>
             </div>
 
-            <div class="border-motorizado bg-zinc-900/20 p-6 rounded-[2.5rem] flex flex-col items-center text-center space-y-4">
-                <h3 class="text-[11px] font-bold uppercase tracking-widest text-zinc-200">¿Quieres ser parte del equipo?</h3>
-                <button onclick="window.location.href='views/auth/registro-motorizado.html'" class="w-full py-4 border border-[#EC1313] text-[#EC1313] font-bold text-[11px] tracking-[0.2em] uppercase rounded-xl active:scale-95 transition-all">
-                    Regístrate como Motorizado
-                </button>
-            </div>
-        </div>
-
-        <div class="mt-12 text-center opacity-30 fade-in-up">
-            <p class="text-[9px] font-bold uppercase tracking-[0.2em]">2026 KM0® by CORPORACIÓN 360</p>
+            <p class="mt-12 text-[9px] font-bold uppercase tracking-[0.2em] opacity-30">2026 KM0® by CORPORACIÓN 360</p>
         </div>
     </div>
 
     <script>
-      let deferredPrompt;
-      const installBtn = document.getElementById('installBtn');
-
-      window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        installBtn.style.display = 'block';
-      });
-
-      installBtn.addEventListener('click', () => {
-        installBtn.style.display = 'none';
-        deferredPrompt.prompt();
-      });
-
-      if ('serviceWorker' in navigator) {
+        // Lógica para ocultar el Splash Screen
         window.addEventListener('load', () => {
-          const swCode = "self.addEventListener('fetch', (e) => {});";
-          const blob = new Blob([swCode], {type: 'text/javascript'});
-          const url = URL.createObjectURL(blob);
-          navigator.serviceWorker.register(url, { scope: '/KM0/' });
+            const splash = document.getElementById('splash-screen');
+            const app = document.getElementById('main-app');
+
+            setTimeout(() => {
+                splash.style.opacity = '0';
+                app.style.opacity = '1';
+                document.body.style.overflow = 'auto';
+                setTimeout(() => { splash.style.display = 'none'; }, 800);
+            }, 2000); // Duración del zoom (2 segundos)
         });
-      }
+
+        // Service Worker para instalación
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                const swCode = "self.addEventListener('fetch', (e) => {});";
+                const blob = new Blob([swCode], {type: 'text/javascript'});
+                const url = URL.createObjectURL(blob);
+                navigator.serviceWorker.register(url, { scope: '/KM0/' });
+            });
+        }
     </script>
 </body>
 </html>
