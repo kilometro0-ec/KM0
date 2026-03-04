@@ -5,7 +5,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>Kilómetro Cero - Logistics & Identity</title>
 
-    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIktNMDAgQURNSU4iLAogICJzaG9ydF9uYW1lIjogIktNMCIsCiAgInN0YXJ0X3VybCI6ICIuIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jbG9yIjogIiMwMDAwMDAiLAogICJ0aGVtZV9jbG9yIjogIiMwMDAwMDAiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJodHRwczovL2Nkbi1pY29ucy1wbmcuZmxhdGljb24uY29tLzUxMi8yMzYyLzIzNjIyNTIucG5nIiwKICAgICAgInNpemVzIjogIjUxMng1MTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9wbmciLAogICAgICAicHVycG9zZSI6ICJhbnkgbWFza2FibGUiCiAgICB9CiAgXQp9">
+    <link rel="manifest" href='data:application/json,{"name":"KM0 ADMIN","short_name":"KM0","start_url":"/KM0/","display":"standalone","background_color":"#000000","theme_color":"#000000","icons":[{"src":"https://cdn-icons-png.flaticon.com/512/2362/2362252.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}]}'>
 
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -18,7 +18,11 @@
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('data:text/javascript;base64,c2VsZi5hZGRFdmVudExpc3RlbmVyKCdmZXRjaCcsIGU9PntlLmludGVydmVudGUoZmV0Y2goZS5yZXF1ZXN0KSk7fSk7');
+          // Usamos un blob para asegurar que se registre sin archivos externos
+          const swCode = "self.addEventListener('fetch', function(event) { event.respondWith(fetch(event.request)); });";
+          const blob = new Blob([swCode], {type: 'text/javascript'});
+          const url = URL.createObjectURL(blob);
+          navigator.serviceWorker.register(url).then(() => console.log("KM0: App Lista")).catch(err => console.log("Error:", err));
         });
       }
     </script>
@@ -29,76 +33,39 @@
     
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #000; color: white; min-height: 100dvh; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0; overflow-x: hidden; }
-        
-        /* 🔵💖 BORDE DEGRADADO (ROSA CON AZUL) */
-        .border-gradient-shop {
-            border: 1.5px solid transparent;
-            background: linear-gradient(#000, #000) padding-box,
-                        linear-gradient(90deg, #0047AB, #FF00FF) border-box;
-        }
-
-        .text-gradient-shop {
-            background: linear-gradient(90deg, #0047AB, #FF00FF);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .bg-gradient-shop {
-            background: linear-gradient(90deg, #0047AB, #FF00FF);
-        }
-
-        /* Borde Motorizado Rojo */
-        .border-motorizado {
-            border: 1.5px solid rgba(236, 19, 19, 0.4);
-        }
-
+        .border-gradient-shop { border: 1.5px solid transparent; background: linear-gradient(#000, #000) padding-box, linear-gradient(90deg, #0047AB, #FF00FF) border-box; }
+        .text-gradient-shop { background: linear-gradient(90deg, #0047AB, #FF00FF); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .bg-gradient-shop { background: linear-gradient(90deg, #0047AB, #FF00FF); }
+        .border-motorizado { border: 1.5px solid rgba(236, 19, 19, 0.4); }
         @keyframes logoEntrance { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
         .animate-logo { animation: logoEntrance 0.8s ease-out forwards; }
     </style>
 </head>
 <body class="p-6">
     <div class="w-full max-w-[360px] flex flex-col items-center">
-        
         <div class="mb-10 animate-logo">
             <img src="assets/images/logo-trans.png" alt="Logo KM0" class="w-64 h-64 object-contain drop-shadow-[0_0_15px_rgba(236,19,19,0.3)]">
         </div>
-
         <div class="w-full mb-10">
-            <button onclick="window.location.href='views/auth/login.html'" 
-                    class="w-full bg-[#EC1313] text-white py-5 rounded-2xl font-black text-sm tracking-[0.2em] uppercase active:scale-95 transition-all shadow-lg shadow-red-900/40">
-                Iniciar Sesión
-            </button>
+            <button onclick="window.location.href='views/auth/login.html'" class="w-full bg-[#EC1313] text-white py-5 rounded-2xl font-black text-sm tracking-[0.2em] uppercase active:scale-95 transition-all shadow-lg shadow-red-900/40">Iniciar Sesión</button>
         </div>
-
         <div class="w-full mb-6">
             <div class="border-gradient-shop p-6 rounded-[2.5rem] flex flex-col items-center text-center space-y-4 shadow-[0_0_20px_rgba(255,0,255,0.1)]">
                 <div class="flex items-center justify-center space-x-2">
                     <span class="material-symbols-outlined text-[#0047AB] !text-3xl">storefront</span>
-                    <h3 class="text-[11px] font-black uppercase tracking-[0.2em] text-gradient-shop">
-                        ¿Eres un comercio?
-                    </h3>
+                    <h3 class="text-[11px] font-black uppercase tracking-[0.2em] text-gradient-shop">¿Eres un comercio?</h3>
                 </div>
-                <button onclick="window.location.href='views/auth/registro-tienda.html'" 
-                        class="w-full py-4 bg-gradient-shop text-white font-black text-xs tracking-[0.15em] uppercase rounded-xl active:scale-95 transition-all shadow-[0_4px_15px_rgba(255,0,255,0.2)]">
-                    Registra tu Tienda aquí
-                </button>
+                <button onclick="window.location.href='views/auth/registro-tienda.html'" class="w-full py-4 bg-gradient-shop text-white font-black text-xs tracking-[0.15em] uppercase rounded-xl active:scale-95 transition-all shadow-[0_4px_15px_rgba(255,0,255,0.2)]">Registra tu Tienda aquí</button>
             </div>
         </div>
-
         <div class="w-full mb-10">
             <div class="border-motorizado bg-zinc-900/20 p-6 rounded-[2.5rem] flex flex-col items-center text-center space-y-4">
-                <h3 class="text-[11px] font-bold uppercase tracking-widest text-zinc-200">
-                    ¿Quieres ser parte del equipo?
-                </h3>
-                <button onclick="window.location.href='views/auth/registro-motorizado.html'" 
-                        class="w-full py-4 border border-[#EC1313] text-[#EC1313] font-bold text-[11px] tracking-[0.2em] uppercase rounded-xl hover:bg-[#EC1313]/10 active:scale-95 transition-all">
-                    Regístrate como Motorizado
-                </button>
+                <h3 class="text-[11px] font-bold uppercase tracking-widest text-zinc-200">¿Quieres ser parte del equipo?</h3>
+                <button onclick="window.location.href='views/auth/registro-motorizado.html'" class="w-full py-4 border border-[#EC1313] text-[#EC1313] font-bold text-[11px] tracking-[0.2em] uppercase rounded-xl hover:bg-[#EC1313]/10 active:scale-95 transition-all">Regístrate como Motorizado</button>
             </div>
         </div>
-
         <div class="text-center opacity-40">
-            <p class="text-[9px] font-bold uppercase tracking-[0.1em]">2026 KM0® by CORPORACIÓN 360</p>
+            <p class="text-[9px] font-bold uppercase tracking-[0.1em]">2025 KM0® by CORPORACIÓN 360</p>
         </div>
     </div>
 </body>
