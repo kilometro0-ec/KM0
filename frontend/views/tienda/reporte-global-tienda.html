@@ -3,275 +3,179 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>KM0 - Reporte Global</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <title>Reporte Global - KM0 Tienda</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+    
+    <script src="../../assets/js/config.js"></script>
+
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#137fec",
-                        "background-dark": "#0a0f16",
-                        "sector-norte": "#00f2ff",
-                        "sector-sur": "#7000ff",
-                        "sector-centro": "#00ff88",
-                        "sector-valles": "#ff00ff"
+                        "shop-blue": "#0066FF",
+                        "background-dark": "#0a0f0c",
+                        "surface-dark": "#121a15",
+                        "primary-green": "#12c965",
                     },
-                    fontFamily: { "display": ["Inter"] }
                 },
             },
         }
     </script>
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #0a0f16; color: white; -webkit-tap-highlight-color: transparent; }
-        .font-fill { font-variation-settings: 'FILL' 1; }
-        .nav-center-btn { filter: drop-shadow(0 0 15px rgba(19, 127, 236, 0.6)); }
-        input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); }
+        body { font-family: 'Space Grotesk', sans-serif; background-color: #0a0f0c; color: white; -webkit-tap-highlight-color: transparent; }
+        .ios-blur { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+        .menu-open { transform: translateX(0) !important; }
+        .card-gradient { background: linear-gradient(145deg, #121a15 0%, #0a0f0c 100%); }
     </style>
 </head>
-<body class="bg-background-dark text-slate-100 font-display">
-<div class="relative flex min-h-screen flex-col overflow-x-hidden pb-32">
+<body class="min-h-screen flex flex-col pb-32">
 
-    <header class="flex items-center justify-between p-4 bg-background-dark/50 backdrop-blur-md sticky top-0 z-50 border-b border-primary/20">
-        <div class="flex items-center gap-3">
-            <div class="flex size-10 items-center justify-center rounded-lg bg-primary/20 text-primary border border-primary/30">
-                <span class="material-symbols-outlined text-3xl font-fill">analytics</span>
-            </div>
-            <div>
-                <h1 class="text-lg font-black italic uppercase leading-none">REPORTE GLOBAL</h1>
-                <p id="range-label" class="text-[10px] text-primary font-bold uppercase tracking-widest mt-1">Este Mes</p>
-            </div>
+<div id="side-menu" class="fixed inset-y-0 left-0 w-72 bg-surface-dark z-[100] border-r border-white/10 transition-transform duration-300 -translate-x-full shadow-2xl">
+    <div class="p-6 space-y-6">
+        <div class="flex justify-between items-center border-b border-white/5 pb-4">
+            <h2 class="text-shop-blue font-black tracking-widest uppercase text-[10px]">KM0 - Menú Tienda</h2>
+            <button onclick="toggleMenu()" class="text-slate-500"><span class="material-symbols-outlined">close</span></button>
         </div>
-        <div class="flex gap-2">
-            <button onclick="location.href='catalogo-tienda.html'" class="flex size-10 items-center justify-center rounded-full bg-slate-900 border border-slate-800 text-primary active:scale-90 transition-transform">
-                <span class="material-symbols-outlined">inventory</span>
+        <nav class="space-y-1">
+            <a href="catalogo-tienda.html" class="flex items-center gap-4 p-3 rounded-xl hover:bg-shop-blue/10 transition-all">
+                <span class="material-symbols-outlined text-shop-blue">inventory_2</span>
+                <span class="text-sm font-bold">Catálogo</span>
+            </a>
+            <a href="new-producto-tienda.html" class="flex items-center gap-4 p-3 rounded-xl hover:bg-shop-blue/10 transition-all">
+                <span class="material-symbols-outlined text-shop-blue">add_box</span>
+                <span class="text-sm font-bold">Nuevo Producto</span>
+            </a>
+            <a href="reporte-global-tienda.html" class="flex items-center gap-4 p-3 bg-shop-blue/10 rounded-xl text-shop-blue">
+                <span class="material-symbols-outlined">analytics</span>
+                <span class="text-sm font-bold">Reporte Global</span>
+            </a>
+            <a href="resolver-novedades-tienda.html" class="flex items-center gap-4 p-3 rounded-xl hover:bg-red-500/10 transition-all text-red-400">
+                <span class="material-symbols-outlined">warning</span>
+                <span class="text-sm font-bold">Novedades</span>
+            </a>
+            <hr class="border-white/5 my-4">
+            <button onclick="cerrarSesion()" class="flex items-center gap-4 p-3 text-red-500 w-full hover:bg-red-500/10 rounded-xl transition-all">
+                <span class="material-symbols-outlined">logout</span>
+                <span class="text-sm font-bold uppercase tracking-widest">Cerrar Sesión</span>
             </button>
-            <button onclick="toggleDateModal()" class="flex size-10 items-center justify-center rounded-full bg-slate-900 border border-primary/50 text-primary">
-                <span class="material-symbols-outlined">calendar_month</span>
-            </button>
-            <button class="flex size-10 items-center justify-center rounded-full bg-slate-900 border border-slate-800 text-primary">
-                <span class="material-symbols-outlined font-fill">notifications_active</span>
-            </button>
-        </div>
-    </header>
-
-    <section class="p-4">
-        <div class="flex flex-col gap-2 rounded-2xl p-6 bg-primary/10 border border-primary/20 shadow-lg shadow-primary/5">
-            <p class="text-slate-400 text-xs font-black uppercase tracking-widest">Ventas Totales</p>
-            <div class="flex items-end justify-between">
-                <p class="text-3xl font-black italic text-white">$45,280.00</p>
-                <span class="bg-emerald-500/20 text-emerald-400 text-[10px] font-black px-2 py-1 rounded-full flex items-center gap-1 uppercase italic">
-                    <span class="material-symbols-outlined text-xs font-bold">trending_up</span>+12.4%
-                </span>
-            </div>
-        </div>
-    </section>
-
-    <section class="px-4 py-2">
-        <div class="rounded-2xl bg-slate-900 p-6 border border-slate-800 shadow-xl">
-            <h3 class="text-xs font-black uppercase tracking-widest text-slate-400 mb-6 italic">Distribución Geográfica</h3>
-            <div class="flex items-center gap-8">
-                <div class="relative size-32 shrink-0">
-                    <svg class="size-full -rotate-90" viewbox="0 0 36 36">
-                        <circle class="stroke-slate-800" cx="18" cy="18" fill="none" r="16" stroke-width="4"></circle>
-                        <circle class="stroke-sector-norte" cx="18" cy="18" fill="none" r="16" stroke-dasharray="40, 100" stroke-linecap="round" stroke-width="4"></circle>
-                        <circle class="stroke-sector-sur" cx="18" cy="18" fill="none" r="16" stroke-dasharray="25, 100" stroke-dashoffset="-40" stroke-linecap="round" stroke-width="4"></circle>
-                        <circle class="stroke-sector-centro" cx="18" cy="18" fill="none" r="16" stroke-dasharray="20, 100" stroke-dashoffset="-65" stroke-linecap="round" stroke-width="4"></circle>
-                        <circle class="stroke-sector-valles" cx="18" cy="18" fill="none" r="16" stroke-dasharray="15, 100" stroke-dashoffset="-85" stroke-linecap="round" stroke-width="4"></circle>
-                    </svg>
-                    <div class="absolute inset-0 flex items-center justify-center flex-col">
-                        <span class="text-lg font-black italic">1,248</span>
-                        <span class="text-[8px] text-slate-500 font-black uppercase italic">Total</span>
-                    </div>
-                </div>
-                <div class="flex flex-col gap-3 flex-1">
-                    <div class="flex justify-between items-center">
-                        <div class="flex items-center gap-2">
-                            <div class="size-2 rounded-full bg-sector-norte"></div>
-                            <span class="text-[10px] font-black uppercase italic">Norte</span>
-                        </div>
-                        <span class="text-[11px] font-black text-white">499</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <div class="flex items-center gap-2">
-                            <div class="size-2 rounded-full bg-sector-sur"></div>
-                            <span class="text-[10px] font-black uppercase italic">Sur</span>
-                        </div>
-                        <span class="text-[11px] font-black text-white">312</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <div class="flex items-center gap-2">
-                            <div class="size-2 rounded-full bg-sector-centro"></div>
-                            <span class="text-[10px] font-black uppercase italic">Centro</span>
-                        </div>
-                        <span class="text-[11px] font-black text-white">250</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <div class="flex items-center gap-2">
-                            <div class="size-2 rounded-full bg-sector-valles"></div>
-                            <span class="text-[10px] font-black uppercase italic">Valles</span>
-                        </div>
-                        <span class="text-[11px] font-black text-white">187</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="p-4">
-        <div class="rounded-2xl bg-slate-900 p-6 border border-slate-800">
-            <h3 class="text-xs font-black uppercase tracking-widest text-slate-400 mb-6 italic">Top 5 Enviados</h3>
-            <div class="flex flex-col gap-5">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-4">
-                        <div class="size-14 rounded-xl bg-slate-800 overflow-hidden border border-white/5">
-                            <img class="size-full object-cover" src="https://images.unsplash.com/photo-1599819811279-d5ad9cccf838?w=100&q=80" alt="Helmet">
-                        </div>
-                        <div>
-                            <p class="text-xs font-black uppercase italic">HELMET NITRO L</p>
-                            <p class="text-[9px] text-slate-500 font-bold uppercase">Seguridad</p>
-                        </div>
-                    </div>
-                    <div class="text-right">
-                        <p class="text-sm font-black italic text-primary">142</p>
-                        <p class="text-[8px] text-slate-500 font-black uppercase">Unid.</p>
-                    </div>
-                </div>
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-4">
-                        <div class="size-14 rounded-xl bg-slate-800 overflow-hidden border border-white/5">
-                            <img class="size-full object-cover" src="https://images.unsplash.com/photo-1635350736475-c8cee44e1944?w=100&q=80" alt="Aceite">
-                        </div>
-                        <div>
-                            <p class="text-xs font-black uppercase italic">ACEITE 4T 1L</p>
-                            <p class="text-[9px] text-slate-500 font-bold uppercase">Mantenimiento</p>
-                        </div>
-                    </div>
-                    <div class="text-right">
-                        <p class="text-sm font-black italic text-primary">98</p>
-                        <p class="text-[8px] text-slate-500 font-black uppercase">Unid.</p>
-                    </div>
-                </div>
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-4">
-                        <div class="size-14 rounded-xl bg-slate-800 overflow-hidden border border-white/5">
-                            <img class="size-full object-cover" src="https://images.unsplash.com/photo-1558981403-c5f9899a28bc?w=100&q=80" alt="Guantes">
-                        </div>
-                        <div>
-                            <p class="text-xs font-black uppercase italic">GUANTES PRO T</p>
-                            <p class="text-[9px] text-slate-500 font-bold uppercase">Protección</p>
-                        </div>
-                    </div>
-                    <div class="text-right">
-                        <p class="text-sm font-black italic text-primary">75</p>
-                        <p class="text-[8px] text-slate-500 font-black uppercase">Unid.</p>
-                    </div>
-                </div>
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-4">
-                        <div class="size-14 rounded-xl bg-slate-800 overflow-hidden border border-white/5">
-                            <img class="size-full object-cover" src="https://images.unsplash.com/photo-1444852538915-ac030376226e?w=100&q=80" alt="Freno">
-                        </div>
-                        <div>
-                            <p class="text-xs font-black uppercase italic">KIT FRENOS ABS</p>
-                            <p class="text-[9px] text-slate-500 font-bold uppercase">Repuestos</p>
-                        </div>
-                    </div>
-                    <div class="text-right">
-                        <p class="text-sm font-black italic text-primary">64</p>
-                        <p class="text-[8px] text-slate-500 font-black uppercase">Unid.</p>
-                    </div>
-                </div>
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-4">
-                        <div class="size-14 rounded-xl bg-slate-800 overflow-hidden border border-white/5">
-                            <img class="size-full object-cover" src="https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=100&q=80" alt="Cadena">
-                        </div>
-                        <div>
-                            <p class="text-xs font-black uppercase italic">CADENA REFORZADA</p>
-                            <p class="text-[9px] text-slate-500 font-bold uppercase">Tracción</p>
-                        </div>
-                    </div>
-                    <div class="text-right">
-                        <p class="text-sm font-black italic text-primary">52</p>
-                        <p class="text-[8px] text-slate-500 font-black uppercase">Unid.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <nav class="fixed bottom-0 left-0 right-0 bg-slate-900/90 backdrop-blur-xl border-t border-slate-800 px-4 py-2 pb-8 flex justify-between items-center z-50">
-        <a class="flex flex-col items-center gap-1 text-primary" href="reporte-global-tienda.html">
-            <span class="material-symbols-outlined text-2xl font-fill">dashboard</span>
-            <span class="text-[8px] font-black uppercase">Dashboard</span>
-        </a>
-        <a class="flex flex-col items-center gap-1 text-slate-500" href="panel-operativo-tienda.html">
-            <span class="material-symbols-outlined text-2xl">grid_view</span>
-            <span class="text-[8px] font-black uppercase">Panel</span>
-        </a>
-        <div class="relative -top-8">
-            <button onclick="location.href='nuevo-producto-tienda.html'" class="nav-center-btn size-16 bg-primary rounded-full flex items-center justify-center border-[4px] border-background-dark text-white shadow-2xl active:scale-90 transition-transform">
-                <span class="material-symbols-outlined text-3xl font-bold">add</span>
-            </button>
-        </div>
-        <a class="flex flex-col items-center gap-1 text-slate-500" href="finanzas-tienda.html">
-            <span class="material-symbols-outlined text-2xl">payments</span>
-            <span class="text-[8px] font-black uppercase">Finanzas</span>
-        </a>
-        <a class="flex flex-col items-center gap-1 text-slate-500" href="perfil-tienda.html">
-            <span class="material-symbols-outlined text-2xl font-fill">person</span>
-            <span class="text-[8px] font-black uppercase">Tienda</span>
-        </a>
-    </nav>
-</div>
-
-<div id="date-modal" class="fixed inset-0 z-[100] flex items-end justify-center px-4 pb-10 opacity-0 pointer-events-none transition-all duration-300">
-    <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="toggleDateModal()"></div>
-    <div id="modal-content" class="relative w-full max-w-sm bg-slate-900 border border-primary/30 rounded-3xl p-6 shadow-2xl translate-y-10 transition-all duration-300">
-        <h3 class="text-xs font-black uppercase italic text-primary mb-6 tracking-widest">Rango de Reporte</h3>
-        <div class="space-y-4">
-            <div class="grid grid-cols-2 gap-2">
-                <button onclick="seleccionarRapido('Hoy')" class="p-3 bg-white/5 rounded-xl text-[9px] font-black uppercase italic border border-white/5">Hoy</button>
-                <button onclick="seleccionarRapido('Este Mes')" class="p-3 bg-primary rounded-xl text-[9px] font-black uppercase italic">Este Mes</button>
-            </div>
-            <div class="space-y-3">
-                <p class="text-[9px] font-black text-slate-500 uppercase italic">Personalizado</p>
-                <div class="grid grid-cols-2 gap-3">
-                    <input type="date" id="date-start" class="bg-black/40 border-white/10 rounded-lg text-[10px] text-white">
-                    <input type="date" id="date-end" class="bg-black/40 border-white/10 rounded-lg text-[10px] text-white">
-                </div>
-                <button onclick="aplicarFiltroManual()" class="w-full py-4 bg-primary/20 border border-primary/40 rounded-xl text-[10px] font-black uppercase italic text-primary">Aplicar Rango</button>
-            </div>
-        </div>
+        </nav>
     </div>
 </div>
 
+<header class="sticky top-0 z-50 bg-background-dark/80 ios-blur border-b border-white/10 px-4 py-4 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+        <button onclick="toggleMenu()" class="p-2 text-white bg-white/5 rounded-xl"><span class="material-symbols-outlined">menu</span></button>
+        <span class="text-[10px] font-black uppercase tracking-widest text-shop-blue">KM0 2026</span>
+    </div>
+    
+    <div class="flex items-center gap-3">
+        <button onclick="window.location.href='resolver-novedades-tienda.html'" class="relative p-2 text-slate-400 bg-white/5 rounded-xl">
+            <span class="material-symbols-outlined">notifications</span>
+            <span class="absolute top-2 right-2 size-2 bg-red-500 rounded-full border border-background-dark animate-pulse"></span>
+        </button>
+        <button onclick="location.reload()" class="p-2 text-shop-blue bg-shop-blue/10 rounded-xl">
+            <span class="material-symbols-outlined">sync</span>
+        </button>
+    </div>
+</header>
+
+<main class="p-4 space-y-6 max-w-lg mx-auto w-full">
+
+    <div class="space-y-1">
+        <h2 class="text-3xl font-black italic">REPORTE GLOBAL</h2>
+        <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Resumen de Ventas y Rendimiento</p>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4">
+        <div class="card-gradient border border-shop-blue/20 p-5 rounded-[2rem] space-y-2">
+            <span class="material-symbols-outlined text-shop-blue">trending_up</span>
+            <p class="text-[9px] font-black text-slate-400 uppercase">Ventas Mes</p>
+            <p id="ventas-mes" class="text-2xl font-black">$0.00</p>
+        </div>
+        <div class="card-gradient border border-primary-green/20 p-5 rounded-[2rem] space-y-2">
+            <span class="material-symbols-outlined text-primary-green">task_alt</span>
+            <p class="text-[9px] font-black text-slate-400 uppercase">Entregados</p>
+            <p id="pedidos-total" class="text-2xl font-black">0</p>
+        </div>
+    </div>
+
+    <section class="bg-surface-dark border border-white/5 rounded-[2.5rem] p-6 space-y-4">
+        <div class="flex justify-between items-center">
+            <h3 class="text-xs font-black uppercase tracking-widest text-shop-blue italic">Actividad Reciente</h3>
+            <span class="material-symbols-outlined text-slate-600">query_stats</span>
+        </div>
+        
+        <div id="lista-reporte" class="space-y-3 min-h-[200px] flex flex-col justify-center items-center text-slate-600">
+            <span class="material-symbols-outlined text-4xl animate-spin">refresh</span>
+            <p class="text-[10px] font-bold uppercase">Cargando datos desde la nube...</p>
+        </div>
+    </section>
+
+</main>
+
+<nav class="fixed bottom-0 left-0 right-0 bg-background-dark/95 ios-blur border-t border-white/10 px-2 pb-10 pt-3 z-50">
+    <div class="flex justify-between items-center max-w-lg mx-auto text-slate-500">
+        <a class="flex flex-1 flex-col items-center gap-1" href="panel-operativo-tienda.html"><span class="material-symbols-outlined">grid_view</span><span class="text-[8px] font-bold uppercase">Panel</span></a>
+        <a class="flex flex-1 flex-col items-center gap-1" href="nuevo-pedido-tienda.html"><span class="material-symbols-outlined">add_circle</span><span class="text-[8px] font-bold uppercase">Nuevo</span></a>
+        <a class="flex flex-1 flex-col items-center gap-1" href="historial-entregas-tienda.html"><span class="material-symbols-outlined">receipt_long</span><span class="text-[8px] font-bold uppercase">Entregas</span></a>
+        <a class="flex flex-1 flex-col items-center gap-1" href="finanzas-tienda.html"><span class="material-symbols-outlined">payments</span><span class="text-[8px] font-bold uppercase">Finanzas</span></a>
+        <a class="flex flex-1 flex-col items-center gap-1" href="perfil-tienda.html"><span class="material-symbols-outlined">person</span><span class="text-[8px] font-bold uppercase tracking-tighter">Tienda</span></a>
+    </div>
+</nav>
+
 <script>
-    function toggleDateModal() {
-        const modal = document.getElementById('date-modal');
-        const content = document.getElementById('modal-content');
-        modal.classList.toggle('opacity-0');
-        modal.classList.toggle('pointer-events-none');
-        content.classList.toggle('translate-y-10');
-        content.classList.toggle('translate-y-0');
+    // Lógica de Menú
+    function toggleMenu() {
+        document.getElementById('side-menu').classList.toggle('menu-open');
     }
 
-    function seleccionarRapido(texto) {
-        document.getElementById('range-label').innerText = texto;
-        toggleDateModal();
+    // Cerrar Sesión
+    function cerrarSesion() {
+        localStorage.clear();
+        window.location.href = "../../index.html"; // O tu página de login
     }
 
-    function aplicarFiltroManual() {
-        const start = document.getElementById('date-start').value;
-        const end = document.getElementById('date-end').value;
-        if(start && end) {
-            document.getElementById('range-label').innerText = `${start} / ${end}`;
-            toggleDateModal();
+    // CARGAR DATOS REALES DE GOOGLE SHEETS
+    async function cargarReporte() {
+        const idTienda = localStorage.getItem('user_id'); // Supongamos que lo guardas al loguear
+        
+        const payload = {
+            accion: 'obtener_reporte_global',
+            token: API_KEY,
+            idTienda: idTienda
+        };
+
+        try {
+            const response = await fetch(API_URL, {
+                method: "POST",
+                body: JSON.stringify(payload)
+            });
+            const data = await response.json();
+            
+            // Aquí pintarías los datos en las tarjetas
+            document.getElementById('lista-reporte').innerHTML = `
+                <div class="text-center p-4">
+                    <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Sincronización Completa</p>
+                    <p class="text-[10px] text-shop-blue mt-2">Última actualización: ${new Date().toLocaleTimeString()}</p>
+                </div>
+            `;
+            
+        } catch (e) {
+            document.getElementById('lista-reporte').innerHTML = "<p class='text-[10px] text-red-500 uppercase'>Error al conectar con la base de datos</p>";
+        }
+    }
+
+    // Verificar si hay sesión
+    window.onload = () => {
+        const user = localStorage.getItem('user_id');
+        if(!user) {
+            window.location.href = "../../index.html"; 
+        } else {
+            cargarReporte();
         }
     }
 </script>
