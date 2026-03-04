@@ -5,10 +5,12 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>Kilómetro Cero - Logistics & Identity</title>
 
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIktNMDAgQURNSU4iLAogICJzaG9ydF9uYW1lIjogIktNMCIsCiAgInN0YXJ0X3VybCI6ICIuIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jbG9yIjogIiMwMDAwMDAiLAogICJ0aGVtZV9jbG9yIjogIiMwMDAwMDAiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJodHRwczovL2Nkbi1pY29ucy1wbmcuZmxhdGljb24uY29tLzUxMi8yMzYyLzIzNjIyNTIucG5nIiwKICAgICAgInNpemVzIjogIjUxMng1MTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9wbmciLAogICAgICAicHVycG9zZSI6ICJhbnkgbWFza2FibGUiCiAgICB9CiAgXQp9">
+
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="KM0 ADMIN">
+    <meta name="theme-color" content="#000000">
 
     <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/2362/2362252.png">
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2362/2362252.png">
@@ -39,16 +41,7 @@
             margin: 0;
         }
 
-        /* Animación exclusiva para el Logo */
-        @keyframes logoEntrance {
-            from { opacity: 0; transform: scale(0.8) translateY(-20px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
-        }
-
-        .animate-logo {
-            animation: logoEntrance 1s ease-out forwards;
-        }
-
+        /* Glow de fondo */
         .bg-glow {
             position: fixed;
             top: 50%;
@@ -60,18 +53,25 @@
             z-index: -1;
         }
 
-        /* Borde degradado para Comercio */
+        /* Borde con Azul Eléctrico para Comercio */
         .border-gradient-shop {
             border: 1.5px solid transparent;
             background: linear-gradient(#000, #000) padding-box,
-                        linear-gradient(90deg, #0047AB, #FF00FF) border-box;
+                        linear-gradient(90deg, #0047AB, #00BFFF) border-box; /* Azul Eléctrico */
         }
 
-        /* Borde reforzado para Motorizado */
+        /* Borde Rojo para Motorizado */
         .border-motorizado {
             border: 1.5px solid rgba(236, 19, 19, 0.4);
             box-shadow: inset 0 0 10px rgba(236, 19, 19, 0.05);
         }
+
+        /* Animación entrada logo */
+        @keyframes logoEntrance {
+            from { opacity: 0; transform: scale(0.8) translateY(-20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .animate-logo { animation: logoEntrance 1s ease-out forwards; }
     </style>
 </head>
 <body class="p-6">
@@ -95,12 +95,12 @@
             <div class="border-gradient-shop p-6 rounded-[2.5rem] flex flex-col items-center text-center space-y-4 shadow-[0_0_30px_rgba(0,71,171,0.1)]">
                 <div class="flex items-center justify-center space-x-2">
                     <span class="material-symbols-outlined text-[#0047AB] !text-3xl">storefront</span>
-                    <h3 class="text-[11px] font-black uppercase tracking-[0.2em] bg-gradient-to-r from-[#0047AB] to-[#FF00FF] bg-clip-text text-transparent">
+                    <h3 class="text-[11px] font-black uppercase tracking-[0.2em] bg-gradient-to-r from-[#0047AB] to-[#00BFFF] bg-clip-text text-transparent">
                         ¿Eres un comercio?
                     </h3>
                 </div>
                 <button onclick="window.location.href='views/auth/registro-tienda.html'" 
-                        class="w-full py-4 bg-gradient-to-r from-[#0047AB] to-[#FF00FF] text-white font-black text-xs tracking-[0.15em] uppercase rounded-xl active:scale-95 transition-all shadow-[0_4px_15px_rgba(255,0,255,0.2)]">
+                        class="w-full py-4 bg-gradient-to-r from-[#0047AB] to-[#00BFFF] text-white font-black text-xs tracking-[0.15em] uppercase rounded-xl active:scale-95 transition-all shadow-[0_4px_15px_rgba(0,71,171,0.2)]">
                     Registra tu Tienda aquí
                 </button>
             </div>
