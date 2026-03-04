@@ -7,117 +7,93 @@
     
     <script src="../../assets/js/config.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
 
     <style>
         :root {
-            --neon: #39FF14; /* EL VERDE PREVALECE */
-            --bg: #050505;
-            --card-bg: rgba(20, 20, 20, 0.7);
+            --neon-lime: #DFFF00; /* VERDE AMARILLENTO LIMA */
+            --bg-dark: #080808;
         }
 
         body {
-            background-color: var(--bg);
+            background-color: var(--bg-dark);
             color: #ffffff;
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background-image: radial-gradient(circle at 50% -20%, #0c200a, #050505);
-            min-height: 100vh;
+            background-image: radial-gradient(circle at 50% 0%, #1a1d00, #080808);
         }
 
-        /* Glassmorphism con acento Verde */
         .glass-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(57, 255, 20, 0.1);
-            border-radius: 28px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: rgba(15, 15, 15, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(223, 255, 0, 0.15);
+            border-radius: 32px;
         }
 
-        .glass-card:hover {
-            border-color: var(--neon);
-            box-shadow: 0 0 30px rgba(57, 255, 20, 0.05);
-            transform: translateY(-4px);
+        .img-verify {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+            cursor: zoom-in;
+            transition: transform 0.3s ease;
         }
+        .img-verify:hover { transform: scale(1.02); border-color: var(--neon-lime); }
 
-        /* Tabs con Identidad Verde */
-        .tab-btn { opacity: 0.4; transition: all 0.3s; border-bottom: 2px solid transparent; }
         .tab-btn.active { 
-            opacity: 1; 
-            color: var(--neon); 
-            border-color: var(--neon); 
-            text-shadow: 0 0 10px rgba(57, 255, 20, 0.5);
+            color: var(--neon-lime); 
+            border-bottom: 3px solid var(--neon-lime);
+            background: rgba(223, 255, 0, 0.05);
         }
 
         /* Animación de escaneo */
-        .scan-line {
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--neon), transparent);
-            position: absolute;
-            width: 100%;
-            top: 0;
-            animation: scan 3s linear infinite;
+        .scanning {
+            position: relative; overflow: hidden;
         }
-        @keyframes scan { 0% { top: 0%; } 100% { top: 100%; } }
-
-        .spin-load { animation: spin 1s linear infinite; }
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .scanning::after {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+            background: var(--neon-lime); box-shadow: 0 0 15px var(--neon-lime);
+            animation: scanLine 3s linear infinite;
+        }
+        @keyframes scanLine { 0% { top: 0%; } 100% { top: 100%; } }
     </style>
 </head>
-<body class="pb-40">
+<body class="pb-60">
 
-    <header class="sticky top-0 z-50 border-b border-white/5 bg-black/80 backdrop-blur-xl px-6 py-4">
-        <div class="max-w-5xl mx-auto flex justify-between items-center">
+    <header class="sticky top-0 z-50 bg-black/80 backdrop-blur-md border-b border-white/5 px-6 py-4">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-[#39FF14] rounded-xl flex items-center justify-center shadow-[0_0_15px_rgba(57,255,20,0.4)]">
-                    <span class="material-symbols-outlined text-black font-bold">terminal</span>
+                <div class="p-2 bg-[#DFFF00] rounded-lg shadow-[0_0_15px_rgba(223,255,0,0.3)]">
+                    <span class="material-symbols-outlined text-black font-bold">verified_user</span>
                 </div>
-                <div>
-                    <h1 class="text-lg font-extrabold tracking-tighter">KM0 <span class="text-[#39FF14]">SYSTEM</span></h1>
-                    <p class="text-[9px] uppercase tracking-[0.3em] text-zinc-500 font-bold">Admin Command Unit</p>
-                </div>
+                <h1 class="text-xl font-extrabold tracking-tighter uppercase">KM0 <span class="text-[#DFFF00]">VERIFY</span></h1>
             </div>
-            
-            <button onclick="init()" class="p-2 hover:bg-zinc-800 rounded-full transition-all">
-                <span id="icon-refresh" class="material-symbols-outlined text-[#39FF14]">sync</span>
+            <button onclick="init()" class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-[#DFFF00]">
+                <span id="icon-refresh" class="material-symbols-outlined text-sm">sync</span> Sincronizar
             </button>
         </div>
     </header>
 
-    <nav class="max-w-md mx-auto mt-8 px-6">
-        <div class="flex bg-zinc-900/50 p-1 rounded-2xl border border-white/5">
-            <button onclick="cambiarTab('motorizados')" id="btn-tab-m" class="tab-btn active flex-1 py-3 flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-widest">
-                <span class="material-symbols-outlined text-sm">moped</span>
-                Moto (<span id="count-m">0</span>)
-            </button>
-            <button onclick="cambiarTab('tiendas')" id="btn-tab-t" class="tab-btn flex-1 py-3 flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-widest">
-                <span class="material-symbols-outlined text-sm">storefront</span>
-                Tiendas (<span id="count-t">0</span>)
-            </button>
+    <nav class="max-w-md mx-auto mt-6 px-4">
+        <div class="flex bg-zinc-900/80 rounded-2xl overflow-hidden border border-white/5">
+            <button onclick="cambiarTab('motorizados')" id="btn-tab-m" class="tab-btn active flex-1 py-4 text-[10px] font-black uppercase tracking-widest transition-all">Motorizados (<span id="count-m">0</span>)</button>
+            <button onclick="cambiarTab('tiendas')" id="btn-tab-t" class="tab-btn flex-1 py-4 text-[10px] font-black uppercase tracking-widest transition-all">Tiendas (<span id="count-t">0</span>)</button>
         </div>
     </nav>
 
-    <main id="content" class="max-w-xl mx-auto p-6 space-y-6">
+    <main id="content" class="max-w-2xl mx-auto p-6 space-y-6">
         </main>
 
-    <footer id="footer" class="fixed bottom-6 inset-x-6 z-50 hidden">
-        <div class="max-w-xl mx-auto glass-card p-6 shadow-2xl">
-            <div class="flex items-center gap-2 mb-4 opacity-50">
-                <span class="material-symbols-outlined text-xs">edit_note</span>
-                <span class="text-[10px] uppercase font-bold tracking-widest">Reporte de Validación</span>
-            </div>
-            
+    <footer id="footer" class="fixed bottom-0 inset-x-0 p-6 bg-black/90 border-t border-white/10 hidden z-50">
+        <div class="max-w-2xl mx-auto">
             <textarea id="notas" 
-                class="w-full bg-black/40 border border-white/10 rounded-2xl p-4 text-sm mb-6 focus:border-[#39FF14]/50 outline-none transition-all placeholder:text-zinc-700"
-                placeholder="Introducir observaciones del socio..."></textarea>
+                class="w-full bg-zinc-900 border border-white/10 rounded-2xl p-4 text-sm mb-4 focus:border-[#DFFF00] outline-none text-white"
+                placeholder="Observaciones de la verificación..."></textarea>
             
             <div class="flex gap-4">
-                <button onclick="procesar(false)" class="flex-1 py-4 bg-zinc-900 hover:bg-red-950/30 hover:text-red-500 rounded-2xl font-bold text-xs uppercase tracking-widest transition-all border border-white/5">
-                    Rechazar
-                </button>
-                <button onclick="procesar(true)" class="flex-[2] py-4 bg-[#39FF14] hover:scale-[1.02] text-black rounded-2xl font-black text-xs uppercase tracking-widest shadow-[0_10px_20px_rgba(57,255,20,0.2)] flex items-center justify-center gap-2 transition-all">
-                    <span class="material-symbols-outlined text-sm">verified</span> Autorizar Socio
-                </button>
+                <button onclick="procesar(false)" class="flex-1 py-4 bg-zinc-800 text-red-500 rounded-2xl font-bold uppercase text-[11px] tracking-widest border border-red-900/20 hover:bg-red-950/20 transition-all">Rechazar Solicitud</button>
+                <button onclick="procesar(true)" class="flex-[2] py-4 bg-[#DFFF00] text-black rounded-2xl font-black uppercase text-[11px] tracking-widest shadow-lg shadow-[#DFFF00]/10 hover:scale-[1.01] transition-all">Confirmar y Activar Socio</button>
             </div>
         </div>
     </footer>
@@ -127,18 +103,13 @@
         let currentTab = 'motorizados';
 
         async function init() {
-            const icon = document.getElementById('icon-refresh');
-            icon.classList.add('spin-load');
+            document.getElementById('icon-refresh').classList.add('animate-spin');
             try {
-                // Usamos API_URL de tu config.js
                 const resp = await fetch(API_URL);
                 db = await resp.json();
                 actualizarUI();
-            } catch (e) {
-                console.error("Error al sincronizar:", e);
-            } finally {
-                icon.classList.remove('spin-load');
-            }
+            } catch (e) { console.error(e); }
+            finally { document.getElementById('icon-refresh').classList.remove('animate-spin'); }
         }
 
         function cambiarTab(tab) {
@@ -160,11 +131,7 @@
             const footer = document.getElementById('footer');
 
             if (!list || list.length === 0) {
-                container.innerHTML = `
-                    <div class="flex flex-col items-center justify-center py-20 opacity-20">
-                        <span class="material-symbols-outlined text-7xl mb-4 text-[#39FF14]">order_approve</span>
-                        <p class="text-xs font-bold uppercase tracking-[0.4em]">Sin registros pendientes</p>
-                    </div>`;
+                container.innerHTML = `<div class="py-20 text-center opacity-30 text-xs font-bold uppercase tracking-[0.5em]">No Data Pending</div>`;
                 footer.classList.add('hidden');
                 return;
             }
@@ -174,55 +141,51 @@
 
             if (currentTab === 'motorizados') {
                 container.innerHTML = `
-                    <div class="glass-card p-8 relative overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-500">
-                        <div class="scan-line"></div>
-                        <div class="flex justify-between items-start mb-8">
-                            <span class="px-3 py-1 bg-[#39FF14]/10 text-[#39FF14] text-[9px] font-black rounded-full border border-[#39FF14]/20 uppercase tracking-widest">Unidad de Entrega</span>
-                            <span class="text-[10px] font-bold text-zinc-600 font-mono">ID: ${item.id}</span>
+                    <div class="glass-card p-6 scanning">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-2xl font-black uppercase tracking-tighter">${item.nombre}</h2>
+                            <span class="bg-[#DFFF00]/10 text-[#DFFF00] text-[9px] font-black px-3 py-1 rounded-full border border-[#DFFF00]/30 uppercase">Verificación Unidad</span>
                         </div>
 
-                        <h2 class="text-3xl font-extrabold tracking-tighter uppercase mb-6">${item.nombre}</h2>
-                        
-                        <div class="grid grid-cols-2 gap-px bg-white/5 rounded-2xl overflow-hidden border border-white/5 mb-8">
-                            <div class="p-5 bg-black/40">
-                                <p class="text-[9px] uppercase text-zinc-500 font-bold mb-1">Identificación</p>
-                                <p class="text-lg font-bold tracking-tight">${item.cedula}</p>
+                        <div class="grid grid-cols-2 gap-4 mb-6">
+                            <div class="space-y-2">
+                                <p class="text-[9px] font-bold text-zinc-500 uppercase tracking-widest">Foto de Perfil / Unidad</p>
+                                <img src="${item.urlFoto || 'https://via.placeholder.com/400x300?text=SIN+FOTO'}" class="img-verify" onclick="window.open(this.src)">
                             </div>
-                            <div class="p-5 bg-black/40 border-l border-white/5">
-                                <p class="text-[9px] uppercase text-zinc-500 font-bold mb-1">Placa Vehículo</p>
-                                <p class="text-lg font-bold text-[#39FF14] tracking-tight">${item.placa}</p>
+                            <div class="space-y-2">
+                                <p class="text-[9px] font-bold text-zinc-500 uppercase tracking-widest">Documento ID / Licencia</p>
+                                <img src="${item.urlCedula || 'https://via.placeholder.com/400x300?text=SIN+CEDULA'}" class="img-verify" onclick="window.open(this.src)">
                             </div>
                         </div>
 
-                        <button onclick="window.open('${item.urlVideo}')" 
-                            class="w-full py-5 rounded-2xl bg-[#39FF14]/5 border border-[#39FF14]/20 text-[#39FF14] hover:bg-[#39FF14]/10 flex items-center justify-center gap-3 transition-all group">
-                            <span class="material-symbols-outlined group-hover:scale-125 transition-transform">videocam</span>
-                            <span class="text-[10px] font-black uppercase tracking-widest">Analizar Video de Identidad</span>
+                        <div class="grid grid-cols-2 gap-4 bg-black/40 p-5 rounded-2xl border border-white/5 mb-6">
+                            <div>
+                                <p class="text-[9px] text-zinc-500 font-bold uppercase">Cédula</p>
+                                <p class="font-bold text-sm tracking-widest">${item.cedula}</p>
+                            </div>
+                            <div>
+                                <p class="text-[9px] text-zinc-500 font-bold uppercase">Placa</p>
+                                <p class="font-bold text-sm text-[#DFFF00] tracking-widest">${item.placa}</p>
+                            </div>
+                        </div>
+
+                        <button onclick="window.open('${item.urlVideo}')" class="w-full py-4 rounded-xl bg-white/5 border border-white/10 text-[10px] font-bold uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-[#DFFF00] hover:text-black transition-all">
+                            <span class="material-symbols-outlined text-sm">play_circle</span> Reproducir Video de Verificación
                         </button>
                     </div>`;
             } else {
-                // Vista para Tiendas (con acento naranja/naranja para diferenciar ligeramente pero manteniendo el verde en botones)
+                // Render Tiendas (similar estructura pero sin video, enfocado en documentos de comercio)
                 container.innerHTML = `
-                    <div class="glass-card p-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                        <div class="flex justify-between items-start mb-8">
-                            <span class="px-3 py-1 bg-zinc-800 text-zinc-400 text-[9px] font-black rounded-full uppercase tracking-widest">Merchant Verify</span>
-                            <span class="text-[10px] font-bold text-zinc-600 font-mono">REG: ${item.id}</span>
-                        </div>
-
-                        <h2 class="text-3xl font-extrabold tracking-tighter uppercase mb-6">${item.nombreTienda}</h2>
-                        
-                        <div class="space-y-3">
+                    <div class="glass-card p-6">
+                        <h2 class="text-2xl font-black uppercase tracking-tighter mb-6">${item.nombreTienda}</h2>
+                        <div class="space-y-4">
                             <div class="flex justify-between p-4 bg-black/40 rounded-2xl border border-white/5">
-                                <span class="text-[10px] uppercase text-zinc-500 font-bold">Titular</span>
-                                <span class="text-sm font-bold">${item.representante}</span>
+                                <span class="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">Representante</span>
+                                <span class="text-sm font-bold uppercase">${item.representante}</span>
                             </div>
                             <div class="flex justify-between p-4 bg-black/40 rounded-2xl border border-white/5">
-                                <span class="text-[10px] uppercase text-zinc-500 font-bold">RUC / NIT</span>
-                                <span class="text-sm font-bold">${item.cedula}</span>
-                            </div>
-                            <div class="flex justify-between p-4 bg-black/40 rounded-2xl border border-white/5">
-                                <span class="text-[10px] uppercase text-zinc-500 font-bold">Ciudad</span>
-                                <span class="text-sm font-bold text-[#39FF14]">${item.ciudad}</span>
+                                <span class="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">RUC</span>
+                                <span class="text-sm font-bold tracking-widest">${item.cedula}</span>
                             </div>
                         </div>
                     </div>`;
@@ -232,14 +195,12 @@
         async function procesar(aprobado) {
             const list = currentTab === 'motorizados' ? db.motorizados : db.tiendas;
             const item = list[0];
-            if(!item) return;
-
             const footer = document.getElementById('footer');
+
             footer.style.opacity = "0.5";
             footer.style.pointerEvents = "none";
 
             try {
-                // Usamos API_URL y API_KEY de tu config.js
                 await fetch(API_URL, {
                     method: 'POST',
                     mode: 'no-cors',
@@ -248,23 +209,19 @@
                         token: API_KEY,
                         id: item.id,
                         nuevoEstado: aprobado ? "ACTIVO" : "RECHAZADO",
-                        motivo: document.getElementById('notas').value || "Validación Manual Admin"
+                        motivo: document.getElementById('notas').value || "Validación Admin"
                     })
                 });
-
-                // Limpieza y actualización local
                 list.shift();
                 document.getElementById('notas').value = "";
                 actualizarUI();
-            } catch (e) {
-                alert("ERROR DE ENLACE: No se pudo completar la acción.");
-            } finally {
-                footer.style.opacity = "1";
-                footer.style.pointerEvents = "all";
+            } catch (e) { alert("Error de conexión"); }
+            finally { 
+                footer.style.opacity = "1"; 
+                footer.style.pointerEvents = "all"; 
             }
         }
 
-        // Carga Inicial
         init();
     </script>
 </body>
