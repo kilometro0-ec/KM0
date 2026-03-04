@@ -28,8 +28,12 @@
         .ios-blur { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
         .material-symbols-outlined { font-variation-settings: 'FILL' 0; }
         .filled { font-variation-settings: 'FILL' 1; }
-        /* Animación sutil para el botón de actualizar */
         .spin-hover:active { transform: rotate(180deg); transition: 0.3s; }
+        
+        /* Estilo para el slider de comisión */
+        input[type=range] { font-size: 1.5rem; width: 100%; appearance: none; background: transparent; cursor: pointer; }
+        input[type=range]::-webkit-slider-runnable-track { background: #22351b; height: 0.5rem; border-radius: 0.5rem; }
+        input[type=range]::-webkit-slider-thumb { appearance: none; margin-top: -8px; background-color: #46f20d; height: 1.5rem; width: 1.5rem; border-radius: 50%; box-shadow: 0 0 10px rgba(70, 242, 13, 0.5); }
     </style>
 </head>
 <body class="min-h-screen flex flex-col pb-24">
@@ -42,7 +46,7 @@
 
         <div class="text-center">
             <h1 class="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Sistema KM0</h1>
-            <p class="text-xs font-bold text-white">CONFIGURACIÓN</p>
+            <p class="text-xs font-bold text-white uppercase">Engine Config</p>
         </div>
 
         <div class="flex items-center gap-1">
@@ -62,10 +66,45 @@
             <img src="https://ui-avatars.com/api/?name=Admin&background=46f20d&color=000" class="rounded-full">
         </div>
         <div>
-            <h2 class="font-bold text-base">Super Administrador</h2>
+            <h2 class="font-bold text-base uppercase">Super Administrador</h2>
             <p class="text-[9px] text-primary font-black uppercase tracking-widest">Estado: En Línea</p>
         </div>
     </div>
+
+    <section class="space-y-3">
+        <h3 class="text-[10px] font-black uppercase tracking-widest text-slate-500 px-1">Configuración de Comisión</h3>
+        <div class="bg-surface-dark border border-primary/20 rounded-2xl p-5 shadow-xl">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <p class="text-[9px] font-black text-slate-400 uppercase mb-1">Tasa Global Sugerida</p>
+                    <div class="flex items-baseline gap-1">
+                        <span id="val-comision" class="text-4xl font-black text-white">12.5</span>
+                        <span class="text-xl font-black text-primary">%</span>
+                    </div>
+                </div>
+                <div class="size-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                    <span class="material-symbols-outlined text-3xl">percent</span>
+                </div>
+            </div>
+
+            <div class="space-y-3">
+                <input type="range" min="0" max="30" step="0.5" value="12.5" 
+                       oninput="document.getElementById('val-comision').innerText = this.value">
+                <div class="flex justify-between text-[8px] font-black text-slate-500 uppercase tracking-tighter">
+                    <span>Mínimo (0%)</span>
+                    <span>Máximo Sugerido (30%)</span>
+                </div>
+            </div>
+
+            <div class="mt-6 flex items-center justify-between p-3 bg-black/20 rounded-xl border border-white/5">
+                <p class="text-[10px] font-bold text-slate-300 uppercase">Aplicar a todos los comercios</p>
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" checked class="sr-only peer">
+                    <div class="w-9 h-5 bg-slate-800 rounded-full peer peer-checked:bg-primary after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-4"></div>
+                </label>
+            </div>
+        </div>
+    </section>
 
     <section class="space-y-3">
         <h3 class="text-[10px] font-black uppercase tracking-widest text-slate-500 px-1">Horarios Operativos</h3>
@@ -73,47 +112,46 @@
             </div>
     </section>
 
-    <button class="w-full py-4 bg-primary/10 border border-primary/30 text-primary rounded-xl font-black uppercase tracking-widest active:bg-primary active:text-black transition-all">
-        Sincronizar Datos
+    <button class="w-full py-4 bg-primary text-background-dark rounded-xl font-black uppercase tracking-[0.2em] shadow-lg shadow-primary/20 active:scale-95 transition-all">
+        Guardar Configuración
     </button>
 </main>
 
 <nav class="fixed bottom-0 left-0 right-0 bg-background-dark/95 ios-blur border-t border-white/10 px-2 pb-6 pt-2 z-50">
     <div class="flex justify-between items-center max-w-lg mx-auto">
-        <a class="flex flex-1 flex-col items-center gap-1 text-slate-500 transition-colors" href="dashboard.html">
+        <a class="flex flex-1 flex-col items-center gap-1 text-slate-500" href="dashboard.html">
             <span class="material-symbols-outlined text-[24px]">dashboard</span>
             <span class="text-[9px] font-bold uppercase">Panel</span>
         </a>
-        <a class="flex flex-1 flex-col items-center gap-1 text-slate-500 transition-colors" href="tiendas.html">
+        <a class="flex flex-1 flex-col items-center gap-1 text-slate-500" href="tiendas.html">
             <span class="material-symbols-outlined text-[24px]">storefront</span>
             <span class="text-[9px] font-bold uppercase">Tiendas</span>
         </a>
-        <a class="flex flex-1 flex-col items-center gap-1 text-slate-500 transition-colors" href="motorizados.html">
+        <a class="flex flex-1 flex-col items-center gap-1 text-slate-500" href="motorizados.html">
             <span class="material-symbols-outlined text-[24px]">pedal_bike</span>
             <span class="text-[9px] font-bold uppercase">Flota</span>
         </a>
-        <a class="flex flex-1 flex-col items-center gap-1 text-slate-500 transition-colors" href="pedidos.html">
+        <a class="flex flex-1 flex-col items-center gap-1 text-slate-500" href="pedidos.html">
             <span class="material-symbols-outlined text-[24px]">receipt_long</span>
             <span class="text-[9px] font-bold uppercase">Pedidos</span>
         </a>
-        <a class="flex flex-1 flex-col items-center gap-1 text-primary transition-colors" href="configuracion.html">
+        <a class="flex flex-1 flex-col items-center gap-1 text-primary" href="configuracion.html">
             <span class="material-symbols-outlined text-[24px] filled">tune</span>
-            <span class="text-[9px] font-bold uppercase">Ajustes</span>
+            <span class="text-[9px] font-bold uppercase">Motor</span>
         </a>
     </div>
 </nav>
 
 <script>
-    // Generar tabla de horarios
     const dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
     const container = document.getElementById('lista-horarios');
     dias.forEach(dia => {
         container.innerHTML += `
             <div class="p-4 flex items-center justify-between">
-                <span class="text-xs font-bold text-slate-300 w-16">${dia}</span>
-                <div class="flex items-center gap-2 bg-black/30 px-2 py-1 rounded border border-white/5">
+                <span class="text-xs font-bold text-slate-300 w-16 uppercase text-[10px]">${dia}</span>
+                <div class="flex items-center gap-2 bg-black/30 px-2 py-1 rounded-lg border border-white/5">
                     <input type="time" value="08:00" class="bg-transparent border-none p-0 text-[10px] font-black text-primary focus:ring-0">
-                    <span class="text-slate-600 text-[9px] font-bold">A</span>
+                    <span class="text-slate-600 text-[9px] font-bold uppercase">A</span>
                     <input type="time" value="22:00" class="bg-transparent border-none p-0 text-[10px] font-black text-primary focus:ring-0">
                 </div>
                 <label class="relative inline-flex items-center cursor-pointer">
@@ -126,7 +164,7 @@
 
     function confirmExit() {
         if(confirm("¿Desea cerrar la sesión administrativa?")) {
-            window.location.href = "../../index.html"; // Ajustar ruta según tu login
+            window.location.href = "login.html";
         }
     }
 </script>
