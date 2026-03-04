@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Acceso - KM0</title>
+    <title>Acceso Privado - KM0</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet"/>
@@ -21,24 +21,6 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            overflow-x: hidden;
-        }
-
-        /* Animación Cíclica de Iconos */
-        @keyframes morphIcons {
-            0%, 25% { content: "account_circle"; transform: rotate(0deg); opacity: 1; }
-            30% { opacity: 0; }
-            35%, 55% { content: "storefront"; transform: rotate(360deg); opacity: 1; }
-            60% { opacity: 0; }
-            65%, 90% { content: "moped"; transform: rotate(720deg); opacity: 1; }
-            95% { opacity: 0; }
-            100% { content: "account_circle"; transform: rotate(1080deg); opacity: 1; }
-        }
-
-        .icon-morph::before {
-            content: "account_circle";
-            animation: morphIcons 8s infinite ease-in-out;
-            display: inline-block;
         }
 
         .bg-glow {
@@ -50,6 +32,7 @@
             z-index: -1;
         }
 
+        /* Animación de carga en botón */
         .btn-loading { 
             pointer-events: none; 
             opacity: 0.7; 
@@ -63,57 +46,38 @@
 <body class="p-6">
     <div class="bg-glow"></div>
 
-    <div class="w-full max-w-[360px] flex flex-col items-center">
-        
-        <div class="w-full space-y-8">
-            <div class="text-center space-y-4">
-                <div class="flex justify-center">
-                    <div class="p-6 bg-zinc-900/50 rounded-full border border-zinc-800 shadow-[0_0_30px_rgba(236,19,19,0.15)]">
-                        <span class="material-symbols-outlined icon-morph text-[#EC1313] text-6xl leading-none"></span>
-                    </div>
-                </div>
-                <div>
-                    <h1 class="text-2xl font-black uppercase tracking-widest italic">Acceso Privado</h1>
-                    <p class="text-zinc-500 text-[10px] font-bold uppercase tracking-[0.3em] mt-1">KM0 v1.0.1 Motor Integral</p>
+    <div class="w-full max-w-[360px] space-y-8">
+        <div class="text-center space-y-4">
+            <div class="flex justify-center">
+                <div class="p-6 bg-zinc-900/50 rounded-full border border-zinc-800 shadow-[0_0_30px_rgba(236,19,19,0.15)]">
+                    <span class="material-symbols-outlined text-[#EC1313] text-6xl">account_circle</span>
                 </div>
             </div>
+            <h1 class="text-2xl font-black uppercase tracking-widest italic">KM0 Acceso</h1>
+        </div>
 
-            <div class="space-y-4">
-                <div class="space-y-1">
-                    <label class="text-[10px] font-black text-zinc-500 uppercase ml-1 tracking-widest">Identificador</label>
-                    <input type="text" id="user" placeholder="USUARIO" 
-                           class="w-full bg-zinc-900/50 border border-zinc-800 rounded-2xl py-4 px-5 focus:border-[#EC1313] focus:ring-1 focus:ring-[#EC1313] outline-none transition-all text-white font-bold placeholder:text-zinc-700">
-                </div>
-                
-                <div class="space-y-1">
-                    <label class="text-[10px] font-black text-zinc-500 uppercase ml-1 tracking-widest">Clave de Seguridad</label>
-                    <div class="relative">
-                        <input type="password" id="pass" placeholder="••••••••" 
-                               class="w-full bg-zinc-900/50 border border-zinc-800 rounded-2xl py-4 pl-5 pr-14 focus:border-[#EC1313] focus:ring-1 focus:ring-[#EC1313] outline-none transition-all text-white font-bold placeholder:text-zinc-700">
-                        <button type="button" onclick="togglePassword()" class="absolute right-5 top-1/2 -translate-y-1/2 text-zinc-600 hover:text-[#EC1313]">
-                            <span id="eye-icon" class="material-symbols-outlined text-xl">visibility</span>
-                        </button>
-                    </div>
-                </div>
-                
-                <button id="btn-login" onclick="validarYRedirigir()" 
-                        class="w-full bg-[#EC1313] hover:bg-red-700 text-white font-black py-5 rounded-2xl shadow-lg shadow-red-900/20 transition-all active:scale-95 flex items-center justify-center gap-2 uppercase text-sm tracking-[0.2em] mt-2">
-                    <span id="btn-text">Iniciar Sesión</span>
-                </button>
+        <div class="space-y-4">
+            <div class="space-y-1">
+                <label class="text-[10px] font-black text-zinc-500 uppercase ml-1 tracking-widest">Identificador</label>
+                <input type="text" id="user" placeholder="USUARIO" class="w-full bg-zinc-900/50 border border-zinc-800 rounded-2xl py-4 px-5 focus:border-[#EC1313] outline-none text-white font-bold">
             </div>
-
-            <div id="error-msg" class="hidden text-center text-[#EC1313] text-[10px] font-black uppercase bg-red-950/20 py-4 rounded-xl border border-red-900/30 tracking-tighter"></div>
             
-            <p class="text-center">
-                <a href="../../index.html" class="text-[10px] text-zinc-600 uppercase tracking-widest hover:text-white transition-colors">← Volver al inicio</a>
-            </p>
+            <div class="space-y-1">
+                <label class="text-[10px] font-black text-zinc-500 uppercase ml-1 tracking-widest">Clave de Seguridad</label>
+                <div class="relative">
+                    <input type="password" id="pass" placeholder="••••••••" class="w-full bg-zinc-900/50 border border-zinc-800 rounded-2xl py-4 pl-5 pr-14 focus:border-[#EC1313] outline-none text-white font-bold">
+                    <button type="button" onclick="togglePassword()" class="absolute right-5 top-1/2 -translate-y-1/2 text-zinc-600 hover:text-[#EC1313]">
+                        <span id="eye-icon" class="material-symbols-outlined text-xl">visibility</span>
+                    </button>
+                </div>
+            </div>
+            
+            <button id="btn-login" onclick="validarYRedirigir()" class="w-full bg-[#EC1313] hover:bg-red-700 text-white font-black py-5 rounded-2xl transition-all active:scale-95 uppercase text-sm tracking-[0.2em]">
+                Iniciar Sesión
+            </button>
         </div>
 
-        <div class="mt-16 text-center opacity-40">
-            <p class="text-[9px] font-bold uppercase tracking-[0.1em] text-zinc-400">
-                2026 KM0® by CORPORACIÓN 360 <span class="ml-1 text-zinc-600">V1.0.1</span>
-            </p>
-        </div>
+        <div id="error-msg" class="hidden text-center text-[#EC1313] text-[10px] font-black uppercase bg-red-950/20 py-4 rounded-xl border border-red-900/30"></div>
     </div>
 
     <script>
@@ -124,35 +88,26 @@
             eyeIcon.innerText = passInput.type === "password" ? "visibility" : "visibility_off";
         }
 
-        function showError(msg) {
-            const error = document.getElementById('error-msg');
-            error.innerText = msg;
-            error.classList.remove('hidden');
-        }
-
-        function resetBtn(btn) {
-            btn.disabled = false;
-            btn.innerHTML = "Iniciar Sesión";
-            btn.classList.remove('btn-loading');
-        }
-
         async function validarYRedirigir() {
             const userField = document.getElementById('user').value.trim();
             const passField = document.getElementById('pass').value.trim();
-            const error = document.getElementById('error-msg');
             const btn = document.getElementById('btn-login');
+            const error = document.getElementById('error-msg');
 
             if (!userField || !passField) {
-                showError("Complete todos los campos");
+                error.innerText = "COMPLETE TODOS LOS CAMPOS";
+                error.classList.remove('hidden');
                 return;
             }
 
+            // UI Loading
             btn.disabled = true;
-            btn.innerHTML = `VERIFICANDO...`;
+            btn.innerText = "VERIFICANDO...";
             btn.classList.add('btn-loading');
             error.classList.add('hidden');
 
             try {
+                // LLAMADA A TU GOOGLE APPS SCRIPT
                 const response = await fetch(API_URL, {
                     method: 'POST',
                     body: JSON.stringify({ 
@@ -166,34 +121,41 @@
                 const result = await response.json();
 
                 if (result.success) {
+                    // GUARDAR SESIÓN
                     localStorage.setItem('km0_user_id', result.id);
                     localStorage.setItem('km0_user_rol', result.rol);
                     
-                    // Normalización del ROL (Mayúsculas y sin espacios)
                     const userRol = result.rol.toString().toUpperCase().trim();
 
-                    // --- LÓGICA DE REDIRECCIÓN ---
-                    if (userRol === 'ADMINISTRADOR') {
-                        window.location.href = "../admin/dashboard.html"; 
-                    } else if (userRol === 'TIENDAS') {
-                        window.location.href = "../tienda/panel-operativo-tienda.html";
+                    // --- REDIRECCIÓN SEGÚN TU REQUERIMIENTO ---
+                    if (userRol === 'TIENDAS') {
+                        // VA DIRECTO AL REPORTE GLOBAL DE ESA TIENDA
+                        window.location.href = "reporte-global-tienda.html";
+                    } else if (userRol === 'ADMINISTRADOR') {
+                        window.location.href = "../admin/dashboard.html";
                     } else if (userRol === 'MOTORIZADO') {
                         window.location.href = "../motorizado/panel-operativo-motorizado.html";
-                    } else if (userRol === 'FINANZAS') {
-                        window.location.href = "../finanzas/gestion-finanzas.html";
                     } else {
-                        showError("Rol '" + userRol + "' sin vista definida");
+                        error.innerText = "ROL NO AUTORIZADO";
+                        error.classList.remove('hidden');
                         resetBtn(btn);
                     }
                 } else {
-                    showError(result.mensaje || "Credenciales incorrectas");
+                    error.innerText = result.mensaje || "ERROR DE ACCESO";
+                    error.classList.remove('hidden');
                     resetBtn(btn);
                 }
             } catch (e) {
-                console.error("Error Login:", e);
-                showError("Error de conexión con el motor central");
+                error.innerText = "ERROR DE CONEXIÓN";
+                error.classList.remove('hidden');
                 resetBtn(btn);
             }
+        }
+
+        function resetBtn(btn) {
+            btn.disabled = false;
+            btn.innerText = "Iniciar Sesión";
+            btn.classList.remove('btn-loading');
         }
 
         document.addEventListener('keypress', (e) => { 
