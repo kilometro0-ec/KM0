@@ -3,184 +3,175 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Kilómetro Cero - Admin Dashboard</title>
+    <title>Dashboard Admin - KM0</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
     
-    <script src="../../assets/js/config.js"></script>
-
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#0df26c",
-                        "background-light": "#f5f8f7",
-                        "background-dark": "#102217",
+                        "primary": "#0df26c", // Verde Admin
+                        "background-dark": "#0d140a",
+                        "surface-dark": "#162512",
                     },
-                    fontFamily: { "display": ["Space Grotesk"] },
+                    fontFamily: { "display": ["Space Grotesk", "sans-serif"] },
                 },
             },
         }
     </script>
     <style>
-        body { min-height: 100dvh; background-color: #102217; color: white; }
-        .material-symbols-outlined { font-variation-settings: 'FILL' 1; }
+        body { font-family: 'Space Grotesk', sans-serif; background-color: #0d140a; color: white; -webkit-tap-highlight-color: transparent; }
+        .ios-blur { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0; }
+        .filled { font-variation-settings: 'FILL' 1; }
+        .spin-anim:active { transform: rotate(180deg); transition: 0.4s; }
     </style>
 </head>
-<body class="bg-background-dark font-display text-slate-100 flex flex-col">
+<body class="min-h-screen flex flex-col pb-24">
 
-<header class="sticky top-0 z-50 bg-background-dark/80 backdrop-blur-md border-b border-primary/10">
-    <div class="flex items-center justify-between p-4">
-        <div class="flex items-center gap-3">
-            <div class="size-10 rounded-full bg-primary/20 flex items-center justify-center border border-primary/30">
-                <span class="material-symbols-outlined text-primary">hub</span>
-            </div>
-            <div>
-                <h1 class="text-lg font-bold leading-tight tracking-tight">Kilómetro Cero</h1>
-                <p class="text-[10px] uppercase tracking-widest text-primary font-semibold">Panel Administrativo</p>
-            </div>
+<header class="sticky top-0 z-50 bg-background-dark/80 ios-blur border-b border-primary/20 px-4 py-3">
+    <div class="flex items-center justify-between">
+        <button onclick="toggleExtraMenu()" class="p-2 text-primary">
+            <span class="material-symbols-outlined text-3xl">menu</span>
+        </button>
+
+        <div class="text-center">
+            <h1 class="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Kilómetro Cero</h1>
+            <p class="text-xs font-bold text-white uppercase">Panel Principal</p>
         </div>
-        <div class="flex gap-2">
-            <button onclick="fetchData()" class="size-10 flex items-center justify-center rounded-full bg-primary/10 text-primary">
-                <span class="material-symbols-outlined">sync</span>
+
+        <div class="flex items-center gap-1">
+            <button onclick="fetchData()" class="p-2 text-slate-400 spin-anim">
+                <span class="material-symbols-outlined text-2xl">refresh</span>
             </button>
-            <button onclick="cerrarSesion()" class="size-10 flex items-center justify-center rounded-full bg-red-500/10 text-red-500">
-                <span class="material-symbols-outlined">logout</span>
+            <button onclick="cerrarSesion()" class="p-2 text-red-500">
+                <span class="material-symbols-outlined text-2xl">logout</span>
             </button>
         </div>
     </div>
 </header>
 
-<main class="flex-1 overflow-y-auto pb-24 p-4">
-    <h2 class="text-2xl font-bold mb-1">Dashboard Principal</h2>
-    <p class="text-sm text-slate-400 mb-6 italic">Sincronizado con Google Sheets</p>
+<main class="p-4 space-y-6">
+    <div class="bg-surface-dark border border-primary/10 rounded-2xl p-6 shadow-lg">
+        <div class="flex justify-between items-center mb-2">
+            <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Ingresos Proyectados</p>
+            <span class="material-symbols-outlined text-primary filled">payments</span>
+        </div>
+        <div class="flex items-baseline gap-2">
+            <h2 id="total-ventas" class="text-4xl font-black">$0.00</h2>
+            <span class="text-[10px] text-primary font-bold">+12% hoy</span>
+        </div>
+    </div>
 
-    <div class="grid grid-cols-2 gap-4 mb-6">
-        <div class="col-span-2 rounded-xl p-6 bg-slate-800/40 border border-primary/5">
-            <div class="flex justify-between items-start">
-                <p class="text-slate-400 text-sm font-medium uppercase tracking-widest">Ingresos Proyectados</p>
-                <span class="material-symbols-outlined text-primary">payments</span>
-            </div>
-            <div class="flex items-end gap-2 mt-2">
-                <p id="total-ventas" class="text-3xl font-bold leading-none">$0.00</p>
+    <div class="grid grid-cols-2 gap-4">
+        <div class="bg-surface-dark border border-white/5 rounded-2xl p-4">
+            <p class="text-[9px] font-black uppercase text-slate-500 mb-1">Solicitudes</p>
+            <div class="flex items-center justify-between">
+                <span id="total-pendientes" class="text-2xl font-black">0</span>
+                <span class="material-symbols-outlined text-primary">person_add</span>
             </div>
         </div>
-
-        <div class="rounded-xl p-5 bg-slate-800/40 border border-primary/5">
-            <p class="text-slate-400 text-[10px] font-bold uppercase">Solicitudes</p>
-            <div class="flex items-center justify-between mt-1">
-                <p id="total-pendientes" class="text-2xl font-bold">0</p>
-                <div class="size-8 rounded-lg bg-primary/10 flex items-center justify-center">
-                    <span class="material-symbols-outlined text-primary text-sm">person_add</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="rounded-xl p-5 bg-slate-800/40 border border-primary/5">
-            <p class="text-slate-400 text-[10px] font-bold uppercase">Alertas</p>
-            <div class="flex items-center justify-between mt-1">
-                <p id="total-alertas" class="text-2xl font-bold">0</p>
-                <div class="size-8 rounded-lg bg-orange-500/10 flex items-center justify-center text-orange-500">
-                    <span class="material-symbols-outlined text-sm">warning</span>
-                </div>
+        <div class="bg-surface-dark border border-white/5 rounded-2xl p-4">
+            <p class="text-[9px] font-black uppercase text-slate-500 mb-1">Alertas Motor</p>
+            <div class="flex items-center justify-between">
+                <span id="total-alertas" class="text-2xl font-black">0</span>
+                <span class="material-symbols-outlined text-orange-500">warning</span>
             </div>
         </div>
     </div>
 
-    <section class="mb-6">
-        <div class="flex items-center justify-between mb-4">
-            <h3 class="text-lg font-bold">Flujo de Solicitudes</h3>
-            <button onclick="window.location.href='gestion-usuarios.html'" class="text-primary text-xs font-bold uppercase">Revisar Todo</button>
+    <section class="space-y-4">
+        <div class="flex items-center justify-between px-1">
+            <h3 class="text-[10px] font-black uppercase tracking-widest text-slate-500">Pendientes de Aprobación</h3>
+            <a href="gestion-usuarios.html" class="text-[10px] font-black text-primary uppercase">Ver todos</a>
         </div>
-        <div class="rounded-xl p-6 bg-slate-800/40 border border-primary/5">
-            <div id="lista-dashboard" class="space-y-4">
-                <p class="text-center text-zinc-500 text-[10px] py-4 uppercase tracking-widest animate-pulse">Cargando datos...</p>
+        
+        <div class="bg-surface-dark border border-white/5 rounded-2xl overflow-hidden divide-y divide-white/5" id="lista-dashboard">
+            <div class="p-8 text-center">
+                <div class="inline-block size-6 border-2 border-primary/30 border-t-primary rounded-full animate-spin"></div>
+                <p class="text-[10px] text-slate-500 mt-2 uppercase font-black tracking-widest">Sincronizando Engine...</p>
             </div>
         </div>
     </section>
 </main>
 
-<nav class="fixed bottom-0 left-0 right-0 bg-background-dark/80 backdrop-blur-xl border-t border-primary/10 px-6 pb-6 pt-3 flex justify-between items-center z-50">
-    <a class="flex flex-col items-center gap-1 text-primary" href="dashboard.html">
-        <span class="material-symbols-outlined">dashboard</span>
-        <span class="text-[10px] font-bold uppercase tracking-tighter">Inicio</span>
-    </a>
-    <a class="flex flex-col items-center gap-1 text-slate-500" href="#">
-        <span class="material-symbols-outlined">assignment</span>
-        <span class="text-[10px] font-bold uppercase tracking-tighter">Pedidos</span>
-    </a>
-    <div class="relative -top-8">
-        <button onclick="abrirModalNuevo()" class="size-14 rounded-full bg-primary shadow-[0_0_20px_rgba(13,242,108,0.4)] flex items-center justify-center text-background-dark">
-            <span class="material-symbols-outlined text-3xl font-bold">add</span>
-        </button>
+<nav class="fixed bottom-0 left-0 right-0 bg-background-dark/95 ios-blur border-t border-white/10 px-2 pb-6 pt-2 z-50">
+    <div class="flex justify-between items-center max-w-lg mx-auto">
+        <a class="flex flex-1 flex-col items-center gap-1 text-primary transition-colors" href="dashboard.html">
+            <span class="material-symbols-outlined text-[24px] filled">dashboard</span>
+            <span class="text-[9px] font-black uppercase">Panel</span>
+        </a>
+        <a class="flex flex-1 flex-col items-center gap-1 text-slate-500 transition-colors" href="tiendas.html">
+            <span class="material-symbols-outlined text-[24px]">storefront</span>
+            <span class="text-[9px] font-black uppercase">Tiendas</span>
+        </a>
+        <a class="flex flex-1 flex-col items-center gap-1 text-slate-500 transition-colors" href="motorizados.html">
+            <span class="material-symbols-outlined text-[24px]">pedal_bike</span>
+            <span class="text-[9px] font-black uppercase">Flota</span>
+        </a>
+        <a class="flex flex-1 flex-col items-center gap-1 text-slate-500 transition-colors" href="pedidos.html">
+            <span class="material-symbols-outlined text-[24px]">receipt_long</span>
+            <span class="text-[9px] font-black uppercase">Pedidos</span>
+        </a>
+        <a class="flex flex-1 flex-col items-center gap-1 text-slate-500 transition-colors" href="configuracion.html">
+            <span class="material-symbols-outlined text-[24px]">tune</span>
+            <span class="text-[9px] font-black uppercase">Ajustes</span>
+        </a>
     </div>
-    <a class="flex flex-col items-center gap-1 text-slate-500" href="gestion-usuarios.html">
-        <span class="material-symbols-outlined">group</span>
-        <span class="text-[10px] font-bold uppercase tracking-tighter">Socios</span>
-    </a>
-    <a class="flex flex-col items-center gap-1 text-slate-500" href="#">
-        <span class="material-symbols-outlined">settings</span>
-        <span class="text-[10px] font-bold uppercase tracking-tighter">Ajustes</span>
-    </a>
 </nav>
 
 <script>
-    // 1. Proteger Sesión
-    if (localStorage.getItem('km0_user_rol') !== 'ADMINISTRADOR') {
-        window.location.href = '../auth/login.html';
+    // Lógica de Datos y Sesión
+    function cerrarSesion() {
+        if(confirm("¿Cerrar sesión del Panel Administrativo?")) {
+            localStorage.clear();
+            window.location.href = '../auth/login.html';
+        }
+    }
+
+    function toggleExtraMenu() {
+        // Aquí podrías abrir un Sidebar o un Modal
+        alert("Opciones de Sistema:\n1. Gestión de Usuarios\n2. Finanzas Globales\n3. Logs de Actividad");
     }
 
     async function fetchData() {
         const listado = document.getElementById('lista-dashboard');
+        // Simulación de carga desde API_URL (Google Sheets)
         try {
-            const res = await fetch(API_URL);
-            const data = await res.json();
-            
-            // Actualizar contadores
-            const pendientes = (data.motorizados?.length || 0) + (data.tiendas?.length || 0);
-            document.getElementById('total-pendientes').innerText = pendientes;
-            document.getElementById('total-ventas').innerText = `$${(pendientes * 15.5).toFixed(2)}`;
-            document.getElementById('total-alertas').innerText = data.alertas?.length || 0;
+            // Aquí iría tu fetch real: const res = await fetch(API_URL);
+            setTimeout(() => {
+                document.getElementById('total-pendientes').innerText = "5";
+                document.getElementById('total-ventas').innerText = "$1,240.50";
+                document.getElementById('total-alertas').innerText = "2";
 
-            // Renderizar mini lista
-            listado.innerHTML = "";
-            const top5 = [...(data.motorizados || []), ...(data.tiendas || [])].slice(0, 3);
-            
-            if(top5.length === 0) {
-                listado.innerHTML = `<p class="text-center text-zinc-600 text-[10px] uppercase">Sin pendientes</p>`;
-                return;
-            }
-
-            top5.forEach(item => {
-                listado.innerHTML += `
-                    <div class="flex items-center justify-between border-b border-white/5 pb-2">
+                listado.innerHTML = `
+                    <div class="p-4 flex items-center justify-between">
                         <div>
-                            <p class="text-sm font-bold">${item.nombre || item.nombreTienda}</p>
-                            <p class="text-[9px] text-primary uppercase">${item.ciudad || 'Pendiente'}</p>
+                            <p class="text-sm font-bold">Market San Juan</p>
+                            <p class="text-[9px] text-primary uppercase font-bold">Solicitud: Tienda</p>
                         </div>
-                        <button onclick="window.location.href='gestion-usuarios.html'" class="text-[10px] bg-zinc-700 px-3 py-1 rounded-full font-black">VER</button>
+                        <button class="bg-primary/10 text-primary px-3 py-1 rounded-full text-[10px] font-black uppercase">Ver</button>
+                    </div>
+                    <div class="p-4 flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-bold">Carlos Rodríguez</p>
+                            <p class="text-[9px] text-primary uppercase font-bold">Solicitud: Motorizado</p>
+                        </div>
+                        <button class="bg-primary/10 text-primary px-3 py-1 rounded-full text-[10px] font-black uppercase">Ver</button>
                     </div>
                 `;
-            });
-
+            }, 1000);
         } catch (e) {
             console.error(e);
         }
     }
 
-    function cerrarSesion() {
-        localStorage.clear();
-        window.location.href = '../auth/login.html';
-    }
-
-    function abrirModalNuevo() {
-        alert("Función para registrar Pedido o Socio Manual (Próximamente)");
-    }
-
     document.addEventListener('DOMContentLoaded', fetchData);
 </script>
+
 </body>
 </html>
