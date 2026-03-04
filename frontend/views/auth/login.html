@@ -3,208 +3,168 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Acceso - KM0</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+    <title>Admin: Centro de Mando - KM0</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
     
     <script src="../../assets/js/config.js"></script>
 
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#46f20d",
+                        "secondary": "#00f5ff",
+                        "background-dark": "#0a0f08",
+                        "surface-dark": "#161b14",
+                    },
+                    fontFamily: { "display": ["Space Grotesk", "sans-serif"] },
+                },
+            },
+        }
+    </script>
     <style>
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: #000000; 
-            color: white; 
-            min-height: 100dvh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            overflow-x: hidden;
-        }
-
-        /* Animación Cíclica de Iconos (Morphing) */
-        @keyframes morphIcons {
-            0%, 25% { content: "account_circle"; transform: rotate(0deg); opacity: 1; }
-            30% { opacity: 0; }
-            35%, 55% { content: "storefront"; transform: rotate(360deg); opacity: 1; }
-            60% { opacity: 0; }
-            65%, 90% { content: "moped"; transform: rotate(720deg); opacity: 1; }
-            95% { opacity: 0; }
-            100% { content: "account_circle"; transform: rotate(1080deg); opacity: 1; }
-        }
-
-        .icon-morph::before {
-            content: "account_circle";
-            animation: morphIcons 8s infinite ease-in-out;
-            display: inline-block;
-        }
-
-        .bg-glow {
-            position: fixed;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 500px; height: 500px;
-            background: radial-gradient(circle, rgba(236, 19, 19, 0.07) 0%, rgba(0, 0, 0, 0) 70%);
-            z-index: -1;
-        }
-
-        /* Animación de carga en botón */
-        .btn-loading { 
-            pointer-events: none; 
-            opacity: 0.7; 
-            background: linear-gradient(90deg, #EC1313, #7f0a0a, #EC1313); 
-            background-size: 200% 100%; 
-            animation: move-bg 1.5s linear infinite; 
-        }
-        @keyframes move-bg { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+        body { font-family: 'Space Grotesk', sans-serif; background-color: #0a0f08; color: white; }
+        .glass-panel { background: rgba(70, 242, 13, 0.03); backdrop-filter: blur(12px); border: 1px solid rgba(70, 242, 13, 0.1); }
+        .neon-border { box-shadow: 0 0 15px rgba(70, 242, 13, 0.2); }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 1; }
     </style>
 </head>
-<body class="p-6">
-    <div class="bg-glow"></div>
+<body class="min-h-screen flex flex-col">
 
-    <div class="w-full max-w-[360px] flex flex-col items-center">
-        
-        <div class="w-full space-y-8">
-            <div class="text-center space-y-4">
-                <div class="flex justify-center">
-                    <div class="p-6 bg-zinc-900/50 rounded-full border border-zinc-800 shadow-[0_0_30px_rgba(236,19,19,0.15)]">
-                        <span class="material-symbols-outlined icon-morph text-[#EC1313] text-6xl leading-none"></span>
-                    </div>
-                </div>
-                <div>
-                    <h1 class="text-2xl font-black uppercase tracking-widest italic">Acceso Privado</h1>
-                    <p class="text-zinc-500 text-[10px] font-bold uppercase tracking-[0.3em] mt-1">KM0 v1.0.1 Motor Integral</p>
-                </div>
-            </div>
-
-            <div class="space-y-4">
-                <div class="space-y-1">
-                    <label class="text-[10px] font-black text-zinc-500 uppercase ml-1 tracking-widest">Identificador</label>
-                    <input type="text" id="user" placeholder="USUARIO" 
-                           class="w-full bg-zinc-900/50 border border-zinc-800 rounded-2xl py-4 px-5 focus:border-[#EC1313] focus:ring-1 focus:ring-[#EC1313] outline-none transition-all text-white font-bold placeholder:text-zinc-700">
-                </div>
-                
-                <div class="space-y-1">
-                    <label class="text-[10px] font-black text-zinc-500 uppercase ml-1 tracking-widest">Clave de Seguridad</label>
-                    <div class="relative">
-                        <input type="password" id="pass" placeholder="••••••••" 
-                               class="w-full bg-zinc-900/50 border border-zinc-800 rounded-2xl py-4 pl-5 pr-14 focus:border-[#EC1313] focus:ring-1 focus:ring-[#EC1313] outline-none transition-all text-white font-bold placeholder:text-zinc-700">
-                        <button type="button" onclick="togglePassword()" class="absolute right-5 top-1/2 -translate-y-1/2 text-zinc-600 hover:text-[#EC1313]">
-                            <span id="eye-icon" class="material-symbols-outlined text-xl">visibility</span>
-                        </button>
-                    </div>
-                </div>
-                
-                <button id="btn-login" onclick="validarYRedirigir()" 
-                        class="w-full bg-[#EC1313] hover:bg-red-700 text-white font-black py-5 rounded-2xl shadow-lg shadow-red-900/20 transition-all active:scale-95 flex items-center justify-center gap-2 uppercase text-sm tracking-[0.2em] mt-2">
-                    <span id="btn-text">Iniciar Sesión</span>
-                </button>
-            </div>
-
-            <div id="error-msg" class="hidden text-center text-[#EC1313] text-[10px] font-black uppercase bg-red-950/20 py-4 rounded-xl border border-red-900/30 tracking-tighter"></div>
-            
-            <p class="text-center">
-                <a href="../../index.html" class="text-[10px] text-zinc-600 uppercase tracking-widest hover:text-white transition-colors">← Volver al inicio</a>
-            </p>
+<header class="sticky top-0 z-50 bg-[#0a0f08]/80 backdrop-blur-md border-b border-primary/20 p-4 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+        <div class="p-2 rounded-lg bg-primary/10 border border-primary/30">
+            <span class="material-symbols-outlined text-primary">hub</span>
         </div>
-
-        <div class="mt-16 text-center opacity-40">
-            <p class="text-[9px] font-bold uppercase tracking-[0.1em] text-zinc-400">
-                2025 KM0® by CORPORACIÓN 360 <span class="ml-1 text-zinc-600">V1.0.1</span>
-            </p>
+        <div>
+            <h1 class="text-lg font-bold tracking-tight">Centro de Mando</h1>
+            <p class="text-[10px] uppercase tracking-widest text-secondary font-semibold">Administrador General</p>
         </div>
     </div>
+    <div class="flex items-center gap-2">
+        <button onclick="cargarDatosDashboard()" class="p-2 rounded-full hover:bg-primary/10 text-primary transition-all">
+            <span class="material-symbols-outlined">sync</span>
+        </button>
+        <div class="size-9 rounded-full border border-primary/40 overflow-hidden">
+            <img src="https://ui-avatars.com/api/?name=Admin&background=46f20d&color=000" alt="Avatar">
+        </div>
+    </div>
+</header>
 
-    <script>
-        // Funciones de UI
-        function togglePassword() {
-            const passInput = document.getElementById('pass');
-            const eyeIcon = document.getElementById('eye-icon');
-            passInput.type = passInput.type === "password" ? "text" : "password";
-            eyeIcon.innerText = passInput.type === "password" ? "visibility" : "visibility_off";
-        }
+<main class="flex-1 overflow-y-auto pb-28 p-4 space-y-6">
+    <section class="grid grid-cols-2 gap-3">
+        <div class="glass-panel p-4 rounded-2xl border-l-4 border-l-primary">
+            <span class="material-symbols-outlined text-primary text-xl mb-1">payments</span>
+            <p class="text-[10px] text-zinc-500 font-bold uppercase">Ingresos Hoy</p>
+            <p id="txt-ventas" class="text-xl font-bold mt-1 tracking-tighter">$0.00</p>
+        </div>
+        <div class="glass-panel p-4 rounded-2xl border-l-4 border-l-secondary">
+            <span class="material-symbols-outlined text-secondary text-xl mb-1">local_shipping</span>
+            <p class="text-[10px] text-zinc-500 font-bold uppercase">En Ruta</p>
+            <p id="txt-pedidos" class="text-xl font-bold mt-1 tracking-tighter">0</p>
+        </div>
+    </section>
 
-        function showError(msg) {
-            const error = document.getElementById('error-msg');
-            error.innerText = msg;
-            error.classList.remove('hidden');
-        }
+    <section class="glass-panel p-5 rounded-2xl border border-white/5 relative overflow-hidden">
+        <div class="flex justify-between items-start mb-4">
+            <h2 class="text-xs font-black uppercase tracking-widest text-primary">Rendimiento Operativo</h2>
+            <span class="text-xl font-bold text-white">94%</span>
+        </div>
+        <div class="h-24 w-full opacity-50">
+            <svg class="w-full h-full" viewBox="0 0 400 100" preserveAspectRatio="none">
+                <path d="M0,80 Q50,20 100,70 T200,40 T300,80 T400,30" fill="none" stroke="#46f20d" stroke-width="3" />
+            </svg>
+        </div>
+    </section>
 
-        function resetBtn(btn) {
-            btn.disabled = false;
-            btn.innerHTML = "Iniciar Sesión";
-            btn.classList.remove('btn-loading');
-        }
+    <section class="space-y-4">
+        <h2 class="text-sm font-black uppercase tracking-[0.2em] flex items-center gap-2 text-zinc-400">
+            <span class="size-2 bg-red-500 rounded-full animate-pulse"></span>
+            Alertas de Ingreso
+        </h2>
+        
+        <div id="feed-solicitudes" class="space-y-3">
+            <div class="py-10 text-center">
+                <p class="text-[10px] font-bold text-zinc-600 animate-pulse">SINCRONIZANDO CON GOOGLE SHEETS...</p>
+            </div>
+        </div>
+    </section>
+</main>
 
-        // Lógica de Autenticación Central
-        async function validarYRedirigir() {
-            const userField = document.getElementById('user').value.trim();
-            const passField = document.getElementById('pass').value.trim();
-            const error = document.getElementById('error-msg');
-            const btn = document.getElementById('btn-login');
+<nav class="fixed bottom-0 left-0 right-0 z-50 bg-[#0a0f08]/95 backdrop-blur-xl border-t border-white/5 pb-8 pt-3 px-6">
+    <div class="flex items-center justify-between max-w-lg mx-auto">
+        <a href="dashboard.html" class="flex flex-col items-center gap-1 text-primary">
+            <span class="material-symbols-outlined text-2xl">grid_view</span>
+            <span class="text-[9px] font-black uppercase tracking-tighter">Panel</span>
+        </a>
+        <a href="usuarios.html" class="flex flex-col items-center gap-1 text-zinc-500">
+            <span class="material-symbols-outlined text-2xl">group</span>
+            <span class="text-[9px] font-bold uppercase tracking-tighter">Socios</span>
+        </a>
+        <div class="relative -mt-12">
+            <button class="size-14 rounded-full bg-primary text-black flex items-center justify-center shadow-[0_0_20px_rgba(70,242,13,0.4)] border-4 border-[#0a0f08]">
+                <span class="material-symbols-outlined text-3xl font-black">add</span>
+            </button>
+        </div>
+        <a href="configuracion.html" class="flex flex-col items-center gap-1 text-zinc-500">
+            <span class="material-symbols-outlined text-2xl">settings_input_component</span>
+            <span class="text-[9px] font-bold uppercase tracking-tighter">Motor</span>
+        </a>
+        <a href="#" class="flex flex-col items-center gap-1 text-zinc-500">
+            <span class="material-symbols-outlined text-2xl">person</span>
+            <span class="text-[9px] font-bold uppercase tracking-tighter">Perfil</span>
+        </a>
+    </div>
+</nav>
 
-            if (!userField || !passField) {
-                showError("Complete todos los campos");
+<script>
+    async function cargarDatosDashboard() {
+        const feed = document.getElementById('feed-solicitudes');
+        
+        try {
+            const response = await fetch(API_URL);
+            const data = await response.json();
+
+            // Actualizar Contadores (Simulado basado en registros)
+            document.getElementById('txt-ventas').innerText = `$${(data.motorizados.length * 22.5).toFixed(2)}`;
+            document.getElementById('txt-pedidos').innerText = Math.floor(data.motorizados.length / 2);
+
+            // Poblar Feed de Solicitudes Reales
+            feed.innerHTML = "";
+            const todas = [...(data.motorizados || []), ...(data.tiendas || [])];
+
+            if (todas.length === 0) {
+                feed.innerHTML = `<p class="text-center text-zinc-600 text-xs py-10 uppercase tracking-widest font-bold">Sin alertas pendientes</p>`;
                 return;
             }
 
-            // UI Loading
-            btn.disabled = true;
-            btn.innerHTML = `VERIFICANDO...`;
-            btn.classList.add('btn-loading');
-            error.classList.add('hidden');
+            todas.slice(0, 5).forEach(item => {
+                const esMoto = item.nombre !== undefined;
+                feed.innerHTML += `
+                    <div class="glass-panel p-4 rounded-2xl flex items-center gap-4 border border-white/5 shadow-xl">
+                        <div class="size-12 rounded-xl ${esMoto ? 'bg-primary/10 text-primary' : 'bg-secondary/10 text-secondary'} flex items-center justify-center border border-white/5">
+                            <span class="material-symbols-outlined text-2xl">${esMoto ? 'moped' : 'storefront'}</span>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h3 class="text-sm font-bold truncate">${item.nombre || item.nombreTienda}</h3>
+                            <p class="text-[10px] text-zinc-500 font-bold uppercase tracking-tighter">${item.ciudad || 'Zona Pendiente'}</p>
+                        </div>
+                        <button onclick="window.location.href='usuarios.html'" class="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-[10px] font-black uppercase rounded-lg transition-all">Ver</button>
+                    </div>
+                `;
+            });
 
-            try {
-                // Petición usando constantes de config.js
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    body: JSON.stringify({ 
-                        accion: "login", 
-                        usuario: userField, 
-                        password: passField,
-                        token: API_KEY // Validamos contra tu token seguro
-                    })
-                });
-                
-                const result = await response.json();
-
-                if (result.success) {
-                    // Guardar datos de sesión local
-                    localStorage.setItem('km0_user_id', result.id);
-                    localStorage.setItem('km0_user_rol', result.rol);
-                    
-                    const userRol = result.rol.toUpperCase();
-                    
-                    // Redirección por roles basada en tu hoja de usuarios
-                    if (userRol === 'ADMINISTRADOR') {
-                        window.location.href = "../admin/admin.html";
-                    } else if (userRol === 'TIENDAS') {
-                        window.location.href = "../tienda/panel-operativo-tienda.html";
-                    } else if (userRol === 'MOTORIZADO') {
-                        window.location.href = "../motorizado/panel-operativo-motorizado.html";
-                    } else if (userRol === 'FINANZAS') {
-                        window.location.href = "../finanzas/gestion-finanzas.html";
-                    } else {
-                        showError("Rol '" + result.rol + "' sin vista definida");
-                        resetBtn(btn);
-                    }
-                } else {
-                    showError(result.mensaje || "Credenciales incorrectas");
-                    resetBtn(btn);
-                }
-            } catch (e) {
-                console.error("Error Login:", e);
-                showError("Error de conexión con el motor central");
-                resetBtn(btn);
-            }
+        } catch (error) {
+            feed.innerHTML = `<div class="p-4 bg-red-900/20 border border-red-900/40 rounded-xl text-red-500 text-[10px] font-bold text-center uppercase tracking-widest">Error de Sincronización Central</div>`;
         }
+    }
 
-        // Acceso con tecla Enter
-        document.addEventListener('keypress', (e) => { 
-            if (e.key === 'Enter') validarYRedirigir(); 
-        });
-    </script>
+    document.addEventListener('DOMContentLoaded', cargarDatosDashboard);
+</script>
+
 </body>
 </html>
