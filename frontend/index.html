@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-
 <html class="dark" lang="es">
+
 <head>
+
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 
 <title>KM0</title>
 
 <!-- PWA -->
-
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#000000">
 
@@ -18,9 +18,17 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"/>
 
 <style>
-body { font-family: 'Inter', sans-serif; background-color: #000; color: white; margin: 0; overflow: hidden; }
+
+body{
+font-family:'Inter',sans-serif;
+background:#000;
+color:white;
+margin:0;
+overflow:hidden;
+}
 
 /* SPLASH */
+
 #splash{
 position:fixed;
 inset:0;
@@ -61,6 +69,7 @@ transform:translateY(0)!important;
 }
 
 /* SHOP STYLE */
+
 .border-gradient-shop{
 border:1.5px solid transparent;
 background:
@@ -77,16 +86,21 @@ background:linear-gradient(90deg,#0047AB,#FF00FF);
 .bg-gradient-shop{
 background:linear-gradient(90deg,#0047AB,#FF00FF);
 }
+
 </style>
 
 </head>
 
 <body>
 
+<!-- SPLASH -->
+
 <div id="splash">
 <div class="splash-glow"></div>
 <img src="assets/images/logo-trans.png" class="logo-elegant" alt="KM0">
 </div>
+
+<!-- APP -->
 
 <div id="main-app" class="min-h-screen flex flex-col items-center justify-center p-6">
 
@@ -98,19 +112,23 @@ background:linear-gradient(90deg,#0047AB,#FF00FF);
 
 <div class="w-full space-y-6">
 
-<button onclick="window.location.href='views/auth/login.html'"
+<button
+onclick="window.location.href='views/auth/login.html'"
 class="w-full bg-[#EC1313] text-white py-5 rounded-2xl font-black text-xs tracking-[0.2em] uppercase active:scale-95 transition-all">
-Iniciar Sesión </button>
+Iniciar Sesión
+</button>
 
 <div class="border-gradient-shop p-6 rounded-[2.5rem] flex flex-col items-center text-center space-y-4">
 
 <h3 class="text-[10px] font-black uppercase tracking-[0.2em] text-gradient-shop">
-¿Eres un comercio?
+¿Eres una tienda?
 </h3>
 
-<button onclick="window.location.href='views/auth/registro-tienda.html'"
+<button
+onclick="window.location.href='views/auth/registro-tienda.html'"
 class="w-full py-4 bg-gradient-shop text-white font-black text-[10px] tracking-[0.15em] uppercase rounded-xl active:scale-95 transition-all">
-Registra tu Tienda </button>
+Registrar Tienda
+</button>
 
 </div>
 
@@ -120,9 +138,11 @@ Registra tu Tienda </button>
 ¿Quieres ser motorizado?
 </h3>
 
-<button onclick="window.location.href='views/auth/registro-motorizado.html'"
+<button
+onclick="window.location.href='views/auth/registro-motorizado.html'"
 class="w-full py-4 border border-[#EC1313] text-[#EC1313] font-bold text-[10px] tracking-[0.2em] uppercase rounded-xl active:scale-95 transition-all">
-Regístrate </button>
+Regístrate
+</button>
 
 </div>
 
@@ -133,6 +153,8 @@ Regístrate </button>
 </div>
 
 <script>
+
+/* SPLASH */
 
 window.addEventListener('load',()=>{
 
@@ -146,17 +168,43 @@ document.body.style.overflow='auto'
 
 })
 
-if('serviceWorker' in navigator){
+/* SERVICE WORKER */
 
-window.addEventListener('load',()=>{
+if('serviceWorker' in navigator){
 
 navigator.serviceWorker.register('pwabuilder-sw.js')
 .then(()=>console.log("Service Worker registrado"))
 .catch(err=>console.log(err))
 
-})
-
 }
+
+</script>
+
+
+<!-- FIREBASE -->
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyB4ozxodUbFz65PIjGVynZpa-mA1BXZnjo",
+authDomain: "km0-web-app.firebaseapp.com",
+projectId: "km0-web-app",
+storageBucket: "km0-web-app.firebasestorage.app",
+messagingSenderId: "685305561021",
+appId: "1:685305561021:web:28a3322aa18c1eee0a9cd4"
+
+};
+
+const app = initializeApp(firebaseConfig);
+
+/* ROL DEL USUARIO */
+
+localStorage.setItem("rol","tienda");
+
+console.log("Rol activo:",localStorage.getItem("rol"));
 
 </script>
 
