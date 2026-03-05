@@ -1,6 +1,7 @@
 {
   "short_name": "KM0",
   "name": "KM0 Operaciones 360",
+  "description": "Sistema de gestión y control de operaciones logísticas de Kilómetro Cero.",
   "start_url": "/KM0/index.html",
   "display": "standalone",
   "background_color": "#000000",
