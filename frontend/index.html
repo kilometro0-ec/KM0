@@ -2,211 +2,167 @@
 <html class="dark" lang="es">
 
 <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>KM0</title>
 
-<title>KM0</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#000000">
 
-<!-- PWA -->
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#000000">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"/>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #000;
+            color: white;
+            margin: 0;
+            overflow: hidden;
+        }
 
-<style>
+        /* SPLASH */
+        #splash {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
 
-body{
-font-family:'Inter',sans-serif;
-background:#000;
-color:white;
-margin:0;
-overflow:hidden;
-}
+        @keyframes elegantEntrance {
+            0% { transform: scale(.9); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
 
-/* SPLASH */
+        .logo-elegant {
+            width: 220px;
+            animation: elegantEntrance .7s cubic-bezier(.2, 0, .2, 1) forwards;
+        }
 
-#splash{
-position:fixed;
-inset:0;
-background:#000;
-display:flex;
-align-items:center;
-justify-content:center;
-z-index:9999;
-}
+        .splash-glow {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(0, 71, 171, .15) 0%, rgba(0, 0, 0, 0) 70%);
+            animation: elegantEntrance 1.2s ease-out;
+        }
 
-@keyframes elegantEntrance{
-0%{transform:scale(.9);opacity:0;}
-100%{transform:scale(1);opacity:1;}
-}
+        #main-app {
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all .6s ease;
+        }
 
-.logo-elegant{
-width:220px;
-animation:elegantEntrance .7s cubic-bezier(.2,0,.2,1) forwards;
-}
+        .app-visible {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
 
-.splash-glow{
-position:absolute;
-width:300px;
-height:300px;
-background:radial-gradient(circle,rgba(0,71,171,.15) 0%,rgba(0,0,0,0) 70%);
-animation:elegantEntrance 1.2s ease-out;
-}
+        /* SHOP STYLE */
+        .border-gradient-shop {
+            border: 1.5px solid transparent;
+            background:
+                linear-gradient(#000, #000) padding-box,
+                linear-gradient(90deg, #0047AB, #FF00FF) border-box;
+        }
 
-#main-app{
-opacity:0;
-transform:translateY(10px);
-transition:all .6s ease;
-}
+        .text-gradient-shop {
+            background: linear-gradient(90deg, #0047AB, #FF00FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-.app-visible{
-opacity:1!important;
-transform:translateY(0)!important;
-}
-
-/* SHOP STYLE */
-
-.border-gradient-shop{
-border:1.5px solid transparent;
-background:
-linear-gradient(#000,#000) padding-box,
-linear-gradient(90deg,#0047AB,#FF00FF) border-box;
-}
-
-.text-gradient-shop{
-background:linear-gradient(90deg,#0047AB,#FF00FF);
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
-}
-
-.bg-gradient-shop{
-background:linear-gradient(90deg,#0047AB,#FF00FF);
-}
-
-</style>
-
+        .bg-gradient-shop {
+            background: linear-gradient(90deg, #0047AB, #FF00FF);
+        }
+    </style>
 </head>
 
 <body>
 
-<!-- SPLASH -->
+    <div id="splash">
+        <div class="splash-glow"></div>
+        <img src="assets/images/logo-trans.png" class="logo-elegant" alt="KM0">
+    </div>
 
-<div id="splash">
-<div class="splash-glow"></div>
-<img src="assets/images/logo-trans.png" class="logo-elegant" alt="KM0">
-</div>
+    <div id="main-app" class="min-h-screen flex flex-col items-center justify-center p-6">
+        <div class="w-full max-w-[360px] flex flex-col items-center">
+            <div class="mb-12">
+                <img src="assets/images/logo-trans.png" class="w-56 h-56 object-contain">
+            </div>
 
-<!-- APP -->
+            <div class="w-full space-y-6">
+                <button onclick="window.location.href='views/auth/login.html'"
+                    class="w-full bg-[#EC1313] text-white py-5 rounded-2xl font-black text-xs tracking-[0.2em] uppercase active:scale-95 transition-all">
+                    Iniciar Sesión
+                </button>
 
-<div id="main-app" class="min-h-screen flex flex-col items-center justify-center p-6">
+                <div class="border-gradient-shop p-6 rounded-[2.5rem] flex flex-col items-center text-center space-y-4">
+                    <h3 class="text-[10px] font-black uppercase tracking-[0.2em] text-gradient-shop">
+                        ¿Eres una tienda?
+                    </h3>
+                    <button onclick="window.location.href='views/auth/registro-tienda.html'"
+                        class="w-full py-4 bg-gradient-shop text-white font-black text-[10px] tracking-[0.15em] uppercase rounded-xl active:scale-95 transition-all">
+                        Registrar Tienda
+                    </button>
+                </div>
 
-<div class="w-full max-w-[360px] flex flex-col items-center">
+                <div class="border-zinc-800 border p-6 rounded-[2.5rem] flex flex-col items-center text-center space-y-4">
+                    <h3 class="text-[10px] font-bold uppercase tracking-widest text-zinc-400">
+                        ¿Quieres ser motorizado?
+                    </h3>
+                    <button onclick="window.location.href='views/auth/registro-motorizado.html'"
+                        class="w-full py-4 border border-[#EC1313] text-[#EC1313] font-bold text-[10px] tracking-[0.2em] uppercase rounded-xl active:scale-95 transition-all">
+                        Regístrate
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<div class="mb-12">
-<img src="assets/images/logo-trans.png" class="w-56 h-56 object-contain">
-</div>
+    <script>
+        /* SPLASH LOGIC */
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const splash = document.getElementById('splash');
+                if(splash) splash.style.display = 'none';
+                document.getElementById('main-app').classList.add('app-visible');
+                document.body.style.overflow = 'auto';
+            }, 1800);
+        });
 
-<div class="w-full space-y-6">
+        /* SERVICE WORKER */
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('pwabuilder-sw.js')
+                .then(() => console.log("Service Worker registrado"))
+                .catch(err => console.log(err));
+        }
+    </script>
 
-<button
-onclick="window.location.href='views/auth/login.html'"
-class="w-full bg-[#EC1313] text-white py-5 rounded-2xl font-black text-xs tracking-[0.2em] uppercase active:scale-95 transition-all">
-Iniciar Sesión
-</button>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 
-<div class="border-gradient-shop p-6 rounded-[2.5rem] flex flex-col items-center text-center space-y-4">
+        const firebaseConfig = {
+            apiKey: "AIzaSyB4ozxodUbFz65PIjGVynZpa-mA1BXZnjo",
+            authDomain: "km0-web-app.firebaseapp.com",
+            projectId: "km0-web-app",
+            storageBucket: "km0-web-app.firebasestorage.app",
+            messagingSenderId: "685305561021",
+            appId: "1:685305561021:web:28a3322aa18c1eee0a9cd4"
+        };
 
-<h3 class="text-[10px] font-black uppercase tracking-[0.2em] text-gradient-shop">
-¿Eres una tienda?
-</h3>
+        const app = initializeApp(firebaseConfig);
 
-<button
-onclick="window.location.href='views/auth/registro-tienda.html'"
-class="w-full py-4 bg-gradient-shop text-white font-black text-[10px] tracking-[0.15em] uppercase rounded-xl active:scale-95 transition-all">
-Registrar Tienda
-</button>
-
-</div>
-
-<div class="border-zinc-800 border p-6 rounded-[2.5rem] flex flex-col items-center text-center space-y-4">
-
-<h3 class="text-[10px] font-bold uppercase tracking-widest text-zinc-400">
-¿Quieres ser motorizado?
-</h3>
-
-<button
-onclick="window.location.href='views/auth/registro-motorizado.html'"
-class="w-full py-4 border border-[#EC1313] text-[#EC1313] font-bold text-[10px] tracking-[0.2em] uppercase rounded-xl active:scale-95 transition-all">
-Regístrate
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<script>
-
-/* SPLASH */
-
-window.addEventListener('load',()=>{
-
-setTimeout(()=>{
-
-document.getElementById('splash').style.display='none'
-document.getElementById('main-app').classList.add('app-visible')
-document.body.style.overflow='auto'
-
-},1800)
-
-})
-
-/* SERVICE WORKER */
-
-if('serviceWorker' in navigator){
-
-navigator.serviceWorker.register('pwabuilder-sw.js')
-.then(()=>console.log("Service Worker registrado"))
-.catch(err=>console.log(err))
-
-}
-
-</script>
-
-
-<!-- FIREBASE -->
-
-<script type="module" src="assets/js/firebase.js"></script>
-
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
-
-const firebaseConfig = {
-
-apiKey: "AIzaSyB4ozxodUbFz65PIjGVynZpa-mA1BXZnjo",
-authDomain: "km0-web-app.firebaseapp.com",
-projectId: "km0-web-app",
-storageBucket: "km0-web-app.firebasestorage.app",
-messagingSenderId: "685305561021",
-appId: "1:685305561021:web:28a3322aa18c1eee0a9cd4"
-
-};
-
-const app = initializeApp(firebaseConfig);
-
-/* ROL DEL USUARIO */
-
-localStorage.setItem("rol","tienda");
-
-console.log("Rol activo:",localStorage.getItem("rol"));
-
-</script>
+        /* ROL DEL USUARIO */
+        localStorage.setItem("rol", "tienda");
+        console.log("Rol activo:", localStorage.getItem("rol"));
+    </script>
 
 </body>
 </html>
