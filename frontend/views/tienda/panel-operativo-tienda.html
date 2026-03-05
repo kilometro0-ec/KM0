@@ -64,7 +64,6 @@
 </header>
 
 <main class="flex-1 overflow-y-auto pb-44 p-4 space-y-6">
-    
     <div class="grid grid-cols-2 gap-3">
         <button onclick="location.href='new-producto-tienda.html'" class="flex flex-col items-start justify-center p-5 bg-neutral-dark rounded-2xl border border-white/5 active:scale-95 transition-all">
             <span class="material-symbols-outlined text-accent-fuchsia mb-1">add_circle</span>
@@ -140,41 +139,26 @@
 </nav>
 
 <script>
-    window.onload = async function() {
-        const idTienda = localStorage.getItem('km0_user_id');
-        const nombreTienda = localStorage.getItem('km0_user_nombre');
-        
-        if (!idTienda) {
-            window.location.href = '../auth/login.html';
-            return;
-        }
-
-        document.getElementById('shop-name-display').innerText = nombreTienda || "Socio KM0";
-        document.getElementById('shop-id-display').innerText = idTienda;
-
-        await sincronizarAhora();
-    };
-
+    // Funciones globales disponibles para el HTML
     async function sincronizarAhora() {
         const icon = document.getElementById('sync-icon');
         const idTienda = localStorage.getItem('km0_user_id');
+        if(!icon) return;
         icon.classList.add('animate-spin');
 
         try {
-            // Usamos API_URL de tu config.js
             const resp = await fetch(`${API_URL}?accion=obtener_resumen_panel&idTienda=${idTienda}`);
             const data = await resp.json();
-
             if (data.success) {
                 document.getElementById('monto-finanzas').innerText = `$${parseFloat(data.saldo || 0).toFixed(2)}`;
                 document.getElementById('total-stock-count').innerText = data.totalStock || '0';
                 document.getElementById('count-entregados').innerText = data.entregados || '0';
                 document.getElementById('count-en-camino').innerText = data.enCamino || '0';
-                enviarNotif("KM0 Cloud", "Datos actualizados correctamente");
+                window.enviarNotif("KM0 Cloud", "Datos actualizados correctamente");
             }
         } catch (e) {
             console.error("Error sync:", e);
-            enviarNotif("Error", "No se pudo conectar con el motor");
+            window.enviarNotif("Error", "No se pudo conectar con el motor");
         } finally {
             icon.classList.remove('animate-spin');
         }
@@ -189,8 +173,9 @@
 
     function enviarNotif(titulo, msj) {
         const root = document.getElementById('notif-root');
+        if(!root) return;
         const card = document.createElement('div');
-        card.className = "notif-mobile pointer-events-auto w-full max-w-sm mx-auto bg-neutral-dark/95 backdrop-blur-md rounded-2xl shadow-2xl border-l-4 border-primary p-3 flex items-center gap-4 border border-white/10";
+        card.className = "notif-mobile pointer-events-auto w-full max-w-sm mx-auto bg-neutral-dark/95 backdrop-blur-md rounded-2xl shadow-2xl border-l-4 border-primary p-3 flex items-center gap-4 border border-white/10 transition-opacity duration-500";
         card.innerHTML = `
             <div class="size-10 rounded-full bg-primary flex items-center justify-center text-white">
                 <span class="material-symbols-outlined">notifications</span>
@@ -206,6 +191,64 @@
         root.appendChild(card);
         setTimeout(() => { card.style.opacity = "0"; setTimeout(() => card.remove(), 500); }, 3000);
     }
+    
+    // Hacerla global para el módulo
+    window.enviarNotif = enviarNotif;
+
+    window.onload = async function() {
+        const idTienda = localStorage.getItem('km0_user_id');
+        const nombreTienda = localStorage.getItem('km0_user_nombre');
+        
+        if (!idTienda) {
+            window.location.href = '../auth/login.html';
+            return;
+        }
+        document.getElementById('shop-name-display').innerText = nombreTienda || "Socio KM0";
+        document.getElementById('shop-id-display').innerText = idTienda;
+        await sincronizarAhora();
+    };
+</script>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-messaging.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyB4ozxodUbFz65PIjGVynZpa-mA1BXZnjo",
+        authDomain: "km0-web-app.firebaseapp.com",
+        projectId: "km0-web-app",
+        storageBucket: "km0-web-app.firebasestorage.app",
+        messagingSenderId: "685305561021",
+        appId: "1:685305561021:web:28a3322aa18c1eee0a9cd4"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const messaging = getMessaging(app);
+
+    async function solicitarPermisos() {
+        try {
+            const permission = await Notification.requestPermission();
+            if (permission === 'granted') {
+                const currentToken = await getToken(messaging, { 
+                    vapidKey: 'TU_VAPID_KEY_AQUÍ' // REEMPLAZA ESTO
+                });
+                if (currentToken) {
+                    console.log("Token de la tienda:", currentToken);
+                }
+            }
+        } catch (error) {
+            console.error('Error notificaciones:', error);
+        }
+    }
+
+    onMessage(messaging, (payload) => {
+        // Usamos tu propia función estética de notificación en lugar de un alert feo
+        window.enviarNotif(payload.notification.title, payload.notification.body);
+        // Sincronizar datos automáticamente al recibir mensaje
+        sincronizarAhora();
+    });
+
+    solicitarPermisos();
 </script>
 
 </body>
