@@ -1,24 +1,22 @@
 {
-  "short_name": "KM0",
   "name": "KM0 Operaciones 360",
-  "description": "Sistema de gestión y control de operaciones logísticas de Kilómetro Cero.",
-  "start_url": "/KM0/index.html",
+  "short_name": "KM0",
+  "description": "Plataforma de operaciones logísticas Kilómetro Cero",
+  "start_url": "/KM0/",
   "display": "standalone",
   "background_color": "#000000",
-  "theme_color": "#ec1313",
+  "theme_color": "#EC1313",
   "orientation": "portrait",
   "icons": [
     {
-      "src": "https://ui-avatars.com/api/?name=KM0&background=ec1313&color=fff&size=192&bold=true",
+      "src": "/KM0/assets/images/logo-trans.png",
       "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
     },
     {
-      "src": "https://ui-avatars.com/api/?name=KM0&background=ec1313&color=fff&size=512&bold=true",
+      "src": "/KM0/assets/images/logo-trans.png",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
     }
   ]
 }
